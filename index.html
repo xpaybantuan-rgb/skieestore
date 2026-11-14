@@ -54,7 +54,7 @@ html[data-theme="light"]{color-scheme:light;--bg:#ffffff;--surface:#fff;--surfac
 /* Keep the chat chrome pinned when Android opens its keyboard */
 .chat-panel.keyboard-aware{inset:auto 0 auto 0;top:var(--chat-vv-top,0px);height:var(--chat-vv-height,100dvh);}
 .chat-head,.chat-toolbar,.chat-compose{flex:0 0 auto;position:relative;z-index:2}
-.chat-messages{flex:1 1 0;min-height:0;overscroll-behavior:contain}
+.chat-messages{flex:1 1 0;height:0;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;overflow-anchor:none;scroll-behavior:auto}
 .chat-typing{flex:0 0 auto}
 .chat-panel[hidden]{display:none}
 
@@ -366,17 +366,20 @@ let chatMessages=[],chatLoaded=false,chatBusy=false,chatConversationId=localStor
 const CHAT_GREETING="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up, XPAYCOIN, atau bantuan pesanan? 😊";
 function scrollChatToLatest(){
   const box=$("chatMessages");
-  if(!box)return;
+  if(!box||$("chatPanel").hidden)return;
   const move=()=>{
-    box.scrollTop=box.scrollHeight;
-    if(typeof box.scrollTo==="function")box.scrollTo({top:box.scrollHeight,left:0,behavior:"auto"});
+    const target=box.scrollHeight;
+    box.scrollTop=target;
+    if(typeof box.scrollTo==="function")box.scrollTo(0,target);
   };
   move();
   requestAnimationFrame(()=>{move();requestAnimationFrame(move);});
   clearTimeout(window.__skieeChatScrollTimer1);
   clearTimeout(window.__skieeChatScrollTimer2);
-  window.__skieeChatScrollTimer1=setTimeout(move,100);
-  window.__skieeChatScrollTimer2=setTimeout(move,280);
+  clearTimeout(window.__skieeChatScrollTimer3);
+  window.__skieeChatScrollTimer1=setTimeout(move,80);
+  window.__skieeChatScrollTimer2=setTimeout(move,220);
+  window.__skieeChatScrollTimer3=setTimeout(move,450);
 }
 function chatMessageHtml(value){
   let html=safe(value);
@@ -401,6 +404,8 @@ function renderChat(){
 }
 const chatScrollObserver=new MutationObserver(()=>scrollChatToLatest());
 chatScrollObserver.observe($("chatMessages"),{childList:true,subtree:true,characterData:true});
+const chatPanelObserver=new MutationObserver(()=>{if(!$("chatPanel").hidden)scrollChatToLatest()});
+chatPanelObserver.observe($("chatPanel"),{childList:true,subtree:true,attributes:true,attributeFilter:["hidden","style"]});
 if(typeof ResizeObserver==="function"){
   const chatSizeObserver=new ResizeObserver(()=>scrollChatToLatest());
   chatSizeObserver.observe($("chatMessages"));
