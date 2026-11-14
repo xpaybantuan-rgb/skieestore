@@ -363,7 +363,7 @@ const CHAT_ENDPOINT=SUPABASE_URL+"/functions/v1/ai-chat";
 let chatDeviceId=localStorage.getItem("xp-chat-device");
 if(!chatDeviceId){chatDeviceId=crypto.randomUUID();localStorage.setItem("xp-chat-device",chatDeviceId)}
 let chatMessages=[],chatLoaded=false,chatBusy=false,chatConversationId=localStorage.getItem("xp-chat-conversation")||"";
-const CHAT_GREETING="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up, XPAYCOIN, atau bantuan pesanan? 😊";
+const CHAT_GREETING="Halo Gamers! 👋 Ada yang bisa SKIEESTORE AI bantu seputar top up game, voucher, atau cek status invoice kamu? Ketik aja pertanyaanmu di bawah!";
 function scrollChatToLatest(){
   const box=$("chatMessages");
   if(!box||$("chatPanel").hidden)return;
