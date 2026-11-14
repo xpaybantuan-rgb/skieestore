@@ -275,7 +275,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <div class="toast" id="toast" hidden></div>
 <div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Asisten virtual SKIEESTORE" hidden>
   <div class="chat-head">
-    <div class="chat-brand"><span class="chat-avatar">X</span><span><strong>SKIEESTORE AI</strong><small>Asisten virtual • SKIEESTORE</small></span></div>
+    <div class="chat-brand"><span class="chat-avatar" aria-label="Logo SKIEESTORE">S</span><span><strong>SKIEESTORE AI</strong><small>Asisten virtual • SKIEESTORE</small></span></div>
     <button class="chat-close" id="chatClose" aria-label="Tutup chat">×</button>
   </div>
   <div class="chat-toolbar">
@@ -364,10 +364,16 @@ let chatDeviceId=localStorage.getItem("xp-chat-device");
 if(!chatDeviceId){chatDeviceId=crypto.randomUUID();localStorage.setItem("xp-chat-device",chatDeviceId)}
 let chatMessages=[],chatLoaded=false,chatBusy=false,chatConversationId=localStorage.getItem("xp-chat-conversation")||"";
 const CHAT_GREETING="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up, XPAYCOIN, atau bantuan pesanan? 😊";
+function scrollChatToLatest(){
+  const box=$("chatMessages");
+  if(!box)return;
+  const move=()=>{box.scrollTop=box.scrollHeight;const last=box.lastElementChild;if(last&&typeof last.scrollIntoView==="function")last.scrollIntoView({block:"end",behavior:"smooth"});};
+  if(typeof requestAnimationFrame==="function")requestAnimationFrame(()=>requestAnimationFrame(move));else setTimeout(move,40);
+}
 function renderChat(){
   const box=$("chatMessages");
   box.innerHTML=chatMessages.map(m=>'<div class="chat-bubble '+(m.role==="user"?"user":"bot")+'">'+safe(m.content)+'</div>').join("");
-  box.scrollTop=box.scrollHeight;
+  scrollChatToLatest();
 }
 async function chatCall(payload){
   const response=await fetch(CHAT_ENDPOINT,{method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({...payload,deviceId:chatDeviceId})});
