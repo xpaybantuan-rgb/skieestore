@@ -418,16 +418,26 @@ async function chatCall(payload){
 }
 async function chatStreamCall(payload,onToken,onMeta){
   const response=await fetch(CHAT_ENDPOINT,{method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({...payload,deviceId:chatDeviceId})});
-  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.error||"Chat sedang tidak tersedia.")};
+  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.error||"Chat sedang tidak tersedia.");}
+  const contentType=response.headers.get("content-type")||"";
+  if(!contentType.includes("text/event-stream")){
+    const data=await response.json().catch(()=>({}));
+    if(data.meta&&onMeta)onMeta(data.meta);
+    if(data.conversationId&&onMeta)onMeta({conversationId:data.conversationId});
+    if(data.reply)onToken(data.reply);
+    if(data.error)throw new Error(data.error);
+    return;
+  }
   if(!response.body)throw new Error("Browser tidak mendukung streaming chat.");
   const reader=response.body.getReader(),decoder=new TextDecoder();
   let pending="",streamError=null;
-  const handleFrame=frame=>{
-    const line=frame.split(/\r?\n/).find(x=>x.startsWith("data:"));
-    if(!line)return;
+  const handleFrame=raw=>{
+    const data=raw.replace(/\r\n/g,"\n").split("\n").filter(x=>x.startsWith("data:")).map(x=>x.slice(5).replace(/^ /,"")).join("\n");
+    if(!data)return;
     try{
-      const event=JSON.parse(line.slice(5).trim());
+      const event=JSON.parse(data);
       if(event.meta&&onMeta)onMeta(event.meta);
+      if(event.conversationId&&onMeta)onMeta({conversationId:event.conversationId});
       if(typeof event.token==="string"&&event.token)onToken(event.token);
       else if(typeof event.reply==="string"&&event.reply)onToken(event.reply);
       if(event.error)streamError=event.error;
@@ -437,15 +447,16 @@ async function chatStreamCall(payload,onToken,onMeta){
     const {value,done}=await reader.read();
     if(done)break;
     pending+=decoder.decode(value,{stream:true});
-    let boundary=pending.indexOf("\n\n");
-    while(boundary>=0){
-      handleFrame(pending.slice(0,boundary));
-      pending=pending.slice(boundary+2);
-      boundary=pending.indexOf("\n\n");
+    let boundary=/\r?\n\r?\n/.exec(pending);
+    while(boundary){
+      handleFrame(pending.slice(0,boundary.index));
+      pending=pending.slice(boundary.index+boundary[0].length);
+      boundary=/\r?\n\r?\n/.exec(pending);
     }
   }
   pending+=decoder.decode();
   if(pending.trim())handleFrame(pending);
+  reader.releaseLock();
   if(streamError)throw new Error(streamError);
 }
 function setChatConversation(id){
