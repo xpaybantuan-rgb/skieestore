@@ -367,11 +367,9 @@ const CHAT_GREETING="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up,
 function scrollChatToLatest(){
   const box=$("chatMessages");
   if(!box)return;
-  const move=()=>{box.scrollTo({top:box.scrollHeight,behavior:"smooth"});};
+  const move=()=>{box.scrollTop=box.scrollHeight;};
   move();
-  if(typeof requestAnimationFrame==="function")requestAnimationFrame(()=>{move();requestAnimationFrame(move)});
-  setTimeout(move,120);
-  setTimeout(move,320);
+  if(typeof requestAnimationFrame==="function")requestAnimationFrame(move);
 }
 function chatMessageHtml(value){
   let html=safe(value);
@@ -399,6 +397,38 @@ async function chatCall(payload){
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw new Error(data.error||"Chat sedang tidak tersedia.");
   return data;
+}
+async function chatStreamCall(payload,onToken,onMeta){
+  const response=await fetch(CHAT_ENDPOINT,{method:"POST",headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({...payload,deviceId:chatDeviceId})});
+  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data.error||"Chat sedang tidak tersedia.")};
+  if(!response.body)throw new Error("Browser tidak mendukung streaming chat.");
+  const reader=response.body.getReader(),decoder=new TextDecoder();
+  let pending="",streamError=null;
+  const handleFrame=frame=>{
+    const line=frame.split(/\r?\n/).find(x=>x.startsWith("data:"));
+    if(!line)return;
+    try{
+      const event=JSON.parse(line.slice(5).trim());
+      if(event.meta&&onMeta)onMeta(event.meta);
+      if(typeof event.token==="string"&&event.token)onToken(event.token);
+      else if(typeof event.reply==="string"&&event.reply)onToken(event.reply);
+      if(event.error)streamError=event.error;
+    }catch(_){}
+  };
+  while(true){
+    const {value,done}=await reader.read();
+    if(done)break;
+    pending+=decoder.decode(value,{stream:true});
+    let boundary=pending.indexOf("\n\n");
+    while(boundary>=0){
+      handleFrame(pending.slice(0,boundary));
+      pending=pending.slice(boundary+2);
+      boundary=pending.indexOf("\n\n");
+    }
+  }
+  pending+=decoder.decode();
+  if(pending.trim())handleFrame(pending);
+  if(streamError)throw new Error(streamError);
 }
 function setChatConversation(id){
   chatConversationId=id||"";
@@ -483,14 +513,27 @@ $("chatHistoryList").addEventListener("click",async e=>{
 $("chatForm").addEventListener("submit",async e=>{
   e.preventDefault();if(chatBusy)return;
   const text=$("chatInput").value.trim();if(!text)return;
-  chatMessages.push({role:"user",content:text});$("chatInput").value="";renderChat();
+  const history=chatMessages.slice(-8).map(m=>({role:m.role,content:m.content}));
+  chatMessages.push({role:"user",content:text});
+  const assistantIndex=chatMessages.push({role:"assistant",content:""})-1;
+  $("chatInput").value="";syncComposer();renderChat();
   chatBusy=true;$("chatSend").disabled=true;$("chatTyping").hidden=false;
+  let received=false;
   try{
-    const data=await chatCall({conversationId:chatConversationId,messages:chatMessages.slice(-8).map(m=>({role:m.role,content:m.content}))});
-    if(data.conversationId)setChatConversation(data.conversationId);
-    chatMessages.push({role:"assistant",content:data.reply||"Maaf, aku belum bisa menjawab sekarang."});
-  }catch(err){chatMessages.push({role:"assistant",content:err.message||"Koneksi sedang terganggu. Coba lagi sebentar ya."})}
-  finally{chatBusy=false;$("chatSend").disabled=false;$("chatTyping").hidden=true;$("chatInput").focus({preventScroll:true});renderChat();scrollChatToLatest()}
+    await chatStreamCall({conversationId:chatConversationId,messages:[...history,{role:"user",content:text}]},token=>{
+      received=true;$("chatTyping").hidden=true;
+      chatMessages[assistantIndex].content+=token;
+      renderChat();
+    },meta=>{
+      if(meta&&meta.conversationId)setChatConversation(meta.conversationId);
+    });
+    if(!received)chatMessages[assistantIndex].content="Maaf Kak, AI belum mengirim jawaban. Silakan coba lagi.";
+  }catch(err){
+    chatMessages[assistantIndex].content=err.message||"Koneksi sedang terganggu. Coba lagi sebentar ya.";
+  }finally{
+    chatBusy=false;$("chatSend").disabled=false;$("chatTyping").hidden=true;
+    $("chatInput").focus({preventScroll:true});renderChat();scrollChatToLatest();
+  }
 });
 const chatInput=$("chatInput"),chatClear=$("chatClear"),chatExpand=$("chatExpand");
 function syncComposer(){chatClear.hidden=!chatInput.value.length;chatInput.style.height="44px";if(chatInput.value){chatInput.style.height=Math.min(chatInput.scrollHeight,132)+"px"}}
