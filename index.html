@@ -77,7 +77,7 @@ html[data-theme="light"]{color-scheme:light;--bg:#ffffff;--surface:#fff;--surfac
 .chat-toolbar{padding:11px 14px;background:#fff;border-bottom:1px solid #edf0f5}
 .chat-tool-btn{border:1px solid #e5e8ef;background:#f7f8fb;color:#515b6d;border-radius:11px;padding:10px 14px;font:800 11px Manrope,sans-serif;cursor:pointer;transition:.18s}
 .chat-tool-btn.primary{background:#fff0f2;border-color:#fce1e6;color:#c92f49;box-shadow:none}
-.chat-messages{min-height:0;padding:18px 16px;display:flex;flex-direction:column;gap:13px;overflow:auto;flex:1;background:radial-gradient(ellipse at 12% 0%,#fff0f2 0,transparent 34%),#ffffff}
+.chat-messages{min-height:0;padding:18px 16px;display:flex;flex-direction:column;gap:13px;overflow:auto;overflow-anchor:none;scroll-behavior:auto;flex:1;background:radial-gradient(ellipse at 12% 0%,#fff0f2 0,transparent 34%),#ffffff}
 .chat-bubble{max-width:88%;padding:12px 15px;border-radius:17px;font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 4px 14px #27334b0a}
 .chat-bubble.bot{align-self:flex-start;background:#fff;color:#303849;border:1px solid #edf0f5;border-bottom-left-radius:6px}
 .chat-bubble a{color:#1769c2;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}.chat-bubble.user a{color:#fff;text-decoration:underline}.chat-bubble.user{align-self:flex-end;background:linear-gradient(135deg,#f04459,#d82f4a);color:#fff;border-bottom-right-radius:6px;box-shadow:0 6px 16px #e9364c26}
@@ -367,9 +367,15 @@ const CHAT_GREETING="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up,
 function scrollChatToLatest(){
   const box=$("chatMessages");
   if(!box)return;
-  const move=()=>{box.scrollTop=box.scrollHeight;};
+  const move=()=>{
+    const last=box.lastElementChild;
+    if(last)last.scrollIntoView({block:"end",inline:"nearest",behavior:"auto"});
+    box.scrollTop=box.scrollHeight;
+  };
   move();
-  if(typeof requestAnimationFrame==="function")requestAnimationFrame(move);
+  if(typeof requestAnimationFrame==="function"){
+    requestAnimationFrame(()=>{move();requestAnimationFrame(move);});
+  }
 }
 function chatMessageHtml(value){
   let html=safe(value);
@@ -485,8 +491,11 @@ function syncChatViewport(){
   if(vv){panel.style.setProperty("--chat-vv-top",Math.max(0,vv.offsetTop)+"px");panel.style.setProperty("--chat-vv-height",vv.height+"px")}
   else{panel.style.setProperty("--chat-vv-top","0px");panel.style.setProperty("--chat-vv-height",window.innerHeight+"px")}
 }
-if(window.visualViewport){window.visualViewport.addEventListener("resize",syncChatViewport);window.visualViewport.addEventListener("scroll",syncChatViewport)}
-window.addEventListener("resize",syncChatViewport);
+if(window.visualViewport){
+  window.visualViewport.addEventListener("resize",()=>{syncChatViewport();if(chatBusy)scrollChatToLatest()});
+  window.visualViewport.addEventListener("scroll",()=>{syncChatViewport();if(chatBusy)scrollChatToLatest()});
+}
+window.addEventListener("resize",()=>{syncChatViewport();if(chatBusy)scrollChatToLatest()});
 function openChat(){
   chatPreviousOverflow=document.body.style.overflow;
   $("chatPanel").hidden=false;$("chatPanel").classList.add("keyboard-aware");$("chatToggle").hidden=true;$("chatToggle").setAttribute("aria-expanded","true");
