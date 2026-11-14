@@ -468,6 +468,10 @@ async function loadConversation(id){
   const data=await chatCall({action:"history",conversationId:id||undefined});
   setChatConversation(data.conversationId);
   chatMessages=(data.messages||[]).map(m=>({role:m.role,content:m.message}));
+  const legacyGreeting="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up, XPAYCOIN, atau bantuan pesanan? 😊";
+  if(chatMessages.length===1&&chatMessages[0].role==="assistant"&&chatMessages[0].content.trim()===legacyGreeting){
+    chatMessages[0].content=CHAT_GREETING;
+  }
   if(!chatMessages.length)chatMessages=[{role:"assistant",content:CHAT_GREETING}];
   chatLoaded=true;renderChat();
 }
