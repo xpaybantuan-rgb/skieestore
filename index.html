@@ -375,14 +375,18 @@ function scrollChatToLatest(){
 }
 function chatMessageHtml(value){
   let html=safe(value);
+  const markdownLinks=[];
   html=html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,function(_,label,url){
-    return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+label+'</a>';
+    const token="__SKIEE_CHAT_LINK_"+markdownLinks.length+"__";
+    markdownLinks.push('<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+label+'</a>');
+    return token;
   });
   html=html.replace(/(^|[\s(])((https?:\/\/)[^\s<]+)/g,function(_,prefix,url){
     const clean=url.replace(/[.,!?;:]+$/,"");
     const tail=url.slice(clean.length);
     return prefix+'<a href="'+clean+'" target="_blank" rel="noopener noreferrer">'+clean+'</a>'+tail;
   });
+  markdownLinks.forEach((link,index)=>{html=html.replace("__SKIEE_CHAT_LINK_"+index+"__",link)});
   return html;
 }
 function renderChat(){
