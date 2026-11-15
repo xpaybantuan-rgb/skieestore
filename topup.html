@@ -326,14 +326,14 @@ $("productSearch").oninput=renderProducts;$("playerId").oninput=updateSummary;$(
     body:JSON.stringify({game_id:selected.id,product_id:selectedProduct.id,target_id:activeForm.requiresTarget===false?"AUTO":$("playerId").value.trim(),zone_id:$("serverId").value.trim(),receipt_email:$("receiptEmail").value.trim(),receipt_whatsapp:$("receiptWhatsapp").value.trim()})
    });
    const orderData=await orderResponse.json().catch(()=>({}));
-   if(!orderResponse.ok||!orderData.order?.id)throw Error(orderData.message||orderData.code||"Gagal membuat pesanan SKIEESTORE.");
-   status.textContent="Menyiapkan invoice GoPay Merchant…";
-   const paymentResponse=await fetch(SUPABASE_URL+"/functions/v1/gopay-manual",{
-    method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+KEY,"content-type":"application/json"},
-    body:JSON.stringify({action:"create",order_id:orderData.order.id,guest_token:orderData.guest_token})
+   if(!orderResponse.ok||!orderData.order?.id||!orderData.guest_token)throw Error(orderData.message||orderData.code||"Gagal membuat pesanan SKIEESTORE.");
+   status.textContent="Menghubungkan ke RCB Pay Sandbox…";
+   const paymentResponse=await fetch("https://skieestore-rcb-pay.xpaybantuan.workers.dev/create-invoice",{
+    method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({order_id:orderData.order.id,guest_token:orderData.guest_token})
    });
    const paymentData=await paymentResponse.json().catch(()=>({}));
-   if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment?.id)throw Error(paymentData.code||"Invoice pembayaran gagal dibuat.");
+   if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment?.id)throw Error(paymentData.error||paymentData.detail||"Invoice RCB Pay gagal dibuat.");
    const payment=paymentData.payment;
    sessionStorage.setItem("xpay_skieepay_token_"+payment.id,orderData.guest_token);
    sessionStorage.setItem("xpay_skieepay_exp_"+payment.id,payment.expires_at||"");
