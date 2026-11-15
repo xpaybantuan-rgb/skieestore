@@ -333,7 +333,7 @@ $("productSearch").oninput=renderProducts;$("playerId").oninput=updateSummary;$(
     body:JSON.stringify({order_id:orderData.order.id,guest_token:orderData.guest_token})
    });
    const paymentData=await paymentResponse.json().catch(()=>({}));
-   if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment?.id)throw Error(paymentData.error||paymentData.detail||"Invoice RCB Pay gagal dibuat.");
+   if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment?.id)throw Error([paymentData.error,paymentData.detail].filter(Boolean).join(" — ")||"Invoice RCB Pay gagal dibuat.");
    const payment=paymentData.payment;
    sessionStorage.setItem("xpay_skieepay_token_"+payment.id,orderData.guest_token);
    sessionStorage.setItem("xpay_skieepay_exp_"+payment.id,payment.expires_at||"");
