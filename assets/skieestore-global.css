@@ -139,3 +139,6 @@ button,input,select,textarea{max-width:100%;min-width:0}
 .xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start;background:transparent}
 .xp-foot-logo{width:116px;height:116px;max-width:100%;object-fit:contain;display:block;background:transparent}
 @media(max-width:640px){.brand-image img{width:46px;height:46px}.xp-foot-logo{width:96px;height:96px}}
+
+/* Exact user-supplied SKIEESTORE logo */
+.brand-image{display:flex;align-items:center;flex:0 1 220px;min-width:0}.brand-image img{display:block;width:220px;height:auto;max-height:64px;object-fit:contain;object-position:left center;background:transparent}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start;background:transparent}.xp-foot-logo{display:block;width:240px;height:auto;max-height:90px;max-width:100%;object-fit:contain;background:transparent}@media(max-width:620px){.brand-image{flex-basis:170px}.brand-image img{width:170px;max-height:52px}.xp-foot-logo{width:200px;max-height:76px}}
