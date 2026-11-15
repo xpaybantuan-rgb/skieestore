@@ -227,6 +227,23 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <style>.brand-image img{width:190px!important;height:54px!important;max-width:52vw!important;object-fit:contain!important;display:block!important}.xp-foot-logo{width:220px!important;height:auto!important;max-height:76px!important;object-fit:contain!important;display:block!important}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start}.brand-image{display:flex;align-items:center}@media(max-width:620px){.brand-image img{width:160px!important;height:48px!important}.xp-foot-logo{width:190px!important;max-height:68px!important}}</style><link rel="icon" type="image/webp" href="/assets/skieestore-logo-exact.webp?v=3">
 <style>.brand-image{display:flex;align-items:center;flex:0 1 220px;min-width:0}.brand-image img{display:block;width:auto;height:52px;max-width:100%;max-height:52px;object-fit:contain;object-position:left center}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start;max-width:100%;line-height:0}.xp-foot-logo{display:block;width:auto;height:58px;max-width:100%;max-height:58px;object-fit:contain;object-position:left center}@media(max-width:620px){.brand-image{flex-basis:170px}.brand-image img{height:46px;max-height:46px;max-width:48vw}.xp-foot-logo{height:52px;max-height:52px}}@media(max-width:380px){.brand-image{flex-basis:145px}.brand-image img{height:42px;max-height:42px;max-width:45vw}}</style>
 <style>.brand-image{display:flex!important;align-items:center!important;flex:0 1 220px!important;min-width:0!important}.brand-image img{display:block!important;width:auto!important;height:48px!important;max-width:100%!important;max-height:48px!important;object-fit:contain!important;object-position:left center!important}.xp-foot-brand{display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;max-width:100%!important;line-height:0!important}.xp-foot-logo{display:block!important;width:auto!important;height:54px!important;max-width:100%!important;max-height:54px!important;object-fit:contain!important;object-position:left center!important}@media(max-width:620px){.brand-image{flex-basis:170px!important}.brand-image img{height:44px!important;max-height:44px!important;max-width:48vw!important}.xp-foot-logo{height:50px!important;max-height:50px!important}}@media(max-width:380px){.brand-image{flex-basis:145px!important}.brand-image img{height:40px!important;max-height:40px!important;max-width:45vw!important}}</style>
+
+<style id="skieestore-chatbot-brand-final">
+/* FINAL CHATBOT BRAND: official skieestore.biz.id — blue/cyan only */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 7px 22px rgba(8,123,255,.28)!important;filter:none!important;text-shadow:none!important}
+#chatPanel,.chat-panel{background:#fff!important;color:#202536!important;box-shadow:none!important;filter:none!important}
+#chatPanel .chat-head,#chatPanel .chat-history-head,.chat-panel .chat-head,.chat-panel .chat-history-head{background:linear-gradient(115deg,#fff 0%,#EAFBFF 100%)!important;border-color:#CDEEFF!important;box-shadow:none!important}
+#chatPanel .chat-avatar,.chat-panel .chat-avatar,.chat-avatar{background:linear-gradient(135deg,#00CFFF 0%,#0756D8 100%)!important;color:#fff!important;box-shadow:0 6px 18px rgba(8,123,255,.22)!important;filter:none!important}
+#chatPanel .chat-send,#chatPanel button.chat-send,.chat-panel .chat-send,.chat-send,button.chat-send{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 6px 18px rgba(8,123,255,.25)!important;filter:none!important}
+#chatPanel .chat-send:hover,#chatPanel .chat-send:focus-visible,.chat-panel .chat-send:hover,.chat-panel .chat-send:focus-visible{background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;box-shadow:0 7px 20px rgba(8,123,255,.3)!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;box-shadow:0 5px 16px rgba(8,123,255,.18)!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages,.chat-messages{background:radial-gradient(ellipse at 12% 0%,rgba(0,207,255,.10) 0%,transparent 36%),#fff!important;box-shadow:none!important}
+#chatPanel .chat-compose,#chatPanel .chat-compose textarea,.chat-panel .chat-compose,.chat-panel .chat-compose textarea{background:#fff!important}
+#chatPanel .chat-compose textarea:focus,#chatPanel .chat-compose textarea.expanded,.chat-panel .chat-compose textarea:focus,.chat-panel .chat-compose textarea.expanded{border-color:#00CFFF!important;box-shadow:0 0 0 3px rgba(8,123,255,.12)!important;outline-color:#00CFFF!important}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary,.chat-tool-btn.primary{background:#EAFBFF!important;border-color:#BFEFFF!important;color:#0756D8!important;box-shadow:none!important}
+#chatPanel .chat-fab::before,#chatPanel .chat-fab::after,.chat-fab::before,.chat-fab::after,#chatPanel .chat-send::before,#chatPanel .chat-send::after{box-shadow:none!important;background-color:transparent!important}
+.search-suggestion:hover,.search-suggestion:focus-visible{background:#EAFBFF!important}
+</style>
 </head>
 <body>
 <header class="header"><div class="container headrow">
@@ -585,15 +602,3 @@ syncComposer();
 </script>
 <script>document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());</script>
 </body></html>
-
-/* SKIEESTORE CHATBOT BRAND OVERRIDE — enforce blue/cyan on every chat state */
-.chat-panel .chat-fab,.chat-fab,.xp-footer .chat-fab{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border-color:#087BFF!important;box-shadow:0 8px 24px rgba(8,123,255,.28)!important}
-.chat-panel .chat-avatar,.chat-avatar{background:linear-gradient(135deg,#00CFFF 0%,#0756D8 100%)!important;box-shadow:0 7px 18px rgba(8,123,255,.24)!important}
-.chat-panel .chat-send,.chat-send,.chat-compose .chat-send,button.chat-send{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 7px 18px rgba(8,123,255,.28)!important}
-.chat-panel .chat-send:hover,.chat-send:hover,.chat-panel .chat-send:focus-visible,.chat-send:focus-visible{background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;box-shadow:0 8px 22px rgba(8,123,255,.32)!important}
-.chat-panel .chat-bubble.user,.chat-bubble.user{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;box-shadow:0 6px 18px rgba(8,123,255,.20)!important}
-.chat-panel .chat-messages,.chat-messages{background:radial-gradient(ellipse at 12% 0%,rgba(0,207,255,.12) 0%,transparent 36%),#fff!important}
-.chat-panel .chat-compose textarea:focus,.chat-compose textarea:focus,.chat-compose textarea.expanded{border-color:#00CFFF!important;box-shadow:0 0 0 3px rgba(8,123,255,.12)!important}
-.chat-panel .chat-tool-btn.primary,.chat-tool-btn.primary{background:#EAFBFF!important;border-color:#BFEFFF!important;color:#0756D8!important}
-.chat-panel .chat-head,.chat-panel .chat-history-head{background:linear-gradient(115deg,#fff,#EAFBFF)!important;border-color:#CDEEFF!important}
-.search-suggestion:hover,.search-suggestion:focus-visible{background:#EAFBFF!important}
