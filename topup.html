@@ -346,7 +346,7 @@ $("productSearch").oninput=renderProducts;$("playerId").oninput=updateSummary;$(
   const data=await response.json().catch(()=>({}));
   if(!response.ok||!data.redirect_url)throw Error(data.error||"Gagal membuat pembayaran.");
   status.textContent="Pesanan "+data.order_code+" berhasil dibuat. Membuka halaman pembayaran…";location.href=data.redirect_url;
- }catch(error){status.textContent=error.message||"Gagal menghubungkan pembayaran.";button.disabled=false;button.textContent="COBA LAGI";updateSummary()}
+ }catch(error){status.textContent="Pembayaran gagal: "+(error.message||"Gagal menghubungkan pembayaran.");button.disabled=false;button.textContent="COBA LAGI";}
 };$("applyVoucher").onclick=()=>{$("voucherStatus").textContent="Validasi voucher akan tersedia setelah sistem promo diaktifkan."};$("backCatalog").onclick=closeGame;
 $("filters").onclick=e=>{const b=e.target.closest("[data-filter]");if(!b)return;filter=b.dataset.filter;$("filters").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));renderGames()};
 window.addEventListener("popstate",()=>{const id=new URLSearchParams(location.search).get("game");if(id&&games.length)openGameFromHistory(id);else{$("gameDetailPage").classList.remove("show");$("catalogPage").classList.remove("hide");selected=null}});
