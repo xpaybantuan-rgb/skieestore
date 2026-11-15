@@ -1,0 +1,57 @@
+<svg width="1600" height="500" viewBox="0 0 1600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="brandBlue" x1="95" y1="80" x2="670" y2="410" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6EE7FF"/>
+      <stop offset="0.28" stop-color="#33B8FF"/>
+      <stop offset="0.68" stop-color="#0A74F5"/>
+      <stop offset="1" stop-color="#0B2FA8"/>
+    </linearGradient>
+    <linearGradient id="wordBlue" x1="940" y1="80" x2="1500" y2="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8EEAFF"/>
+      <stop offset="0.25" stop-color="#52C8FF"/>
+      <stop offset="0.6" stop-color="#1A82FF"/>
+      <stop offset="1" stop-color="#0B39B4"/>
+    </linearGradient>
+    <linearGradient id="iconWhite" x1="185" y1="78" x2="560" y2="400" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EAF4FF"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0A72FF" flood-opacity="0.33"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softGlow)">
+    <path d="M155 105L205 72L252 103L223 130H182L155 105Z" fill="url(#brandBlue)"/>
+    <path d="M118 142L198 104L242 155L195 182L148 180L118 142Z" fill="url(#brandBlue)"/>
+    <path d="M240 94L282 129L332 91L341 170L275 193L232 156L240 94Z" fill="url(#brandBlue)"/>
+    <path d="M174 129L302 84L334 150L291 171L227 167L174 129Z" fill="url(#brandBlue)" opacity="0.92"/>
+    <path d="M232 175L300 161L349 205L311 328L244 323L204 251L232 175Z" fill="url(#brandBlue)"/>
+    <path d="M176 210C206 188 222 168 230 140C244 175 274 214 310 214C332 214 353 202 367 181C353 214 356 250 337 290C319 329 270 341 233 333C201 326 175 305 161 281L176 210Z" fill="url(#brandBlue)"/>
+  </g>
+
+  <g filter="url(#softGlow)">
+    <path d="M218 143C252 112 317 104 355 129C397 156 399 223 349 247C329 258 295 270 269 284C238 300 220 321 220 349C220 390 262 417 309 417C347 417 376 405 398 382C422 358 437 334 456 312C470 337 473 365 466 390C455 432 420 462 373 472C315 484 255 473 206 431C162 392 160 332 181 294C195 269 224 246 255 231C227 227 210 211 218 143Z" fill="url(#iconWhite)"/>
+    <path d="M242 180C246 157 264 144 288 142C321 140 347 154 360 177C367 190 366 203 359 213C344 233 307 235 269 248C241 259 228 270 228 291C228 318 253 336 289 336C322 336 349 323 367 297C379 279 389 265 410 267C425 268 441 279 447 297C457 324 442 352 409 373C370 397 313 406 264 392C211 378 171 339 169 291C168 260 182 233 209 212C222 202 235 192 242 180Z" fill="url(#brandBlue)"/>
+    <path d="M309 175L350 187L366 220L338 233L288 222L277 189L309 175Z" fill="#FFFFFF" opacity="0.94"/>
+  </g>
+
+  <g>
+    <circle cx="279" cy="350" r="12" fill="#0A7CFF"/>
+    <circle cx="279" cy="350" r="5" fill="#FFFFFF"/>
+  </g>
+
+  <g font-family="'Segoe UI', 'Arial', sans-serif" font-weight="900" letter-spacing="-9">
+    <text x="570" y="285" font-size="196" fill="url(#wordBlue)" stroke="#0A43CB" stroke-width="14" paint-order="stroke fill">SKIEE</text>
+    <text x="980" y="285" font-size="196" fill="url(#wordBlue)" stroke="#0A43CB" stroke-width="14" paint-order="stroke fill">STORE</text>
+  </g>
+
+  <g opacity="0.9">
+    <circle cx="994" cy="180" r="9" fill="#F7FBFF"/>
+    <circle cx="1034" cy="164" r="7" fill="#F7FBFF"/>
+    <circle cx="1070" cy="178" r="8" fill="#F7FBFF"/>
+    <circle cx="1105" cy="166" r="7" fill="#F7FBFF"/>
+    <path d="M971 210L995 233L971 256L947 233L971 210Z" fill="#F7FBFF"/>
+    <path d="M1048 214L1072 238L1048 262L1024 238L1048 214Z" fill="#F7FBFF"/>
+  </g>
+</svg>
