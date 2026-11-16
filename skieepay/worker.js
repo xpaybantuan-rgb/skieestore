@@ -252,7 +252,7 @@ function parseGopayTransactionTime(value) {
   if (typeof value === "number") return value > 1000000000000 ? value : value * 1000;
   const raw = String(value || "").trim();
   if (!raw) return NaN;
-  if (/[zZ]$|[+-]\\d{2}:?\\d{2}$/.test(raw)) return Date.parse(raw);
+  if (/[zZ]$|[+-]\d{2}:?\d{2}$/.test(raw)) return Date.parse(raw);
   return Date.parse(raw.replace(" ","T") + "+07:00");
 }
 async function syncGopayPendingInvoices(env,onlyCode=null) {
