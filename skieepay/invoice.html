@@ -17,7 +17,7 @@
 .details{border:1px solid var(--line);border-radius:15px;overflow:hidden}.item{display:flex;justify-content:space-between;gap:14px;padding:14px 15px;border-bottom:1px solid #26364b;font-size:12px}.item:last-child{border:0}.item span:first-child{color:var(--muted)}.item strong{text-align:right;overflow-wrap:anywhere}
 .notice{margin-top:17px;padding:14px;border-radius:13px;background:#14283b;border:1px solid #29445d;color:#b7c9dd;font-size:11px;line-height:1.65}.notice b{color:var(--mint)}.notice.warn{background:#332817;border-color:#5b4828;color:#f0d8ae}.notice.error{background:#351f27;border-color:#633b42;color:#BFEFFF}
 .actions{display:flex;gap:9px;margin-top:18px}.btn{flex:1;border:1px solid #38516a;border-radius:12px;background:#1a2b41;color:#eaf2ff;padding:12px;font:inherit;font-size:12px;font-weight:800;text-align:center;text-decoration:none;cursor:pointer}.btn.primary{background:var(--mint);border-color:var(--mint);color:#071a1b}
-.message{text-align:center;padding:26px 12px;color:var(--muted);font-size:13px;line-height:1.7}.foot{text-align:center;color:#71839b;font-size:10px;margin:18px 0 0}
+.qris-panel{margin:18px auto;padding:16px;background:#fff;border:1px solid #e9eaf0;border-radius:16px;max-width:290px;text-align:center;color:#222}.qris-panel #qrisCode{display:flex;justify-content:center;margin:10px auto}.qris-panel #qrisCode img{max-width:240px;height:auto}.qris-panel p{font-size:11px;color:#707887;line-height:1.6}.message{text-align:center;padding:26px 12px;color:var(--muted);font-size:13px;line-height:1.7}.foot{text-align:center;color:#71839b;font-size:10px;margin:18px 0 0}
 @media(max-width:420px){body{padding:14px}.card{border-radius:19px}.item{padding:13px 11px}.actions{flex-direction:column}}
 /* SkieePay invoice — SKIEESTORE brand */
 :root{color-scheme:light;--bg:#f7f8fc;--panel:#fff;--line:#e9eaf0;--text:#191b22;--muted:#707887;--mint:#087BFF;--amber:#a66b12;--red:#0756D8}
@@ -34,6 +34,7 @@ body{background:radial-gradient(850px 480px at 50% -12%,#DDF7FF 0,transparent 65
 .foot{color:#858b98}
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 </head>
 <body>
 <main class="wrap">
@@ -68,11 +69,15 @@ async function refresh(){
   const known=['pending','paid','expired','cancelled','failed'].includes(status);
   const statusLabel=isTest&&status==='paid'?'Simulasi lunas (Uji)':(statusText[status]||status);
   const payload=String(x.payment_payload||'').trim();
+  let payloadData=null;try{payloadData=JSON.parse(payload)}catch{}
+  const qrString=String(payloadData?.qr_string||'');
   const paymentInfo=isTest
     ? '<span>Mode Uji · tidak ada uang sungguhan</span>'
-    : (payload
-      ? (/^https:\/\//i.test(payload)?'<a href="'+esc(payload)+'" target="_blank" rel="noopener noreferrer">Buka instruksi pembayaran</a>':'<span>'+esc(payload)+'</span>')
-      : '<span>Belum tersedia</span>');
+    : (qrString
+      ? '<div class="qris-panel"><b>Scan QRIS ini</b><div id="qrisCode"></div><p>Bayar tepat '+money(x.amount)+' melalui aplikasi bank atau e-wallet yang mendukung QRIS.</p></div>'
+      : (payload
+        ? (/^https:\/\//i.test(payload)?'<a href="'+esc(payload)+'" target="_blank" rel="noopener noreferrer">Buka instruksi pembayaran</a>':'<span>Instruksi pembayaran belum tersedia</span>')
+        : '<span>Belum tersedia</span>'));
   const notice=isTest
     ? '<div class="notice warn"><b>MODE UJI / SANDBOX.</b><br>Invoice ini hanya untuk simulasi. Tidak ada uang sungguhan yang berpindah dan tidak ada pesanan VIPayment yang diproses.</div>'
     : status==='paid'
@@ -91,11 +96,12 @@ async function refresh(){
     (x.paid_at?'<div class="item"><span>Dibayar pada</span><strong>'+esc(date(x.paid_at))+'</strong></div>':'')+
    '</div>'+notice+
    '<div class="actions"><button class="btn primary" id="refresh">Perbarui status</button><a class="btn" href="/">Kembali</a></div>';
+  if(!isTest&&qrString&&window.QRCode&&document.getElementById('qrisCode')) new QRCode(document.getElementById('qrisCode'),{text:qrString,width:230,height:230,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
   document.getElementById('refresh').addEventListener('click',refresh);
  }catch(e){showError(e.message||'Gagal memuat invoice. Coba lagi beberapa saat.')}
 }
 refresh();
-setInterval(refresh,20000);
+setInterval(refresh,8000);
 </script>
 </body>
 </html>
