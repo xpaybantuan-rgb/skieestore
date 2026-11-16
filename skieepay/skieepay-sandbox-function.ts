@@ -21,6 +21,49 @@ function headers(origin: string | null) {
 function reply(data: unknown, status = 200, origin: string | null = null) {
   return new Response(JSON.stringify(data), { status, headers: headers(origin) });
 }
+async function signWebhook(secret: string, value: string) {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), {name:"HMAC",hash:"SHA-256"}, false, ["sign"]);
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(signature)).map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+async function dispatchSandboxWebhook(db: ReturnType<typeof createClient>, invoiceCode: string, status: "paid"|"expired") {
+  const eventType = status === "paid" ? "payment.paid" : "payment.expired";
+  const {data:invoice} = await db.from("skieepay_invoices")
+    .select("id,invoice_code,amount,paid_at").eq("invoice_code",invoiceCode).single();
+  if (!invoice) return {sent:0,delivered:0,failed:0};
+  const {data:endpoints} = await db.from("skieepay_webhook_endpoints")
+    .select("id,url,events").eq("mode","test").eq("active",true);
+  let sent=0,delivered=0,failed=0;
+  for (const endpoint of (endpoints || [])) {
+    if (!Array.isArray(endpoint.events) || !endpoint.events.includes(eventType)) continue;
+    const {data:secretRow} = await db.from("skieepay_webhook_secrets")
+      .select("signing_secret").eq("endpoint_id",endpoint.id).single();
+    if (!secretRow?.signing_secret) continue;
+    const eventId = "evt_sbx_" + crypto.randomUUID();
+    const createdAt = new Date().toISOString();
+    const payload = {id:eventId,type:eventType,source:"skieepay",mode:"test",created_at:createdAt,
+      data:{invoice_code:invoice.invoice_code,amount:Number(invoice.amount),paid_at:status==="paid"?invoice.paid_at:null}};
+    const raw = JSON.stringify(payload);
+    const timestamp = Math.floor(Date.now()/1000);
+    const signature = await signWebhook(secretRow.signing_secret,timestamp+"."+raw);
+    let responseStatus:number|null=null,lastError:string|null=null,deliveryStatus="failed";
+    sent++;
+    try {
+      const response = await fetch(endpoint.url,{method:"POST",headers:{"Content-Type":"application/json",
+        "SkieePay-Signature":"t="+timestamp+",v1="+signature,"SkieePay-Event-Id":eventId},
+        body:raw,signal:AbortSignal.timeout(10000)});
+      responseStatus=response.status;
+      deliveryStatus=response.ok?"delivered":"failed";
+      if(!response.ok)lastError=("Endpoint returned HTTP "+response.status+" "+(await response.text()).slice(0,250));
+    } catch(error) { lastError=String(error).slice(0,500); }
+    if(deliveryStatus==="delivered")delivered++;else failed++;
+    await db.from("skieepay_webhook_deliveries").insert({endpoint_id:endpoint.id,invoice_id:invoice.id,event_id:eventId,
+      event_type:eventType,payload,status:deliveryStatus,response_status:responseStatus,attempt_count:1,last_error:lastError,
+      delivered_at:deliveryStatus==="delivered"?new Date().toISOString():null});
+    await db.from("skieepay_webhook_endpoints").update({last_delivery_at:new Date().toISOString()}).eq("id",endpoint.id);
+  }
+  return {sent,delivered,failed};
+}
 Deno.serve(async (req: Request) => {
   const origin = req.headers.get("Origin");
   if (req.method === "OPTIONS") {
@@ -82,7 +125,8 @@ Deno.serve(async (req: Request) => {
         console.error("sandbox simulation",error.message);
         return reply({ok:false,error:"Simulasi gagal diproses"},500,origin);
       }
-      return reply({ok:true,mode:"test",result:data},200,origin);
+      const webhookSummary = data?.simulated ? await dispatchSandboxWebhook(db,code,outcome) : {sent:0,delivered:0,failed:0};
+      return reply({ok:true,mode:"test",result:data,webhooks:webhookSummary},200,origin);
     }
 
     if (body.action === "list") {
