@@ -388,9 +388,25 @@ async function gopayAdminRoutes(request,env,url) {
         amount:Number(t.gross_amount||t.amount||0)/100,status:t.transaction_status||t.status||null,
         payment_type:t.payment_type||t.transaction_source||null,transaction_time:t.transaction_time||t.settlement_time||null,
         payer_issuer:t.qris_provider_aspi_issuer||null}));
+      // Persist provider evidence idempotently. Unmatched mutations remain unassigned
+      // until a unique pending invoice can be safely identified.
+      const eventRows=transactions.filter(t=>t.id&&Number.isSafeInteger(t.amount)&&t.amount>=0).map(t=>({
+        invoice_id:null,source:"gopay_merchant",external_event_id:String(t.id),
+        event_type:"gopay."+(String(t.status||"unknown").toLowerCase()),
+        amount:t.amount,verified:true,mode:"live",
+        received_at:(t.transaction_time&&Number.isFinite(Date.parse(t.transaction_time)))?new Date(t.transaction_time).toISOString():new Date().toISOString(),
+        payload:{id:t.id,order_id:t.order_id,amount:t.amount,status:t.status,payment_type:t.payment_type,
+          transaction_time:t.transaction_time,payer_issuer:t.payer_issuer}
+      }));
+      let savedCount=0;
+      if(eventRows.length){
+        const saved=await db(env,"skieepay_payment_events?on_conflict=source,external_event_id",{method:"POST",
+          headers:{Prefer:"resolution=ignore-duplicates,return=representation"},body:JSON.stringify(eventRows)});
+        savedCount=Array.isArray(saved)?saved.length:0;
+      }
       await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
         body:JSON.stringify({last_polled_at:new Date().toISOString()})});
-      return reply({ok:true,merchant_id:session.merchant_id,transactions});
+      return reply({ok:true,merchant_id:session.merchant_id,transactions,saved_count:savedCount});
     }
     return jsonError("GoPay admin route not found",404);
   } catch(error) {return jsonError(error.message||"GoPay connection failed",502);}
