@@ -64,17 +64,22 @@ async function refresh(){
   if(!r.ok||!data.ok)throw new Error(data.error||'Invoice tidak ditemukan.');
   const x=data.invoice||{};
   const status=String(x.status||'pending').toLowerCase();
+  const isTest=String(x.mode||'live').toLowerCase()==='test';
   const known=['pending','paid','expired','cancelled','failed'].includes(status);
-  const statusLabel=statusText[status]||status;
+  const statusLabel=isTest&&status==='paid'?'Simulasi lunas (Uji)':(statusText[status]||status);
   const payload=String(x.payment_payload||'').trim();
-  const paymentInfo=payload
-    ? (/^https:\/\//i.test(payload)?'<a href="'+esc(payload)+'" target="_blank" rel="noopener noreferrer">Buka instruksi pembayaran</a>':'<span>'+esc(payload)+'</span>')
-    : '<span>Belum tersedia</span>';
-  const notice=status==='paid'
-    ? '<div class="notice"><b>Pembayaran terverifikasi.</b><br>Invoice ini telah dinyatakan lunas oleh sistem pembayaran.</div>'
-    : status==='pending'
-      ? '<div class="notice warn"><b>Menunggu konfirmasi pembayaran.</b><br>Metode pembayaran otomatis belum terhubung pada sistem ini. Jangan mengirim dana ke rekening atau QR yang tidak tercantum pada instruksi resmi.</div>'
-      : '<div class="notice"><b>Informasi status.</b><br>Jika kamu merasa sudah membayar, hubungi tim bantuan dan sertakan kode invoice ini. Jangan mengirim bukti pembayaran ke pihak yang tidak dikenal.</div>';
+  const paymentInfo=isTest
+    ? '<span>Mode Uji · tidak ada uang sungguhan</span>'
+    : (payload
+      ? (/^https:\/\//i.test(payload)?'<a href="'+esc(payload)+'" target="_blank" rel="noopener noreferrer">Buka instruksi pembayaran</a>':'<span>'+esc(payload)+'</span>')
+      : '<span>Belum tersedia</span>');
+  const notice=isTest
+    ? '<div class="notice warn"><b>MODE UJI / SANDBOX.</b><br>Invoice ini hanya untuk simulasi. Tidak ada uang sungguhan yang berpindah dan tidak ada pesanan VIPayment yang diproses.</div>'
+    : status==='paid'
+      ? '<div class="notice"><b>Pembayaran terverifikasi.</b><br>Invoice ini telah dinyatakan lunas oleh sistem pembayaran.</div>'
+      : status==='pending'
+        ? '<div class="notice warn"><b>Menunggu konfirmasi pembayaran.</b><br>Metode pembayaran otomatis belum terhubung pada sistem ini. Jangan mengirim dana ke rekening atau QR yang tidak tercantum pada instruksi resmi.</div>'
+        : '<div class="notice"><b>Informasi status.</b><br>Jika kamu merasa sudah membayar, hubungi tim bantuan dan sertakan kode invoice ini. Jangan mengirim bukti pembayaran ke pihak yang tidak dikenal.</div>';
   root.innerHTML='<div class="status '+(known?esc(status):'')+'">● '+esc(statusLabel)+'</div>'+
    '<div class="amount"><small>TOTAL TAGIHAN</small>'+money(x.amount)+'</div>'+
    '<div class="details">'+
