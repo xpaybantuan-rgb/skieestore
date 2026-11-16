@@ -255,22 +255,27 @@ function parseGopayTransactionTime(value) {
   if (/[zZ]$|[+-]\d{2}:?\d{2}$/.test(raw)) return Date.parse(raw);
   return Date.parse(raw.replace(" ","T") + "+07:00");
 }
-async function syncGopayPendingInvoices(env,onlyCode=null) {
+async function syncGopayPendingInvoices(env,onlyCode=null,providedTransactions=null) {
   const now=new Date();
   const filter="mode=eq.live&status=eq.pending&expires_at=gt."+encodeURIComponent(now.toISOString())+
     "&select=id,invoice_code,amount,created_at,expires_at&order=created_at.asc&limit=100"+
     (onlyCode?"&invoice_code=eq."+encodeURIComponent(onlyCode):"");
   const invoices=await db(env,"skieepay_invoices?"+filter);
   if(!invoices.length)return {checked:0,paid:0};
-  const sessionRows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=last_polled_at&limit=1");
-  const last=Date.parse(sessionRows[0]?.last_polled_at||"");
-  if(Number.isFinite(last)&&Date.now()-last<8000)return {checked:invoices.length,paid:0,throttled:true};
-  await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
-    body:JSON.stringify({last_polled_at:new Date().toISOString()})});
+  if(!providedTransactions){
+    const sessionRows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=last_polled_at&limit=1");
+    const last=Date.parse(sessionRows[0]?.last_polled_at||"");
+    if(Number.isFinite(last)&&Date.now()-last<8000)return {checked:invoices.length,paid:0,throttled:true};
+    await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
+      body:JSON.stringify({last_polled_at:new Date().toISOString()})});
+  }
   const session=await getValidGopaySession(env);
   if(!session.merchant_id)throw new Error("GoPay Merchant ID belum tersedia");
-  const earliest=Math.min(...invoices.map(x=>Date.parse(x.created_at)))-5*60*1000;
-  const transactions=await fetchGopayTransactions(env,session,earliest);
+  let transactions=providedTransactions;
+  if(!transactions){
+    const earliest=Math.min(...invoices.map(x=>Date.parse(x.created_at)))-5*60*1000;
+    transactions=await fetchGopayTransactions(env,session,earliest);
+  }
   let paid=0;
   for(const tx of transactions){
     const txId=String(tx.id||tx.transaction_id||tx.wallstreet_transaction_id||tx.order_id||"");
@@ -404,9 +409,11 @@ async function gopayAdminRoutes(request,env,url) {
           headers:{Prefer:"resolution=ignore-duplicates,return=representation"},body:JSON.stringify(eventRows)});
         savedCount=Array.isArray(saved)?saved.length:0;
       }
+      // Match only settled QRIS mutations against exactly one live pending invoice.
+      const matching=await syncGopayPendingInvoices(env,null,tx);
       await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
         body:JSON.stringify({last_polled_at:new Date().toISOString()})});
-      return reply({ok:true,merchant_id:session.merchant_id,transactions,saved_count:savedCount});
+      return reply({ok:true,merchant_id:session.merchant_id,transactions,saved_count:savedCount,matching});
     }
     return jsonError("GoPay admin route not found",404);
   } catch(error) {return jsonError(error.message||"GoPay connection failed",502);}
