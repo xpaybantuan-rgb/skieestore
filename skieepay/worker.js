@@ -248,6 +248,13 @@ async function dispatchPaymentWebhook(env,eventType,invoice,transaction) {
       body:JSON.stringify({last_delivery_at:new Date().toISOString()})});
   }
 }
+function parseGopayTransactionTime(value) {
+  if (typeof value === "number") return value > 1000000000000 ? value : value * 1000;
+  const raw = String(value || "").trim();
+  if (!raw) return NaN;
+  if (/[zZ]$|[+-]\\d{2}:?\\d{2}$/.test(raw)) return Date.parse(raw);
+  return Date.parse(raw.replace(" ","T") + "+07:00");
+}
 async function syncGopayPendingInvoices(env,onlyCode=null) {
   const now=new Date();
   const filter="mode=eq.live&status=eq.pending&expires_at=gt."+encodeURIComponent(now.toISOString())+
@@ -269,15 +276,18 @@ async function syncGopayPendingInvoices(env,onlyCode=null) {
     const txId=String(tx.id||tx.transaction_id||"");
     const txStatus=String(tx.transaction_status||tx.status||"").toUpperCase();
     const paymentType=String(tx.payment_type||tx.transaction_source||"").toUpperCase();
-    const rawAmount=Number(tx.gross_amount??tx.amount);
-    const amount=Math.round(rawAmount/100);
-    const txTime=Date.parse(tx.transaction_time||tx.settlement_time||"");
-    if(!txId||!Number.isFinite(amount)||amount<1||!Number.isFinite(txTime)||
-      !["SETTLEMENT","CAPTURE"].includes(txStatus)||!paymentType.includes("QRIS"))continue;
-    const candidates=invoices.filter(inv=>Number(inv.amount)===amount&&
+    const amountValues = [
+      tx.gross_amount,
+      tx.real_gross_amount,
+      typeof tx.amount === "object" && tx.amount ? tx.amount.value : tx.amount
+    ].map(value => Number(value)).filter(value => Number.isFinite(value) && value > 0);
+    const txTime = parseGopayTransactionTime(tx.transaction_time||tx.settlement_time||tx.created_at||tx.time);
+    if(!txId||!amountValues.length||!Number.isFinite(txTime)||
+      !["SETTLEMENT","CAPTURE"].includes(txStatus)|| (paymentType && !paymentType.includes("QRIS")))continue;
+    const candidates=invoices.filter(inv=>amountValues.some(raw=>raw===Number(inv.amount)||raw===Number(inv.amount)*100||Math.round(raw/100)===Number(inv.amount))&&
       txTime>=Date.parse(inv.created_at)-5*60*1000&&txTime<=Date.parse(inv.expires_at)+5*60*1000);
     if(candidates.length!==1)continue;
-    const invoice=candidates[0];
+    const invoice=candidates[0],amount=Number(invoice.amount),rawAmount=amountValues.find(raw=>raw===amount||raw===amount*100||Math.round(raw/100)===amount);
     const payload={id:txId,transaction_status:txStatus,payment_type:paymentType,gross_amount:rawAmount,
       transaction_time:new Date(txTime).toISOString(),merchant_id:session.merchant_id};
     const result=await db(env,"rpc/skieepay_apply_gopay_payment",{method:"POST",
