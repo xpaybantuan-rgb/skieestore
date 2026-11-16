@@ -273,7 +273,7 @@ async function syncGopayPendingInvoices(env,onlyCode=null) {
   const transactions=await fetchGopayTransactions(env,session,earliest);
   let paid=0;
   for(const tx of transactions){
-    const txId=String(tx.id||tx.transaction_id||"");
+    const txId=String(tx.id||tx.transaction_id||tx.wallstreet_transaction_id||tx.order_id||"");
     const txStatus=String(tx.transaction_status||tx.status||"").toUpperCase();
     const paymentType=String(tx.payment_type||tx.transaction_source||"").toUpperCase();
     const amountValues = [
