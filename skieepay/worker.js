@@ -44,16 +44,17 @@ function constantTimeEqual(a, b) {
 async function authorized(request, env) {
   const key = request.headers.get("X-SkieePay-Key") || "";
   if (!key) return false;
-  if (constantTimeEqual(key, env.SKIEEPAY_API_KEY || "")) return true;
+  if (constantTimeEqual(key, env.SKIEEPAY_API_KEY || "")) return "test";
   const hash = await sha256Hex(key);
   const rows = await db(env, "skieepay_api_keys?key_hash=eq." + encodeURIComponent(hash) +
-    "&mode=eq.test&revoked_at=is.null&select=id&limit=1");
+    "&revoked_at=is.null&select=id,mode&limit=1");
   if (!rows || !rows.length) return false;
+  if (rows[0].mode === "live" && env.SKIEEPAY_LIVE_ENABLED !== "true") return false;
   await db(env, "skieepay_api_keys?id=eq." + encodeURIComponent(rows[0].id), {
     method: "PATCH",
     body: JSON.stringify({ last_used_at: new Date().toISOString() })
   });
-  return true;
+  return rows[0].mode;
 }
 
 const DEFAULT_GOPAY_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091432644747540210G2644747540303UMI51440014ID.CO.QRIS.WWW0215ID10266381975600303UMI5204899953033605802ID5925skieestore, Digital & Kre6013LUBUK LINGGAU61053161662070703A0163049575";
@@ -180,6 +181,117 @@ async function fetchGopayTransactions(env,session,startTime) {
   const data=payload?.data||payload;
   return Array.isArray(data?.transactions)?data.transactions:(Array.isArray(data)?data:[]);
 }
+
+function parseQrisTags(input) {
+  let raw=String(input||"").trim();
+  const crcIndex=raw.indexOf("6304");
+  if(crcIndex>=0)raw=raw.slice(0,crcIndex);
+  const tags=[];let i=0;
+  while(i<raw.length){
+    if(i+4>raw.length)throw new Error("QRIS statis tidak valid");
+    const id=raw.slice(i,i+2),len=Number(raw.slice(i+2,i+4));
+    if(!/^\d{2}$/.test(id)||!Number.isInteger(len)||len<0||i+4+len>raw.length)throw new Error("Struktur QRIS tidak valid");
+    tags.push({id,value:raw.slice(i+4,i+4+len)});i+=4+len;
+  }
+  return tags;
+}
+function encodeQrisTags(tags) {
+  return tags.map(t=>{if(t.value.length>99)throw new Error("Field QRIS terlalu panjang");return t.id+String(t.value.length).padStart(2,"0")+t.value;}).join("");
+}
+function qrisCrc16(input) {
+  let crc=0xffff;
+  for(let i=0;i<input.length;i++){crc^=input.charCodeAt(i)<<8;for(let b=0;b<8;b++)crc=(crc&0x8000)?((crc<<1)^0x1021)&0xffff:(crc<<1)&0xffff;}
+  return crc.toString(16).toUpperCase().padStart(4,"0");
+}
+function makeDynamicGopayQris(template,amount) {
+  if(!Number.isSafeInteger(amount)||amount<1)throw new Error("Nominal QRIS tidak valid");
+  const tags=parseQrisTags(template);
+  const poi=tags.find(t=>t.id==="01");
+  if(!poi||poi.value!=="11")throw new Error("Template QRIS bukan QRIS statis yang dikenali");
+  if(tags.some(t=>t.id==="54"))throw new Error("Template QRIS sudah memiliki nominal");
+  poi.value="12";
+  const countryIndex=tags.findIndex(t=>t.id==="58");
+  if(countryIndex<0)throw new Error("Tag negara QRIS tidak ditemukan");
+  tags.splice(countryIndex,0,{id:"54",value:String(amount)});
+  const body=encodeQrisTags(tags)+"6304";
+  return body+qrisCrc16(body);
+}
+async function signOutgoingWebhook(secret,value) {
+  const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(secret),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+  const signature=await crypto.subtle.sign("HMAC",key,new TextEncoder().encode(value));
+  return [...new Uint8Array(signature)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+async function dispatchPaymentWebhook(env,eventType,invoice,transaction) {
+  const endpoints=await db(env,"skieepay_webhook_endpoints?mode=eq.live&active=eq.true&select=id,url,events");
+  for(const endpoint of (endpoints||[])){
+    if(!Array.isArray(endpoint.events)||!endpoint.events.includes(eventType))continue;
+    const secrets=await db(env,"skieepay_webhook_secrets?endpoint_id=eq."+encodeURIComponent(endpoint.id)+"&select=signing_secret&limit=1");
+    if(!secrets.length)continue;
+    const eventId="evt_live_"+crypto.randomUUID(),createdAt=new Date().toISOString();
+    const payload={id:eventId,type:eventType,source:"skieepay",mode:"live",created_at:createdAt,
+      data:{invoice_code:invoice.invoice_code,amount:Number(invoice.amount),paid_at:invoice.paid_at||createdAt,
+        provider_reference:transaction.id||transaction.transaction_id||null}};
+    const raw=JSON.stringify(payload),ts=Math.floor(Date.now()/1000);
+    const signature=await signOutgoingWebhook(secrets[0].signing_secret,ts+"."+raw);
+    let responseStatus=null,lastError=null,status="failed";
+    try{
+      const response=await fetch(endpoint.url,{method:"POST",headers:{"Content-Type":"application/json",
+        "SkieePay-Signature":"t="+ts+",v1="+signature,"SkieePay-Event-Id":eventId},
+        body:raw,signal:AbortSignal.timeout(10000)});
+      responseStatus=response.status;status=response.ok?"delivered":"failed";
+      if(!response.ok)lastError=("Endpoint returned HTTP "+response.status+" "+(await response.text()).slice(0,250));
+    }catch(error){lastError=String(error).slice(0,500);}
+    await db(env,"skieepay_webhook_deliveries",{method:"POST",body:JSON.stringify({endpoint_id:endpoint.id,
+      invoice_id:invoice.id,event_id:eventId,event_type:eventType,payload,status,response_status:responseStatus,
+      attempt_count:1,last_error:lastError,delivered_at:status==="delivered"?new Date().toISOString():null})});
+    await db(env,"skieepay_webhook_endpoints?id=eq."+encodeURIComponent(endpoint.id),{method:"PATCH",
+      body:JSON.stringify({last_delivery_at:new Date().toISOString()})});
+  }
+}
+async function syncGopayPendingInvoices(env,onlyCode=null) {
+  const now=new Date();
+  const filter="mode=eq.live&status=eq.pending&expires_at=gt."+encodeURIComponent(now.toISOString())+
+    "&select=id,invoice_code,amount,created_at,expires_at&order=created_at.asc&limit=100"+
+    (onlyCode?"&invoice_code=eq."+encodeURIComponent(onlyCode):"");
+  const invoices=await db(env,"skieepay_invoices?"+filter);
+  if(!invoices.length)return {checked:0,paid:0};
+  const sessionRows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=last_polled_at&limit=1");
+  const last=Date.parse(sessionRows[0]?.last_polled_at||"");
+  if(Number.isFinite(last)&&Date.now()-last<8000)return {checked:invoices.length,paid:0,throttled:true};
+  await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
+    body:JSON.stringify({last_polled_at:new Date().toISOString()})});
+  const session=await getValidGopaySession(env);
+  if(!session.merchant_id)throw new Error("GoPay Merchant ID belum tersedia");
+  const earliest=Math.min(...invoices.map(x=>Date.parse(x.created_at)))-5*60*1000;
+  const transactions=await fetchGopayTransactions(env,session,earliest);
+  let paid=0;
+  for(const tx of transactions){
+    const txId=String(tx.id||tx.transaction_id||"");
+    const txStatus=String(tx.transaction_status||tx.status||"").toUpperCase();
+    const paymentType=String(tx.payment_type||tx.transaction_source||"").toUpperCase();
+    const rawAmount=Number(tx.gross_amount??tx.amount);
+    const amount=Math.round(rawAmount/100);
+    const txTime=Date.parse(tx.transaction_time||tx.settlement_time||"");
+    if(!txId||!Number.isFinite(amount)||amount<1||!Number.isFinite(txTime)||
+      !["SETTLEMENT","CAPTURE"].includes(txStatus)||!paymentType.includes("QRIS"))continue;
+    const candidates=invoices.filter(inv=>Number(inv.amount)===amount&&
+      txTime>=Date.parse(inv.created_at)-5*60*1000&&txTime<=Date.parse(inv.expires_at)+5*60*1000);
+    if(candidates.length!==1)continue;
+    const invoice=candidates[0];
+    const payload={id:txId,transaction_status:txStatus,payment_type:paymentType,gross_amount:rawAmount,
+      transaction_time:new Date(txTime).toISOString(),merchant_id:session.merchant_id};
+    const result=await db(env,"rpc/skieepay_apply_gopay_payment",{method:"POST",
+      body:JSON.stringify({p_invoice_code:invoice.invoice_code,p_transaction_id:txId,p_amount:amount,
+        p_transaction_time:new Date(txTime).toISOString(),p_payload:payload})});
+    if(result?.ok&&result?.status==="paid"){
+      paid++;invoice.status="paid";invoice.paid_at=result.paid_at;invoice.provider_reference=txId;
+      await dispatchPaymentWebhook(env,"payment.paid",invoice,{id:txId,transaction_time:new Date(txTime).toISOString()});
+      invoices.splice(invoices.indexOf(invoice),1);
+    }
+  }
+  return {checked:invoices.length,paid};
+}
+
 async function gopayAdminRoutes(request,env,url) {
   if(!await isSkieePayAdmin(request,env))return jsonError("Admin authentication required",401);
   if(!env.SUPABASE_URL||!env.SUPABASE_SERVICE_ROLE_KEY)return jsonError("Server is not configured",503);
@@ -382,9 +494,14 @@ export default {
       try {
         if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return jsonError("Server is not configured", 503);
         const code = publicInvoiceMatch[1].toUpperCase();
-        const rows = await db(env, "skieepay_invoices?invoice_code=eq." + encodeURIComponent(code) +
-          "&select=invoice_code,amount,currency,status,payment_method,payment_payload,expires_at,created_at,paid_at,mode&limit=1");
+        let rows = await db(env, "skieepay_invoices?invoice_code=eq." + encodeURIComponent(code) +
+          "&select=id,invoice_code,amount,currency,status,payment_method,payment_payload,expires_at,created_at,paid_at,mode,provider_reference,payment_provider&limit=1");
         if (!rows.length) return jsonError("Invoice not found", 404);
+        if (rows[0].mode === "live" && rows[0].status === "pending") {
+          try { await syncGopayPendingInvoices(env,code); } catch (syncError) { console.error("GoPay invoice sync:",syncError.message||"failed"); }
+          rows = await db(env, "skieepay_invoices?invoice_code=eq." + encodeURIComponent(code) +
+            "&select=id,invoice_code,amount,currency,status,payment_method,payment_payload,expires_at,created_at,paid_at,mode,provider_reference,payment_provider&limit=1");
+        }
         return new Response(JSON.stringify({ ok: true, invoice: rows[0] }), {
           headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...cors }
         });
@@ -402,7 +519,8 @@ export default {
     if (url.pathname === "/webhooks/payment" && request.method === "POST") {
       return jsonError("Payment rail webhook is not configured. No invoice was marked paid.", 501);
     }
-    if (!await authorized(request, env)) return jsonError("Unauthorized", 401);
+    const apiMode = await authorized(request, env);
+    if (!apiMode) return jsonError("Unauthorized", 401);
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return jsonError("Server is not configured", 503);
 
     try {
@@ -413,28 +531,26 @@ export default {
       if (url.pathname === "/v1/invoices" && request.method === "POST") {
         const body = await request.json();
         const amount = Number(body.amount);
-        if (!Number.isSafeInteger(amount) || amount < 1) return jsonError("amount must be a positive integer in IDR");
-        const businessCode = String(body.business_code || "xpaypoint").trim().toLowerCase();
-        if (!/^[a-z0-9][a-z0-9_-]{1,39}$/.test(businessCode)) return jsonError("business_code is invalid");
-        const businessRows = await db(env, "skieepay_businesses?code=eq." + encodeURIComponent(businessCode) + "&status=eq.active&select=id,code,name&limit=1");
-        if (!businessRows.length) return jsonError("Business not found or inactive", 404);
-        const business = businessRows[0];
-        const expiresMinutes = Math.min(1440, Math.max(5, Number(body.expires_minutes) || 30));
-        const invoice = {
-          business_id: business.id,
-          invoice_code: randomCode(),
-          order_id: body.order_id || null,
-          customer_ref: body.customer_ref ? String(body.customer_ref).slice(0, 120) : null,
-          amount,
-          currency: "IDR",
-          status: "pending",
-          payment_method: body.payment_method || null,
-          expires_at: new Date(Date.now() + expiresMinutes * 60000).toISOString()
-        };
-        const rows = await db(env, "skieepay_invoices", {
-          method: "POST", body: JSON.stringify(invoice)
-        });
-        return reply({ ok: true, invoice: rows[0] }, 201);
+        if (!Number.isSafeInteger(amount) || amount < 1 || amount > 100000000) return jsonError("amount must be a positive integer in IDR");
+        const mode = String(body.mode || apiMode);
+        if (!["test","live"].includes(mode) || mode !== apiMode) return jsonError("API key mode does not match invoice mode",403);
+        if (mode === "live" && env.SKIEEPAY_LIVE_ENABLED !== "true") return jsonError("Live payments are still disabled pending sandbox verification",409);
+        const expiresMinutes = Math.min(60, Math.max(5, Number(body.expires_minutes) || 15));
+        let paymentPayload = JSON.stringify({mode:"test",sandbox:true});
+        let qrString = null;
+        if (mode === "live") {
+          const session = await getValidGopaySession(env);
+          if (!session.qris_static) return jsonError("Static QRIS merchant belum dikonfigurasi",409);
+          qrString = makeDynamicGopayQris(session.qris_static,amount);
+          paymentPayload = JSON.stringify({source:"gopay_merchant_static_qris",mode:"live",qr_string:qrString});
+        }
+        const created = await db(env,"rpc/skieepay_create_invoice_mode",{method:"POST",body:JSON.stringify({
+          p_amount:amount,p_order_id:body.order_id||null,
+          p_customer_ref:body.customer_ref?String(body.customer_ref).slice(0,120):null,
+          p_payment_method:"qris",p_payment_payload:paymentPayload,p_expires_minutes:expiresMinutes,p_mode:mode
+        })});
+        if (!created?.invoice_code) return jsonError("Invoice creation failed",500);
+        return reply({ok:true,invoice:created,qr_string:qrString,qris_mode:mode==="live"?"gopay_merchant_dynamic":"sandbox_simulation"},201);
       }
       const vipMatch = url.pathname.match(/^\/v1\/invoices\/([0-9a-f-]{36})\/vipayment$/i);
       if (vipMatch && request.method === "POST") {
