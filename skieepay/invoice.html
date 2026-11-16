@@ -34,7 +34,7 @@ body{background:radial-gradient(850px 480px at 50% -12%,#DDF7FF 0,transparent 65
 .foot{color:#858b98}
 
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 <main class="wrap">
@@ -96,7 +96,7 @@ async function refresh(){
     (x.paid_at?'<div class="item"><span>Dibayar pada</span><strong>'+esc(date(x.paid_at))+'</strong></div>':'')+
    '</div>'+notice+
    '<div class="actions"><button class="btn primary" id="refresh">Perbarui status</button><a class="btn" href="/">Kembali</a></div>';
-  if(!isTest&&qrString&&window.QRCode&&document.getElementById('qrisCode')) new QRCode(document.getElementById('qrisCode'),{text:qrString,width:230,height:230,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  if(!isTest&&qrString&&window.QRCode&&document.getElementById('qrisCode')) { const qrEl=document.getElementById('qrisCode'); qrEl.innerHTML=''; new QRCode(qrEl,{text:qrString,width:230,height:230,colorDark:'#111111',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
   document.getElementById('refresh').addEventListener('click',refresh);
  }catch(e){showError(e.message||'Gagal memuat invoice. Coba lagi beberapa saat.')}
 }
