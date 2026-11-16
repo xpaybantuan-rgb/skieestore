@@ -132,7 +132,7 @@ export default {
         if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return jsonError("Server is not configured", 503);
         const code = publicInvoiceMatch[1].toUpperCase();
         const rows = await db(env, "skieepay_invoices?invoice_code=eq." + encodeURIComponent(code) +
-          "&select=invoice_code,amount,currency,status,payment_method,payment_payload,expires_at,created_at,paid_at&limit=1");
+          "&select=invoice_code,amount,currency,status,payment_method,payment_payload,expires_at,created_at,paid_at,mode&limit=1");
         if (!rows.length) return jsonError("Invoice not found", 404);
         return new Response(JSON.stringify({ ok: true, invoice: rows[0] }), {
           headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...cors }
