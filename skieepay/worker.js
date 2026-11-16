@@ -358,6 +358,19 @@ async function vipaymentCallback(request, env) {
 }
 
 export default {
+  async scheduled(controller, env, ctx) {
+    try {
+      const session = await loadGopaySession(env);
+      if (!session || !session.refresh_token) return;
+      const expires = Date.parse(session.expires_at || "");
+      // Refresh within six hours of expiry; hourly cron keeps the session warm.
+      if (!Number.isFinite(expires) || Date.now() >= expires - 6 * 60 * 60 * 1000) {
+        await refreshGopaySession(env, session);
+      }
+    } catch (error) {
+      console.error("SkieePay scheduled GoPay refresh failed:", error.message || "unknown error");
+    }
+  },
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
     const url = new URL(request.url);
