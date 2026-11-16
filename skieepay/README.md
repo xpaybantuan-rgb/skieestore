@@ -76,3 +76,13 @@ A QR code containing an invoice URL or reference is not a QRIS payment QR. Do no
 - Webhook signing format: `SkieePay-Signature: t=<unix_timestamp>,v1=<hex_hmac_sha256>`, where the HMAC input is `<timestamp>.<raw_json_body>`.
 - Sandbox payment simulations dispatch signed `payment.paid` or `payment.expired` webhooks to active test endpoints.
 - Live API keys and live payment confirmation remain disabled until a real payment adapter is verified.
+
+
+## GoPay Merchant private connection
+- Owner connection UI: `gopay.html`.
+- Worker routes: `POST /admin/gopay/request-otp`, `POST /admin/gopay/verify-otp`, `GET /admin/gopay/status`, `POST /admin/gopay/refresh`, `GET /admin/gopay/transactions`, `POST /admin/gopay/disconnect`.
+- Admin routes require a Supabase JWT and membership in `xpaypoint_admins`.
+- OTP attempt and GoPay session payloads are encrypted with AES-256-GCM. The master key is stored in Supabase Vault and exposed only through a service-role-only RPC.
+- Access-token refresh is attempted automatically before expiry when the admin status or transaction routes are called. This is not a promise of a permanent session; GoPay may revoke or change refresh-token behavior.
+- The GoPay adapter uses private, undocumented GoBiz endpoints. The integration is nonofficial and can stop working if those endpoints change.
+- Live invoice generation and transaction matching remain disabled until the sandbox flow has been tested and the merchant session has been verified.
