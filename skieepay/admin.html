@@ -128,6 +128,28 @@ tbody tr:hover{background:#fff7f8}
 @media(max-width:390px){.brand{font-size:15px}.brand small{letter-spacing:1px}.nav a{font-size:9px;padding:8px}.modules{grid-template-columns:1fr}}
 
 /* Admin workspace expansion */
+
+/* SkieePay Pro UI system — unified dashboard */
+:root{--bg:#f3f6fb;--panel:#fff;--line:#e4eaf3;--text:#17243a;--muted:#738198;--mint:#1769e8;--blue:#0d8bff;--red:#d83c55;--amber:#9a6800}
+body{background:linear-gradient(180deg,#f7faff 0,#f3f6fb 48%,#f7f9fc 100%);color:#17243a}
+.side{background:#101d33;color:#eaf1fc;border-color:#1e3150;box-shadow:8px 0 28px #14243b12}
+.brand{color:#f7faff}.brand small{color:#8fa4c2}.brand .logo,.logo{background:linear-gradient(135deg,#2787ff,#0753c7);color:#fff;box-shadow:0 8px 24px #087bff35}
+.navtitle{color:#7890b3}.nav a{color:#b5c4da;border-radius:11px}.nav a.active,.nav a:hover{background:linear-gradient(100deg,#183e72,#17335c);border-color:#28558f;color:#fff}
+.sideinfo{background:#152a49;border-color:#29476f;color:#a9bdd9}.sideinfo b{color:#77b8ff}
+.main{background:transparent}.top{border:1px solid #e5ebf4;border-radius:14px;background:#ffffffed;box-shadow:0 8px 24px #1b35500a;padding:12px 16px}
+.crumb{color:#738198}.tag{background:#edf5ff;border-color:#cfe2ff;color:#155fc5}.avatar{background:#e8f2ff;border:1px solid #cfe2ff;color:#155fc5}
+.eyebrow{color:#1769e8}.hero h1{color:#17243a}.hero p,.muted{color:#738198}
+.stat,.panel{background:#fff;border:1px solid #e4eaf3;border-radius:16px;box-shadow:0 8px 26px #1c35500a}
+.stat{transition:transform .18s,box-shadow .18s}.stat:hover{transform:translateY(-2px);box-shadow:0 14px 32px #1c355014}.stathead{color:#738198}.stat strong{color:#17243a}.stat small{color:#8a96a8}
+.panel h2{color:#17243a}.module{background:#f8fbff;border-color:#e4eaf3}.module b{color:#1c2e49}.module small{color:#78869b}
+th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbody tr:hover{background:#f5f9ff}
+.pill.success{background:#e9f8f0;color:#16784d}.pill.pending{background:#fff5df;color:#916100}.pill.failed{background:#fff0f1;color:#bd3345}
+.notice{background:#eff6ff;border-color:#d5e7ff;color:#536982}.notice b{color:#155fc5}
+.btn{background:#1769e8;color:#fff;border-radius:10px;box-shadow:0 5px 14px #1769e81c}.btn.secondary{background:#fff;color:#42516a;border:1px solid #dce5f0;box-shadow:none}.btn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+.field input,.bizbar select,.bizform input{border:1px solid #dce5f0;background:#fff;color:#17243a;border-radius:10px}.field input:focus,.bizbar select:focus,.bizform input:focus{border-color:#1769e8;box-shadow:0 0 0 3px #1769e81a}
+.login{background:#fff;border:1px solid #e2eaf4;box-shadow:0 30px 90px #17345b18}.login h1{color:#17243a}.login .sub{color:#738198}.field label{color:#53647d}.field input{background:#f9fbfe}.foot{color:#8a96a8}
+@media(max-width:650px){.side{background:#101d33;border-color:#1e3150}.nav a.active,.nav a:hover{background:#183e72;border-color:#28558f;color:#fff}.main{padding-top:14px}.top{background:#fff}.stat,.panel{box-shadow:0 5px 18px #1c355009}}
+
 </style></head><body>
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
 <div id="appView" class="app hidden"><aside class="side"><div class="brand"><div class="logo">S</div><div>SkieePay<small>ADMIN CONSOLE</small></div></div><nav class="nav"><a class="active" href="#overview">◫ Overview</a><a href="#businesses">▣ Bisnis</a><a href="#transactions">↔ Transaksi</a><a href="#events">⌘ Callback</a><a href="#paymentEvents">◉ Payment events</a><a href="#ledger">▤ Ledger</a><a href="sandbox.html">🧪 Sandbox</a><a href="gopay.html">GoPay</a></nav><div class="sideinfo"><b>Mode aman aktif</b><br>Dashboard hanya membaca data. Tidak tersedia tombol untuk memalsukan pembayaran sukses.</div></aside>
