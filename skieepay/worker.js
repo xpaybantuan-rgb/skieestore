@@ -31,10 +31,29 @@ async function db(env, path, init = {}) {
   if (!res.ok) throw new Error("Database request failed (" + res.status + "): " + body.slice(0, 300));
   return body ? JSON.parse(body) : null;
 }
-function authorized(request, env) {
+async function sha256Hex(value) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map(x => x.toString(16).padStart(2, "0")).join("");
+}
+function constantTimeEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+async function authorized(request, env) {
   const key = request.headers.get("X-SkieePay-Key") || "";
-  return !!env.SKIEEPAY_API_KEY && key.length === env.SKIEEPAY_API_KEY.length &&
-    [...key].reduce((n, c, i) => n | (c.charCodeAt(0) ^ env.SKIEEPAY_API_KEY.charCodeAt(i)), 0) === 0;
+  if (!key) return false;
+  if (constantTimeEqual(key, env.SKIEEPAY_API_KEY || "")) return true;
+  const hash = await sha256Hex(key);
+  const rows = await db(env, "skieepay_api_keys?key_hash=eq." + encodeURIComponent(hash) +
+    "&mode=eq.test&revoked_at=is.null&select=id&limit=1");
+  if (!rows || !rows.length) return false;
+  await db(env, "skieepay_api_keys?id=eq." + encodeURIComponent(rows[0].id), {
+    method: "PATCH",
+    body: JSON.stringify({ last_used_at: new Date().toISOString() })
+  });
+  return true;
 }
 // MD5 implementation for VIPayment's documented callback signature.
 // Web Crypto does not provide MD5, so do not call crypto.subtle.digest("MD5").
@@ -148,7 +167,7 @@ export default {
     if (url.pathname === "/webhooks/payment" && request.method === "POST") {
       return jsonError("Payment rail webhook is not configured. No invoice was marked paid.", 501);
     }
-    if (!authorized(request, env)) return jsonError("Unauthorized", 401);
+    if (!await authorized(request, env)) return jsonError("Unauthorized", 401);
     if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) return jsonError("Server is not configured", 503);
 
     try {
