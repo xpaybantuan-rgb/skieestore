@@ -57,7 +57,6 @@ async function authorized(request, env) {
   return rows[0].mode;
 }
 
-const DEFAULT_GOPAY_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091432644747540210G2644747540303UMI51440014ID.CO.QRIS.WWW0215ID10266381975600303UMI5204899953033605802ID5925skieestore, Digital & Kre6013LUBUK LINGGAU61053161662070703A0163049575";
 const GOBIZ_TOKEN_URL = "https://api.gobiz.co.id/goid/token";
 const GOBIZ_OTP_URL = "https://api.gobiz.co.id/goid/login/request";
 const GOBIZ_CONFIG_URL = "https://api.gobiz.co.id/goresto/v5/public/users/config";
@@ -97,7 +96,12 @@ async function decryptGopayPayload(env,row) {
 async function loadGopaySession(env) {
   const rows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=*&limit=1");
   if(!rows.length)return null;
-  return await decryptGopayPayload(env,rows[0]);
+  const session=await decryptGopayPayload(env,rows[0]);
+  // Never reuse a legacy merchant session that was not explicitly connected for SkieePay.
+  if(session.account_scope!=="skieepay")return null;
+  // The QRIS payload must be configured specifically for SkieePay; never reuse the old store QRIS.
+  session.qris_static=env.SKIEEPAY_QRIS_STATIC||null;
+  return session;
 }
 async function saveGopaySession(env,session) {
   const encrypted=await encryptGopayPayload(env,session);
@@ -367,7 +371,7 @@ async function gopayAdminRoutes(request,env,url) {
       const session={phone_number:"+62"+pending.phone_number,device_id:pending.device_id,
         access_token:data.access_token,refresh_token:data.refresh_token||null,
         expires_at:new Date(Date.now()+Number(data.expires_in||86400)*1000).toISOString(),
-        merchant_id:merchantId,outlet_name:outletName,qris_static:DEFAULT_GOPAY_QRIS,
+        merchant_id:merchantId,outlet_name:outletName,account_scope:"skieepay",qris_static:env.SKIEEPAY_QRIS_STATIC||null,
         cookie:"access_token="+data.access_token+"; refresh_token="+(data.refresh_token||"")+"; auth_method=goid",
         connected_at:new Date().toISOString()};
       await saveGopaySession(env,session);
@@ -419,89 +423,6 @@ async function gopayAdminRoutes(request,env,url) {
   } catch(error) {return jsonError(error.message||"GoPay connection failed",502);}
 }
 
-// MD5 implementation for VIPayment's documented callback signature.
-// Web Crypto does not provide MD5, so do not call crypto.subtle.digest("MD5").
-function md5Hex(input) {
-  const bytes = new TextEncoder().encode(input);
-  const bitLength = bytes.length * 8;
-  const paddedLength = Math.ceil((bytes.length + 9) / 64) * 64;
-  const data = new Uint8Array(paddedLength);
-  data.set(bytes);
-  data[bytes.length] = 0x80;
-  const view = new DataView(data.buffer);
-  view.setUint32(paddedLength - 8, bitLength >>> 0, true);
-  view.setUint32(paddedLength - 4, Math.floor(bitLength / 0x100000000), true);
-
-  const shifts = [
-    7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,
-    5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,
-    4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,
-    6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21
-  ];
-  const k = Array.from({length:64}, (_,i) => Math.floor(Math.abs(Math.sin(i+1))*0x100000000) >>> 0);
-  let a0=0x67452301, b0=0xefcdab89, c0=0x98badcfe, d0=0x10325476;
-  const rotl = (x,n) => (x << n) | (x >>> (32-n));
-
-  for (let offset=0; offset<paddedLength; offset+=64) {
-    const words = new Uint32Array(16);
-    for (let j=0; j<16; j++) words[j]=view.getUint32(offset+j*4,true);
-    let a=a0,b=b0,c=c0,d=d0;
-    for (let i=0; i<64; i++) {
-      let f,g;
-      if (i<16) { f=(b & c) | (~b & d); g=i; }
-      else if (i<32) { f=(d & b) | (~d & c); g=(5*i+1)%16; }
-      else if (i<48) { f=b ^ c ^ d; g=(3*i+5)%16; }
-      else { f=c ^ (b | ~d); g=(7*i)%16; }
-      const sum=(a+f+k[i]+words[g]) >>> 0;
-      const next=(b+rotl(sum,shifts[i])) >>> 0;
-      a=d; d=c; c=b; b=next;
-    }
-    a0=(a0+a)>>>0; b0=(b0+b)>>>0; c0=(c0+c)>>>0; d0=(d0+d)>>>0;
-  }
-  return [a0,b0,c0,d0].map(word =>
-    [0,8,16,24].map(shift => ((word>>>shift)&255).toString(16).padStart(2,"0")).join("")
-  ).join("");
-}
-function vipaymentSignature(env) {
-  if (!env.VIPAYMENT_API_ID || !env.VIPAYMENT_API_KEY) return null;
-  return md5Hex(env.VIPAYMENT_API_ID + env.VIPAYMENT_API_KEY);
-}
-async function vipaymentCallback(request, env) {
-  const expected = await vipaymentSignature(env);
-  if (!expected) return jsonError("VIPayment API credentials are not configured", 503);
-  const sourceIp = request.headers.get("CF-Connecting-IP") || "";
-  if (env.VIPAYMENT_ENFORCE_IP !== "false" && sourceIp !== "178.248.73.218") {
-    return jsonError("Callback source IP is not allowed", 403);
-  }
-  const supplied = (request.headers.get("X-Client-Signature") || "").trim().toLowerCase();
-  if (!supplied || supplied.length !== expected.length ||
-      [...supplied].reduce((n, c, i) => n | (c.charCodeAt(0) ^ expected.charCodeAt(i)), 0) !== 0) {
-    return jsonError("Invalid VIPayment callback signature", 401);
-  }
-  const raw = await request.text();
-  let payload;
-  try { payload = JSON.parse(raw); } catch { return jsonError("Invalid JSON payload"); }
-  const item = payload?.data?.trxid ? payload.data : payload;
-  const trxid = String(item?.trxid || "").trim();
-  const status = String(item?.status || "").toLowerCase();
-  const note = item?.note == null ? null : String(item.note).slice(0, 1000);
-  const price = Number.isSafeInteger(Number(item?.price)) ? Number(item.price) : null;
-  if (!trxid || !["waiting", "processing", "success", "error"].includes(status)) {
-    return jsonError("Missing trxid or unsupported status");
-  }
-  const result = await db(env, "rpc/skieepay_apply_vipayment_callback", {
-    method: "POST",
-    body: JSON.stringify({
-      p_trxid: trxid,
-      p_status: status,
-      p_note: note,
-      p_price: price,
-      p_payload: payload
-    })
-  });
-  return reply({ ok: true, provider: "VIPayment", result });
-}
-
 export default {
   async scheduled(controller, env, ctx) {
     try {
@@ -520,7 +441,7 @@ export default {
     if (request.method === "OPTIONS") return new Response(null, { headers: cors });
     const url = new URL(request.url);
     if (url.pathname === "/health" && request.method === "GET") {
-      return reply({ ok: true, service: "SkieePay", mode: "vipayment-webhook-ready", vipayment_webhook: !!(env.VIPAYMENT_API_ID && env.VIPAYMENT_API_KEY), live_payments: false });
+      return reply({ ok: true, service: "SkieePay", mode: "sandbox-only", live_payments: false });
     }
     const publicInvoiceMatch = url.pathname.match(/^\/public\/invoices\/(SKP[0-9A-F]{16}|SKP[0-9A-F]{32})$/i);
     if (publicInvoiceMatch && request.method === "GET") {
@@ -544,10 +465,6 @@ export default {
     }
     if (url.pathname.startsWith("/admin/gopay/")) {
       return await gopayAdminRoutes(request, env, url);
-    }
-    if (url.pathname === "/webhooks/vipayment" && request.method === "POST") {
-      try { return await vipaymentCallback(request, env); }
-      catch (error) { return jsonError(error.message || "Callback processing failed", 500); }
     }
     if (url.pathname === "/webhooks/payment" && request.method === "POST") {
       return jsonError("Payment rail webhook is not configured. No invoice was marked paid.", 501);
@@ -584,18 +501,6 @@ export default {
         })});
         if (!created?.invoice_code) return jsonError("Invoice creation failed",500);
         return reply({ok:true,invoice:created,qr_string:qrString,qris_mode:mode==="live"?"gopay_merchant_dynamic":"sandbox_simulation"},201);
-      }
-      const vipMatch = url.pathname.match(/^\/v1\/invoices\/([0-9a-f-]{36})\/vipayment$/i);
-      if (vipMatch && request.method === "POST") {
-        const body = await request.json();
-        const trxid = String(body.trxid || "").trim();
-        if (!trxid || trxid.length > 120) return jsonError("A valid VIPayment trxid is required");
-        const rows = await db(env, "skieepay_invoices?id=eq." + encodeURIComponent(vipMatch[1]) + "&select=id,status", {
-          method: "PATCH",
-          body: JSON.stringify({ vipayment_trxid: trxid, fulfillment_status: "waiting", updated_at: new Date().toISOString() })
-        });
-        if (!rows || !rows.length) return jsonError("Invoice not found", 404);
-        return reply({ ok: true, invoice: rows[0] });
       }
       const match = url.pathname.match(/^\/v1\/invoices\/([0-9a-f-]{36})$/i);
       if (match && request.method === "GET") {
