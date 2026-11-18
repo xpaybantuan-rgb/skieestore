@@ -505,6 +505,7 @@ function chatMessageHtml(value){
     markdownLinks.push('<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+label+'</a>');
     return token;
   });
+  html=html.replace(/(^|[\\s(])([A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,})(?=$|[\\s),!?;:])/gi,function(_,prefix,email){return prefix+'<a href="mailto:'+email+'">'+email+'</a>'});
   html=html.replace(/(^|[\s(])((https?:\/\/)[^\s<]+)/g,function(_,prefix,url){
     const clean=url.replace(/[.,!?;:]+$/,"");
     const tail=url.slice(clean.length);
