@@ -263,37 +263,38 @@ th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbod
  #sideDrawer .sideinfo{display:block!important;flex:0 0 auto!important;width:100%!important}
 }
 
-body[data-page="webhook"] .main>.stats,
-body[data-page="webhook"] .main>#businesses,
-body[data-page="webhook"] .main>.layout,
-body[data-page="webhook"] .main>section:not(.hero),
-body[data-page="webhook"] .main>.foot{display:none!important}
-body[data-page="webhook"] .main>.hero{display:flex}
-body[data-page="webhook"] .main>.page-content{display:block!important}
-body[data-page="webhook"] [data-route="webhook"]{background:linear-gradient(100deg,#183e72,#17335c)!important;border-color:#28558f!important;color:#fff!important}
-.page-content{display:none;margin-top:18px}
-.page-card{background:#fff;border:1px solid #e4eaf3;border-radius:17px;padding:22px;box-shadow:0 8px 26px #1c35500a;color:#17243a}
-.page-card h2{font-size:16px;margin:0 0 9px}.page-card p{color:#738198;line-height:1.65;font-size:13px}
-.page-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.page-note{padding:13px 15px;border-radius:11px;background:#eff6ff;border:1px solid #d5e7ff;color:#536982;font-size:12px;line-height:1.6}
-.page-note b{color:#155fc5}
-@media(max-width:760px){body[data-page="webhook"] .main>.hero{display:block}.page-card{padding:17px}}
-body[data-page="webhook"] .main>.page-content{display:none!important}body[data-page="webhook"] .main>.layout:has(#events){display:grid!important}body[data-page="webhook"] .main>.layout:has(#paymentEvents){display:grid!important}body[data-page="webhook"] #events,body[data-page="webhook"] #paymentEvents{display:block!important}body[data-page="webhook"] #transactions,body[data-page="webhook"] #ledger{display:none!important}</style></head><body data-page="webhook">
+.page-content{display:none;margin:18px 0}.page-card{background:#fff;border:1px solid #e4eaf3;border-radius:16px;padding:22px;box-shadow:0 8px 26px #1c35500a;color:#17243a}
+.page-card h2{font-size:17px;margin:0 0 8px}.page-card h3{font-size:14px;margin:24px 0 10px}.page-card p{color:#738198;line-height:1.6;font-size:13px}
+.page-toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:16px}.page-note{padding:13px 15px;border-radius:11px;background:#eff6ff;border:1px solid #d5e7ff;color:#536982;font-size:12px;line-height:1.65;margin:14px 0}.page-note b{color:#155fc5}
+.secret-reveal{margin:16px 0;padding:15px;border:1px solid #b7d8ff;background:#f0f7ff;border-radius:12px}.secret-reveal code{display:block;overflow-wrap:anywhere;padding:12px;background:#fff;border:1px solid #dbe7f5;border-radius:8px;margin:9px 0;font-size:12px;color:#123b70}
+.form-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end;margin:18px 0}.form-grid label{font-size:12px;color:#53647d;display:grid;gap:7px}.form-grid input,.form-grid select{min-width:0;padding:11px;border:1px solid #dce5f0;border-radius:9px;background:white;color:#17243a}.form-grid .checkline{display:flex;align-items:center;gap:7px}.method-card{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;border:1px solid #e4eaf3;border-radius:12px;margin-top:13px}.method-card p{margin:5px 0 0}.page-actions{display:flex;gap:10px;margin:18px 0}.hidden{display:none!important}
+@media(max-width:760px){.page-card{padding:16px}.page-toolbar{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr 1fr}.method-card{align-items:flex-start;flex-direction:column}}
+.main>.stats,.main>#businesses,.main>.layout,.main>section:not(.hero):not(.page-content),.main>.foot{display:none!important}.main>.hero{display:flex!important}.main>.page-content{display:none!important}.main>#webhooksPage{display:block!important}</style></head><body data-page="webhook">
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
 <div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer">
 <div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div>
 <div class="navtitle">UTAMA</div><nav class="nav">
-<a href="/admin.html" data-route="ringkasan"><span>⌂</span> Ringkasan</a><a href="/transaksi/" data-route="transaksi"><span>▤</span> Transaksi</a></nav>
-<div class="navtitle navtitle-tools">KEUANGAN</div><nav class="nav">
-<a href="/saldo/" data-route="saldo"><span>▱</span> Saldo</a><a href="/pencairan/" data-route="pencairan"><span>↓</span> Pencairan</a><a href="/rekening-bank/" data-route="rekening-bank"><span>▥</span> Rekening Bank</a></nav>
+<a href="/admin.html" data-route="ringkasan"><span>⌂</span> Ringkasan</a>
+<a href="/transaksi/" data-route="transaksi"><span>▤</span> Transaksi</a>
+<a href="/saldo/" data-route="saldo"><span>▱</span> Saldo</a></nav>
 <div class="navtitle navtitle-tools">PENGEMBANG</div><nav class="nav">
-<a href="/kunci-api/" data-route="kunci-api"><span>〈〉</span> Kunci API</a><a href="/api-playground/" data-route="api-playground"><span>▣</span> API Playground</a><a href="/webhook/" data-route="webhook"><span>♧</span> Webhook</a></nav>
-<div class="navtitle navtitle-tools">PENGATURAN</div><nav class="nav">
-<a href="/metode-pembayaran/" data-route="metode-pembayaran"><span>▱</span> Metode Pembayaran</a><a href="/profil-bisnis/" data-route="profil-bisnis"><span>▣</span> Profil Bisnis</a></nav>
-<div class="drawerBottom"><a href="/profil-bisnis/"><span>☼</span> Kelola Akun <span class="external">↗</span></a><button id="logoutBtn" class="drawerLogout"><span>⇥</span> Keluar</button></div></aside>
+<a href="/kunci-api/" data-route="kunci-api"><span>〈〉</span> Kunci API</a>
+<a class="active" href="/webhook/" data-route="webhook"><span>♧</span> Webhook</a>
+<a href="/sandbox.html" data-route="api-playground"><span>▣</span> API Playground</a></nav>
+<div class="navtitle navtitle-tools">PEMBAYARAN</div><nav class="nav">
+<a href="/gopay.html" data-route="metode-pembayaran"><span>▱</span> Metode Pembayaran</a></nav>
+<div class="drawerBottom"><button id="logoutBtn" class="drawerLogout"><span>⇥</span> Keluar</button></div>
+</aside>
 <main class="main" id="overview"><header class="top"><div class="topleft"><button class="menuToggle" id="menuToggle" aria-label="Buka menu">☰</button><div class="crumb">SkieePay / Webhook</div></div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div></div></header>
-<section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Webhook.</h1><p>Pantau event pembayaran dan callback provider.</p></div><div class="actions"><a class="btn" href="/sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section><section class="page-content" style="display:block!important"><div class="page-card"><h2>Webhook</h2><p>Pantau event pembayaran dan callback provider.</p><div class="page-note">Riwayat event dan callback saat ini masih tersedia di dashboard operasional. Modul endpoint webhook merchant perlu dibuat terpisah sebelum dapat menerima konfigurasi baru.</div><div class="page-actions"><a class="btn secondary" href="/admin.html">Buka log operasional</a></div></div></section>
-<section class="stats"><div class="stat"><div class="stathead">Total invoice</div><strong id="totalInvoices">—</strong><small>Semua invoice tersimpan</small></div><div class="stat"><div class="stathead">Pembayaran sukses</div><strong id="paidInvoices">—</strong><small>Status pembayaran terverifikasi</small></div><div class="stat"><div class="stathead">Menunggu pembayaran</div><strong id="pendingInvoices">—</strong><small>Invoice belum lunas</small></div><div class="stat"><div class="stathead">Nilai lunas · 50 terbaru</div><strong id="paidValue">—</strong><small>Akumulasi dari daftar invoice terbaru</small></div></section>
+<section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Ringkasan transaksi.</h1><p>Data langsung dari Supabase. Perbarui untuk mengambil status terbaru.</p></div><div class="actions"><a class="btn" href="/sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section>
+<section class="page-content" id="webhooksPage"><div class="page-card">
+<div class="page-toolbar"><div><h2>Webhook Endpoints</h2><p>Daftarkan URL HTTPS untuk menerima notifikasi pembayaran dari SkieePay.</p></div></div>
+<div class="page-note"><b>Catatan:</b> jalur pembayaran Live belum aktif. Pengiriman webhook otomatis belum berjalan untuk pembayaran Sandbox. Endpoint disimpan untuk konfigurasi integrasi berikutnya.</div>
+<form id="webhookForm" class="form-grid"><label>URL Endpoint HTTPS<input id="webhookUrl" type="url" required placeholder="https://domainkamu.com/webhooks/skieepay"></label><label>Mode<select id="webhookMode"><option value="live">Live (konfigurasi)</option><option value="test">Test (konfigurasi)</option></select></label><label class="checkline"><input id="webhookPaid" type="checkbox" checked> payment.paid</label><label class="checkline"><input id="webhookExpired" type="checkbox" checked> payment.expired</label><button class="btn" id="saveWebhookBtn">+ Simpan Endpoint</button></form>
+<div id="newWebhookSecret" class="secret-reveal hidden"><b>Signing Secret — salin sekarang.</b><p>Secret tidak dapat dibaca ulang dari dashboard.</p><code id="newWebhookSecretValue"></code><button type="button" class="btn secondary" id="copyWebhookSecretBtn">Salin Secret</button></div>
+<h3>Endpoint terdaftar</h3><div class="tablewrap"><table><thead><tr><th>URL</th><th>MODE</th><th>EVENT</th><th>STATUS</th><th>DIBUAT</th><th></th></tr></thead><tbody id="webhookRows"><tr><td colspan="6" class="emptycell">Memuat endpoint…</td></tr></tbody></table></div>
+<h3>Riwayat pengiriman</h3><div class="tablewrap"><table><thead><tr><th>EVENT</th><th>STATUS</th><th>HTTP</th><th>PERCOBAAN</th><th>WAKTU</th></tr></thead><tbody id="webhookDeliveryRows"><tr><td colspan="5" class="emptycell">Memuat riwayat…</td></tr></tbody></table></div>
+<div id="webhookMsg" class="msg" role="status"></div></div></section><section class="stats"><div class="stat"><div class="stathead">Total invoice</div><strong id="totalInvoices">—</strong><small>Semua invoice tersimpan</small></div><div class="stat"><div class="stathead">Pembayaran sukses</div><strong id="paidInvoices">—</strong><small>Status pembayaran terverifikasi</small></div><div class="stat"><div class="stathead">Menunggu pembayaran</div><strong id="pendingInvoices">—</strong><small>Invoice belum lunas</small></div><div class="stat"><div class="stathead">Nilai lunas · 50 terbaru</div><strong id="paidValue">—</strong><small>Akumulasi dari daftar invoice terbaru</small></div></section>
 <section class="panel" id="businesses" style="margin:0 0 16px">
 <div class="panelhead"><div><h2>Bisnis milikmu</h2><span class="muted">Private business workspace · bukan merchant publik</span></div><span class="tag" id="businessCount">— BISNIS</span></div>
 <div class="bizbar"><label for="businessSelect" class="muted">Lihat data bisnis:</label><select id="businessSelect" aria-label="Pilih bisnis"><option value="">Semua bisnis</option></select></div>
@@ -321,7 +322,7 @@ const $=id=>document.getElementById(id);
 const money=v=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(v||0));
 const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 async function api(path,options={}){const headers={'apikey':SUPABASE_KEY,'Content-Type':'application/json',...(options.headers||{})};if(accessToken)headers.Authorization='Bearer '+accessToken;const r=await fetch(SUPABASE_URL+path,{...options,headers});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.message||j.error_description||j.error||('HTTP '+r.status));return j}
-function showApp(){ $('loginView').classList.add('hidden');$('appView').classList.remove('hidden')}
+function showApp(){ $('loginView').classList.add('hidden');$('appView').classList.remove('hidden');if(typeof loadCustomPage==='function')loadCustomPage()}
 function showLogin(){ $('appView').classList.add('hidden');$('loginView').classList.remove('hidden')}
 function setMsg(id,msg,kind=''){const e=$(id);e.textContent=msg;e.className='msg '+kind}
 async function assertOwner(u){if((u.email||'').toLowerCase()!==OWNER_EMAIL)throw new Error('Akun ini bukan akun admin pemilik SkieePay.');const rows=await api('/rest/v1/xpaypoint_admins?select=user_id&user_id=eq.'+encodeURIComponent(u.id)+'&limit=1');if(!Array.isArray(rows)||!rows.some(x=>x.user_id===u.id))throw new Error('Akun ini belum terdaftar sebagai admin utama SKIEESTORE.');return u}
@@ -379,6 +380,16 @@ async function addBusiness(e){
  }catch(e){setMsg('businessMsg','Gagal menambah bisnis: '+e.message,'error')}
  finally{btn.disabled=false}
 }
+async function loadCustomPage(){try{
+ const rows=await api('/rest/v1/skieepay_webhook_endpoints?select=id,url,mode,events,active,created_at,last_delivery_at&order=created_at.desc');
+ $('webhookRows').innerHTML=rows.length?rows.map(x=>'<tr><td>'+esc(x.url)+'</td><td>'+esc(x.mode)+'</td><td>'+esc((x.events||[]).join(', '))+'</td><td>'+(x.active?'<span class="pill success">Aktif</span>':'<span class="pill failed">Nonaktif</span>')+'</td><td>'+date(x.created_at)+'</td><td><button class="btn secondary" data-toggle-hook="'+esc(x.id)+'" data-active="'+x.active+'">'+(x.active?'Nonaktifkan':'Aktifkan')+'</button></td></tr>').join(''):'<tr><td colspan="6" class="emptycell">Belum ada endpoint webhook.</td></tr>';
+ $('webhookRows').querySelectorAll('[data-toggle-hook]').forEach(b=>b.addEventListener('click',async()=>{try{await api('/rest/v1/skieepay_webhook_endpoints?id=eq.'+encodeURIComponent(b.dataset.toggleHook),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({active:b.dataset.active!=='true'})});await loadCustomPage()}catch(e){$('webhookMsg').textContent='Gagal mengubah status: '+e.message}}));
+ const deliveries=await api('/rest/v1/skieepay_webhook_deliveries?select=event_type,status,response_status,attempt_count,created_at&order=created_at.desc&limit=30');
+ $('webhookDeliveryRows').innerHTML=deliveries.length?deliveries.map(x=>'<tr><td>'+esc(x.event_type)+'</td><td>'+esc(x.status)+'</td><td>'+esc(x.response_status??'—')+'</td><td>'+esc(x.attempt_count)+'</td><td>'+date(x.created_at)+'</td></tr>').join(''):'<tr><td colspan="5" class="emptycell">Belum ada riwayat pengiriman.</td></tr>';
+ }catch(e){$('webhookRows').innerHTML='<tr><td colspan="6" class="emptycell">Gagal memuat: '+esc(e.message)+'</td></tr>'}}
+ $('webhookForm').addEventListener('submit',async e=>{e.preventDefault();const btn=$('saveWebhookBtn');btn.disabled=true;try{const url=$('webhookUrl').value.trim();if(!url.startsWith('https://'))throw new Error('Endpoint harus menggunakan HTTPS.');const events=[];if($('webhookPaid').checked)events.push('payment.paid');if($('webhookExpired').checked)events.push('payment.expired');if(!events.length)throw new Error('Pilih minimal satu event.');const secret='whsec_'+Array.from(crypto.getRandomValues(new Uint8Array(32)),x=>x.toString(16).padStart(2,'0')).join('');const endpoint=await api('/rest/v1/skieepay_webhook_endpoints',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({url,mode:$('webhookMode').value,events,active:true})});if(!endpoint?.length)throw new Error('Endpoint tidak berhasil disimpan.');await api('/rest/v1/skieepay_webhook_secrets',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({endpoint_id:endpoint[0].id,signing_secret:secret})});$('newWebhookSecretValue').textContent=secret;$('newWebhookSecret').classList.remove('hidden');$('webhookForm').reset();await loadCustomPage()}catch(e){$('webhookMsg').textContent='Gagal menyimpan webhook: '+e.message}finally{btn.disabled=false}});
+ $('copyWebhookSecretBtn').addEventListener('click',()=>navigator.clipboard.writeText($('newWebhookSecretValue').textContent));
+ 
 const drawer=$('sideDrawer'),shade=$('drawerShade');
 function closeDrawer(){drawer?.classList.remove('drawerOpen');shade?.classList.remove('visible');document.body.style.overflow=''}
 function openDrawer(){drawer?.classList.add('drawerOpen');shade?.classList.add('visible');document.body.style.overflow='hidden'}
