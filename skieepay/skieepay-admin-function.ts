@@ -2,10 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const allowedOrigins = new Set([
-  "https://skieestore.biz.id",
-  "https://www.skieestore.biz.id",
-  "https://xpaybantuan-rgb.github.io",
-  "https://skieestore.pages.dev"
+  "https://skieepay.pages.dev"
 ]);
 function cors(origin: string | null) {
   const h: Record<string,string> = {
@@ -55,7 +52,7 @@ Deno.serve(async(req:Request)=>{
   try{
     const {data:userData,error:userError}=await db.auth.getUser(token);
     if(userError||!userData.user)return reply({ok:false,error:"Sesi admin tidak valid"},401,origin);
-    const {data:admin,error:adminError}=await db.from("xpaypoint_admins").select("user_id").eq("user_id",userData.user.id).maybeSingle();
+    const {data:admin,error:adminError}=await db.from("skieepay_admins").select("user_id").eq("user_id",userData.user.id).maybeSingle();
     if(adminError||!admin)return reply({ok:false,error:"Akses hanya untuk admin pemilik SkieePay"},403,origin);
     const body=await req.json().catch(()=>null);
     if(!body||typeof body!=="object")return reply({ok:false,error:"JSON tidak valid"},400,origin);
