@@ -1,6 +1,6 @@
 # SkieePay — independent payment gateway
 
-SkieePay is maintained as a separate application inside the shared GitHub repository. Cloudflare Pages serves this folder with root directory `/skieepay`; SKIEESTORE keeps its own root application and domain. Both may use the same Cloudflare account and Supabase project, while SkieePay code and `skieepay_*` data remain separate.
+SkieePay is a separate application under `/skieepay` in the shared GitHub repository. Cloudflare Pages uses `/skieepay` as its root; SKIEESTORE keeps its own root application. Both stay in the same GitHub, Cloudflare, and Supabase accounts, but their code, merchant identity, admin registry, and active payment integrations are separate.
 
 ## Components
 
@@ -10,6 +10,14 @@ SkieePay is maintained as a separate application inside the shared GitHub reposi
 - Sandbox: `sandbox.html`
 - GoPay Merchant connection: `gopay.html`
 - API Worker: `https://skieepay-api.xpaybantuan.workers.dev`
+
+## SkieePay-specific backend
+
+- Admin authorization: `public.skieepay_admins`
+- Business identity: `public.skieepay_businesses`, default code `skieepay`
+- Invoice and ledger tables: `skieepay_invoices`, `skieepay_ledger`
+- Payment event, API key, webhook, and provider-session tables use the `skieepay_*` namespace.
+- The shared Supabase project is intentional; the SkieePay runtime does not use SKIEESTORE order, product, or supplier tables.
 
 ## Worker configuration
 
@@ -21,14 +29,14 @@ SkieePay is maintained as a separate application inside the shared GitHub reposi
 | `SKIEEPAY_LIVE_ENABLED` | Keep `false` until payment acceptance and settlement are verified |
 | `SKIEEPAY_QRIS_STATIC` | QRIS payload owned by SkieePay; never copy SKIEESTORE's QRIS |
 
-Never expose the service role key, API secrets, merchant tokens, or OTP in frontend code or chat.
+Never expose service-role keys, API secrets, merchant tokens, or OTP in frontend code or chat.
 
 ## Provider isolation
 
 - SkieePay does not call SKIEESTORE's VIPayment supplier or fulfillment endpoints.
-- Legacy VIPayment database records are retained for historical integrity only; the SkieePay Worker and dashboard no longer read or accept VIPayment callbacks.
-- Existing GoPay sessions without the encrypted `account_scope=skieepay` marker are ignored. Reconnect a GoPay Merchant account specifically for SkieePay.
-- SkieePay's QRIS payload must be configured independently using `SKIEEPAY_QRIS_STATIC`. The previous embedded SKIEESTORE QRIS is not used.
+- The old VIPayment callback table/function is legacy history only; it is no longer read or accepted by SkieePay.
+- Old GoPay sessions remain untouched in the shared database but are ignored. SkieePay uses its own namespaced provider session `skieepay_gopay_merchant`.
+- The QRIS generator requires `SKIEEPAY_QRIS_STATIC`; no SKIEESTORE QRIS payload is embedded in code.
 - The GoBiz connection uses non-public endpoints and is not an official public merchant API. It may stop working if GoBiz changes its service.
 
 ## API
@@ -37,7 +45,7 @@ Never expose the service role key, API secrets, merchant tokens, or OTP in front
 - `GET /public/invoices/:invoice_code` — public invoice status lookup.
 - `POST /v1/invoices` — create an invoice with a valid SkieePay API key.
 - `GET /v1/invoices/:uuid` — retrieve an invoice with a valid SkieePay API key.
-- `POST /webhooks/payment` — intentionally unavailable until a verified payment provider adapter is connected.
+- `POST /webhooks/payment` — unavailable until a verified payment provider adapter is connected.
 
 ## Safety
 
