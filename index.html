@@ -91,7 +91,7 @@ html[data-theme="light"]{color-scheme:light;--bg:#ffffff;--surface:#fff;--surfac
 .chat-tool-btn{border:1px solid #e5e8ef;background:#f7f8fb;color:#515b6d;border-radius:11px;padding:10px 14px;font:800 11px Manrope,sans-serif;cursor:pointer;transition:.18s}
 .chat-tool-btn.primary{background:#EAFBFF;border-color:#CDEEFF;color:#0756D8;box-shadow:none}
 .chat-messages{min-height:0;height:0;padding:18px 16px;display:flex;flex-direction:column;gap:13px;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;overflow-anchor:none;scroll-behavior:auto;flex:1 1 0;background:radial-gradient(ellipse at 12% 0%,#EAFBFF 0,transparent 34%),#ffffff}
-.chat-bubble{max-width:88%;padding:12px 15px;border-radius:17px;font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 4px 14px #27334b0a}
+.chat-sender{display:block;font-size:10px;font-weight:800;letter-spacing:.02em;opacity:.72;margin-bottom:4px;line-height:1.2}.chat-bubble{max-width:88%;padding:12px 15px;border-radius:17px;font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 4px 14px #27334b0a}
 .chat-bubble.bot{align-self:flex-start;background:#fff;color:#303849;border:1px solid #edf0f5;border-bottom-left-radius:6px}
 .chat-bubble a{color:#1769c2;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}.chat-bubble.user a{color:#fff;text-decoration:underline}.chat-bubble.user{align-self:flex-end;background:linear-gradient(135deg,#087BFF,#00CFFF);color:#fff;border-bottom-right-radius:6px;box-shadow:0 6px 16px #087BFF26}
 .chat-typing{color:#7b8495;font-size:10px;padding:0 17px 9px;background:#ffffff}
@@ -515,7 +515,7 @@ function chatMessageHtml(value){
 }
 function renderChat(){
   const box=$("chatMessages");
-  box.innerHTML=chatMessages.map(m=>'<div class="chat-bubble '+(m.role==="user"?"user":"bot")+'">'+chatMessageHtml(m.content)+'</div>').join("");
+  box.innerHTML=chatMessages.map(m=>'<div class="chat-bubble '+(m.role==="user"?"user":"bot")+'"><small class="chat-sender">'+(m.role==="user"?"KlienSKIEE":safe(m.provider||"SKIEESTORE AI"))+'</small><div>'+chatMessageHtml(m.content)+'</div></div>').join("");
   scrollChatToLatest();
 }
 const chatScrollObserver=new MutationObserver(()=>scrollChatToLatest());
@@ -554,8 +554,8 @@ async function chatStreamCall(payload,onToken,onMeta){
       const event=JSON.parse(data);
       if(event.meta&&onMeta)onMeta(event.meta);
       if(event.conversationId&&onMeta)onMeta({conversationId:event.conversationId});
-      if(typeof event.token==="string"&&event.token)onToken(event.token);
-      else if(typeof event.reply==="string"&&event.reply)onToken(event.reply);
+      if(typeof event.token==="string"&&event.token)onToken(event.token,event.provider||event.source);
+      else if(typeof event.reply==="string"&&event.reply)onToken(event.reply,event.provider||event.source);
       if(event.error)streamError=event.error;
     }catch(_){}
   };
@@ -583,7 +583,7 @@ function setChatConversation(id){
 async function loadConversation(id){
   const data=await chatCall({action:"history",conversationId:id||undefined});
   setChatConversation(data.conversationId);
-  chatMessages=(data.messages||[]).map(m=>({role:m.role,content:m.message}));
+  chatMessages=(data.messages||[]).map(m=>({role:m.role,content:m.message,provider:m.provider||null}));
   const legacyGreeting="Halo! Aku SKIEESTORE AI. Mau tanya harga game, cara top up, XPAYCOIN, atau bantuan pesanan? 😊";
   if(chatMessages.length===1&&chatMessages[0].role==="assistant"&&chatMessages[0].content.trim()===legacyGreeting){
     chatMessages[0].content=CHAT_GREETING;
@@ -672,11 +672,13 @@ $("chatForm").addEventListener("submit",async e=>{
   chatBusy=true;$("chatSend").disabled=true;$("chatTyping").hidden=false;
   let received=false;
   try{
-    await chatStreamCall({conversationId:chatConversationId,messages:[...history,{role:"user",content:text}]},token=>{
+    await chatStreamCall({conversationId:chatConversationId,messages:[...history,{role:"user",content:text}]},(token,provider)=>{
+      if(provider)chatMessages[assistantIndex].provider=provider;
       received=true;$("chatTyping").hidden=true;
       chatMessages[assistantIndex].content+=token;
       renderChat();
     },meta=>{
+      if(meta&&meta.provider)chatMessages[assistantIndex].provider=meta.provider;
       if(meta&&meta.conversationId)setChatConversation(meta.conversationId);
     });
     if(!received)chatMessages[assistantIndex].content="Maaf Kak, AI belum mengirim jawaban. Silakan coba lagi.";
