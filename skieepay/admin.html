@@ -203,10 +203,41 @@ th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbod
  .panel{padding:15px}
 }
 @media(max-width:390px){.stats{grid-template-columns:1fr}.crumb{font-size:10px}}
+
+/* TatsuPay-inspired navigation drawer, SkieePay blue/cyan identity */
+.topleft{display:flex;align-items:center;gap:12px}.menuToggle,.drawerClose{display:none}
+.drawerShade{display:none}
+@media(max-width:760px){
+ .app{display:block}
+ .side{position:fixed;z-index:40;inset:0 auto 0 0;width:min(84vw,370px);height:100dvh;overflow-y:auto;transform:translateX(-105%);transition:transform .24s ease;padding:23px 16px 28px;background:#111e34;border-right:1px solid #2b4263;box-shadow:18px 0 55px #06132955}
+ .side.drawerOpen{transform:translateX(0)}
+ .drawerShade{display:block;position:fixed;inset:0;z-index:35;background:#020817a8;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+ .drawerShade.visible{opacity:1;visibility:visible}
+ .brand{padding:0 8px 24px;border-bottom:1px solid #2a3b56;margin-bottom:12px;color:#f2f7ff}
+ .brand .logo{background:linear-gradient(135deg,#32d4e8,#2376e8);color:#071d32}
+ .brand small{color:#91a7c6}
+ .drawerClose{display:grid;place-items:center;margin-left:auto;width:34px;height:34px;border:0;background:transparent;color:#aebbd0;font-size:28px;font-weight:300;cursor:pointer}
+ .side .navtitle{display:block;padding:13px 10px 8px;color:#8a9bb6;font-size:10px;letter-spacing:1.3px}
+ .navtitle-tools{padding-top:22px!important}
+ .nav{display:grid;overflow:visible;gap:5px;padding:0}
+ .nav a{display:flex;align-items:center;gap:13px;white-space:normal;padding:13px 14px;border-radius:12px;color:#b3bfd2;font-size:13px;font-weight:600}
+ .nav a span{width:20px;font-size:17px;color:#8798b2}
+ .nav a.active,.nav a:hover{background:#17384e;border-color:#1b5369;color:#45d3ed;position:relative}
+ .nav a.active:before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 4px 4px 0;background:#38d4ed}
+ .nav a.active span,.nav a:hover span{color:#38d4ed}
+ .sideinfo{display:block;margin-top:26px}
+ .main{padding:14px 12px 34px}
+ .top{top:6px;margin-bottom:20px;padding:10px 12px}
+ .menuToggle{display:grid;place-items:center;width:38px;height:38px;border:1px solid #dce5f0;border-radius:10px;background:#fff;color:#243b5a;font-size:19px;cursor:pointer}
+ .hero{align-items:flex-start;flex-direction:column}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .panel{padding:15px}
+}
+@media(max-width:390px){.stats{grid-template-columns:1fr}.crumb{font-size:10px}}
 </style></head><body>
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
-<div id="appView" class="app hidden"><aside class="side"><div class="brand"><div class="logo">S</div><div>SkieePay<small>ADMIN CONSOLE</small></div></div><div class="navtitle">WORKSPACE</div><nav class="nav"><a class="active" href="#overview"><span>▦</span> Overview</a><a href="#businesses"><span>▣</span> Bisnis</a><a href="#transactions"><span>↔</span> Transaksi</a></nav><div class="navtitle navtitle-tools">PAYMENT OPERATIONS</div><nav class="nav"><a href="#events"><span>⌁</span> Callback VIPayment</a><a href="#paymentEvents"><span>◉</span> Payment events</a><a href="#ledger"><span>▤</span> Ledger keuangan</a><a href="sandbox.html"><span>⚗</span> Sandbox</a><a href="gopay.html"><span>◈</span> GoPay Merchant</a></nav><div class="sideinfo"><b>Mode aman aktif</b><br>Dashboard hanya membaca data. Tidak tersedia tombol untuk memalsukan pembayaran sukses.</div></aside>
-<main class="main" id="overview"><header class="top"><div class="crumb">SkieePay / Admin / Overview</div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div><button class="btn secondary" id="logoutBtn">Keluar</button></div></header>
+<div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer"><div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div><div class="navtitle">UTAMA</div><nav class="nav"><a class="active" href="#overview"><span>▦</span> Overview</a><a href="#businesses"><span>▣</span> Bisnis</a><a href="#transactions"><span>↔</span> Transaksi</a></nav><div class="navtitle navtitle-tools">KEUANGAN & PEMBAYARAN</div><nav class="nav"><a href="#ledger"><span>▤</span> Ledger keuangan</a><a href="#paymentEvents"><span>◉</span> Payment events</a><a href="#events"><span>⌁</span> Callback VIPayment</a></nav><div class="navtitle navtitle-tools">PENGEMBANG</div><nav class="nav"><a href="sandbox.html"><span>⚗</span> API Playground / Sandbox</a><a href="gopay.html"><span>◈</span> GoPay Merchant</a></nav><div class="sideinfo"><b>Mode aman aktif</b><br>Dashboard hanya membaca data. Tidak tersedia tombol untuk memalsukan pembayaran sukses.</div></aside>
+<main class="main" id="overview"><header class="top"><div class="topleft"><button class="menuToggle" id="menuToggle" aria-label="Buka menu">☰</button><div class="crumb">SkieePay / Admin / Overview</div></div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div><button class="btn secondary" id="logoutBtn">Keluar</button></div></header>
 <section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Ringkasan transaksi.</h1><p>Data langsung dari Supabase. Perbarui untuk mengambil status terbaru.</p></div><div class="actions"><a class="btn" href="sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section>
 <section class="stats"><div class="stat"><div class="stathead">Total invoice</div><strong id="totalInvoices">—</strong><small>Semua invoice tersimpan</small></div><div class="stat"><div class="stathead">Pembayaran sukses</div><strong id="paidInvoices">—</strong><small>Status pembayaran terverifikasi</small></div><div class="stat"><div class="stathead">Menunggu pembayaran</div><strong id="pendingInvoices">—</strong><small>Invoice belum lunas</small></div><div class="stat"><div class="stathead">Nilai lunas · 50 terbaru</div><strong id="paidValue">—</strong><small>Akumulasi dari daftar invoice terbaru</small></div></section>
 <section class="panel" id="businesses" style="margin:0 0 16px">
@@ -294,6 +325,14 @@ async function addBusiness(e){
  }catch(e){setMsg('businessMsg','Gagal menambah bisnis: '+e.message,'error')}
  finally{btn.disabled=false}
 }
+const drawer=$('sideDrawer'),shade=$('drawerShade');
+function closeDrawer(){drawer?.classList.remove('drawerOpen');shade?.classList.remove('visible');document.body.style.overflow=''}
+function openDrawer(){drawer?.classList.add('drawerOpen');shade?.classList.add('visible');document.body.style.overflow='hidden'}
+$('menuToggle')?.addEventListener('click',openDrawer);
+$('drawerClose')?.addEventListener('click',closeDrawer);
+shade?.addEventListener('click',closeDrawer);
+drawer?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeDrawer));
+window.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 $('loginForm').addEventListener('submit',async e=>{e.preventDefault();const b=$('loginBtn');b.disabled=true;b.textContent='Memverifikasi…';setMsg('loginMsg','');try{await signIn($('email').value.trim(),$('password').value);sessionStorage.setItem('skieepay_admin_session',JSON.stringify({access_token:accessToken,refresh_token:refreshToken}));showApp();await loadBusinesses();await loadData()}catch(err){setMsg('loginMsg',err.message,'error')}finally{b.disabled=false;b.textContent='Masuk ke dashboard'}});
 $('refreshBtn').addEventListener('click',async()=>{try{await loadBusinesses()}catch(e){setMsg('businessMsg',e.message,'error')}await loadData()});
 $('businessSelect').addEventListener('change',e=>{selectedBusinessId=e.target.value;loadData()});
