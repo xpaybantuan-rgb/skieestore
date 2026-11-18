@@ -28,7 +28,7 @@ h1{color:#191b22}.gradient{background:linear-gradient(100deg,#191b22 0%,#087BFF 
 .strip{background:#fff;border-color:#ececf1}.stripinner{color:#687080}
 .sectionhead p{color:#707887}.feature{background:#fff;border-color:#e9eaf0;box-shadow:0 9px 28px #20283b08}.ico{background:#EAFBFF;color:#087BFF}.feature p{color:#707887}
 .developer{background:linear-gradient(130deg,#fff,#F4FCFF);border-color:#CDEEFF;box-shadow:0 12px 34px #20283b08}.developer p{color:#687080}.code{background:#20232b;border-color:#303541;color:#e7eaf0}.statusline{color:#707887}.statusline strong{color:#a66b12}.lookup input{background:#fff;border-color:#e1e3e9;color:#191b22}.lookup input:focus{border-color:#087BFF}
-.footer{border-color:#e9eaf0;color:#858b98}.footer a{color:#0756D8}
+.footer{border-color:#e9eaf0;color:#858b98}.live{color:#0756D8;border-color:#BFEFFF;background:#EAFBFF}.footer a{color:#0756D8}
 
 </style>
 </head>
@@ -41,31 +41,31 @@ h1{color:#191b22}.gradient{background:linear-gradient(100deg,#191b22 0%,#087BFF 
 <main>
 <section class="wrap hero">
  <div>
-  <div class="eyebrow"><i class="dot"></i> PAYMENT INFRASTRUCTURE</div>
-  <h1>Kelola transaksi.<br><span class="gradient">Tetap terkendali.</span></h1>
-  <p class="lead">SkieePay menyiapkan fondasi pembayaran digital untuk bisnis: pengelolaan invoice, pemantauan status transaksi, dan integrasi webhook dalam satu alur yang rapi.</p>
-  <div class="actions"><a class="btn primary" href="admin.html">Buka dashboard admin <span>→</span></a><a class="btn" href="#developer">Lihat integrasi API</a></div>
-  <p class="subnote">Dibangun untuk kebutuhan operasional SKIEESTORE. Kanal penerimaan dana QRIS/e-wallet pelanggan akan diaktifkan setelah provider merchant resmi terhubung.</p>
+  <div class="eyebrow"><i class="dot"></i> PAYMENT GATEWAY UNTUK BISNIS DIGITAL</div>
+  <h1>Satu pintu untuk<br><span class="gradient">semua pembayaran.</span></h1>
+  <p class="lead">Kelola invoice, pantau status pembayaran, dan hubungkan sistem tokomu melalui satu dashboard. SkieePay dirancang untuk membantu bisnis digital mengelola alur pembayaran dengan lebih teratur.</p>
+  <div class="actions"><a class="btn primary" href="admin.html">Masuk Dashboard Merchant <span>→</span></a><a class="btn" href="#fitur">Jelajahi Fitur</a></div>
+  <p class="subnote">Untuk merchant dan developer yang membutuhkan pengelolaan transaksi terpusat. Ketersediaan pembayaran Live akan diumumkan setelah proses verifikasi integrasi selesai.</p>
  </div>
  <div class="visual"><div class="glow"></div><div class="mock">
-  <div class="mocktop"><div class="mockbrand">S / SkieePay Console</div><span class="live">● CORE ONLINE</span></div>
-  <div class="mocklabel">PAYMENT CONTROL</div><div class="mockamount">Invoice Engine</div>
-  <div class="mockgrid"><div class="mockitem"><small>INVOICE</small><b>Terpusat</b></div><div class="mockitem"><small>CALLBACK</small><b>Webhook-ready</b></div><div class="mockitem"><small>DATA</small><b>Supabase</b></div><div class="mockitem"><small>SECURITY</small><b>Server-side</b></div></div>
-  <div class="mocklabel">PAYMENT RAIL STATUS</div><div class="mockbar"><i></i></div><div class="mockfoot">Merchant payment provider · menunggu integrasi resmi</div>
+  <div class="mocktop"><div class="mockbrand">SkieePay · Merchant Console</div><span class="live">● DASHBOARD</span></div>
+  <div class="mocklabel">PAYMENT OVERVIEW</div><div class="mockamount">Kelola Transaksi</div>
+  <div class="mockgrid"><div class="mockitem"><small>INVOICE</small><b>Terpantau</b></div><div class="mockitem"><small>INTEGRASI</small><b>API & Webhook</b></div><div class="mockitem"><small>DATA</small><b>Tersimpan</b></div><div class="mockitem"><small>AKSES</small><b>Dashboard Admin</b></div></div>
+  <div class="mocklabel">STATUS LAYANAN</div><div class="mockbar"><i></i></div><div class="mockfoot">Mode Live belum dibuka · pengujian dan integrasi sedang disiapkan</div>
  </div></div>
 </section>
-<div class="strip"><div class="wrap stripinner"><span><b class="check">✓</b> Invoice tersimpan di database</span><span><b class="check">✓</b> Callback VIPayment terpisah</span><span><b class="check">✓</b> Akses admin terlindungi</span><span><b class="check">✓</b> Status transaksi dapat dipantau</span></div></div>
+<div class="strip"><div class="wrap stripinner"><span><b class="check">✓</b> Dashboard merchant</span><span><b class="check">✓</b> Manajemen invoice</span><span><b class="check">✓</b> Integrasi API</span><span><b class="check">✓</b> Pemantauan transaksi</span></div></div>
 <section class="wrap section" id="fitur">
- <div class="sectionhead"><div class="eyebrow">BUILT FOR OPERATIONS</div><h2>Fondasi yang jelas untuk setiap transaksi.</h2><p>Komponen inti disusun agar status pembayaran, proses supplier, dan data transaksi tidak tercampur.</p></div>
+ <div class="sectionhead"><div class="eyebrow">FITUR UTAMA</div><h2>Semua yang dibutuhkan untuk mengelola pembayaran.</h2><p>Mulai dari pemantauan invoice hingga alat integrasi developer, disusun dalam satu pengalaman merchant yang konsisten.</p></div>
  <div class="features">
-  <article class="feature"><div class="ico">▤</div><h3>Invoice Engine</h3><p>Buat invoice dengan kode unik, nominal IDR, metode pembayaran, dan batas waktu. Halaman pelanggan dapat melihat status invoice.</p></article>
-  <article class="feature"><div class="ico">⌁</div><h3>Webhook terverifikasi</h3><p>Callback VIPayment divalidasi dengan signature dan pembatasan IP. Status fulfillment supplier tetap terpisah dari pembayaran pelanggan.</p></article>
-  <article class="feature"><div class="ico">◈</div><h3>Kontrol & keamanan</h3><p>Secret disimpan di Cloudflare Worker. Database memakai RLS, sementara dashboard admin dibatasi untuk akun pemilik.</p></article>
+  <article class="feature"><div class="ico">▤</div><h3>Manajemen Invoice</h3><p>Buat dan pantau invoice, lihat nominal, metode pembayaran, batas waktu, serta status transaksi dari dashboard.</p></article>
+  <article class="feature"><div class="ico">⌁</div><h3>Integrasi API & Webhook</h3><p>Siapkan koneksi server-to-server dan endpoint notifikasi agar aplikasi merchant dapat terhubung dengan SkieePay.</p></article>
+  <article class="feature"><div class="ico">◈</div><h3>Kontrol Merchant</h3><p>Kelola API Key, endpoint webhook, dan akses dashboard melalui area merchant yang dibatasi untuk admin.</p></article>
  </div>
 </section>
 <section class="wrap section" id="developer">
  <div class="developer">
-  <div><div class="eyebrow">FOR DEVELOPERS</div><h2>Integrasi lewat satu API.</h2><p>Worker menjadi gerbang server-side antara aplikasi, Supabase, dan callback supplier. Kunci API tidak ditanam di halaman browser.</p><div class="statusline"><span class="dot"></span> API service <strong id="apiState">memeriksa…</strong></div></div>
+  <div><div class="eyebrow">UNTUK DEVELOPER</div><h2>Hubungkan aplikasi melalui API.</h2><p>Gunakan kredensial server-side dan endpoint SkieePay untuk mengintegrasikan proses pembuatan invoice. Jangan pernah menaruh secret key di browser.</p><div class="statusline"><span class="dot"></span> API service <strong id="apiState">memeriksa…</strong></div></div>
   <pre class="code"><span class="green">POST</span> /v1/invoices
 Content-Type: application/json
 X-SkieePay-Key: YOUR_SERVER_KEY
@@ -80,13 +80,14 @@ X-SkieePay-Key: YOUR_SERVER_KEY
 <span class="green">POST</span> /webhooks/vipayment</pre>
  </div>
 </section>
-<section class="wrap section" id="invoice">
- <div class="sectionhead"><div class="eyebrow">INVOICE LOOKUP</div><h2>Cek status invoice.</h2><p>Masukkan kode invoice yang kamu terima untuk membuka halaman detail dan status terbaru.</p>
+<section class="wrap section" id="cara-kerja"><div class="sectionhead"><div class="eyebrow">ALUR PEMBAYARAN</div><h2>Alur yang mudah dipahami.</h2><p>SkieePay memusatkan proses transaksi agar merchant dapat memantau setiap tahap dengan jelas.</p></div><div class="features"><article class="feature"><div class="ico">01</div><h3>Buat invoice</h3><p>Aplikasi merchant mengirim nominal dan detail transaksi ke sistem SkieePay.</p></article><article class="feature"><div class="ico">02</div><h3>Pantau pembayaran</h3><p>Status invoice dapat diperiksa melalui dashboard dan halaman cek invoice.</p></article><article class="feature"><div class="ico">03</div><h3>Terima notifikasi</h3><p>Webhook disiapkan untuk mengirim pembaruan status ke sistem merchant setelah jalur Live tersedia.</p></article></div></section>
+<section class="wrap section"><div class="developer"><div><div class="eyebrow">MERCHANT AREA</div><h2>Kelola operasional dari satu dashboard.</h2><p>Pantau transaksi, kelola API Key, atur endpoint webhook, dan uji integrasi melalui Sandbox.</p><div class="actions"><a class="btn primary" href="admin.html">Buka Dashboard Merchant →</a><a class="btn" href="sandbox.html">Buka Sandbox</a></div></div><div class="code">RINGKASAN · TRANSAKSI · SALDO<br>API KEY · WEBHOOK · SANDBOX<br><br><span class="green">SkieePay Merchant Console</span><br>Mode: Test / Live*<br><br>*Live masih dinonaktifkan selama verifikasi.</div></div></section>\n<section class="wrap section" id="invoice">
+ <div class="sectionhead"><div class="eyebrow">INVOICE LOOKUP</div><h2>Cek status invoice.</h2><p>Masukkan kode invoice untuk melihat detail dan status transaksi terbaru.</p>
   <form class="lookup" id="lookupForm"><input id="invoiceCode" placeholder="Contoh: SKP..." autocomplete="off" maxlength="35" required><button class="btn primary">Lihat invoice →</button></form>
  </div>
 </section>
 </main>
-<footer class="footer"><div class="wrap footerinner"><span>© 2026 SkieePay · Payment infrastructure by SKIEESTORE</span><span><a href="admin.html">Admin</a> · <a href="invoice.html">Invoice</a></span></div></footer>
+<footer class="footer"><div class="wrap footerinner"><span>© 2026 SkieePay · Payment Gateway Platform</span><span><a href="admin.html">Admin</a> · <a href="invoice.html">Invoice</a></span></div></footer>
 <script>
 const API='https://skieepay-api.xpaybantuan.workers.dev';
 fetch(API+'/health',{cache:'no-store'}).then(r=>r.json()).then(d=>{
