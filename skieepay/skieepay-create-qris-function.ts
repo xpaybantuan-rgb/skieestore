@@ -1,7 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const STATIC_QRIS = "00020101021126610014COM.GO-JEK.WWW01189360091432644747540210G2644747540303UMI51440014ID.CO.QRIS.WWW0215ID10266381975600303UMI5204899953033605802ID5925skieestore, Digital & Kre6013LUBUK LINGGAU61053161662070703A0163049575";
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-skieepay-key",
@@ -44,8 +43,8 @@ function crc16(input: string): string {
   }
   return crc.toString(16).toUpperCase().padStart(4, "0");
 }
-function makeDynamicQris(amount: number): string {
-  const base = STATIC_QRIS.slice(0, -8);
+function makeDynamicQris(staticQris: string, amount: number): string {
+  const base = staticQris.trim().slice(0, -8);
   const tags = parseTlv(base);
   const poi = tags.find(t => t.id === "01");
   if (!poi || poi.value !== "11") throw new Error("QR sumber bukan QRIS statis yang dikenali");
@@ -70,12 +69,14 @@ Deno.serve(async (req: Request) => {
     if (!Number.isSafeInteger(amount) || amount < 1 || amount > 100000000) return json({ error: "amount harus integer rupiah positif." }, 400);
     const expires = body?.expires_minutes === undefined ? 15 : Number(body.expires_minutes);
     if (!Number.isInteger(expires) || expires < 5 || expires > 60) return json({ error: "expires_minutes harus 5-60." }, 400);
-    const qrString = makeDynamicQris(amount);
+    const staticQris = Deno.env.get("SKIEEPAY_QRIS_STATIC") || "";
+    if (!staticQris) return json({ error: "QRIS merchant SkieePay belum dikonfigurasi. Pembayaran live tetap dinonaktifkan." }, 503);
+    const qrString = makeDynamicQris(staticQris, amount);
     const db = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const { data, error } = await db.rpc("skieepay_create_invoice", {
       p_amount: amount, p_order_id: body?.order_id ?? null,
       p_customer_ref: typeof body?.customer_ref === "string" ? body.customer_ref.slice(0, 120) : null,
-      p_payment_method: "qris", p_payment_payload: JSON.stringify({ source: "skieestore_static_qris", qr_string: qrString }),
+      p_payment_method: "qris", p_payment_payload: JSON.stringify({ source: "skieepay_static_qris", qr_string: qrString }),
       p_expires_minutes: expires
     });
     if (error || !data?.invoice_code) {
@@ -85,8 +86,8 @@ Deno.serve(async (req: Request) => {
     return json({
       ok: true, invoice_id: data.invoice_id, invoice_code: data.invoice_code,
       amount: data.amount, currency: "IDR", status: "pending", payment_method: "qris",
-      merchant_name: "SKIEESTORE, DIGITAL & KRE", qr_string: qrString,
-      expires_at: data.expires_at, qris_mode: "generated_from_static_merchant_qris",
+      merchant_name: "SkieePay Merchant", qr_string: qrString,
+      expires_at: data.expires_at, qris_mode: "generated_from_skieepay_static_qris",
       payment_confirmation: "automatic_mutation_feed_not_connected"
     }, 201);
   } catch (error) {
