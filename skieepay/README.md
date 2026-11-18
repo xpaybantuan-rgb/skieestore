@@ -1,88 +1,47 @@
-# SkieePay — private payment engine
+# SkieePay — independent payment gateway
 
-SkieePay runs separately from the SKIEESTORE storefront and is reserved for businesses owned by the same owner. It is a private multi-business payment engine, not a public merchant gateway. The public landing page is `index.html`; the owner dashboard is `admin.html`; customer invoice lookup is `invoice.html?code=SKP...`.
+SkieePay is maintained as a separate application inside the shared GitHub repository. Cloudflare Pages serves this folder with root directory `/skieepay`; SKIEESTORE keeps its own root application and domain. Both may use the same Cloudflare account and Supabase project, while SkieePay code and `skieepay_*` data remain separate.
 
-## Private multi-business foundation\n- Private business registry: `skieepay_businesses`. The first active business is `xpaypoint` (SKIEESTORE).\n- Every invoice now has a required `business_id`; existing invoices are backfilled to SKIEESTORE.\n- Create invoices with optional `business_code` (defaults to the internal legacy code `xpaypoint` for compatibility).\n- Authenticated private API route `GET /v1/businesses` lists the owner's registered businesses.\n- New owned businesses can be added by the owner through a controlled admin workflow; public merchant registration is intentionally not provided.\n\n## Implemented foundation
-- Invoice creation and lookup through the Cloudflare Worker.
-- Supabase invoice, payment-event, and ledger tables with RLS enabled.
-- VIPayment callback receiver at `POST /webhooks/vipayment`.
-- VIPayment callback signature validation using the precomputed MD5 value supplied in `X-Client-Signature`.
-- VIPayment callback source IP allowlist (official VIPayment docs list `178.248.73.218`).
-- Idempotent callback event storage and invoice fulfillment status updates.
-- Link a VIPayment transaction to an invoice using `POST /v1/invoices/:id/vipayment`.
+## Components
 
-## Worker URLs
-- Health: `https://skieepay-api.xpaybantuan.workers.dev/health`
-- VIPayment callback: `https://skieepay-api.xpaybantuan.workers.dev/webhooks/vipayment`
+- Public site: `index.html`
+- Owner dashboard: `admin.html`
+- Invoice lookup: `invoice.html`
+- Sandbox: `sandbox.html`
+- GoPay Merchant connection: `gopay.html`
+- API Worker: `https://skieepay-api.xpaybantuan.workers.dev`
 
-Set this callback URL in VIPayment API settings.
+## Worker configuration
 
-## Cloudflare Worker variables and secrets
-Set these in Cloudflare → Workers & Pages → `skieepay-api` → Settings → Variables and Secrets:
+| Name | Purpose |
+| --- | --- |
+| `SUPABASE_URL` | Shared Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only Supabase service role key |
+| `SKIEEPAY_API_KEY` | Owner test API key |
+| `SKIEEPAY_LIVE_ENABLED` | Keep `false` until payment acceptance and settlement are verified |
+| `SKIEEPAY_QRIS_STATIC` | QRIS payload owned by SkieePay; never copy SKIEESTORE's QRIS |
 
-| Name | Type | Value |
-|---|---|---|
-| `SUPABASE_URL` | Variable | `https://rjgeitbkpcyymgemcztx.supabase.co` |
-| `SUPABASE_SERVICE_ROLE_KEY` | Secret | Supabase service-role key |
-| `SKIEEPAY_API_KEY` | Secret | A long random server API key |
-| `VIPAYMENT_API_ID` | Secret | VIPayment API ID |
-| `VIPAYMENT_API_KEY` | Secret | VIPayment API key; Worker calculates the callback signature server-side |
-| `VIPAYMENT_ENFORCE_IP` | Variable (optional) | Keep unset or set `true` to enforce the documented source IP |
+Never expose the service role key, API secrets, merchant tokens, or OTP in frontend code or chat.
 
-Never put service-role keys, API keys, or callback secrets in frontend code or GitHub.
+## Provider isolation
+
+- SkieePay does not call SKIEESTORE's VIPayment supplier or fulfillment endpoints.
+- Legacy VIPayment database records are retained for historical integrity only; the SkieePay Worker and dashboard no longer read or accept VIPayment callbacks.
+- Existing GoPay sessions without the encrypted `account_scope=skieepay` marker are ignored. Reconnect a GoPay Merchant account specifically for SkieePay.
+- SkieePay's QRIS payload must be configured independently using `SKIEEPAY_QRIS_STATIC`. The previous embedded SKIEESTORE QRIS is not used.
+- The GoBiz connection uses non-public endpoints and is not an official public merchant API. It may stop working if GoBiz changes its service.
 
 ## API
-- `GET /health`
-- `GET /public/invoices/:invoice_code` — public, read-only invoice status; invoice code is an unguessable public reference
-- `GET /v1/businesses` — requires `X-SkieePay-Key`; lists private businesses\n- `POST /v1/invoices` — requires `X-SkieePay-Key`; accepts optional `business_code`
-- `GET /v1/invoices/:uuid` — requires `X-SkieePay-Key`
-- `POST /v1/invoices/:uuid/vipayment` — requires `X-SkieePay-Key`; stores the VIPayment `trxid` on the invoice
-- `POST /webhooks/vipayment` — validates VIPayment callback signature and source IP
 
-## Customer invoice page
-- Public landing page: `index.html`.
-- Owner dashboard: `admin.html`.
-- Customer invoice page: `invoice.html?code=SKP...`.
-- The page reads only a small allowlist of public invoice fields and refreshes status automatically.
-- New invoice codes use 128-bit random values. Existing 64-bit invoice codes remain supported.
+- `GET /health` — Worker health and safe mode.
+- `GET /public/invoices/:invoice_code` — public invoice status lookup.
+- `POST /v1/invoices` — create an invoice with a valid SkieePay API key.
+- `GET /v1/invoices/:uuid` — retrieve an invoice with a valid SkieePay API key.
+- `POST /webhooks/payment` — intentionally unavailable until a verified payment provider adapter is connected.
 
-## Payment QR and proof of funds
-VIPayment is the game/top-up supplier, not the merchant payment-acquiring rail. Its callback reports the fulfillment status of a VIPayment order; it does not prove that the buyer paid SkieePay. The generic payment webhook intentionally remains disabled until a real payment provider/merchant QRIS source is connected.
+## Safety
 
-A QR code containing an invoice URL or reference is not a QRIS payment QR. Do not mark an invoice `paid` based on a QR scan, redirect, screenshot, or customer button. Only a trusted provider notification plus amount/reference reconciliation can confirm funds.
-
-## Security
-- Keep all provider credentials in Cloudflare secrets.
-- The browser must never mark invoices paid.
-- Use idempotency and reconcile amount, invoice reference, merchant destination, and provider transaction ID.
-- Do not trigger VIPayment fulfillment until the payment invoice has been independently confirmed as paid.
-
-
-## Sandbox Playground
-- Owner-only test playground: `sandbox.html`.
-- The `skieepay-sandbox` Edge Function requires a valid Supabase user JWT and membership in `xpaypoint_admins`.
-- Sandbox invoices are explicitly tagged `mode = 'test'`.
-- Test simulation can mark only test invoices as paid or expired.
-- Sandbox simulation does not call GoPay, a QRIS provider, or VIPayment fulfillment.
-- Invoice codes generated by the database use the public route format `SKP` + 32 hexadecimal characters.
-- Live payment confirmation remains disabled until an independently verified merchant payment adapter is connected.
-
-
-## Developer backend
-- Supabase Edge Function `skieepay-admin` is owner-only (`verify_jwt = true`) and checks membership in `xpaypoint_admins`.
-- It supports test API key creation/list/revocation, test webhook endpoint creation/disable/test delivery, webhook delivery history, and test payment-method settings.
-- API keys are stored as SHA-256 hashes. The complete test key is returned only at creation.
-- Cloudflare Worker `skieepay-api` accepts active test keys through `X-SkieePay-Key`; revoked keys stop working.
-- Webhook signing format: `SkieePay-Signature: t=<unix_timestamp>,v1=<hex_hmac_sha256>`, where the HMAC input is `<timestamp>.<raw_json_body>`.
-- Sandbox payment simulations dispatch signed `payment.paid` or `payment.expired` webhooks to active test endpoints.
-- Live API keys and live payment confirmation remain disabled until a real payment adapter is verified.
-
-
-## GoPay Merchant private connection
-- Owner connection UI: `gopay.html`.
-- Worker routes: `POST /admin/gopay/request-otp`, `POST /admin/gopay/verify-otp`, `GET /admin/gopay/status`, `POST /admin/gopay/refresh`, `GET /admin/gopay/transactions`, `POST /admin/gopay/disconnect`.
-- Admin routes require a Supabase JWT and membership in `xpaypoint_admins`.
-- OTP attempt and GoPay session payloads are encrypted with AES-256-GCM. The master key is stored in Supabase Vault and exposed only through a service-role-only RPC.
-- Access-token refresh is attempted automatically before expiry when the admin status or transaction routes are called. This is not a promise of a permanent session; GoPay may revoke or change refresh-token behavior.
-- The GoPay adapter uses private, undocumented GoBiz endpoints. The integration is nonofficial and can stop working if those endpoints change.
-- Live invoice generation and transaction matching remain disabled until the sandbox flow has been tested and the merchant session has been verified.
+- Sandbox and live invoice modes are separate.
+- Live payment confirmation remains disabled until a dedicated SkieePay merchant account, QRIS settlement route, and transaction verification are tested end-to-end.
+- A customer payment is marked paid only by a verified payment rail, never by a product supplier or an unverified notification.
+- Webhook deliveries are signed with HMAC-SHA256 and include a unique event ID.
