@@ -234,10 +234,29 @@ th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbod
  .panel{padding:15px}
 }
 @media(max-width:390px){.stats{grid-template-columns:1fr}.crumb{font-size:10px}}
+
+.drawerBottom{margin-top:34px;padding-top:18px;border-top:1px solid #2a3b56;display:grid;gap:6px}
+.drawerBottom a,.drawerLogout{display:flex;align-items:center;gap:13px;width:100%;padding:13px 14px;border:0;border-radius:12px;background:#192337;color:#dce6f5;text-decoration:none;font:600 13px Inter,system-ui;cursor:pointer;text-align:left}
+.drawerBottom a span:first-child,.drawerLogout span{width:20px;text-align:center;color:#aabbd2;font-size:17px}
+.drawerBottom .external{margin-left:auto;color:#9aa9be}
+.drawerLogout{background:transparent;color:#aebbd0}
+.drawerLogout:hover{background:#1a2a42;color:#fff}
+@media(min-width:761px){.drawerBottom{margin-top:auto}.side{display:flex;flex-direction:column;min-height:100vh}.sideinfo{margin-top:24px}}
 </style></head><body>
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
-<div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer"><div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div><div class="navtitle">UTAMA</div><nav class="nav"><a class="active" href="#overview"><span>▦</span> Overview</a><a href="#businesses"><span>▣</span> Bisnis</a><a href="#transactions"><span>↔</span> Transaksi</a></nav><div class="navtitle navtitle-tools">KEUANGAN & PEMBAYARAN</div><nav class="nav"><a href="#ledger"><span>▤</span> Ledger keuangan</a><a href="#paymentEvents"><span>◉</span> Payment events</a><a href="#events"><span>⌁</span> Callback VIPayment</a></nav><div class="navtitle navtitle-tools">PENGEMBANG</div><nav class="nav"><a href="sandbox.html"><span>⚗</span> API Playground / Sandbox</a><a href="gopay.html"><span>◈</span> GoPay Merchant</a></nav><div class="sideinfo"><b>Mode aman aktif</b><br>Dashboard hanya membaca data. Tidak tersedia tombol untuk memalsukan pembayaran sukses.</div></aside>
-<main class="main" id="overview"><header class="top"><div class="topleft"><button class="menuToggle" id="menuToggle" aria-label="Buka menu">☰</button><div class="crumb">SkieePay / Admin / Overview</div></div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div><button class="btn secondary" id="logoutBtn">Keluar</button></div></header>
+<div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer">
+<div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div>
+<div class="navtitle">UTAMA</div><nav class="nav">
+<a class="active" href="#overview"><span>⌂</span> Ringkasan</a><a href="#transactions"><span>▤</span> Transaksi</a></nav>
+<div class="navtitle navtitle-tools">KEUANGAN</div><nav class="nav">
+<a href="#ledger"><span>▱</span> Saldo</a><a href="#ledger"><span>↓</span> Pencairan</a><a href="#businesses"><span>▥</span> Rekening Bank</a></nav>
+<div class="navtitle navtitle-tools">PENGEMBANG</div><nav class="nav">
+<a href="sandbox.html"><span>〈〉</span> Kunci API</a><a href="sandbox.html"><span>▣</span> API Playground</a><a href="#events"><span>♧</span> Webhook</a></nav>
+<div class="navtitle navtitle-tools">PENGATURAN</div><nav class="nav">
+<a href="#paymentEvents"><span>▱</span> Metode Pembayaran</a><a href="#businesses"><span>▣</span> Profil Bisnis</a></nav>
+<div class="drawerBottom"><a href="#businesses"><span>☼</span> Kelola Akun <span class="external">↗</span></a><button id="logoutBtn" class="drawerLogout"><span>⇥</span> Keluar</button></div>
+</aside>
+<main class="main" id="overview"><header class="top"><div class="topleft"><button class="menuToggle" id="menuToggle" aria-label="Buka menu">☰</button><div class="crumb">SkieePay / Admin / Overview</div></div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div></div></header>
 <section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Ringkasan transaksi.</h1><p>Data langsung dari Supabase. Perbarui untuk mengambil status terbaru.</p></div><div class="actions"><a class="btn" href="sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section>
 <section class="stats"><div class="stat"><div class="stathead">Total invoice</div><strong id="totalInvoices">—</strong><small>Semua invoice tersimpan</small></div><div class="stat"><div class="stathead">Pembayaran sukses</div><strong id="paidInvoices">—</strong><small>Status pembayaran terverifikasi</small></div><div class="stat"><div class="stathead">Menunggu pembayaran</div><strong id="pendingInvoices">—</strong><small>Invoice belum lunas</small></div><div class="stat"><div class="stathead">Nilai lunas · 50 terbaru</div><strong id="paidValue">—</strong><small>Akumulasi dari daftar invoice terbaru</small></div></section>
 <section class="panel" id="businesses" style="margin:0 0 16px">
