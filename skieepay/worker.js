@@ -94,7 +94,7 @@ async function decryptGopayPayload(env,row) {
   return JSON.parse(new TextDecoder().decode(decrypted));
 }
 async function loadGopaySession(env) {
-  const rows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=*&limit=1");
+  const rows=await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant&select=*&limit=1");
   if(!rows.length)return null;
   const session=await decryptGopayPayload(env,rows[0]);
   // Never reuse a legacy merchant session that was not explicitly connected for SkieePay.
@@ -105,7 +105,7 @@ async function loadGopaySession(env) {
 }
 async function saveGopaySession(env,session) {
   const encrypted=await encryptGopayPayload(env,session);
-  const row={provider:"gopay_merchant",...encrypted,merchant_id:session.merchant_id||null,
+  const row={provider:"skieepay_gopay_merchant",...encrypted,merchant_id:session.merchant_id||null,
     outlet_name:session.outlet_name||null,masked_phone:maskGopayPhone(session.phone_number),
     expires_at:session.expires_at||null,updated_at:new Date().toISOString()};
   await db(env,"skieepay_provider_sessions?on_conflict=provider",{method:"POST",
@@ -143,7 +143,7 @@ async function isSkieePayAdmin(request,env) {
   if(!userResponse.ok)return false;
   const user=await userResponse.json();
   if(!user?.id)return false;
-  const admins=await db(env,"xpaypoint_admins?user_id=eq."+encodeURIComponent(user.id)+"&select=user_id&limit=1");
+  const admins=await db(env,"skieepay_admins?user_id=eq."+encodeURIComponent(user.id)+"&select=user_id&limit=1");
   return !!admins.length;
 }
 async function refreshGopaySession(env,session) {
@@ -160,7 +160,7 @@ async function refreshGopaySession(env,session) {
     expires_at:new Date(Date.now()+Number(data.expires_in||86400)*1000).toISOString(),
     updated_at:new Date().toISOString()};
   await saveGopaySession(env,updated);
-  const rows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
+  const rows=await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant",{method:"PATCH",
     body:JSON.stringify({last_refresh_at:new Date().toISOString()})});
   return updated;
 }
@@ -267,10 +267,10 @@ async function syncGopayPendingInvoices(env,onlyCode=null,providedTransactions=n
   const invoices=await db(env,"skieepay_invoices?"+filter);
   if(!invoices.length)return {checked:0,paid:0};
   if(!providedTransactions){
-    const sessionRows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=last_polled_at&limit=1");
+    const sessionRows=await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant&select=last_polled_at&limit=1");
     const last=Date.parse(sessionRows[0]?.last_polled_at||"");
     if(Number.isFinite(last)&&Date.now()-last<8000)return {checked:invoices.length,paid:0,throttled:true};
-    await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
+    await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant",{method:"PATCH",
       body:JSON.stringify({last_polled_at:new Date().toISOString()})});
   }
   const session=await getValidGopaySession(env);
@@ -317,11 +317,11 @@ async function gopayAdminRoutes(request,env,url) {
   try {
     if(url.pathname==="/admin/gopay/status"&&request.method==="GET") {
       let session=await loadGopaySession(env);
-      if(!session)return reply({ok:true,connected:false,provider:"gopay_merchant"});
+      if(!session)return reply({ok:true,connected:false,provider:"skieepay_gopay_merchant"});
       let refreshError=null;
       try {session=await getValidGopaySession(env);} catch(e) {refreshError=e.message;}
-      const rows=await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant&select=last_refresh_at,last_polled_at&limit=1");
-      return reply({ok:true,connected:true,provider:"gopay_merchant",phone:maskGopayPhone(session.phone_number),
+      const rows=await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant&select=last_refresh_at,last_polled_at&limit=1");
+      return reply({ok:true,connected:true,provider:"skieepay_gopay_merchant",phone:maskGopayPhone(session.phone_number),
         merchant_id:session.merchant_id||null,outlet_name:session.outlet_name||null,
         expires_at:session.expires_at||null,refresh_token_available:!!session.refresh_token,
         qris_static_configured:!!session.qris_static,refresh_error:refreshError,
@@ -331,7 +331,7 @@ async function gopayAdminRoutes(request,env,url) {
       const body=await request.json();let phone=String(body.phone||"").replace(/\D/g,"");
       if(phone.startsWith("62"))phone=phone.slice(2);if(phone.startsWith("0"))phone=phone.slice(1);
       if(!/^8\d{7,13}$/.test(phone))return jsonError("Nomor HP GoPay Merchant tidak valid");
-      const existing=await db(env,"skieepay_provider_login_attempts?provider=eq.gopay_merchant&select=expires_at&limit=1");
+      const existing=await db(env,"skieepay_provider_login_attempts?provider=eq.skieepay_gopay_merchant&select=expires_at&limit=1");
       if(existing.length&&Date.parse(existing[0].expires_at)>Date.now())return jsonError("OTP sebelumnya masih berlaku. Gunakan OTP tersebut atau tunggu kedaluwarsa.",429);
       const deviceId=crypto.randomUUID();
       const response=await fetch(GOBIZ_OTP_URL,{method:"POST",headers:gopayDeviceHeaders(deviceId),
@@ -344,13 +344,13 @@ async function gopayAdminRoutes(request,env,url) {
       const encrypted=await encryptGopayPayload(env,{phone_number:phone,otp_token:otpToken,device_id:deviceId});
       await db(env,"skieepay_provider_login_attempts?on_conflict=provider",{method:"POST",
         headers:{Prefer:"resolution=merge-duplicates,return=representation"},
-        body:JSON.stringify({provider:"gopay_merchant",...encrypted,expires_at:new Date(Date.now()+expiresIn*1000).toISOString()})});
+        body:JSON.stringify({provider:"skieepay_gopay_merchant",...encrypted,expires_at:new Date(Date.now()+expiresIn*1000).toISOString()})});
       return reply({ok:true,otp_sent:true,phone:maskGopayPhone("62"+phone),expires_in:expiresIn});
     }
     if(url.pathname==="/admin/gopay/verify-otp"&&request.method==="POST") {
       const body=await request.json(),otp=String(body.otp||"").trim();
       if(!/^\d{4,8}$/.test(otp))return jsonError("Kode OTP harus 4–8 digit");
-      const attempts=await db(env,"skieepay_provider_login_attempts?provider=eq.gopay_merchant&select=*&limit=1");
+      const attempts=await db(env,"skieepay_provider_login_attempts?provider=eq.skieepay_gopay_merchant&select=*&limit=1");
       if(!attempts.length||Date.parse(attempts[0].expires_at)<=Date.now())return jsonError("Permintaan OTP sudah kedaluwarsa. Minta OTP baru.",410);
       const pending=await decryptGopayPayload(env,attempts[0]);
       const response=await fetch(GOBIZ_TOKEN_URL,{method:"POST",headers:gopayDeviceHeaders(pending.device_id),
@@ -375,9 +375,9 @@ async function gopayAdminRoutes(request,env,url) {
         cookie:"access_token="+data.access_token+"; refresh_token="+(data.refresh_token||"")+"; auth_method=goid",
         connected_at:new Date().toISOString()};
       await saveGopaySession(env,session);
-      await db(env,"skieepay_provider_login_attempts?provider=eq.gopay_merchant",{method:"DELETE"});
+      await db(env,"skieepay_provider_login_attempts?provider=eq.skieepay_gopay_merchant",{method:"DELETE"});
       return reply({ok:true,connected:true,phone:maskGopayPhone(session.phone_number),merchant_id:merchantId,outlet_name:outletName,
-        expires_at:session.expires_at,refresh_token_available:!!session.refresh_token,qris_static_configured:true});
+        expires_at:session.expires_at,refresh_token_available:!!session.refresh_token,qris_static_configured:!!session.qris_static});
     }
     if(url.pathname==="/admin/gopay/refresh"&&request.method==="POST") {
       const session=await loadGopaySession(env);if(!session)return jsonError("Akun belum terhubung",404);
@@ -385,8 +385,8 @@ async function gopayAdminRoutes(request,env,url) {
       return reply({ok:true,connected:true,expires_at:updated.expires_at,refresh_token_available:!!updated.refresh_token});
     }
     if(url.pathname==="/admin/gopay/disconnect"&&request.method==="POST") {
-      await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"DELETE"});
-      await db(env,"skieepay_provider_login_attempts?provider=eq.gopay_merchant",{method:"DELETE"});
+      await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant",{method:"DELETE"});
+      await db(env,"skieepay_provider_login_attempts?provider=eq.skieepay_gopay_merchant",{method:"DELETE"});
       return reply({ok:true,connected:false});
     }
     if(url.pathname==="/admin/gopay/transactions"&&request.method==="GET") {
@@ -415,7 +415,7 @@ async function gopayAdminRoutes(request,env,url) {
       }
       // Match only settled QRIS mutations against exactly one live pending invoice.
       const matching=await syncGopayPendingInvoices(env,null,tx);
-      await db(env,"skieepay_provider_sessions?provider=eq.gopay_merchant",{method:"PATCH",
+      await db(env,"skieepay_provider_sessions?provider=eq.skieepay_gopay_merchant",{method:"PATCH",
         body:JSON.stringify({last_polled_at:new Date().toISOString()})});
       return reply({ok:true,merchant_id:session.merchant_id,transactions,saved_count:savedCount,matching});
     }
