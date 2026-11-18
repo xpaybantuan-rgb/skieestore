@@ -20,8 +20,8 @@ header{height:76px;border-bottom:1px solid #e3eaf4;background:#ffffffd9;backdrop
 
 </style></head><body>
 <header class="wrap"><a class="brand" href="admin.html"><span class="logo">S</span>SkieePay <span class="small">/ GOPAY MERCHANT</span></a><div class="row"><a class="btn" href="sandbox.html">Sandbox</a><a class="btn" href="admin.html">Dashboard</a></div></header>
-<main class="wrap"><section class="hero"><div class="eyebrow">PRIVATE ACCOUNT CONNECTION</div><h1>GoPay Merchant</h1><p class="muted">Hubungkan akun GoPay Merchant SKIEESTORE melalui verifikasi OTP, lalu kelola sesi dan periksa mutasi dari backend SkieePay.</p></section>
-<div class="notice"><b>Integrasi nonresmi.</b> Koneksi ini menggunakan endpoint GoBiz yang tidak dipublikasikan sebagai API merchant umum. Perubahan sistem atau pencabutan sesi dapat memutus koneksi. OTP dimasukkan langsung di halaman ini—jangan kirim OTP, password, atau token ke chat.</div>
+<main class="wrap"><section class="hero"><div class="eyebrow">PRIVATE ACCOUNT CONNECTION</div><h1>GoPay Merchant</h1><p class="muted">Hubungkan akun GoPay Merchant milik SkieePay melalui verifikasi OTP. Sesi lama dari sistem lain tidak akan digunakan.</p></section>
+<div class="notice"><b>Integrasi nonresmi.</b> Koneksi ini memakai endpoint GoBiz nonpublik dan dapat berubah sewaktu-waktu. Akun harus khusus untuk SkieePay. QRIS milik SkieePay harus diatur terpisah melalui konfigurasi Worker SKIEEPAY_QRIS_STATIC; QRIS dari sistem toko tidak digunakan. OTP dimasukkan langsung di halaman ini—jangan kirim OTP, password, atau token ke chat.</div>
 <section class="grid">
 <div class="card"><h2>1. Hubungkan akun</h2><p class="muted">Masukkan nomor yang terdaftar di GoPay Merchant. Kode OTP akan dikirim oleh GoBiz.</p>
 <div class="field"><label for="phone">Nomor HP GoPay Merchant</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"></div>
