@@ -263,36 +263,30 @@ th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbod
  #sideDrawer .sideinfo{display:block!important;flex:0 0 auto!important;width:100%!important}
 }
 
-body[data-page="saldo"] .main>.stats,
-body[data-page="saldo"] .main>#businesses,
-body[data-page="saldo"] .main>.layout,
-body[data-page="saldo"] .main>section:not(.hero),
-body[data-page="saldo"] .main>.foot{display:none!important}
-body[data-page="saldo"] .main>.hero{display:flex}
-body[data-page="saldo"] .main>.page-content{display:block!important}
-body[data-page="saldo"] [data-route="saldo"]{background:linear-gradient(100deg,#183e72,#17335c)!important;border-color:#28558f!important;color:#fff!important}
-.page-content{display:none;margin-top:18px}
-.page-card{background:#fff;border:1px solid #e4eaf3;border-radius:17px;padding:22px;box-shadow:0 8px 26px #1c35500a;color:#17243a}
-.page-card h2{font-size:16px;margin:0 0 9px}.page-card p{color:#738198;line-height:1.65;font-size:13px}
-.page-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.page-note{padding:13px 15px;border-radius:11px;background:#eff6ff;border:1px solid #d5e7ff;color:#536982;font-size:12px;line-height:1.6}
-.page-note b{color:#155fc5}
-@media(max-width:760px){body[data-page="saldo"] .main>.hero{display:block}.page-card{padding:17px}}
-body[data-page="saldo"] .main>.page-content{display:none!important}body[data-page="saldo"] .main>.layout:has(#ledger){display:grid!important}body[data-page="saldo"] #ledger{display:block!important}body[data-page="saldo"] #paymentEvents{display:none!important}</style></head><body data-page="saldo">
+.page-content{display:none;margin:18px 0}.page-card{background:#fff;border:1px solid #e4eaf3;border-radius:16px;padding:22px;box-shadow:0 8px 26px #1c35500a;color:#17243a}
+.page-card h2{font-size:17px;margin:0 0 8px}.page-card h3{font-size:14px;margin:24px 0 10px}.page-card p{color:#738198;line-height:1.6;font-size:13px}
+.page-toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:16px}.page-note{padding:13px 15px;border-radius:11px;background:#eff6ff;border:1px solid #d5e7ff;color:#536982;font-size:12px;line-height:1.65;margin:14px 0}.page-note b{color:#155fc5}
+.secret-reveal{margin:16px 0;padding:15px;border:1px solid #b7d8ff;background:#f0f7ff;border-radius:12px}.secret-reveal code{display:block;overflow-wrap:anywhere;padding:12px;background:#fff;border:1px solid #dbe7f5;border-radius:8px;margin:9px 0;font-size:12px;color:#123b70}
+.form-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end;margin:18px 0}.form-grid label{font-size:12px;color:#53647d;display:grid;gap:7px}.form-grid input,.form-grid select{min-width:0;padding:11px;border:1px solid #dce5f0;border-radius:9px;background:white;color:#17243a}.form-grid .checkline{display:flex;align-items:center;gap:7px}.method-card{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;border:1px solid #e4eaf3;border-radius:12px;margin-top:13px}.method-card p{margin:5px 0 0}.page-actions{display:flex;gap:10px;margin:18px 0}.hidden{display:none!important}
+@media(max-width:760px){.page-card{padding:16px}.page-toolbar{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr 1fr}.method-card{align-items:flex-start;flex-direction:column}}
+.main>.stats,.main>#businesses,.main>.layout,.main>section:not(.hero):not(.page-content),.main>.foot{display:none!important}.main>.hero{display:flex!important}.main>.page-content{display:none!important}.main>.layout:has(#ledger){display:block!important}.main #ledger{display:block!important}</style></head><body data-page="saldo">
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
 <div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer">
 <div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div>
 <div class="navtitle">UTAMA</div><nav class="nav">
-<a href="/admin.html" data-route="ringkasan"><span>⌂</span> Ringkasan</a><a href="/transaksi/" data-route="transaksi"><span>▤</span> Transaksi</a></nav>
-<div class="navtitle navtitle-tools">KEUANGAN</div><nav class="nav">
-<a href="/saldo/" data-route="saldo"><span>▱</span> Saldo</a><a href="/pencairan/" data-route="pencairan"><span>↓</span> Pencairan</a><a href="/rekening-bank/" data-route="rekening-bank"><span>▥</span> Rekening Bank</a></nav>
+<a href="/admin.html" data-route="ringkasan"><span>⌂</span> Ringkasan</a>
+<a href="/transaksi/" data-route="transaksi"><span>▤</span> Transaksi</a>
+<a class="active" href="/saldo/" data-route="saldo"><span>▱</span> Saldo</a></nav>
 <div class="navtitle navtitle-tools">PENGEMBANG</div><nav class="nav">
-<a href="/kunci-api/" data-route="kunci-api"><span>〈〉</span> Kunci API</a><a href="/api-playground/" data-route="api-playground"><span>▣</span> API Playground</a><a href="/webhook/" data-route="webhook"><span>♧</span> Webhook</a></nav>
-<div class="navtitle navtitle-tools">PENGATURAN</div><nav class="nav">
-<a href="/metode-pembayaran/" data-route="metode-pembayaran"><span>▱</span> Metode Pembayaran</a><a href="/profil-bisnis/" data-route="profil-bisnis"><span>▣</span> Profil Bisnis</a></nav>
-<div class="drawerBottom"><a href="/profil-bisnis/"><span>☼</span> Kelola Akun <span class="external">↗</span></a><button id="logoutBtn" class="drawerLogout"><span>⇥</span> Keluar</button></div></aside>
+<a href="/kunci-api/" data-route="kunci-api"><span>〈〉</span> Kunci API</a>
+<a href="/webhook/" data-route="webhook"><span>♧</span> Webhook</a>
+<a href="/sandbox.html" data-route="api-playground"><span>▣</span> API Playground</a></nav>
+<div class="navtitle navtitle-tools">PEMBAYARAN</div><nav class="nav">
+<a href="/gopay.html" data-route="metode-pembayaran"><span>▱</span> Metode Pembayaran</a></nav>
+<div class="drawerBottom"><button id="logoutBtn" class="drawerLogout"><span>⇥</span> Keluar</button></div>
+</aside>
 <main class="main" id="overview"><header class="top"><div class="topleft"><button class="menuToggle" id="menuToggle" aria-label="Buka menu">☰</button><div class="crumb">SkieePay / Saldo</div></div><div class="topright"><span class="tag">OWNER ACCESS</span><div class="avatar">X</div></div></header>
-<section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Saldo.</h1><p>Ringkasan mutasi dan pencatatan saldo SkieePay.</p></div><div class="actions"><a class="btn" href="/sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section><section class="page-content" style="display:block!important"><div class="page-card"><h2>Saldo</h2><p>Ringkasan mutasi dan pencatatan saldo SkieePay.</p><div class="page-note">Data berasal dari Supabase. Daftar ini bersifat baca-saja.</div></div></section>
+<section class="hero"><div><div class="eyebrow">PAYMENT CONTROL CENTER</div><h1>Ringkasan transaksi.</h1><p>Data langsung dari Supabase. Perbarui untuk mengambil status terbaru.</p></div><div class="actions"><a class="btn" href="/sandbox.html">🧪 Buka Sandbox</a><button class="btn" id="refreshBtn">↻ Perbarui data</button></div></section>
 <section class="stats"><div class="stat"><div class="stathead">Total invoice</div><strong id="totalInvoices">—</strong><small>Semua invoice tersimpan</small></div><div class="stat"><div class="stathead">Pembayaran sukses</div><strong id="paidInvoices">—</strong><small>Status pembayaran terverifikasi</small></div><div class="stat"><div class="stathead">Menunggu pembayaran</div><strong id="pendingInvoices">—</strong><small>Invoice belum lunas</small></div><div class="stat"><div class="stathead">Nilai lunas · 50 terbaru</div><strong id="paidValue">—</strong><small>Akumulasi dari daftar invoice terbaru</small></div></section>
 <section class="panel" id="businesses" style="margin:0 0 16px">
 <div class="panelhead"><div><h2>Bisnis milikmu</h2><span class="muted">Private business workspace · bukan merchant publik</span></div><span class="tag" id="businessCount">— BISNIS</span></div>
