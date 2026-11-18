@@ -410,7 +410,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
     <button class="chat-compose-btn" id="chatExpand" type="button" aria-label="Perbesar kolom pesan" title="Perbesar kolom pesan">⤢</button>
     <button class="chat-send" id="chatSend" type="submit" aria-label="Kirim pesan">➤</button>
   </form>
-  <div class="chat-footer">© <span id="chatYear"></span> SKIEESTORE · Asisten virtual</div>
+  <div class="chat-footer">© <span id="chatYear"></span> SKIEESTORE · Asisten virtual<br>Kontak admin: <a href="mailto:adminskiee@gmail.com">adminskiee@gmail.com</a></div>
 </div>
 
 
@@ -479,7 +479,7 @@ const CHAT_ENDPOINT=SUPABASE_URL+"/functions/v1/ai-chat";
 let chatDeviceId=localStorage.getItem("xp-chat-device");
 if(!chatDeviceId){chatDeviceId=crypto.randomUUID();localStorage.setItem("xp-chat-device",chatDeviceId)}
 let chatMessages=[],chatLoaded=false,chatBusy=false,chatConversationId=localStorage.getItem("xp-chat-conversation")||"";
-const CHAT_GREETING="Halo Gamers! 👋 Ada yang bisa SKIEESTORE AI bantu seputar top up game, voucher, atau cek status invoice kamu? Ketik aja pertanyaanmu di bawah!";
+const CHAT_GREETING="Halo Gamers! 👋 Ada yang bisa SKIEESTORE AI bantu seputar top up game, voucher, atau cek status invoice kamu? Ketik aja pertanyaanmu di bawah! Jika perlu bantuan langsung dari admin, hubungi adminskiee@gmail.com.";
 function scrollChatToLatest(){
   const box=$("chatMessages");
   if(!box||$("chatPanel").hidden)return;
