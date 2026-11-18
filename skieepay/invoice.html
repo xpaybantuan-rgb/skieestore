@@ -19,7 +19,7 @@
 .actions{display:flex;gap:9px;margin-top:18px}.btn{flex:1;border:1px solid #38516a;border-radius:12px;background:#1a2b41;color:#eaf2ff;padding:12px;font:inherit;font-size:12px;font-weight:800;text-align:center;text-decoration:none;cursor:pointer}.btn.primary{background:var(--mint);border-color:var(--mint);color:#071a1b}
 .qris-panel{margin:18px auto;padding:16px;background:#fff;border:1px solid #e9eaf0;border-radius:16px;max-width:290px;text-align:center;color:#222}.qris-panel #qrisCode{display:flex;justify-content:center;margin:10px auto}.qris-panel #qrisCode img{max-width:240px;height:auto}.qris-panel p{font-size:11px;color:#707887;line-height:1.6}.message{text-align:center;padding:26px 12px;color:var(--muted);font-size:13px;line-height:1.7}.foot{text-align:center;color:#71839b;font-size:10px;margin:18px 0 0}
 @media(max-width:420px){body{padding:14px}.card{border-radius:19px}.item{padding:13px 11px}.actions{flex-direction:column}}
-/* SkieePay invoice — SKIEESTORE brand */
+/* SkieePay invoice — independent brand */
 :root{color-scheme:light;--bg:#f7f8fc;--panel:#fff;--line:#e9eaf0;--text:#191b22;--muted:#707887;--mint:#087BFF;--amber:#a66b12;--red:#0756D8}
 body{background:radial-gradient(850px 480px at 50% -12%,#DDF7FF 0,transparent 65%),#f7f8fc;color:var(--text)}
 .logo{background:linear-gradient(135deg,#087BFF,#00CFFF);color:#fff;box-shadow:0 8px 24px #087BFF22}
@@ -79,7 +79,7 @@ async function refresh(){
         ? (/^https:\/\//i.test(payload)?'<a href="'+esc(payload)+'" target="_blank" rel="noopener noreferrer">Buka instruksi pembayaran</a>':'<span>Instruksi pembayaran belum tersedia</span>')
         : '<span>Belum tersedia</span>'));
   const notice=isTest
-    ? '<div class="notice warn"><b>MODE UJI / SANDBOX.</b><br>Invoice ini hanya untuk simulasi. Tidak ada uang sungguhan yang berpindah dan tidak ada pesanan VIPayment yang diproses.</div>'
+    ? '<div class="notice warn"><b>MODE UJI / SANDBOX.</b><br>Invoice ini hanya untuk simulasi. Tidak ada uang sungguhan yang berpindah dan tidak ada pesanan supplier yang diproses.</div>'
     : status==='paid'
       ? '<div class="notice"><b>Pembayaran terverifikasi.</b><br>Invoice ini telah dinyatakan lunas oleh sistem pembayaran.</div>'
       : status==='pending'
