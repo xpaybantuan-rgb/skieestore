@@ -296,6 +296,24 @@ th{color:#738198;border-color:#e8edf4}td{color:#33435b;border-color:#edf1f6}tbod
 @media(max-width:760px){.side,#sideDrawer{position:fixed!important;z-index:40!important;inset:0 auto 0 0!important;width:min(84vw,370px)!important;height:100dvh!important;overflow-y:auto!important;transform:translateX(-105%);background:linear-gradient(155deg,rgba(17,38,70,.96),rgba(7,20,41,.98))!important;border-right:1px solid rgba(151,196,255,.25)!important;box-shadow:22px 0 65px rgba(2,12,29,.42)!important;backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%)}.side.drawerOpen,#sideDrawer.drawerOpen{transform:translateX(0)!important}.side .nav a,#sideDrawer .nav a{padding:13px 14px}.side .nav a:hover,#sideDrawer .nav a:hover{transform:translateX(2px)}.drawerShade{backdrop-filter:blur(3px)}}
 @media(prefers-reduced-transparency:reduce){.side,#sideDrawer,.top{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.side,#sideDrawer{background:#0b1b33!important}}
 
+
+/* GLASSY NAVBAR V3 — refined glass top navigation */
+:root{--sp-nav-glass:rgba(248,252,255,.68);--sp-nav-line:rgba(155,190,229,.32);--sp-nav-text:#193451;--sp-nav-muted:#66809e;--sp-nav-accent:#168fe5}
+.top{position:sticky!important;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:12px 20px!important;background:linear-gradient(115deg,rgba(255,255,255,.78),rgba(239,248,255,.62))!important;border:1px solid var(--sp-nav-line)!important;border-radius:0 0 18px 18px!important;backdrop-filter:blur(24px) saturate(170%)!important;-webkit-backdrop-filter:blur(24px) saturate(170%)!important;box-shadow:0 9px 30px rgba(27,67,112,.075),inset 0 1px rgba(255,255,255,.92)!important;transition:background .25s ease,box-shadow .25s ease,border-color .25s ease}
+.top:after{content:"";position:absolute;left:20px;right:20px;bottom:0;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(65,160,235,.32),rgba(61,207,216,.28),transparent)}
+.top:hover{background:linear-gradient(115deg,rgba(255,255,255,.88),rgba(237,248,255,.76))!important;box-shadow:0 12px 34px rgba(27,67,112,.095),inset 0 1px rgba(255,255,255,.98)!important}
+.top .pageTitle,.top .title,.top h1{color:#183653;letter-spacing:-.025em}
+.top .muted,.top small,.top .breadcrumb{color:var(--sp-nav-muted)}
+.top a,.top button,.top .navLink{position:relative;border-radius:11px;transition:color .2s ease,background .2s ease,border-color .2s ease,transform .2s ease,box-shadow .2s ease}
+.top a:hover,.top button:hover,.top .navLink:hover{background:rgba(56,151,226,.09);border-color:rgba(78,161,226,.2);color:#087fc9;transform:translateY(-1px)}
+.top a:focus-visible,.top button:focus-visible,.top .navLink:focus-visible{outline:2px solid rgba(25,145,220,.6);outline-offset:2px}
+.top .menuToggle{background:rgba(255,255,255,.56);border:1px solid rgba(160,190,223,.34);border-radius:12px;transition:all .2s ease}
+.top .menuToggle:hover{background:rgba(255,255,255,.9);box-shadow:0 6px 18px rgba(36,93,146,.1);transform:translateY(-1px)}
+.top input,.top select{background:rgba(255,255,255,.55);border:1px solid rgba(160,190,223,.35);border-radius:11px;transition:border-color .2s,box-shadow .2s,background .2s}
+.top input:focus,.top select:focus{background:#fff;border-color:rgba(36,147,220,.55);box-shadow:0 0 0 3px rgba(36,147,220,.1);outline:0}
+@media(max-width:760px){.top{padding:10px 12px!important;gap:10px;border-radius:0 0 14px 14px!important}.top:after{left:12px;right:12px}.top .pageTitle,.top .title,.top h1{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.top,.top *{transition:none!important;animation:none!important}}
+
 </style></head><body data-page="webhook">
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
 <div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer"><div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div>
