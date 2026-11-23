@@ -131,3 +131,30 @@
   .header .nav { position: static !important; display: flex !important; }
   .header .nav > a > span:first-child { display: none !important; }
 }
+
+/* Explicit two-line assistant identity in the chat header */
+#chatPanel .chat-brand, .chat-panel .chat-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  min-width: 0 !important;
+}
+#chatPanel .chat-brand-copy, .chat-panel .chat-brand-copy {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+}
+#chatPanel .chat-brand-copy strong, .chat-panel .chat-brand-copy strong {
+  display: block !important;
+  margin: 0 !important;
+  line-height: 1.35 !important;
+}
+#chatPanel .chat-brand-copy small, .chat-panel .chat-brand-copy small {
+  display: block !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
