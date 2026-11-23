@@ -453,6 +453,38 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
   .gamegrid .gameinfo strong { font-size: 11px !important; }
   .gamegrid .gameinfo small { font-size: 9px !important; padding: 2px 5px !important; }
 }
+
+/* XP-SAFE-001: keep the home catalog filters readable and stable */
+#gameFilters.chips {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+#gameFilters .chip {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  padding: 8px 6px !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  text-align: center !important;
+  line-height: 1.25 !important;
+  font-size: clamp(10px, 2.5vw, 12px) !important;
+}
+#gameFilters .chip:hover,
+#gameFilters .chip:active,
+.gamegrid > .gamecard:hover,
+.gamegrid > .gamecard:active {
+  transform: none !important;
+  box-shadow: 0 3px 0 #0f172a !important;
+}
+@media (max-width: 520px) {
+  #gameFilters.chips { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
 </style>
 
 <style id="ui-consistency-home-fix">
@@ -488,7 +520,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <section class="section" id="games"><div class="container">
 <div class="section-head"><div><div class="kicker">Pilih permainanmu</div><h2>Jelajahi Games</h2><p class="sub">Katalog game yang tersedia di sistem SKIEESTORE.</p></div>
 </div>
-<div class="chips" id="gameFilters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div>
+<div class="chips" id="gameFilters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</button></div>
 <div class="gamegrid" id="gameGrid"><div class="state loading">Memuat katalog game…</div></div>
 <div class="catalog-more-wrap" id="catalogMoreWrap" hidden><button class="btn secondary catalog-more" id="catalogMoreBtn" type="button">Muat lebih banyak lagi</button></div>
 <div class="product-area" id="productArea" role="dialog" aria-modal="true" aria-labelledby="productTitle" hidden><div class="product-head"><div><div class="kicker">Katalog produk</div><h2 id="productTitle">Pilih game</h2><p class="sub" id="productSub">Harga diambil dari katalog SKIEESTORE.</p></div><button class="ghostbtn" id="clearGame">Tutup ×</button></div><label class="searchbox" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="productSearch" type="search" placeholder="Cari nominal atau produk..."></label><div class="product-grid" id="productGrid"></div></div>
