@@ -110,3 +110,71 @@ html, body, main, main > .hero, main > .section {
 @media (max-width: 620px) {
   .gamegrid { gap: 12px !important; }
 }
+
+
+/* FINAL LINE SYSTEM: one consistent dark outline; remove blue border accents */
+:root {
+  --nb-ink: #191b22;
+  --nb-border: 2px solid #191b22;
+  --nb-shadow: 4px 4px 0 #191b22;
+  --nb-shadow-sm: 3px 3px 0 #191b22;
+}
+/* Header: one clean divider only */
+.header, .top, header {
+  border-bottom: 2px solid var(--nb-ink) !important;
+  box-shadow: none !important;
+}
+.nav {
+  border: 2px solid var(--nb-ink) !important;
+  box-shadow: none !important;
+}
+.nav a, .nav a.active, .nav a:hover {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* Main cards share exactly the same outline and shadow */
+.hero-card, .intro, .panel, .section-card, .checkout-card, .summary-card,
+.gamecard, .game, .product, .product-card, .order-card, .info-card, .notice,
+.feature, .promobox {
+  border: var(--nb-border) !important;
+  box-shadow: var(--nb-shadow) !important;
+}
+/* Search and form controls: border belongs to the outer field only */
+.searchbox, .search, .iconbtn, .ghostbtn, input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+select, textarea {
+  border: var(--nb-border) !important;
+  box-shadow: none !important;
+  outline-color: var(--nb-ink) !important;
+}
+.searchbox input {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+}
+button, .btn, .primary, .account, .catalog-more, .chip, .btn-primary,
+button[type="submit"], input[type="submit"], .btn-outline, .btn-light {
+  border: var(--nb-border) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow-sm) !important;
+}
+.chip.active, .nav a.active, .nav a:hover, .gamecard:hover, .game:hover,
+.product:hover, .product-card:hover {
+  border-color: var(--nb-ink) !important;
+}
+.gamecard:hover, .game:hover, .product:hover, .product-card:hover {
+  box-shadow: var(--nb-shadow) !important;
+  transform: none !important;
+}
+/* Remove stray blue focus rings and blue separator lines */
+:focus, :focus-visible, input:focus, select:focus, textarea:focus,
+.searchbox:focus-within, .search:focus {
+  outline: 2px solid var(--nb-ink) !important;
+  outline-offset: 2px !important;
+}
+.product-area {
+  border-top: 2px solid var(--nb-ink) !important;
+}
+/* Keep footer and fixed bottom navigation untouched */
+.footer, .bottomnav, .xp-footer, .xp-footer * {
+  box-shadow: revert !important;
+}
