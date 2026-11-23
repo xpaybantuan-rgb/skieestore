@@ -336,3 +336,37 @@ button, .btn, .primary, .account, .chip, .nav a {
   .bottomnav { display: none !important; }
   .chat-fab, .chat-widget-button { bottom: 24px !important; }
 }
+
+
+/* Consistent Neo-Brutalism for all informational pages and shared footer.
+   Preserve the existing white footer surface and XP-SAFE-001 color rules. */
+.wrap > .intro,
+.wrap > .section {
+  background: #fff !important;
+  color: #191b22 !important;
+  border: 2px solid var(--nb-ink) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow) !important;
+}
+.wrap > .intro p,
+.wrap > .section p,
+.wrap > .section li {
+  color: #4b5563 !important;
+}
+.wrap > .section h2,
+.wrap > .section h3 {
+  color: #191b22 !important;
+}
+.wrap > .section .notice {
+  background: #fff !important;
+  color: #374151 !important;
+  border: 2px solid var(--nb-ink) !important;
+  border-left: 5px solid var(--nb-ink) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow-sm) !important;
+}
+.xp-footer {
+  background-color: #fff !important;
+  border-top: 2px solid var(--nb-ink) !important;
+  box-shadow: none !important;
+}
