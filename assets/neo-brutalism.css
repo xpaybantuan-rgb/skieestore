@@ -82,10 +82,11 @@ input:focus, select:focus, textarea:focus, .searchbox:focus-within, .search:focu
 }
 
 
-/* User reference background: pale blue-gray across storefront, footer stays white */
+
+/* Final storefront background: light blue like the reference; keep footer white */
 html, body, main, main > .hero, main > .section {
   background-color: #F5FAFE !important;
 }
-.xp-footer, .bottomnav {
+.footer, .bottomnav {
   background-color: #fff !important;
 }
