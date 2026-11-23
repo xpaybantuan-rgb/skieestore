@@ -459,10 +459,15 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <body>
 <header class="header"><div class="container headrow">
 <a class="brand brand-image" href="#" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
-<nav class="nav"><a class="active" href="index.html">Beranda</a><a href="cek-pesanan.html">Cek Pesanan</a><a href="topup.html">Top Up</a><a href="profil.html">Profil</a></nav>
+<nav class="nav" aria-label="Navigasi utama">
+<a href="index.html" class="active"><span aria-hidden="true">⌂</span><span>Beranda</span></a>
+<a href="cek-pesanan.html"><span aria-hidden="true">⌕</span><span>Cek Pesanan</span></a>
+<a href="topup.html"><span aria-hidden="true">▤</span><span>Top Up</span></a>
+<a href="profil.html"><span aria-hidden="true">☻</span><span>Profil</span></a>
+</nav>
 <div class="actions header-actions">
 <button class="iconbtn header-search-toggle" id="headerSearchToggle" type="button" aria-label="Cari game" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
-<div class="header-menu-wrap"><button class="iconbtn header-menu-toggle" id="headerMenuToggle" type="button" aria-label="Buka menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="header-menu-panel" id="headerMenuPanel" hidden><a href="index.html">Beranda</a><a href="cek-pesanan.html">Cek Pesanan</a><a href="topup.html">Top Up</a><a href="profil.html">Profil</a></div></div>
+
 </div>
 </div></header>
 <div class="header-search-panel" id="headerSearchPanel" hidden><div class="container"><label class="searchbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="gameSearch" type="search" placeholder="Cari nama game..." autocomplete="off" aria-label="Cari game" aria-controls="searchSuggestions" aria-expanded="false"></label><div class="search-suggestions" id="searchSuggestions" hidden></div></div></div>
@@ -477,10 +482,10 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <section class="section" id="games"><div class="container">
 <div class="section-head"><div><div class="kicker">Pilih permainanmu</div><h2>Jelajahi Games</h2><p class="sub">Katalog game yang tersedia di sistem SKIEESTORE.</p></div>
 </div>
-<div class="chips" id="gameFilters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">Pc</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps streaming</button></div>
+<div class="chips" id="gameFilters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div>
 <div class="gamegrid" id="gameGrid"><div class="state loading">Memuat katalog game…</div></div>
 <div class="catalog-more-wrap" id="catalogMoreWrap" hidden><button class="btn secondary catalog-more" id="catalogMoreBtn" type="button">Muat lebih banyak lagi</button></div>
-<div class="product-area" id="productArea" hidden><div class="product-head"><div><div class="kicker">Katalog produk</div><h2 id="productTitle">Pilih game</h2><p class="sub" id="productSub">Harga diambil dari katalog SKIEESTORE.</p></div><button class="ghostbtn" id="clearGame">Tutup ×</button></div><label class="searchbox" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="productSearch" type="search" placeholder="Cari nominal atau produk..."></label><div class="product-grid" id="productGrid"></div></div>
+<div class="product-area" id="productArea" role="dialog" aria-modal="true" aria-labelledby="productTitle" hidden><div class="product-head"><div><div class="kicker">Katalog produk</div><h2 id="productTitle">Pilih game</h2><p class="sub" id="productSub">Harga diambil dari katalog SKIEESTORE.</p></div><button class="ghostbtn" id="clearGame">Tutup ×</button></div><label class="searchbox" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="productSearch" type="search" placeholder="Cari nominal atau produk..."></label><div class="product-grid" id="productGrid"></div></div>
 </div></section>
 <section class="section" id="keunggulan"><div class="container"><div class="section-head"><div><div class="kicker">KENAPA MEMILIH SKIEESTORE</div><h2>Top Up Game, Lebih Praktis dan Terarah</h2><p class="sub">Temukan produk digital, lakukan pemesanan, dan pantau status transaksi dalam satu tempat.</p></div></div><div class="features">
 <div class="feature"><div class="ficon">▦</div><strong>Pilihan produk terkurasi</strong><p>Jelajahi katalog game dan pilih nominal yang sesuai dengan kebutuhanmu.</p></div>
@@ -502,7 +507,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 
 <div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span><button class="chat-fab" id="chatToggle" type="button" aria-label="Buka XP AI" aria-expanded="false"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 9.5h32v23H23l-9 7v-7H8z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M15 18h18M15 24h13" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m36 4 1.7 4.3L42 10l-4.3 1.7L36 16l-1.7-4.3L30 10l4.3-1.7z" fill="currentColor"/></svg></button></div>
 </div></footer>
-<nav class="bottomnav"><a class="active" href="index.html"><span>⌂</span><span>Beranda</span></a><a href="cek-pesanan.html"><span>⌕</span><span>Cek Pesanan</span></a><a href="topup.html"><span>▤</span><span>Top Up</span></a><a href="profil.html"><span>☻</span><span>Profil</span></a></nav>
+
 <div class="toast" id="toast" hidden></div>
 <div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Asisten virtual SKIEESTORE" hidden>
   <div class="chat-head">
@@ -584,8 +589,8 @@ $("headerSearchPanel").addEventListener("click",e=>{if(e.target.closest("[data-s
 document.addEventListener("click",e=>{if(!e.target.closest("#headerSearchPanel")&&!e.target.closest("#headerSearchToggle")){$("searchSuggestions").hidden=true;$("gameSearch").setAttribute("aria-expanded","false")}});
 
 $("headerSearchToggle").addEventListener("click",()=>{const panel=$("headerSearchPanel"),open=panel.hidden;panel.hidden=!open;$("headerSearchToggle").setAttribute("aria-expanded",String(open));if(open)setTimeout(()=>$("gameSearch").focus(),0)});
-$("headerMenuToggle").addEventListener("click",()=>{const panel=$("headerMenuPanel"),open=panel.hidden;panel.hidden=!open;$("headerMenuToggle").setAttribute("aria-expanded",String(open))});
-document.addEventListener("click",e=>{if(!e.target.closest(".header-menu-wrap")){$("headerMenuPanel").hidden=true;$("headerMenuToggle").setAttribute("aria-expanded","false")}});
+
+
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("headerSearchPanel").hidden=true;$("headerMenuPanel").hidden=true;$("headerSearchToggle").setAttribute("aria-expanded","false");$("headerMenuToggle").setAttribute("aria-expanded","false")}});$("catalogMoreBtn").addEventListener("click",()=>{const q=$("gameSearch").value.trim().toLowerCase();const total=games.filter(g=>(activeFilter==="all"||g.category===activeFilter)&&g.name.toLowerCase().includes(q)).length;if($("catalogMoreBtn").dataset.action==="less"){gameVisibleCount=9}else{const firstStep=9+Math.ceil(Math.max(0,total-9)/2);gameVisibleCount=gameVisibleCount<firstStep?firstStep:total}renderGames()});$("productSearch").addEventListener("input",renderProducts);$("clearGame").addEventListener("click",()=>{$("productArea").hidden=true;activeGame=null});$("gameFilters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;gameVisibleCount=9;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderGames()});
 document.documentElement.dataset.theme="light";localStorage.removeItem("xp-theme");
 
