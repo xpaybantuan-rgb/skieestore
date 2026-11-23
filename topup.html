@@ -437,6 +437,19 @@ body.topup-page { padding-bottom: 110px !important; }
   box-shadow: var(--nb-shadow-sm, 3px 3px 0 #191b22) !important;
 }
 </style>
+
+<style id="xp-game-title-spacing-fix">
+/* Keep game category, name, and publisher on separate readable lines. */
+.nb-game-title #heroCategory,
+.nb-game-title #heroName,
+.nb-game-title #heroMeta {
+  display: block !important;
+  width: 100% !important;
+}
+.nb-game-title #heroCategory { margin: 0 0 6px !important; }
+.nb-game-title #heroName { margin: 0 0 4px !important; line-height: 1.2 !important; }
+.nb-game-title #heroMeta { margin: 0 !important; }
+</style>
 </head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="index.html" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
