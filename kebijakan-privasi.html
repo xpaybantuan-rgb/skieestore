@@ -25,6 +25,169 @@
 <style>.brand-image{display:flex;align-items:center;flex:0 1 220px;min-width:0}.brand-image img{display:block;width:auto;height:52px;max-width:100%;max-height:52px;object-fit:contain;object-position:left center}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start;max-width:100%;line-height:0}.xp-foot-logo{display:block;width:auto;height:58px;max-width:100%;max-height:58px;object-fit:contain;object-position:left center}@media(max-width:620px){.brand-image{flex-basis:170px}.brand-image img{height:46px;max-height:46px;max-width:48vw}.xp-foot-logo{height:52px;max-height:52px}}@media(max-width:380px){.brand-image{flex-basis:145px}.brand-image img{height:42px;max-height:42px;max-width:45vw}}</style>
 <style>.brand-image{display:flex!important;align-items:center!important;flex:0 1 220px!important;min-width:0!important}.brand-image img{display:block!important;width:auto!important;height:48px!important;max-width:100%!important;max-height:48px!important;object-fit:contain!important;object-position:left center!important}.xp-foot-brand{display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;max-width:100%!important;line-height:0!important}.xp-foot-logo{display:block!important;width:auto!important;height:54px!important;max-width:100%!important;max-height:54px!important;object-fit:contain!important;object-position:left center!important}@media(max-width:620px){.brand-image{flex-basis:170px!important}.brand-image img{height:44px!important;max-height:44px!important;max-width:48vw!important}.xp-foot-logo{height:50px!important;max-height:50px!important}}@media(max-width:380px){.brand-image{flex-basis:145px!important}.brand-image img{height:40px!important;max-height:40px!important;max-width:45vw!important}}</style>
 <link rel="stylesheet" href="/assets/neo-brutalism.css?v=2">
+
+<style id="shared-chat-home-style">
+/* SHARED CHAT STYLE — MATCH HOMEPAGE */
+.chat-fab{position:static;flex:0 0 54px;width:54px;height:54px;padding:0;border:0;border-radius:50%;background:linear-gradient(145deg,#43b7f5,#1674d1);color:#fff;box-shadow:0 5px 16px #1674d144;cursor:pointer;display:grid;place-items:center}
+.chat-fab svg{width:31px;height:31px;display:block}
+.chat-footer{flex:0 0 auto;text-align:center;padding:7px 12px calc(7px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff;color:var(--muted);font-size:9px}
+.chat-panel{position:fixed;inset:0;z-index:99999;width:100%;height:100vh;height:100dvh;min-height:0;max-width:none;max-height:none;background:var(--surface);border:0;border-radius:0;box-shadow:none;display:flex;flex-direction:column;overflow:hidden;overscroll-behavior:contain;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+/* Keep the chat chrome pinned when Android opens its keyboard */
+.chat-panel.keyboard-aware{inset:auto 0 auto 0;top:var(--chat-vv-top,0px);height:var(--chat-vv-height,100dvh);}
+.chat-head,.chat-toolbar,.chat-compose{flex:0 0 auto;position:relative;z-index:2}
+.chat-messages{flex:1 1 0;height:0;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;overflow-anchor:none;scroll-behavior:auto}
+.chat-typing{flex:0 0 auto}
+.chat-panel[hidden]{display:none}
+.chat-toolbar{flex:none;display:flex;gap:8px;padding:9px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
+.chat-tool-btn{border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:10px;padding:9px 12px;font:700 11px Manrope,sans-serif;cursor:pointer}
+.chat-tool-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.chat-history-panel{position:absolute;inset:0;z-index:8;background:#fff;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+.chat-history-panel[hidden]{display:none}
+.chat-history-head{flex:none;display:flex;align-items:center;justify-content:space-between;padding:17px;border-bottom:1px solid #edf0f5;font-weight:800;color:#202536;background:linear-gradient(115deg,#fff,#EAFBFF)}
+.chat-history-list{overflow:auto;min-height:0;flex:1;padding:12px;display:flex;flex-direction:column;gap:8px}
+.chat-history-item{display:flex;align-items:center;gap:8px;border:1px solid #e8ebf2;background:#fafbfe;border-radius:14px;padding:11px}
+.chat-history-open{flex:1;min-width:0;text-align:left;border:0;background:transparent;color:var(--text);font:700 11px Manrope,sans-serif;cursor:pointer;overflow-wrap:anywhere}
+.chat-history-open small{display:block;color:var(--muted);font-weight:500;margin-top:5px}
+.chat-history-delete{flex:none;border:1px solid #CDEEFF;background:#EAFBFF;color:#087BFF;border-radius:9px;padding:8px;font-size:11px;cursor:pointer}
+.chat-history-empty{padding:24px 12px;color:var(--muted);font-size:12px;text-align:center}
+.chat-head{flex:none;padding:17px 18px;background:linear-gradient(115deg,#fff,#EAFBFF);color:#202536;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #CDEEFF}
+.chat-brand{display:flex;align-items:center;gap:11px}
+.chat-avatar{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#00CFFF,#0756D8);display:grid;place-items:center;font-weight:900;color:#fff;box-shadow:0 7px 18px #087BFF35}
+.chat-brand strong{display:block;font-size:13px;letter-spacing:.01em}
+.chat-brand small{display:block;color:#7b8495;font-size:10px;margin-top:3px}
+.chat-close{border:1px solid #e5e7ed;background:#fff;color:#525b6b;border-radius:11px;width:36px;height:36px;font-size:20px;cursor:pointer;box-shadow:0 3px 10px #26324a0b}
+.chat-toolbar{padding:11px 14px;background:#fff;border-bottom:1px solid #edf0f5}
+.chat-tool-btn{border:1px solid #e5e8ef;background:#f7f8fb;color:#515b6d;border-radius:11px;padding:10px 14px;font:800 11px Manrope,sans-serif;cursor:pointer;transition:.18s}
+.chat-tool-btn.primary{background:#EAFBFF;border-color:#CDEEFF;color:#0756D8;box-shadow:none}
+.chat-messages{min-height:0;height:0;padding:18px 16px;display:flex;flex-direction:column;gap:13px;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;overflow-anchor:none;scroll-behavior:auto;flex:1 1 0;background:radial-gradient(ellipse at 12% 0%,#EAFBFF 0,transparent 34%),#ffffff}
+.chat-sender{display:block;font-size:10px;font-weight:800;letter-spacing:.02em;opacity:.72;margin-bottom:4px;line-height:1.2}
+.chat-bubble{max-width:88%;padding:12px 15px;border-radius:17px;font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;box-shadow:0 4px 14px #27334b0a}
+.chat-bubble.bot{align-self:flex-start;background:#fff;color:#303849;border:1px solid #edf0f5;border-bottom-left-radius:6px}
+.chat-bubble a{color:#1769c2;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
+.chat-bubble.user a{color:#fff;text-decoration:underline}
+.chat-bubble.user{align-self:flex-end;background:linear-gradient(135deg,#087BFF,#00CFFF);color:#fff;border-bottom-right-radius:6px;box-shadow:0 6px 16px #087BFF26}
+.chat-typing{color:#7b8495;font-size:10px;padding:0 17px 9px;background:#ffffff}
+.chat-compose{flex:none;padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e9ecf2;display:flex;align-items:flex-end;gap:8px;background:#fff}
+.chat-compose textarea{flex:1;min-width:0;resize:none;height:44px;min-height:44px;max-height:132px;overflow-y:auto;border:1px solid #e2e6ee;border-radius:15px;background:#f8f9fc;color:#252d3d;padding:12px 14px;font:500 12px/1.5 Manrope,sans-serif;outline:none;box-shadow:inset 0 1px 2px #202a3a08}
+.chat-compose textarea:focus{border-color:#00CFFF;background:#fff;box-shadow:0 0 0 3px #087BFF12}
+.chat-compose textarea.expanded{position:fixed;z-index:100002;left:4vw;top:12vh;width:92vw;height:68vh!important;max-height:68vh;min-height:68vh;background:#fff;box-shadow:0 18px 60px #11182735;border:1px solid #00CFFF;border-radius:18px;padding:18px;font-size:15px}
+.chat-compose .chat-compose-btn{width:42px;height:42px;flex:none;border:1px solid #e5e7eb;border-radius:13px;background:#fff;color:#596273;font-size:19px;display:grid;place-items:center;cursor:pointer}
+.chat-compose .chat-clear[hidden]{display:none}
+.chat-send{width:46px;height:46px;flex:none;border:0;border-radius:14px;background:linear-gradient(135deg,#087BFF,#00CFFF);color:white;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 6px 15px #087BFF30}
+.chat-send:disabled{opacity:.45;cursor:not-allowed}
+.chat-compose.expanded{position:relative;z-index:100001}
+@media(max-width:620px){.chat-fab{right:14px;bottom:78px;padding:11px 13px}
+.chat-panel{inset:0;width:100%;height:100vh;height:100dvh;border-radius:0}
+}
+@media(max-width:620px){.chat-fab{bottom:calc(78px + env(safe-area-inset-bottom))!important}
+.chat-panel{height:100dvh!important;max-height:100dvh!important}
+}
+@media(max-width:620px){.chat-panel.keyboard-aware{top:var(--chat-vv-top,0px)!important;height:var(--chat-vv-height,100dvh)!important;max-height:var(--chat-vv-height,100dvh)!important}
+}
+.primary,.account,.profile,.chat-fab,.btn-primary{background:#087BFF!important;color:#fff!important;box-shadow:0 8px 20px #087BFF22}
+.primary,.account,.profile,.chat-fab,.btn-primary{background:#087BFF!important;color:#fff!important;box-shadow:0 8px 20px #087BFF22}
+.header,.nav,.bottomnav,.chat-panel,.chat-head,.chat-footer,.footer,.site-footer,.foot,.panel,.card,.feature,.gamecard,.product,.searchbox,.iconbtn,.ghostbtn,.chip,.accordion,.category-card,.order-card,.profile-card,.promobox,.promobox.alt{background-color:#ffffff!important;color:#111111!important}
+.primary,.account,.profile,.chat-fab,.btn-primary,.btn:not(.btn-light):not(.btn-outline),button.primary{background:#087BFF!important;color:#111111!important;border-color:#087BFF!important}
+
+@media(max-width:760px){.xp-footer .chat-fab{position:fixed;right:20px;bottom:calc(112px + env(safe-area-inset-bottom));z-index:65;width:54px;height:54px;flex:none}
+.xp-footer .chat-fab svg{width:30px;height:30px}
+}
+
+/* FINAL CHATBOT BRAND: official skieestore.biz.id — blue/cyan only */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 7px 22px rgba(8,123,255,.28)!important;filter:none!important;text-shadow:none!important}
+#chatPanel,.chat-panel{background:#fff!important;color:#202536!important;box-shadow:none!important;filter:none!important}
+#chatPanel .chat-head,#chatPanel .chat-history-head,.chat-panel .chat-head,.chat-panel .chat-history-head{background:linear-gradient(115deg,#fff 0%,#EAFBFF 100%)!important;border-color:#CDEEFF!important;box-shadow:none!important}
+#chatPanel .chat-avatar,.chat-panel .chat-avatar,.chat-avatar{background:linear-gradient(135deg,#00CFFF 0%,#0756D8 100%)!important;color:#fff!important;box-shadow:0 6px 18px rgba(8,123,255,.22)!important;filter:none!important}
+#chatPanel .chat-send,#chatPanel button.chat-send,.chat-panel .chat-send,.chat-send,button.chat-send{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 6px 18px rgba(8,123,255,.25)!important;filter:none!important}
+#chatPanel .chat-send:hover,#chatPanel .chat-send:focus-visible,.chat-panel .chat-send:hover,.chat-panel .chat-send:focus-visible{background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;box-shadow:0 7px 20px rgba(8,123,255,.3)!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;box-shadow:0 5px 16px rgba(8,123,255,.18)!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages,.chat-messages{background:radial-gradient(ellipse at 12% 0%,rgba(0,207,255,.10) 0%,transparent 36%),#fff!important;box-shadow:none!important}
+#chatPanel .chat-compose,#chatPanel .chat-compose textarea,.chat-panel .chat-compose,.chat-panel .chat-compose textarea{background:#fff!important}
+#chatPanel .chat-compose textarea:focus,#chatPanel .chat-compose textarea.expanded,.chat-panel .chat-compose textarea:focus,.chat-panel .chat-compose textarea.expanded{border-color:#00CFFF!important;box-shadow:0 0 0 3px rgba(8,123,255,.12)!important;outline-color:#00CFFF!important}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary,.chat-tool-btn.primary{background:#EAFBFF!important;border-color:#BFEFFF!important;color:#0756D8!important;box-shadow:none!important}
+#chatPanel .chat-fab::before,#chatPanel .chat-fab::after,.chat-fab::before,.chat-fab::after,#chatPanel .chat-send::before,#chatPanel .chat-send::after{box-shadow:none!important;background-color:transparent!important}
+
+/* Chatbot palette lock: remove every red/pink/purple accent and glow */
+#chatToggle,.chat-fab,.xp-footer .chat-fab,
+#chatPanel .chat-avatar,.chat-panel .chat-avatar,.chat-avatar,
+#chatPanel .chat-send,.chat-panel .chat-send,.chat-send,
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user{
+  background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;
+  color:#fff!important;border-color:#087BFF!important;
+  box-shadow:0 5px 16px rgba(8,123,255,.16)!important;
+  filter:none!important;text-shadow:none!important;
+}
+#chatPanel,.chat-panel,#chatPanel .chat-head,.chat-panel .chat-head,
+#chatPanel .chat-history-head,.chat-panel .chat-history-head,
+#chatPanel .chat-toolbar,.chat-panel .chat-toolbar,
+#chatPanel .chat-messages,.chat-panel .chat-messages,
+#chatPanel .chat-compose,.chat-panel .chat-compose,
+#chatPanel .chat-footer,.chat-panel .chat-footer,
+#chatPanel .chat-history-panel,.chat-panel .chat-history-panel{
+  background:#fff!important;color:#202536!important;
+  border-color:#E5EAF0!important;box-shadow:none!important;filter:none!important;
+}
+#chatPanel .chat-head,.chat-panel .chat-head,
+#chatPanel .chat-history-head,.chat-panel .chat-history-head{
+  background:linear-gradient(110deg,#fff 0%,#EAFBFF 100%)!important;
+  border-bottom-color:#CDEEFF!important;
+}
+#chatPanel .chat-messages,.chat-panel .chat-messages{
+  background:linear-gradient(180deg,#F4FCFF 0%,#fff 42%)!important;
+}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot,.chat-bubble.bot{
+  background:#fff!important;color:#303849!important;
+  border:1px solid #E5EAF0!important;box-shadow:0 2px 8px rgba(15,40,70,.05)!important;
+}
+#chatPanel .chat-bubble a,.chat-panel .chat-bubble a,.chat-bubble a{color:#0756D8!important}
+#chatPanel .chat-bubble.user a,.chat-panel .chat-bubble.user a{color:#fff!important}
+#chatPanel .chat-tool-btn,.chat-panel .chat-tool-btn{
+  background:#F8FCFF!important;color:#0756D8!important;
+  border:1px solid #D7F2FF!important;box-shadow:none!important;
+}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary{
+  background:#EAFBFF!important;color:#0756D8!important;border-color:#BFEFFF!important;
+}
+#chatPanel .chat-close,.chat-panel .chat-close,
+#chatPanel .chat-compose-btn,.chat-panel .chat-compose-btn{
+  background:#fff!important;color:#0756D8!important;border:1px solid #D7EAF5!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-compose textarea,.chat-panel .chat-compose textarea{
+  background:#F8FCFF!important;color:#202536!important;border-color:#DCEAF2!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-compose textarea:focus,
+#chatPanel .chat-compose textarea.expanded,
+.chat-panel .chat-compose textarea:focus,
+.chat-panel .chat-compose textarea.expanded{
+  background:#fff!important;border-color:#00CFFF!important;
+  outline:0!important;box-shadow:0 0 0 3px rgba(0,207,255,.13)!important;
+}
+#chatPanel .chat-send:hover,#chatPanel .chat-send:focus-visible,
+.chat-panel .chat-send:hover,.chat-panel .chat-send:focus-visible{
+  background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;
+  box-shadow:0 5px 16px rgba(8,123,255,.2)!important;
+}
+#chatPanel .chat-history-item,.chat-panel .chat-history-item{
+  background:#F8FCFF!important;border-color:#DCEAF2!important;box-shadow:none!important;
+}
+#chatPanel .chat-history-delete,.chat-panel .chat-history-delete{
+  background:#EAFBFF!important;color:#0756D8!important;border-color:#BFEFFF!important;
+}
+#chatPanel button:focus-visible,#chatPanel a:focus-visible,
+.chat-panel button:focus-visible,.chat-panel a:focus-visible{
+  outline:2px solid #00CFFF!important;outline-offset:2px!important;
+  box-shadow:0 0 0 3px rgba(0,207,255,.12)!important;
+}
+#chatPanel *,.chat-panel *{text-shadow:none!important;filter:none!important}
+#chatPanel .chat-typing,.chat-panel .chat-typing{background:#fff!important;color:#667085!important}
+#chatToggle::before,#chatToggle::after,.chat-fab::before,.chat-fab::after,
+#chatPanel *::before,#chatPanel *::after,.chat-panel *::before,.chat-panel *::after{
+  text-shadow:none!important;filter:none!important;
+}
+
+</style>
 </head><body><header class="top"><a class="brand brand-image" href="index.html" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE" width="951" height="304"></a><a class="back" href="index.html">Beranda</a></header><main class="wrap"><section class="intro"><h1>Kebijakan Privasi</h1><p>Privasi pengguna merupakan hal yang perlu dijaga. Kebijakan ini menjelaskan kategori informasi yang dapat diproses, tujuan penggunaannya, serta cara menghubungi SKIEESTORE untuk pertanyaan atau permintaan terkait data pribadi.</p></section><section class="section"><h2>1. Informasi yang dapat diproses</h2><p>Informasi yang pengguna masukkan atau yang diperlukan untuk menjalankan layanan dapat mencakup data tujuan top up seperti User ID dan server, nomor invoice, detail produk dan nominal, informasi kontak, serta status transaksi. Informasi teknis dasar seperti waktu akses dan data diagnostik juga dapat tercatat oleh layanan pendukung website.</p><h3>2. Tujuan penggunaan informasi</h3><ul><li>Memproses, memvalidasi, dan memeriksa pesanan.</li><li>Menyampaikan informasi status dan membantu penanganan kendala.</li><li>Menjaga keamanan layanan, mencegah penyalahgunaan, dan melakukan pemeriksaan transaksi.</li><li>Memenuhi kewajiban hukum yang berlaku apabila diperlukan.</li></ul><h3>3. Pembayaran dan penyedia layanan</h3><p>Pembayaran dilakukan melalui metode dan penyedia yang ditampilkan pada checkout. Informasi yang diperlukan dapat diproses oleh penyedia terkait sesuai alur transaksi dan kebijakan mereka. SKIEESTORE tidak meminta pengguna mengirimkan PIN, kata sandi, atau OTP melalui chat.</p><h3>4. Penggunaan dan pengungkapan</h3><p>Informasi dapat digunakan atau dibagikan secara terbatas kepada penyedia teknis, pembayaran, atau produk sejauh diperlukan untuk menjalankan pesanan, menjaga keamanan, dan memberikan dukungan. Informasi juga dapat diungkapkan apabila diwajibkan oleh hukum yang berlaku.</p><h3>5. Penyimpanan dan keamanan</h3><p>Informasi disimpan selama diperlukan untuk tujuan operasional, dukungan, keamanan, penyelesaian sengketa, dan kewajiban yang berlaku. SKIEESTORE berupaya menerapkan langkah pengamanan yang wajar sesuai sistem dan layanan pendukung yang digunakan. Meski demikian, tidak ada metode transmisi atau penyimpanan elektronik yang dapat menjamin keamanan secara mutlak.</p><h3>6. Hak dan permintaan pengguna</h3><p>Untuk pertanyaan, koreksi, atau permintaan terkait informasi pribadi, hubungi <a href="mailto:adminskiee@gmail.com">adminskiee@gmail.com</a>. Permintaan dapat memerlukan verifikasi identitas dan tunduk pada kewajiban penyimpanan yang berlaku.</p><h3>7. Perubahan kebijakan</h3><p>Kebijakan dapat diperbarui apabila alur layanan atau ketentuan yang berlaku berubah. Versi yang ditampilkan pada halaman ini merupakan versi yang berlaku saat diakses.</p><div class="notice">Jangan mengirimkan kata sandi, PIN, OTP, atau data rahasia pembayaran kepada SKIEESTORE melalui kanal bantuan.</div></section></main><footer class="xp-footer" id="footer"><div class="xp-foot-wrap">
 <a class="xp-foot-brand" href="index.html" aria-label="SKIEESTORE Beranda"><img class="xp-foot-logo" src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <p class="xp-foot-desc">SKIEESTORE adalah layanan pemesanan top up game dan produk digital. Pilih produk, masukkan data akun sesuai instruksi, periksa detail pesanan, lalu selesaikan pembayaran melalui metode yang tersedia pada halaman checkout.</p>
