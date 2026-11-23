@@ -469,7 +469,7 @@ body.topup-page { padding-bottom: 110px !important; }
 <a class="back" href="index.html">← Kembali ke Beranda</a>
 <section class="intro"><div class="eyebrow">SKIEESTORE TOP UP CENTER</div><h1>Top up dimulai di sini.</h1><p>Pilih game atau voucher untuk membuka halaman top up khusus.</p></section>
 <section class="panel"><div class="panelhead"><div><div class="kicker">KATALOG GAME</div><h2>Pilih game atau voucher</h2></div></div>
-<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
+<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps">Apps</button><button class="chip" data-filter="Streaming">Streaming</button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
 </section>
 <section class="game-detail-page" id="gameDetailPage">
 <button class="detail-back" id="backCatalog">← Kembali ke katalog game</button>
@@ -606,7 +606,7 @@ function getFormConfig(product,game){
   cfg.help=plain&&plain!=="-"?plain+" Kode atau detail voucher akan mengikuti metode pengiriman supplier. Tidak perlu memasukkan ID akun kecuali instruksi produk menyebutkannya.":"Voucher ini tidak meminta ID akun. Pastikan region/denominasi voucher sesuai sebelum membayar; kode atau detail produk mengikuti pengiriman supplier.";
   return cfg;
  }
- if(category==="apps streaming"&&autoDelivery){
+ if((category==="apps"||category==="streaming")&&autoDelivery){
   cfg.requiresTarget=false;cfg.playerRequired=false;cfg.showServer=false;cfg.serverRequired=false;cfg.requiresManual=false;
   cfg.help=plain+" Produk diproses otomatis; cek detail akun atau petunjuk login di riwayat pesanan. Jangan pernah membagikan password atau OTP pribadi.";
   return cfg;
