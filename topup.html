@@ -428,7 +428,12 @@ function setActiveFlowStep(step){
 function scrollToFlowStep(step){
  const ids={account:"accountPanel",qris:"qrisPanel",receiver:"receiverPanel",checkout:"paymentPanel"};
  const el=$(ids[step]);if(!el)return;
- setTimeout(()=>el.scrollIntoView({behavior:"smooth",block:"start"}),90);
+ setTimeout(()=>{
+  const stickyHeader=document.querySelector(".header");
+  const headerHeight=stickyHeader?stickyHeader.getBoundingClientRect().height:70;
+  const top=el.getBoundingClientRect().top+window.scrollY-headerHeight-18;
+  window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+ },120);
 }
 function advanceTopupFlow(){
  if(!selectedProduct)return;
