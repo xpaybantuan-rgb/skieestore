@@ -64,3 +64,70 @@
   .bottomnav { display: none !important; }
   .chat-fab, #chatToggle, .xp-footer .chat-fab { bottom: 24px !important; }
 }
+
+
+/* Unified responsive navigation + consistent Neo-Brutalism finish */
+[hidden] { display: none !important; }
+:root { --nb-ink: #0f172a; --nb-line: 2.5px solid #0f172a; --nb-hard-shadow: 0 4px 0 #0f172a; }
+.header .nav { gap: 7px !important; padding: 5px !important; border: 0 !important; box-shadow: none !important; background: transparent !important; }
+.header .nav > a { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 7px !important; padding: 9px 12px !important; border: 2px solid #0f172a !important; border-radius: 9px !important; background: #fff !important; color: #0f172a !important; box-shadow: 0 3px 0 #0f172a !important; font-weight: 800 !important; }
+.header .nav > a.active { background: #e0f2fe !important; color: #0f172a !important; border-color: #0f172a !important; }
+.header .nav > a > span:first-child { display: none; }
+.header .nav > a:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #0f172a !important; }
+.gamegrid { padding: 12px 0 20px !important; margin-bottom: 12px !important; }
+.gamegrid > .gamecard { border-width: 2.5px !important; box-shadow: 0 4px 0 #0f172a !important; }
+.gamegrid .gameinfo { gap: 7px !important; }
+.features > .feature, .feature-card, .product, .promobox, .info-card, .notice {
+  border: 2px solid #0f172a !important; box-shadow: 0 3px 0 #0f172a !important;
+}
+.product-area { border-top: 2px solid #0f172a !important; }
+.section + .section { border-top: 1.5px solid #0f172a; }
+.chat-fab, #chatToggle, .xp-footer .chat-fab {
+  border: 2.5px solid #0f172a !important; border-radius: 12px !important;
+  background: #087bff !important; color: #fff !important; box-shadow: 0 4px 0 #0f172a !important;
+}
+.chat-head { gap: 16px !important; padding: 18px 20px !important; }
+.chat-brand { gap: 13px !important; min-width: 0; }
+.chat-brand > span:last-child { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.chat-brand strong { line-height: 1.35 !important; margin: 0 !important; }
+.chat-brand small { line-height: 1.4 !important; margin: 0 !important; }
+#productArea[hidden] { display: none !important; }
+#productArea:not([hidden]) {
+  position: fixed !important; inset: 0 !important; z-index: 10001 !important;
+  display: block !important; overflow-y: auto !important; overscroll-behavior: contain;
+  margin: 0 !important; padding: max(22px, env(safe-area-inset-top)) 18px 28px !important;
+  border: 0 !important; border-radius: 0 !important; background: #f5fafe !important; box-shadow: none !important;
+}
+#productArea .product-head, #productArea > .searchbox, #productArea .product-grid { width: min(100%, 1080px); margin-left: auto; margin-right: auto; }
+#productArea .product-head { padding: 16px; border: 2px solid #0f172a; border-radius: 12px; background: #fff; box-shadow: 0 3px 0 #0f172a; }
+#productArea > .searchbox { margin-top: 18px; }
+@media (max-width: 767px) {
+  body { padding-bottom: calc(112px + env(safe-area-inset-bottom)) !important; }
+  .header .headrow { min-height: 62px !important; height: 62px !important; flex-wrap: nowrap !important; }
+  .header .nav {
+    position: fixed !important; inset: auto 0 0 0 !important; z-index: 9999 !important;
+    display: grid !important; grid-template-columns: repeat(4,minmax(0,1fr)) !important; gap: 8px !important;
+    width: 100% !important; margin: 0 !important; padding: 10px 12px calc(12px + env(safe-area-inset-bottom)) !important;
+    background: #fff !important; border: 0 !important; border-top: 2.5px solid #0f172a !important;
+    border-radius: 0 !important; box-shadow: none !important; backdrop-filter: none !important;
+  }
+  .header .nav > a {
+    min-width: 0 !important; min-height: 49px !important; padding: 6px 3px !important;
+    display: flex !important; flex-direction: column !important; gap: 4px !important;
+    border: 2.5px solid #0f172a !important; border-radius: 11px !important; background: #fff !important;
+    box-shadow: 0 4px 0 #0f172a !important; font-size: 10px !important; line-height: 1.15 !important; white-space: nowrap !important;
+  }
+  .header .nav > a.active { background: #e0f2fe !important; color: #0f172a !important; }
+  .header .nav > a > span:first-child { display: block !important; font-size: 18px !important; line-height: 1 !important; }
+  .header .nav > a:active { transform: translateY(3px) !important; box-shadow: 0 1px 0 #0f172a !important; }
+  .header-menu-wrap { display: none !important; }
+  .gamegrid { margin-bottom: 20px !important; padding-bottom: 24px !important; }
+  .chat-fab, #chatToggle, .xp-footer .chat-fab {
+    position: fixed !important; right: 16px !important; bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    z-index: 9000 !important; width: 54px !important; height: 54px !important;
+  }
+}
+@media (min-width: 768px) {
+  .header .nav { position: static !important; display: flex !important; }
+  .header .nav > a > span:first-child { display: none !important; }
+}
