@@ -206,10 +206,15 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 </style>
 </head><body><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="index.html" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
-<nav class="nav"><a class="active" href="index.html">Beranda</a><a href="cek-pesanan.html">Cek Pesanan</a><a href="topup.html">Top Up</a><a href="profil.html">Profil</a></nav>
+<nav class="nav" aria-label="Navigasi utama">
+<a href="index.html"><span aria-hidden="true">⌂</span><span>Beranda</span></a>
+<a href="cek-pesanan.html"><span aria-hidden="true">⌕</span><span>Cek Pesanan</span></a>
+<a href="topup.html" class="active"><span aria-hidden="true">▤</span><span>Top Up</span></a>
+<a href="profil.html"><span aria-hidden="true">☻</span><span>Profil</span></a>
+</nav>
 <div class="actions header-actions">
 <button class="iconbtn header-search-toggle" id="headerSearchToggle" type="button" aria-label="Cari game" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
-<div class="header-menu-wrap"><button class="iconbtn header-menu-toggle" id="headerMenuToggle" type="button" aria-label="Buka menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="header-menu-panel" id="headerMenuPanel" hidden><a href="index.html">Beranda</a><a href="cek-pesanan.html">Cek Pesanan</a><a href="topup.html">Top Up</a><a href="profil.html">Profil</a></div></div>
+
 </div>
 </div></header>
 <div class="header-search-panel" id="headerSearchPanel" hidden><div class="container"><label class="searchbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="globalGameSearch" type="search" placeholder="Cari game..." autocomplete="off" aria-label="Cari game"></label><div class="topup-search-results" id="topupSearchResults" hidden></div></div></div>
@@ -218,7 +223,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <a class="back" href="index.html">← Kembali ke Beranda</a>
 <section class="intro"><div class="eyebrow">SKIEESTORE TOP UP CENTER</div><h1>Top up dimulai di sini.</h1><p>Pilih game atau voucher untuk membuka halaman top up khusus.</p></section>
 <section class="panel"><div class="panelhead"><div><div class="kicker">KATALOG GAME</div><h2>Pilih game atau voucher</h2></div></div>
-<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">Pc</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps streaming</button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
+<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
 </section>
 <section class="game-detail-page" id="gameDetailPage">
 <button class="detail-back" id="backCatalog">← Kembali ke katalog game</button>
@@ -389,11 +394,9 @@ $("filters").onclick=e=>{const b=e.target.closest("[data-filter]");if(!b)return;
 window.addEventListener("popstate",()=>{const id=new URLSearchParams(location.search).get("game");if(id&&games.length)openGameFromHistory(id);else{$("gameDetailPage").classList.remove("show");$("catalogPage").classList.remove("hide");selected=null}});
 function openGameFromHistory(id){selected=games.find(g=>g.id===id);if(!selected)return;$("catalogPage").classList.add("hide");$("gameDetailPage").classList.add("show");$("heroName").textContent=selected.name;$("heroMeta").textContent=selected.count+" produk tersedia di katalog SKIEESTORE";$("heroArt").innerHTML=selected.image_url?'<img src="'+safe(selected.image_url)+'" alt="">':gameArtwork(selected);const heroImg=$("heroArt").querySelector("img");if(heroImg)heroImg.onerror=()=>{$("heroArt").innerHTML=gameArtwork(selected)};selectedProduct=null;openProductGroup=null;applyFormConfig();renderProducts();updateSummary()}
 (async()=>{try{const g=await api("xpaypoint_games?select=id,name,category,image_url&is_active=eq.true&order=sort_order.asc,name.asc");games=g.map(x=>({...x,count:0}));renderGames();try{products=await api("xpaypoint_products?select=id,game_id,name,description,sell_price,region,provider,provider_sku,metadata&is_active=eq.true&order=sort_order.asc");games=games.map(x=>({...x,count:products.filter(z=>z.game_id===x.id).length}));renderGames();const id=new URLSearchParams(location.search).get("game");if(id)openGameFromHistory(id)}catch(productError){console.error("Produk katalog belum termuat:",productError);const id=new URLSearchParams(location.search).get("game");if(id)openGameFromHistory(id)}}catch(e){$("games").innerHTML='<div class="empty">'+safe(e.name==="TimeoutError"?"Koneksi katalog terlalu lama. Muat ulang halaman.":e.message)+'</div>'}})();
-</script><nav class="bottomnav"><a href="index.html"><span>⌂</span><span>Beranda</span></a><a href="cek-pesanan.html"><span>⌕</span><span>Cek Pesanan</span></a><a href="topup.html" class="active"><span>▤</span><span>Top Up</span></a><a href="profil.html"><span>☻</span><span>Profil</span></a></nav>
-
-<script>
-(()=>{const b=document.getElementById('headerMenuToggle'),p=document.getElementById('headerMenuPanel');if(!b||!p)return;b.addEventListener('click',()=>{const opening=p.hidden;p.hidden=!opening;b.setAttribute('aria-expanded',String(opening));});document.addEventListener('click',e=>{if(!e.target.closest('.header-menu-wrap')){p.hidden=true;b.setAttribute('aria-expanded','false');}});})();
 </script>
+
+
 <script>
 (()=>{const b=document.getElementById('headerSearchToggle'),p=document.getElementById('headerSearchPanel'),i=document.getElementById('globalGameSearch');if(!b||!p||!i)return;b.addEventListener('click',()=>{const open=p.hidden;p.hidden=!open;b.setAttribute('aria-expanded',String(open));if(open)i.focus();});i.addEventListener('keydown',e=>{if(e.key==='Enter'){const q=i.value.trim();if(q)location.href='topup.html?q='+encodeURIComponent(q);}});document.addEventListener('click',e=>{if(!e.target.closest('#headerSearchPanel')&&!e.target.closest('#headerSearchToggle')){p.hidden=true;b.setAttribute('aria-expanded','false');}});})();
 (()=>{const i=document.getElementById('globalGameSearch'),box=document.getElementById('topupSearchResults');if(!i||!box)return;const draw=()=>{const q=i.value.trim().toLowerCase();globalQuery=q;renderGames();if(!q){box.hidden=true;box.innerHTML='';return}const matches=games.filter(g=>g.name.toLowerCase().includes(q)).slice(0,8);box.innerHTML=matches.length?matches.map(g=>'<button type="button" class="topup-search-result" data-search-game="'+g.id+'">'+(g.image_url?'<img src="'+safe(g.image_url)+'" alt="">':'<span class="art">'+gameArtwork(g)+'</span>')+'<span><strong>'+safe(g.name)+'</strong><small>'+g.count+' produk aktif · Klik untuk top up</small></span></button>').join(''):'<div class="topup-search-result">Game tidak ditemukan.</div>';box.hidden=false};const q=new URLSearchParams(location.search).get('q')||'';if(q){i.value=q;draw()}i.addEventListener('input',draw);box.addEventListener('click',e=>{const b=e.target.closest('[data-search-game]');if(b){box.hidden=true;openGame(b.dataset.searchGame)}});})();
