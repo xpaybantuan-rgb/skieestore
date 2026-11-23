@@ -456,23 +456,33 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 
 /* XP-SAFE-001: keep the home catalog filters readable and stable */
 #gameFilters.chips {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
   gap: 8px !important;
   width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: none !important;
 }
+#gameFilters.chips::-webkit-scrollbar { display: none !important; }
 #gameFilters .chip {
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  min-width: 0 !important;
+  flex: 0 0 auto !important;
+  min-width: max-content !important;
   min-height: 42px !important;
-  padding: 8px 6px !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
+  padding: 8px 14px !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
   text-align: center !important;
   line-height: 1.25 !important;
-  font-size: clamp(10px, 2.5vw, 12px) !important;
+  font-size: 12px !important;
 }
 #gameFilters .chip:hover,
 #gameFilters .chip:active,
@@ -480,9 +490,6 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 .gamegrid > .gamecard:active {
   transform: none !important;
   box-shadow: 0 3px 0 #0f172a !important;
-}
-@media (max-width: 520px) {
-  #gameFilters.chips { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 }
 
 </style>
