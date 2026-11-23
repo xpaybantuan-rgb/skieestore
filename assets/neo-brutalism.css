@@ -508,3 +508,26 @@ body.topup-page .nb-game-trust span {
   body.topup-page .nb-game-trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
   body.topup-page .nb-game-trust span { min-height: 38px; font-size: 9px; }
 }
+
+
+/* XP-SAFE-001 repair: keep Neo-Brutalism surfaces static during hover/tap.
+   No layout, color, content, or navigation changes. */
+.gamecard, .game, .product, .product-card,
+button, .btn, .primary, .account, .catalog-more, .chip,
+button[type="submit"], input[type="submit"],
+.bottomnav a, .bottomnav .bottom-nav-item {
+  transition: none !important;
+}
+.gamecard:hover, .game:hover, .product:hover, .product-card:hover,
+button:hover, .btn:hover, .primary:hover, .account:hover,
+.catalog-more:hover, .chip:hover,
+button:active, .btn:active, .primary:active, .account:active,
+button[type="submit"]:active, input[type="submit"]:active,
+.bottomnav a:active, .bottomnav .bottom-nav-item:active {
+  transform: none !important;
+}
+button:active, .btn:active, .primary:active, .account:active,
+button[type="submit"]:active, input[type="submit"]:active,
+.bottomnav a:active, .bottomnav .bottom-nav-item:active {
+  box-shadow: var(--nb-shadow-sm, 3px 3px 0 #191b22) !important;
+}
