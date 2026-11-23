@@ -90,3 +90,23 @@ html, body, main, main > .hero, main > .section {
 .footer, .bottomnav {
   background-color: #fff !important;
 }
+
+
+/* Clean up overlapping Neo-Brutalism outlines */
+.header, .top, header {
+  box-shadow: none !important;
+}
+.nav {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.searchbox {
+  box-shadow: none !important;
+}
+.searchbox input {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+@media (max-width: 620px) {
+  .gamegrid { gap: 12px !important; }
+}
