@@ -341,6 +341,120 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 </style>
 
 <link rel="stylesheet" href="/assets/neo-brutalism.css?v=4">
+
+<style id="game-catalog-card-refresh">
+/* Katalog game: kartu horizontal Neo-Brutalism, dua kolom di HP */
+.gamegrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  padding: 12px 0 !important;
+}
+.gamegrid > .gamecard {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  min-height: 76px !important;
+  padding: 10px !important;
+  overflow: hidden !important;
+  text-align: left !important;
+  color: #0f172a !important;
+  background: #fff !important;
+  border: 2px solid #0f172a !important;
+  border-radius: 14px !important;
+  box-shadow: 0 3px 0 #0f172a !important;
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease !important;
+}
+.gamegrid > .gamecard:hover {
+  transform: translateY(-1px) !important;
+  border-color: #0f172a !important;
+  box-shadow: 0 4px 0 #0f172a !important;
+}
+.gamegrid > .gamecard:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0 1px 0 #0f172a !important;
+}
+.gamegrid .gameart {
+  width: 52px !important;
+  height: 52px !important;
+  min-width: 52px !important;
+  max-width: 52px !important;
+  aspect-ratio: 1 / 1 !important;
+  flex: 0 0 52px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1.5px solid #0f172a !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  background: #f1f5f9 !important;
+}
+.gamegrid .gameart img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: inherit !important;
+}
+.gamegrid .gameinfo {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+.gamegrid .gameinfo strong {
+  display: -webkit-box !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  color: #0f172a !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+}
+.gamegrid .gameinfo small {
+  display: inline-block !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 2px 7px !important;
+  overflow: hidden !important;
+  color: #0369a1 !important;
+  background: #e0f2fe !important;
+  border: 1px solid #0f172a !important;
+  border-radius: 6px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.gamegrid .gamearrow { display: none !important; }
+@media (min-width: 621px) {
+  .gamegrid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 360px) {
+  .gamegrid { gap: 8px !important; }
+  .gamegrid > .gamecard { gap: 7px !important; padding: 8px !important; }
+  .gamegrid .gameart {
+    width: 44px !important; height: 44px !important;
+    min-width: 44px !important; max-width: 44px !important;
+    flex-basis: 44px !important;
+  }
+  .gamegrid .gameinfo strong { font-size: 11px !important; }
+  .gamegrid .gameinfo small { font-size: 9px !important; padding: 2px 5px !important; }
+}
+</style>
+
 </head>
 <body>
 <header class="header"><div class="container headrow">
