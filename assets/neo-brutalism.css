@@ -7,7 +7,7 @@
   --nb-radius: 8px;
 }
 body {
-  background: var(--bg, #fff) !important;
+  background: #F5FAFE !important;
   color: var(--text, #191b22) !important;
 }
 .header, .top, header {
@@ -79,4 +79,13 @@ input:focus, select:focus, textarea:focus, .searchbox:focus-within, .search:focu
   .gamecard, .game, .product, .product-card, .order-card, .info-card, .notice {
     box-shadow: var(--nb-shadow) !important;
   }
+}
+
+
+/* User reference background: pale blue-gray across storefront, footer stays white */
+html, body, main, main > .hero, main > .section {
+  background-color: #F5FAFE !important;
+}
+.xp-footer, .bottomnav {
+  background-color: #fff !important;
 }
