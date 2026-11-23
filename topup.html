@@ -362,15 +362,27 @@ function getFormConfig(product,game){
   return cfg;
  }
  if(!raw||raw==="-"||lower==="null"){
-  cfg.help=category==="pc"?"Data tujuan untuk produk PC ini belum dijelaskan oleh supplier. Kami sengaja menahan checkout sampai format Riot ID / User ID / data akun dipastikan.":"Supplier belum memberikan instruksi data tujuan untuk produk ini. Checkout ditahan agar produk tidak salah dikirim.";
+  cfg.requiresTarget=false;cfg.playerRequired=false;cfg.showServer=false;cfg.serverRequired=false;
+  cfg.help=category==="pc"?"Data tujuan untuk produk PC ini belum dijelaskan oleh supplier. Checkout ditahan sampai format Riot ID / User ID / data akun dipastikan.":"Supplier belum memberikan instruksi data tujuan untuk produk ini. Checkout ditahan agar produk tidak salah dikirim.";
   return cfg;
  }
  cfg.help=plain+" Jenis data tujuan belum dapat dipastikan dari instruksi supplier. Hubungi admin sebelum memesan.";
  return cfg;
 }
 function applyFormConfig(){
+ const hasProduct=!!selectedProduct;
+ if(!hasProduct){
+  activeForm={playerLabel:"ID Akun",playerPlaceholder:"Pilih produk terlebih dahulu",serverLabel:"Server / Zone ID",serverPlaceholder:"Pilih produk terlebih dahulu",showServer:false,playerRequired:false,serverRequired:false,requiresTarget:false,requiresManual:false,help:"Pilih produk terlebih dahulu. Kolom data tujuan akan muncul otomatis sesuai kebutuhan produk yang kamu pilih."};
+  $("accountTitle").textContent="Data Tujuan";
+  $("playerField").hidden=true;$("playerField").style.display="none";
+  $("serverField").hidden=true;$("serverField").style.display="none";
+  $("summaryServerRow").hidden=true;$("summaryServerRow").style.display="none";
+  $("accountHelp").textContent=activeForm.help;
+  $("summaryPlayerLabel").textContent="Data Tujuan";
+  $("playerId").required=false;$("serverId").required=false;
+  return;
+ }
  activeForm=getFormConfig(selectedProduct,selected);
- const hasGame=!!selected,hasProduct=!!selectedProduct,manual=hasProduct&&activeForm.requiresManual;
  $("accountTitle").textContent=/email|gmail/.test(activeForm.playerLabel)?"Data Penerima":"Data Tujuan";
  $("playerLabel").textContent=activeForm.playerLabel;$("playerId").placeholder=activeForm.playerPlaceholder;
  $("serverLabel").textContent=activeForm.serverLabel;$("serverId").placeholder=activeForm.serverPlaceholder;
