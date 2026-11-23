@@ -158,3 +158,9 @@
   margin: 0 !important;
   line-height: 1.4 !important;
 }
+
+/* Top-up checkout chat launcher: stay above page content and keep hard shadow */
+.chat-fab, #chatToggle, .xp-footer .chat-fab {
+  z-index: 999 !important;
+  box-shadow: 0 4px 0 #0f172a !important;
+}
