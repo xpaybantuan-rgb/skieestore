@@ -171,3 +171,65 @@ body { background: #f4faff !important; }
   .gamegrid, .product-grid { gap: 12px !important; }
   .gamecard, .product { box-shadow: 3px 3px 0 var(--nb-ink) !important; }
 }
+
+
+/* Complete coverage: actual inner pages, checkout, profile and chat components */
+.intro,.panel,.section,.notice,.card,.result,.summary-card,.summary-total,
+.product-group,.product-choice,.payment-option,.payment-option-choice,
+.receiver-box,.voucher-box,.qr-wrap,.details,.waiting,.timer,.state,
+.member-card,.shortcut-card,.feature-card,.profile-section,.profile-heading,
+.payment,.payment-head,.meta,.kpi,.catalog-item,.vip-stat,.vip-row,
+.chat-panel,.chat-head,.chat-toolbar,.chat-history-panel,.chat-compose,
+.chat-messages,.chat-footer,.chat-tool-btn,.chat-send,.chat-fab,
+.form,.account-fields,.field,.steps,.step-pill,.receiver-box,.pay-now {
+  border: 2px solid var(--nb-ink) !important;
+  border-radius: var(--nb-radius) !important;
+}
+.intro,.panel,.section,.notice,.card,.result,.summary-card,.summary-total,
+.product-group,.payment-option,.receiver-box,.voucher-box,.qr-wrap,
+.details,.member-card,.shortcut-card,.feature-card,.payment,.kpi,
+.catalog-item,.vip-stat,.vip-row,.chat-panel {
+  box-shadow: var(--nb-shadow-sm) !important;
+}
+.product-choice,.payment-option-choice,.shortcut-card,.feature-card,
+.vip-row,.catalog-item,.payment,.member-card {
+  background: #fff !important;
+}
+.product-choice:has(input:checked),.payment-option-choice:has(input:checked),
+.payment-option:has(input:checked) {
+  outline: 2px solid var(--accent,#087BFF) !important;
+  outline-offset: 2px !important;
+  background: var(--soft,#EAFBFF) !important;
+}
+.field input,.field textarea,.field select,.filterbar input,.filterbar select,
+.vip-tools input,.vip-tools select,.vip-row input,.chat-compose textarea,
+.form input,.account-fields input,.account-fields select {
+  border: 2px solid var(--nb-ink) !important;
+  border-radius: 8px !important;
+  box-shadow: 2px 2px 0 var(--nb-ink) !important;
+}
+.qr-wrap { background:#fff !important; padding:14px !important; }
+.qr-wrap img { border-radius:4px !important; }
+.summary-total,.amount,.price,.catalog-price,.vip-price { font-weight:900 !important; }
+.status,.badge,.tag,.pill,.guest-badge,.feature-tag {
+  border: 1.5px solid var(--nb-ink) !important;
+  border-radius: 7px !important;
+  font-weight:850 !important;
+}
+.chat-panel {
+  border-radius: 14px !important;
+  box-shadow: 7px 7px 0 var(--nb-ink) !important;
+  overflow: hidden !important;
+}
+.chat-head { background:var(--accent,#087BFF) !important; color:#fff !important; }
+.chat-compose { background:#fff !important; }
+.chat-send,.chat-fab { border:2px solid var(--nb-ink) !important; box-shadow:3px 3px 0 var(--nb-ink) !important; }
+.admin-table th { background:#eaf7ff !important; color:#172033 !important; border-bottom:2px solid var(--nb-ink) !important; }
+.admin-table td { border-bottom:1px solid #cbd5e1 !important; }
+.admin-table tr:hover td { background:#f0faff !important; }
+.toolbar { gap:12px !important; }
+.bottomnav a.active { border:2px solid var(--nb-ink) !important; border-radius:8px !important; box-shadow:2px 2px 0 var(--nb-ink) !important; }
+@media(max-width:620px) {
+  .chat-panel { border-radius:12px !important; box-shadow:4px 4px 0 var(--nb-ink) !important; }
+  .panel,.member-card,.summary-card,.payment,.feature-card,.shortcut-card { box-shadow:3px 3px 0 var(--nb-ink) !important; }
+}
