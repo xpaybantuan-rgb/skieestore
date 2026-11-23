@@ -407,7 +407,7 @@ async function checkGameNickname(){
  result.hidden=false;result.className="nickname-check-result";result.textContent="";
  if(!selectedProduct||!target){result.classList.add("error");result.textContent="Pilih produk dan isi User ID terlebih dahulu.";return}
  if(!code){result.classList.add("error");result.textContent="Kode game VIPayment belum tersedia untuk game ini. Hubungi admin untuk mengaktifkannya.";return}
- button.disabled=true;button.textContent="SEDANG MENGECEK…";result.textContent="Menghubungi VIPayment…";
+ button.disabled=true;button.textContent="SEDANG MENGECEK…";result.textContent="Memeriksa nickname…";
  try{
   const response=await fetch("https://xpaypoint-vipayment-gateway.xpaybantuan.workers.dev/api/cek-nickname",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,target,additional_target:additionalTarget})});
   const payload=await response.json().catch(()=>({}));
