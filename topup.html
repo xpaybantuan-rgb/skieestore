@@ -400,7 +400,9 @@ function applyFormConfig(){
 async function checkGameNickname(){
  const wrap=$("nicknameCheckWrap"),button=$("checkNicknameButton"),result=$("nicknameCheckResult");
  const target=$("playerId").value.trim(),additionalTarget=$("serverId").value.trim();
- const gameName=String(selected?.name||"").toLowerCase();\n const knownCodes=[[/mobile legends|mobilelegend|mlbb/,"mobile-legends"],[/free fire|max/,"free-fire"],[/pubg mobile|pubgm/,"pubgm"],[/valorant/,"valorant"],[/genshin impact|genshin/,"genshin-impact"],[/honkai star rail|hsr/,"honkai-star-rail"],[/point blank|pointblank/,"pointblank"]];\n const code=String(selected?.metadata?.nickname_code||selected?.provider_code||selected?.game_code||selectedProduct?.metadata?.game_code||selectedProduct?.metadata?.provider_code||knownCodes.find(([pattern])=>pattern.test(gameName))?.[1]||"").trim();
+ const gameName=String(selected?.name||"").toLowerCase();
+ const knownCodes=[[/mobile legends|mobilelegend|mlbb/,"mobile-legends"],[/free fire|max/,"free-fire"],[/pubg mobile|pubgm/,"pubgm"],[/valorant/,"valorant"],[/genshin impact|genshin/,"genshin-impact"],[/honkai star rail|hsr/,"honkai-star-rail"],[/point blank|pointblank/,"pointblank"]];
+ const code=String(selected?.metadata?.nickname_code||selected?.provider_code||selected?.game_code||selectedProduct?.metadata?.game_code||selectedProduct?.metadata?.provider_code||knownCodes.find(([pattern])=>pattern.test(gameName))?.[1]||"").trim();
  result.hidden=false;result.className="nickname-check-result";result.textContent="";
  if(!selectedProduct||!target){result.classList.add("error");result.textContent="Pilih produk dan isi User ID terlebih dahulu.";return}
  if(!code){result.classList.add("error");result.textContent="Kode game VIPayment belum tersedia untuk game ini. Hubungi admin untuk mengaktifkannya.";return}
