@@ -370,3 +370,27 @@ button, .btn, .primary, .account, .chip, .nav a {
   border-top: 2px solid var(--nb-ink) !important;
   box-shadow: none !important;
 }
+
+
+/* v5 hard override: shared informational panels and footer */
+html body main.wrap > section.intro,
+html body main.wrap > section.section {
+  background: #fff !important;
+  color: #191b22 !important;
+  border: 2px solid #191b22 !important;
+  border-radius: 8px !important;
+  box-shadow: 4px 4px 0 #191b22 !important;
+}
+html body main.wrap > section.intro :is(h1,h2,h3),
+html body main.wrap > section.section :is(h1,h2,h3) {
+  color: #191b22 !important;
+}
+html body main.wrap > section.intro p,
+html body main.wrap > section.section :is(p,li) {
+  color: #374151 !important;
+}
+html body footer.xp-footer {
+  background: #fff !important;
+  border-top: 2px solid #191b22 !important;
+  box-shadow: none !important;
+}
