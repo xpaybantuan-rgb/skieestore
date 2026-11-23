@@ -398,3 +398,113 @@ html body footer.xp-footer {
 
 /* Hide the numbered checkout progress strip on the top-up detail page */
 body.topup-page .steps { display: none !important; }
+
+
+/* Neo-Brutalism service identity block on top-up detail */
+body.topup-page .nb-game-identity {
+  display: grid !important;
+  grid-template-columns: 1fr;
+  gap: 16px !important;
+  align-items: stretch !important;
+  padding: 18px !important;
+  margin: 0 0 18px !important;
+  color: #191b22 !important;
+  background: #fff !important;
+  border: 2px solid #191b22 !important;
+  border-radius: 8px !important;
+  box-shadow: 5px 5px 0 #191b22 !important;
+}
+body.topup-page .nb-game-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #191b22;
+}
+body.topup-page .nb-game-brand img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+body.topup-page .nb-game-brand strong {
+  display: block;
+  font: 800 15px "Space Grotesk", sans-serif;
+  letter-spacing: .04em;
+}
+body.topup-page .nb-game-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #525866 !important;
+  font-size: 10px;
+  font-weight: 700;
+}
+body.topup-page .nb-game-service {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+body.topup-page .nb-game-art {
+  width: 72px !important;
+  height: 72px !important;
+  flex: 0 0 72px;
+  border: 2px solid #191b22;
+  border-radius: 8px !important;
+  background: #f1f5f9;
+  box-shadow: 3px 3px 0 #191b22;
+  overflow: hidden;
+}
+body.topup-page .nb-game-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+body.topup-page .nb-game-title { min-width: 0; }
+body.topup-page .nb-game-title .eyebrow {
+  display: inline-block;
+  padding: 4px 7px;
+  color: #191b22 !important;
+  background: #a5f3fc;
+  border: 1.5px solid #191b22;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+body.topup-page .nb-game-title h1 {
+  margin: 7px 0 3px !important;
+  color: #191b22 !important;
+  font-size: clamp(22px, 4vw, 30px) !important;
+  overflow-wrap: anywhere;
+}
+body.topup-page .nb-game-title .muted {
+  color: #525866 !important;
+  font-size: 11px !important;
+  font-weight: 700;
+}
+body.topup-page .nb-game-trust {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+body.topup-page .nb-game-trust span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 7px 8px;
+  color: #191b22 !important;
+  background: #fff;
+  border: 2px solid #191b22;
+  border-radius: 6px;
+  box-shadow: 2px 2px 0 #191b22;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.35;
+}
+@media (max-width: 620px) {
+  body.topup-page .nb-game-identity { padding: 14px !important; gap: 13px !important; }
+  body.topup-page .nb-game-art { width: 60px !important; height: 60px !important; flex-basis: 60px; }
+  body.topup-page .nb-game-trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  body.topup-page .nb-game-trust span { min-height: 38px; font-size: 9px; }
+}
