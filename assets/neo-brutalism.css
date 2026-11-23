@@ -1,0 +1,82 @@
+/* SKIEESTORE Neo-Brutalism layer — keeps the existing blue/cyan palette */
+:root {
+  --nb-ink: #191b22;
+  --nb-border: 2px solid var(--nb-ink);
+  --nb-shadow: 5px 5px 0 var(--nb-ink);
+  --nb-shadow-sm: 3px 3px 0 var(--nb-ink);
+  --nb-radius: 8px;
+}
+body {
+  background: var(--bg, #fff) !important;
+  color: var(--text, #191b22) !important;
+}
+.header, .top, header {
+  border-bottom: var(--nb-border) !important;
+  box-shadow: 0 3px 0 var(--nb-ink) !important;
+  backdrop-filter: none !important;
+}
+.nav, .nav a, .iconbtn, .ghostbtn, .searchbox, .search, input, select, textarea {
+  border: var(--nb-border) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: 2px 2px 0 var(--nb-ink) !important;
+}
+.nav { background: var(--surface, #fff) !important; }
+.nav a.active, .nav a:hover, .chip.active {
+  background: var(--soft, #EAFBFF) !important;
+  color: var(--accent, #087BFF) !important;
+  border-color: var(--nb-ink) !important;
+}
+.hero-card, .intro, .panel, .section-card, .checkout-card, .summary-card,
+.gamecard, .game, .product, .product-card, .order-card, .info-card, .notice {
+  border: var(--nb-border) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow) !important;
+}
+.hero-card {
+  background: linear-gradient(115deg, #fff, #F4FCFF 62%, #EAFBFF) !important;
+}
+.gamecard, .game, .product, .product-card, .order-card, .info-card {
+  transition: transform .14s ease, box-shadow .14s ease !important;
+}
+.gamecard:hover, .game:hover, .product:hover, .product-card:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 7px 7px 0 var(--nb-ink) !important;
+}
+button, .btn, .primary, .account, .catalog-more, .chip, .btn-primary,
+button[type="submit"], input[type="submit"] {
+  border: var(--nb-border) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow-sm) !important;
+  font-weight: 800 !important;
+  transition: transform .12s ease, box-shadow .12s ease !important;
+}
+button:active, .btn:active, .primary:active, .account:active,
+button[type="submit"]:active, input[type="submit"]:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: none !important;
+}
+.primary, .account, .btn-primary {
+  background: var(--accent, #087BFF) !important;
+  color: #fff !important;
+  border-color: var(--nb-ink) !important;
+}
+.btn-outline, .btn-light {
+  border: var(--nb-border) !important;
+  border-radius: var(--nb-radius) !important;
+  box-shadow: var(--nb-shadow-sm) !important;
+}
+.chip { border-radius: 6px !important; }
+h1, h2, h3, .section h2 {
+  letter-spacing: -.035em;
+}
+input:focus, select:focus, textarea:focus, .searchbox:focus-within, .search:focus {
+  outline: 2px solid var(--accent, #087BFF) !important;
+  outline-offset: 2px !important;
+}
+@media (max-width: 620px) {
+  :root { --nb-shadow: 4px 4px 0 var(--nb-ink); --nb-shadow-sm: 3px 3px 0 var(--nb-ink); }
+  .hero-card, .intro, .panel, .section-card, .checkout-card, .summary-card,
+  .gamecard, .game, .product, .product-card, .order-card, .info-card, .notice {
+    box-shadow: var(--nb-shadow) !important;
+  }
+}
