@@ -398,6 +398,38 @@ body.topup-page { padding-bottom: 110px !important; }
 }
 
 </style>
+<style id="xp-safe-catalog-filters">
+/* XP-SAFE-001: keep the top-up catalog filters readable and stable */
+#filters.filters {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+#filters .chip {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  min-height: 42px !important;
+  padding: 8px 6px !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  text-align: center !important;
+  line-height: 1.25 !important;
+  font-size: clamp(10px, 2.5vw, 12px) !important;
+}
+#filters .chip:hover,
+#filters .chip:active,
+#games .game:hover,
+#games .game:active {
+  transform: none !important;
+  box-shadow: var(--nb-shadow-sm, 3px 3px 0 #191b22) !important;
+}
+@media (max-width: 520px) {
+  #filters.filters { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+</style>
 </head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="index.html" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
@@ -417,7 +449,7 @@ body.topup-page { padding-bottom: 110px !important; }
 <a class="back" href="index.html">← Kembali ke Beranda</a>
 <section class="intro"><div class="eyebrow">SKIEESTORE TOP UP CENTER</div><h1>Top up dimulai di sini.</h1><p>Pilih game atau voucher untuk membuka halaman top up khusus.</p></section>
 <section class="panel"><div class="panelhead"><div><div class="kicker">KATALOG GAME</div><h2>Pilih game atau voucher</h2></div></div>
-<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Top Up Game/Voucher</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
+<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
 </section>
 <section class="game-detail-page" id="gameDetailPage">
 <button class="detail-back" id="backCatalog">← Kembali ke katalog game</button>
