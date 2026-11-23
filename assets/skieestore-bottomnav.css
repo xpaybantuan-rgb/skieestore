@@ -1,0 +1,66 @@
+/* Production bottom navigation override — loaded after page styles */
+@media (max-width: 767px) {
+  body { padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
+  .bottomnav {
+    position: fixed !important;
+    inset: auto 0 0 0 !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom)) !important;
+    background: #fff !important;
+    border-top: 2px solid #0f172a !important;
+    backdrop-filter: none !important;
+  }
+  .bottomnav > a {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
+    padding: 7px 3px !important;
+    color: #0f172a !important;
+    background: #fff !important;
+    border: 2.5px solid #0f172a !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 0 #0f172a !important;
+    text-decoration: none !important;
+    font-size: 10.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bottomnav > a.active {
+    color: #0f172a !important;
+    background: #e0f2fe !important;
+    border-color: #0f172a !important;
+  }
+  .bottomnav > a > span:first-child {
+    font-size: 18px !important;
+    line-height: 1 !important;
+  }
+  .bottomnav > a:active {
+    transform: translateY(3px) !important;
+    box-shadow: 0 1px 0 #0f172a !important;
+  }
+  .chat-fab, #chatToggle, .xp-footer .chat-fab {
+    position: fixed !important;
+    right: 16px !important;
+    bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+    z-index: 10000 !important;
+  }
+}
+@media (min-width: 768px) {
+  .bottomnav { display: none !important; }
+  .chat-fab, #chatToggle, .xp-footer .chat-fab { bottom: 24px !important; }
+}
