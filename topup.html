@@ -417,21 +417,21 @@ body.topup-page { padding-bottom: 110px !important; }
 <a class="back" href="index.html">← Kembali ke Beranda</a>
 <section class="intro"><div class="eyebrow">SKIEESTORE TOP UP CENTER</div><h1>Top up dimulai di sini.</h1><p>Pilih game atau voucher untuk membuka halaman top up khusus.</p></section>
 <section class="panel"><div class="panelhead"><div><div class="kicker">KATALOG GAME</div><h2>Pilih game atau voucher</h2></div></div>
-<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
+<div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Top Up Game/Voucher</button><button class="chip" data-filter="PC">PC</g/button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps streaming">Apps &amp; Streaming</g/button></div><div class="games" id="games"><div class="empty">Memuat katalog…</div></div></section>
 </section>
 <section class="game-detail-page" id="gameDetailPage">
 <button class="detail-back" id="backCatalog">← Kembali ke katalog game</button>
 <section class="game-hero nb-game-identity" aria-label="Informasi layanan">
   <div class="nb-game-brand">
     <img src="assets/skieestore-logo-transparent.png?v=1" alt="Logo SKIEESTORE">
-    <div><strong>SKIEESTORE</strong><small>Dikembangkan oleh xpaybantuan</small></div>
+    <div><strong>SKIEESTORE</strong><small>Dikembangkan oleh nandoskiee</small></div>
   </div>
   <div class="nb-game-service">
     <span class="art nb-game-art" id="heroArt"></span>
     <div class="nb-game-title"><span class="eyebrow" id="heroCategory">LAYANAN DIGITAL</span><h1 id="heroName">Pilih layanan</h1><p class="muted" id="heroMeta">Game • Voucher • Streaming</p></div>
   </div>
   <div class="nb-game-trust" aria-label="Keunggulan layanan">
-    <span>⚡ Diproses otomatis</span><span>🔒 Pembayaran aman</span><span>☏ CS 24 jam</span><span>✓ Aman &amp; terpercaya</span>
+    <span>⚡ Diproses otomatis</span><span>🔒 Pembayaran aman</span><span>☏ Customer Service on</span><span>✓ Aman &amp; terpercaya</span>
   </div>
 </section>
 <div class="steps"><span class="step-pill">01 · Pilih game/produk</span><span class="step-pill">02 · Pilih nominal</span><span class="step-pill">03 · Data tujuan</span><span class="step-pill">04 · QRIS</span><span class="step-pill">05 · Email & voucher</span><span class="step-pill">06 · Pembayaran</span></div>
@@ -459,6 +459,31 @@ const SUPABASE_URL="https://rjgeitbkpcyymgemcztx.supabase.co",KEY="sb_publishabl
 let verifiedNickname="";let games=[],products=[],filter="Mobile",selected=null,selectedProduct=null,openProductGroup=null,activeForm={playerLabel:"ID / Data Tujuan",playerPlaceholder:"Masukkan data tujuan sesuai produk",serverLabel:"Server / Region",serverPlaceholder:"Isi jika diminta produk",showServer:false,playerRequired:true,serverRequired:false,help:"Isi data tujuan sesuai instruksi produk. Jangan pernah memasukkan password atau kode OTP."},globalQuery=new URLSearchParams(location.search).get("q")?.trim().toLowerCase()||"";
 async function api(path){let all=[],offset=0;while(true){const r=await fetch(SUPABASE_URL+"/rest/v1/"+path+"&limit=1000&offset="+offset,{headers:{apikey:KEY,Authorization:"Bearer "+KEY},signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error("Katalog gagal dimuat ("+r.status+")");const batch=await r.json();all.push(...batch);if(batch.length<1000)break;offset+=1000;if(offset>=10000)break}return all}
 function initials(n){return String(n||"XP").split(/\s+/).slice(0,2).map(x=>x[0]||"").join("").toUpperCase()}
+ function publisherForGame(g){
+  const name=String(g?.name||"").toLowerCase();
+  if(/mobile legends|mlbb|magic chess/.test(name))return "Moonton";
+  if(/free fire|garena shell|arena of valor/.test(name))return /arena of valor/.test(name)?"Level Infinite":"Garena";
+  if(/pubg|honor of kings|delta force/.test(name))return "Tencent Games";
+  if(/genshin|honkai|zenless|崩坏/.test(name))return "HoYoverse";
+  if(/valorant|league of legends|teamfight tactics/.test(name))return "Riot Games";
+  if(/call of duty/.test(name))return "Activision";
+  if(/point blank/.test(name))return "Zepetto";
+  if(/roblox/.test(name))return "Roblox";
+  if(/minecraft/.test(name))return "Mojang Studios";
+  if(/steam/.test(name))return "Valve";
+  if(/ragnarok/.test(name))return "Gravity";
+  if(/stumble guys/.test(name))return "Scopely";
+  if(/ea sports|fc mobile|fifa/.test(name))return "Electronic Arts";
+  return String(g?.publisher||g?.developer||g?.metadata?.publisher||"Publisher resmi");
+ }
+ function categoryLabel(category){
+  const c=String(category||"").toLowerCase();
+  if(c==="mobile"||c==="voucher"||c.includes("game"))return "TOP UP GAME / VOUCHER";
+  if(c==="pc"||c.includes("pc"))return "PC";
+  if(c.includes("stream"))return "STREAMING";
+  if(c.includes("app"))return "APPS";
+  return "LAYANAN DIGITAL";
+ }
 function gameArtwork(g){
  const slug=String(g.slug||g.name||"game").toLowerCase();
  const styles=[
@@ -622,7 +647,7 @@ function advanceTopupFlow(){
  if(nextStep!==activeFlowStep){setActiveFlowStep(nextStep);scrollToFlowStep(nextStep);}
 }
 function updateSummary(){$("summaryNickname").textContent=verifiedNickname||"Belum dicek";$("summaryGame").textContent=selected?.name||"—";$("summaryProduct").textContent=selectedProduct?.name||"Belum dipilih";$("summaryTotal").textContent=selectedProduct?money(selectedProduct.sell_price):"Rp0";$("summaryPlayer").textContent=$("playerId").value.trim()||"—";$("summaryServer").textContent=$("serverId").value.trim()||"—";$("summaryEmail").textContent=$("receiptEmail").value.trim()||"—";$("summaryWhatsapp").textContent=$("receiptWhatsapp").value.trim()||"—";const targetValue=$("playerId").value.trim();const targetValid=activeForm.requiresTarget===false||(activeForm.playerLabel==="Email Tujuan"?/^\S+@\S+\.\S+$/.test(targetValue):activeForm.playerLabel==="Nomor HP"?/^[+0-9(). -]{7,20}$/.test(targetValue):!!targetValue);const ready=!!(selected&&selectedProduct&&!activeForm.requiresManual&&targetValid&&(!activeForm.serverRequired||$("serverId").value.trim())&&/^\S+@\S+\.\S+$/.test($("receiptEmail").value.trim())&&document.querySelector("input[name=paymentMethod]:checked"));$("checkoutButton").disabled=!ready;$("checkoutButton").classList.toggle("checkout-disabled",!ready);$("checkoutButton").style.background=ready?"#087BFF":"";$("checkoutButton").style.color=ready?"#fff":"";$("checkoutStatus").textContent=activeForm.requiresManual&&selectedProduct?"Konfirmasi ke Admin SKIEESTORE sebelum memesan produk ini.":ready?"Metode "+({qris:"QRIS",ewallet:"E-Wallet",bank_transfer:"Transfer Bank"}[document.querySelector("input[name=paymentMethod]:checked").value])+" dipilih. Sistem akan memakai jalur pembayaran yang aktif.":"Pilih produk, lengkapi data yang diperlukan, email, dan metode pembayaran."}
-function openGame(id){selected=games.find(g=>g.id===id);if(!selected)return;selectedProduct=null;openProductGroup=null;applyFormConfig();setActiveFlowStep("product");$("catalogPage").classList.add("hide");$("gameDetailPage").classList.add("show");$("heroName").textContent=selected.name;$("heroMeta").textContent=selected.category||"Game • Voucher • Streaming";$("heroCategory").textContent=(selected.category||"LAYANAN DIGITAL").toUpperCase();$("heroArt").innerHTML=selected.image_url?'<img src="'+safe(selected.image_url)+'" alt="'+safe(selected.name)+'">':gameArtwork(selected);const heroImg=$("heroArt").querySelector("img");if(heroImg)heroImg.onerror=()=>{$("heroArt").innerHTML=gameArtwork(selected)};$("playerId").value="";$("serverId").value="";$("productSearch").value="";updateSummary();renderProducts();const u=new URL(location.href);u.searchParams.set("game",selected.id);history.pushState({game:selected.id},"",u);window.scrollTo({top:0,behavior:"smooth"})}
+function openGame(id){selected=games.find(g=>g.id===id);if(!selected)return;selectedProduct=null;openProductGroup=null;applyFormConfig();setActiveFlowStep("product");$("catalogPage").classList.add("hide");$("gameDetailPage").classList.add("show");$("heroName").textContent=selected.name;$("heroMeta").textContent="Oleh "+publisherForGame(selected);$("heroCategory").textContent=categoryLabel(selected.category);$("heroArt").innerHTML=selected.image_url?'<img src="'+safe(selected.image_url)+'" alt="'+safe(selected.name)+'">':gameArtwork(selected);const heroImg=$("heroArt").querySelector("img");if(heroImg)heroImg.onerror=()=>{$("heroArt").innerHTML=gameArtwork(selected)};$("playerId").value="";$("serverId").value="";$("productSearch").value="";updateSummary();renderProducts();const u=new URL(location.href);u.searchParams.set("game",selected.id);history.pushState({game:selected.id},"",u);window.scrollTo({top:0,behavior:"smooth"})}
 function closeGame(){selected=null;selectedProduct=null;$("gameDetailPage").classList.remove("show");$("catalogPage").classList.remove("hide");const u=new URL(location.href);u.searchParams.delete("game");history.pushState({},"",u);window.scrollTo({top:0,behavior:"smooth"})}
 $("productSearch").oninput=renderProducts;$("playerId").oninput=()=>{verifiedNickname="";$("summaryNickname").textContent="Belum dicek";$("nicknameCheckResult").hidden=true;updateSummary()};$("serverId").oninput=()=>{verifiedNickname="";$("summaryNickname").textContent="Belum dicek";$("nicknameCheckResult").hidden=true;updateSummary()};$("checkNicknameButton").onclick=checkGameNickname;$("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSummary;document.querySelectorAll("input[name=paymentMethod]").forEach(el=>el.addEventListener("change",updateSummary));$("checkoutButton").onclick=async()=>{
  if(!selected||!selectedProduct)return;
