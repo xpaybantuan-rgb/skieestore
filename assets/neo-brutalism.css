@@ -394,3 +394,7 @@ html body footer.xp-footer {
   border-top: 2px solid #191b22 !important;
   box-shadow: none !important;
 }
+
+
+/* Hide the numbered checkout progress strip on the top-up detail page */
+body.topup-page .steps { display: none !important; }
