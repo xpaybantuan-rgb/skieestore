@@ -38,13 +38,21 @@
    .skiee-bottom-nav .nav-item:active:not(.active):not([aria-current="page"]){transform:translate(2px,2px)!important;box-shadow:0 0 0 #0F172A!important}
    .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
    .skiee-bottom-nav .nav-item>span:last-child{font-size:9.5px!important;white-space:nowrap!important;line-height:1!important}
-   body{padding-bottom:76px!important}
-   #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:calc(175px + env(safe-area-inset-bottom))!important;scroll-margin-bottom:160px!important}
+   body:not(.chat-open){padding-bottom:0!important}
+   #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:82px!important;margin-bottom:0!important;scroll-margin-bottom:0!important}
   }
   @media(min-width:768px){.skiee-bottom-nav{display:none!important}}
   .header .nav{padding:5px!important;gap:4px!important;font-size:10px!important}
   .header .nav a{padding:8px 11px!important}
   .header .nav a.active,.header .nav a[aria-current="page"]{background:#FFD600!important;background-color:#FFD600!important;color:#191b22!important;transform:none!important;box-shadow:3px 3px 0 #0F172A!important}
+
+  body:not(.chat-open) main{padding-bottom:0!important;margin-bottom:0!important}
+  body:not(.chat-open) footer.xp-footer#footer,
+  body:not(.chat-open) #footer.xp-footer,
+  body:not(.chat-open) footer.xp-footer{padding-bottom:82px!important;margin-bottom:0!important}
+  body:not(.chat-open)>header,
+  body:not(.chat-open) header.header,
+  body:not(.chat-open) header.top{background-color:#FFFFFF!important;border-bottom:2.5px solid #0F172A!important}
   body.chat-open .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
