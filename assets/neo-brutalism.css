@@ -592,3 +592,135 @@ body.topup-page .nb-game-art {
   background: var(--nb-sky) !important;
 }
 /* End color pass v2 */
+
+
+/* NEO-BRUTALISM SYSTEM v8 — complete visual language refresh.
+   Visual-only layer: preserves DOM, content, links, forms, event handlers and backend. */
+:root {
+  --nb-ink:#171717;
+  --nb-paper:#FFF8E7;
+  --nb-yellow:#FFE66D;
+  --nb-blue:#BDEBFF;
+  --nb-white:#FFFFFF;
+  --nb-line:3px solid var(--nb-ink);
+  --nb-hard-shadow:6px 6px 0 var(--nb-ink);
+  --nb-hard-shadow-sm:4px 4px 0 var(--nb-ink);
+  --nb-hard-shadow-lg:9px 9px 0 var(--nb-ink);
+  --nb-corner:3px;
+}
+html, body { background:var(--nb-paper) !important; color:var(--nb-ink) !important; }
+body { font-family:'Plus Jakarta Sans',system-ui,sans-serif !important; }
+::selection { background:var(--nb-yellow); color:var(--nb-ink); }
+a { text-underline-offset:3px; }
+.container, .wrap { isolation:isolate; }
+
+/* Navigation becomes a bold, printed masthead — no glass or floating pills. */
+.topline { background:var(--nb-ink) !important; color:var(--nb-yellow) !important; border-bottom:var(--nb-line) !important; letter-spacing:.12em !important; }
+.header, header.header { background:var(--nb-paper) !important; border-bottom:var(--nb-line) !important; box-shadow:0 4px 0 var(--nb-ink) !important; backdrop-filter:none !important; }
+.headrow { min-height:76px; }
+.brand { font-weight:900 !important; letter-spacing:-.06em !important; }
+.nav { background:var(--nb-white) !important; border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:var(--nb-hard-shadow-sm) !important; padding:4px !important; }
+.nav a { border-radius:0 !important; font-weight:800 !important; color:var(--nb-ink) !important; }
+.nav a.active, .nav a:hover { background:var(--nb-yellow) !important; color:var(--nb-ink) !important; outline:2px solid var(--nb-ink); outline-offset:-2px; }
+.iconbtn, .ghostbtn { background:var(--nb-white) !important; color:var(--nb-ink) !important; border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:var(--nb-hard-shadow-sm) !important; }
+
+/* Hero and page introductions: graphic blocks, loud hierarchy, hard edges. */
+.hero { padding-top:34px !important; }
+.hero-card { min-height:330px !important; background:var(--nb-yellow) !important; color:var(--nb-ink) !important; border:4px solid var(--nb-ink) !important; border-radius:var(--nb-corner) !important; box-shadow:var(--nb-hard-shadow-lg) !important; }
+.hero-card:after { color:#17171712 !important; }
+.eyebrow, .kicker { display:inline-flex; align-items:center; width:max-content; max-width:100%; padding:5px 9px; background:var(--nb-ink) !important; color:var(--nb-yellow) !important; border:2px solid var(--nb-ink); letter-spacing:.13em !important; font-weight:900 !important; }
+.hero h1, .intro h1, h1 { color:var(--nb-ink) !important; font-weight:900 !important; letter-spacing:-.065em !important; line-height:1.02 !important; text-transform:uppercase; }
+.hero h1 span { color:var(--nb-ink) !important; text-decoration:underline; text-decoration-thickness:5px; text-underline-offset:7px; }
+.hero p { color:var(--nb-ink) !important; font-weight:600 !important; }
+.hero .btn-light, .hero .btn-outline { background:var(--nb-white) !important; color:var(--nb-ink) !important; }
+.trustrow { color:var(--nb-ink) !important; font-weight:800 !important; }
+
+/* Sections and editorial hierarchy. */
+.section { padding-top:38px !important; padding-bottom:34px !important; }
+.section-head { align-items:flex-start !important; margin-bottom:22px !important; }
+.section h2, h2 { color:var(--nb-ink) !important; font-weight:900 !important; letter-spacing:-.055em !important; text-transform:uppercase; }
+.sub { color:#3f3f46 !important; font-weight:600 !important; }
+.section-head:after { content:""; display:block; }
+
+/* Cards, catalog tiles, product panels and informational blocks. */
+.gamecard, .game, .product, .product-card, .order-card, .info-card,
+.feature, .promobox, .notice, .panel, .section-card, .checkout-card,
+.summary-card, .intro, .wrap > .section, .wrap > .intro,
+.product-group, .product-choice, .payment-option, .method-card,
+.profile-card, .balance-card, .wallet-card, .history-card {
+  border:var(--nb-line) !important;
+  border-radius:var(--nb-corner) !important;
+  box-shadow:var(--nb-hard-shadow) !important;
+}
+.gamecard, .game, .product, .product-card { background:var(--nb-white) !important; }
+.gamecard:nth-child(3n + 1), .game:nth-child(3n + 1), .product-card:nth-child(3n + 1), .product:nth-child(3n + 1) { background:var(--nb-yellow) !important; }
+.gamecard:nth-child(3n + 2), .game:nth-child(3n + 2), .product-card:nth-child(3n + 2), .product:nth-child(3n + 2) { background:var(--nb-blue) !important; }
+.gamecard:nth-child(3n), .game:nth-child(3n), .product-card:nth-child(3n), .product:nth-child(3n) { background:var(--nb-white) !important; }
+.feature, .promobox { background:var(--nb-blue) !important; color:var(--nb-ink) !important; }
+.notice, .alert, .success, .status-success { background:var(--nb-yellow) !important; color:var(--nb-ink) !important; border-left:var(--nb-line) !important; }
+.gamecard img, .game img, .product img, .product-card img { border-radius:0 !important; }
+.gamecard:hover, .game:hover, .product:hover, .product-card:hover { transform:translate(-2px,-2px) !important; box-shadow:8px 8px 0 var(--nb-ink) !important; }
+
+/* Search, filters and controls. */
+.searchbox, .search, input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+select, textarea { background:var(--nb-white) !important; color:var(--nb-ink) !important; border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:var(--nb-hard-shadow-sm) !important; }
+.searchbox input { border:0 !important; box-shadow:none !important; }
+.chips { gap:10px !important; }
+.chip { background:var(--nb-white) !important; color:var(--nb-ink) !important; border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:3px 3px 0 var(--nb-ink) !important; font-weight:900 !important; }
+.chip.active { background:var(--nb-yellow) !important; color:var(--nb-ink) !important; }
+
+/* Buttons: solid ink/primary blocks with unmistakable offset shadows. */
+button, .btn, .primary, .account, .catalog-more, .btn-primary,
+button[type=submit], input[type=submit], .btn-outline, .btn-light,
+a.button, a.btn {
+  border:var(--nb-line) !important; border-radius:var(--nb-corner) !important;
+  box-shadow:var(--nb-hard-shadow-sm) !important; font-weight:900 !important;
+  text-transform:uppercase; letter-spacing:.015em;
+}
+.primary, .account, .btn-primary, button[type=submit], input[type=submit] {
+  background:var(--nb-ink) !important; color:var(--nb-yellow) !important; border-color:var(--nb-ink) !important;
+}
+.catalog-more { background:var(--nb-yellow) !important; color:var(--nb-ink) !important; }
+button:hover, .btn:hover, .primary:hover, .account:hover, .catalog-more:hover,
+button[type=submit]:hover, input[type=submit]:hover { transform:translate(-1px,-1px) !important; box-shadow:5px 5px 0 var(--nb-ink) !important; }
+button:active, .btn:active, .primary:active, .account:active,
+button[type=submit]:active, input[type=submit]:active { transform:translate(3px,3px) !important; box-shadow:1px 1px 0 var(--nb-ink) !important; }
+:focus-visible { outline:3px dashed var(--nb-ink) !important; outline-offset:4px !important; }
+
+/* Checkout, wallet, order status and account pages. */
+.steps, .step, .step-item, .progress-step { border-radius:0 !important; }
+.product-area { border-top:var(--nb-line) !important; }
+.product-group-head, .product-choice, .payment-option, .method-card { background:var(--nb-white) !important; color:var(--nb-ink) !important; }
+.product-choice.selected, .payment-option.selected, .method-card.active, [aria-pressed=true] { background:var(--nb-yellow) !important; border:var(--nb-line) !important; box-shadow:var(--nb-hard-shadow-sm) !important; }
+input[type=checkbox], input[type=radio] { accent-color:var(--nb-ink) !important; }
+body.topup-page .nb-game-identity { background:var(--nb-blue) !important; border:4px solid var(--nb-ink) !important; box-shadow:var(--nb-hard-shadow) !important; }
+body.topup-page .nb-game-art { border:var(--nb-line) !important; box-shadow:3px 3px 0 var(--nb-ink) !important; }
+
+/* Footer and mobile navigation retain their existing links and placement. */
+.footer, .xp-footer { background:var(--nb-white) !important; color:var(--nb-ink) !important; border-top:var(--nb-line) !important; }
+.bottomnav { background:var(--nb-paper) !important; border-top:var(--nb-line) !important; }
+.bottomnav a, .bottomnav .bottom-nav-item { background:var(--nb-white) !important; color:var(--nb-ink) !important; border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:3px 3px 0 var(--nb-ink) !important; }
+.bottomnav a.active, .bottomnav .bottom-nav-item.active { background:var(--nb-yellow) !important; }
+.chat-fab, .chat-widget-button { border:var(--nb-line) !important; border-radius:var(--nb-corner) !important; box-shadow:var(--nb-hard-shadow) !important; }
+.chat-head, .chat-history-head { background:var(--nb-yellow) !important; color:var(--nb-ink) !important; border-bottom:var(--nb-line) !important; }
+.chat-avatar { background:var(--nb-ink) !important; color:var(--nb-yellow) !important; border:2px solid var(--nb-ink) !important; border-radius:var(--nb-corner) !important; box-shadow:3px 3px 0 var(--nb-ink) !important; }
+
+@media (max-width:767px) {
+  :root { --nb-hard-shadow:4px 4px 0 var(--nb-ink); --nb-hard-shadow-sm:3px 3px 0 var(--nb-ink); }
+  .container, .wrap { width:min(100% - 28px, 1180px) !important; }
+  .hero { padding-top:24px !important; }
+  .hero-card { min-height:0 !important; padding:24px 20px !important; }
+  .hero h1, h1 { font-size:clamp(30px,9vw,42px) !important; }
+  .section { padding-top:30px !important; padding-bottom:26px !important; }
+  .gamegrid { gap:12px !important; }
+  .gamecard, .game, .product, .product-card, .feature, .promobox,
+  .notice, .panel, .section-card, .checkout-card, .summary-card,
+  .intro, .wrap > .section, .wrap > .intro { box-shadow:var(--nb-hard-shadow-sm) !important; }
+  .headrow { gap:10px !important; }
+  .brand-image { flex-basis:150px !important; }
+  .brand-image img { width:150px !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *, *::before, *::after { scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+}
+/* End Neo-Brutalism system v8 */
