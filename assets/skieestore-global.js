@@ -245,36 +245,6 @@ user:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke
 wa:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#25D366" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>',
 mail:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6" fill="none"/></svg></span>'
 };
-function replaceSkieeIcons(){
- const aliases={"▦":"grid","◈":"tag","⌕":"search","✆":"support","◎":"wallet","◉":"wallet","✦":"reward","☰":"history","▤":"game","👤":"user","☻":"user","옷":"user","⌂":"grid","☎":"wa","✉":"mail"};
- const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
- const pending=[];let n;
- while((n=walker.nextNode())){
-  const token=n.nodeValue.trim();
-  if(aliases[token]&&!n.parentElement?.dataset.skieeIconDone)pending.push({node:n,token});
- }
- pending.forEach(({node,token})=>{
-  const parent=node.parentElement;if(!parent||parent.dataset.skieeIconDone)return;
-  let key=aliases[token];
-  const memberCard=parent.closest(".feature-card");
-  if(token==="▤"&&memberCard&&memberCard.textContent.includes("Riwayat Transaksi"))key="history";
-  parent.dataset.skieeIconDone="1";parent.innerHTML=skieeSvg[key];
- });
- document.querySelectorAll(".shortcut-card[href='topup.html'] .shortcut-icon").forEach(icon=>{
-  if(!icon.dataset.skieeGameIcon){icon.dataset.skieeGameIcon="1";icon.innerHTML=skieeSvg.game}
- });
-}
-replaceSkieeIcons();
-fixSkieeProfileAndFooter();
-setInterval(fixSkieeProfileAndFooter,400);
-let skieeIconQueued=false;
-const skieeIconObserver=new MutationObserver(()=>{
- if(skieeIconQueued)return;skieeIconQueued=true;
- requestAnimationFrame(()=>{skieeIconQueued=false;replaceSkieeIcons()});
-});
-skieeIconObserver.observe(document.body,{childList:true,subtree:true});
-
-
 /* Profile + footer icon correction using nearby labels (user-provided SVG design). */
 const skieeProfileIcons={
  guest:'<svg viewBox="0 0 24 24" width="28" height="28" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>',
@@ -320,6 +290,37 @@ function fixSkieeProfileAndFooter(){
   }
  });
 }
+
+
+function replaceSkieeIcons(){
+ const aliases={"▦":"grid","◈":"tag","⌕":"search","✆":"support","◎":"wallet","◉":"wallet","✦":"reward","☰":"history","▤":"game","👤":"user","☻":"user","옷":"user","⌂":"grid","☎":"wa","✉":"mail"};
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const pending=[];let n;
+ while((n=walker.nextNode())){
+  const token=n.nodeValue.trim();
+  if(aliases[token]&&!n.parentElement?.dataset.skieeIconDone)pending.push({node:n,token});
+ }
+ pending.forEach(({node,token})=>{
+  const parent=node.parentElement;if(!parent||parent.dataset.skieeIconDone)return;
+  let key=aliases[token];
+  const memberCard=parent.closest(".feature-card");
+  if(token==="▤"&&memberCard&&memberCard.textContent.includes("Riwayat Transaksi"))key="history";
+  parent.dataset.skieeIconDone="1";parent.innerHTML=skieeSvg[key];
+ });
+ document.querySelectorAll(".shortcut-card[href='topup.html'] .shortcut-icon").forEach(icon=>{
+  if(!icon.dataset.skieeGameIcon){icon.dataset.skieeGameIcon="1";icon.innerHTML=skieeSvg.game}
+ });
+}
+replaceSkieeIcons();
+fixSkieeProfileAndFooter();
+setInterval(fixSkieeProfileAndFooter,400);
+let skieeIconQueued=false;
+const skieeIconObserver=new MutationObserver(()=>{
+ if(skieeIconQueued)return;skieeIconQueued=true;
+ requestAnimationFrame(()=>{skieeIconQueued=false;replaceSkieeIcons()});
+});
+skieeIconObserver.observe(document.body,{childList:true,subtree:true});
+
 
 document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());
 })();
