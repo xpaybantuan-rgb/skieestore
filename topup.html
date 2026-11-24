@@ -593,22 +593,29 @@ function renderGames(){const list=games.filter(g=>globalQuery?g.name.toLowerCase
 $("games").querySelectorAll(".art img").forEach(img=>{img.onerror=()=>{const card=img.closest("[data-id]");const game=games.find(x=>x.id===card?.dataset.id);if(game)img.parentElement.innerHTML=gameArtwork(game)}});$("games").querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>openGame(b.dataset.id))}
 function productGroup(p){const sku=String(p?.provider_sku||"").toUpperCase();if(/^MLAWDP1X-/.test(sku)||/^FF(?:LUP|MM|MB)-S/.test(sku))return "Pass & Membership";if(/^CODM\d+-/.test(sku))return "Top Up / Mata Uang";if(/^MCGGWC-/.test(sku))return "Pass & Membership";if(/^GI(?:WELKIN|USABOTHWM)-/.test(sku))return "Pass & Membership";if(/^BST(?:USLC|EVENT2|SPEP?)-/.test(sku))return "Pass & Membership";if(/^PUBGMINDO/.test(sku))return "Top Up / Mata Uang";if(/^FF(?:MLUP|MAXMINGGUAN|MBPC|MAXBULANAN)/.test(sku))return "Pass & Membership";if(/^AB(?:BS|ABP|BCP|PBP|CCP|QPBP)-S1$/.test(sku))return "Pass & Membership";if(/^AOEMNY(?:GP|HP|RSP)-S19$/.test(sku))return "Pass & Membership";if(/^(?:CDEPP|CDHTP|CDLPP|CDHTP2100|CDP10D|CDP30D)-/.test(sku))return "Pass & Membership";const n=(p.name+" "+(p.description||"")).toLowerCase();if(/weekly|monthly|twilight|starlight|pass|membership|member|subscription|battle pass|elite bundle/.test(n))return "Pass & Membership";if(/voucher|gift card|wallet code|steam wallet|garena shell|roblox credit/.test(n))return "Voucher & Gift Card";return "Top Up / Mata Uang"}
 function productGroupLabel(game,group){const n=String(game?.name||"").toLowerCase();const labels=[[/mobile legends/,"Top Up Diamond","Weekly Diamond Pass"],[/free fire max/,"Top Up Diamond","Pass & Membership"],[/free fire/,"Top Up Diamond","Pass & Membership"],[/magic chess:\s*go go/,"Top Up Diamond","Weekly Card"],[/pubg mobile/,"Top Up UC",null],[/call of duty mobile|codm/,"Top Up CP",null],[/blood strike/,"Top Up Gold","Strike Pass & Chest"],[/genshin impact/,"Top Up Genesis Crystals","Welkin Moon"],[/arena of valor/,"Top Up Voucher",null],[/ace racer/,"Top Up Tokens",null],[/age of empires mobile/,"Top Up Coins","Paket & Bundle"],[/arena breakout/,"Top Up Bonds","Battle Pass & Privileges"],[/astral guardians/,"Top Up Diamond",null],[/afk journey/,"Top Up Dragon Crystals",null]];const hit=labels.find(([re])=>re.test(n));if(!hit)return group;return group==="Pass & Membership"?(hit[2]||"Pass & Membership"):(group==="Voucher & Gift Card"?"Voucher & Gift Card":hit[1])}
-function productNominalValue(product){const match=String(product?.name||"").match(/\d+(?:[.,]\d+)?/);return match?Number(match[0].replace(",", ".")):Number.POSITIVE_INFINITY}
+const PROMO_ANOMALY_SKUS=new Set([
+ "MLA150-S13","MLA300-S13",
+ "MCGGFIRST50-S13","MCGGFIRST150-S13","MCGGFIRST250-S13","MCGGFIRST500-S13",
+ "FF170-S13","FF425-S13","FF500-S13","FF510-S13","FF515-S13","FF520-S13","FF545-S13","FF565-S13","FF930-S13","FF1075-S13","FF1080-S13","FF2000-S13","FF2355-S13","FF2750-S13","FF3675-S13","FF3800-S13",
+ "FFMAX12-S29","DEFC12960_3240-S50AUTO","DEFC19440_4860-S50AUTO"
+]);
+function productNominalValue(product){const info=productPromoInfo(product);return info?.qty||Number.POSITIVE_INFINITY}
 function displayProductName(name){return String(name||"").replace(/\bDiamond\b/g,"Diamonds")}
 function productPromoInfo(product){
  const raw=String(product?.name||"").trim();
- const match=raw.match(/^[^0-9]*([0-9][0-9.,]*)(?:\\s*\\+\\s*([0-9][0-9.,]*))?/);
+ const match=raw.match(/([0-9][0-9.,]*)(?:\s*\+\s*([0-9][0-9.,]*))?/);
  if(!match)return null;
  const number=v=>Number(String(v||"0").replace(/[.,]/g,""));
  const qty=number(match[1])+number(match[2]);
- let remainder=raw.replace(/\\([^)]*\\)/g," ").replace(/^[^0-9]*[0-9][0-9.,]*(?:\\s*\\+\\s*[0-9][0-9.,]*)?/," ").replace(/\\s+[xX]\\s*\\d+\\s*$/," ").trim();
+ let remainder=raw.replace(/\([^)]*\)/g," ").slice(match.index+match[0].length).replace(/\s+[xX]\s*\d+\s*$/," ").trim();
  const words=(remainder.toLowerCase().match(/[a-z]+/g)||[]);
  if(!qty||!words.length)return null;
- const last=words[words.length-1].replace(/s$/,"");
- const currency=(words.length>1?words[words.length-2]+" ":"")+last;
+ const currency=words.join(" ").replace(/\bdiamonds\b/g,"diamond").replace(/\bcoins\b/g,"coin").replace(/\bcrystals\b/g,"crystal").replace(/\bvouchers\b/g,"voucher").trim();
  return {qty,currency,region:String(product?.region||"").toUpperCase(),server:String(product?.metadata?.server||"").toUpperCase()};
 }
 function isPromoAnomaly(product,peers){
+ const sku=String(product?.provider_sku||"").trim().toUpperCase();
+ if(PROMO_ANOMALY_SKUS.has(sku))return true;
  const info=productPromoInfo(product);if(!info)return false;
  return peers.some(other=>{
   if(other?.id===product?.id)return false;
