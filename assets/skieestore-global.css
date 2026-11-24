@@ -279,3 +279,17 @@ button,input,select,textarea{max-width:100%;min-width:0}
 .header .nav a{display:inline-flex;align-items:center;gap:8px}
 .header .nav .skiee-svg-box{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:28px!important;height:28px!important;min-width:28px!important;flex:0 0 28px!important;visibility:visible!important;opacity:1!important}
 .header .nav .skiee-svg-box svg{display:block!important;width:24px!important;height:24px!important;visibility:visible!important;opacity:1!important}
+
+
+/* RESTORE: visible Neo-Brutalism primary navigation on every customer page. */
+.nav.skiee-global-nav,.header .nav{border:2px solid #191b22!important;border-radius:10px!important;box-shadow:4px 4px 0 #191b22!important;background:#fff!important}
+.nav.skiee-global-nav a,.header .nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:2px 2px 0 #191b22!important;background:#fff!important;color:#191b22!important;font-weight:900!important}
+.nav.skiee-global-nav a.active,.header .nav a.active{background:#FFE66D!important;color:#191b22!important}
+@media(max-width:620px){
+ .nav.skiee-global-nav,.header .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:9990!important;width:auto!important;max-width:none!important;margin:0!important;padding:7px!important;gap:7px!important;border:2px solid #191b22!important;border-radius:10px!important;background:#fff!important;box-shadow:4px 4px 0 #191b22!important}
+ .nav.skiee-global-nav a,.header .nav a{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:54px!important;padding:5px 2px!important;gap:3px!important;font-size:9px!important;line-height:1.1!important;text-align:center!important}
+ .nav.skiee-global-nav .skiee-svg-box,.header .nav .skiee-svg-box{width:24px!important;height:24px!important;min-width:24px!important;flex:0 0 24px!important}
+ .nav.skiee-global-nav .skiee-svg-box svg,.header .nav .skiee-svg-box svg{width:22px!important;height:22px!important}
+ body{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#128C4A!important}
