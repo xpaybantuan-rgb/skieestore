@@ -4,23 +4,23 @@
 (function(){
  const pathname=(window.location.pathname||"/").toLowerCase();
  const items=[
-  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#00CFFF"/></svg>'},
+  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
   {href:"cek-pesanan.html",label:"Cek Pesanan",active:pathname.startsWith("/cek"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'},
   {href:"topup.html",label:"Top Up",active:pathname.startsWith("/topup"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'},
   {href:"profil.html",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
  ];
  const links=items.map(({href,label,icon,active})=>
-  '<a href="'+href+'"'+(active?' class="active" aria-current="page"':'')+'><span class="skiee-svg-box" aria-hidden="true">'+icon+'</span><span>'+label+'</span></a>'
+  '<a href="'+href+'" class="nav-item'+(active?' active" aria-current="page"':'"')+'><span class="skiee-svg-box" aria-hidden="true">'+icon+'</span><span>'+label+'</span></a>'
  ).join("");
- let dock=document.querySelector(".skiee-mobile-nav");
+ let dock=document.querySelector(".skiee-bottom-nav");
  if(!dock){
   dock=document.createElement("nav");
-  dock.className="skiee-mobile-nav";
+  dock.className="skiee-bottom-nav";
   dock.setAttribute("aria-label","Navigasi utama");
   document.body.appendChild(dock);
  }
  dock.innerHTML=links;
- dock.querySelectorAll("a").forEach(a=>{
+ dock.querySelectorAll(".nav-item").forEach(a=>{
   const href=a.getAttribute("href");
   const active=items.find(item=>item.href===href)?.active===true;
   a.classList.toggle("active",active);
@@ -32,25 +32,39 @@
  style.textContent=`
   @media(max-width:767px){
    .header .nav,.header nav.nav,nav.nav,.bottomnav{display:none!important;visibility:hidden!important}
-   .skiee-mobile-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(9px + env(safe-area-inset-bottom))!important;z-index:2147483000!important;width:auto!important;margin:0!important;padding:6px 10px!important;gap:6px!important;background:#fff!important;border:2px solid #191b22!important;border-radius:14px!important;box-shadow:3px 3px 0 #191b22!important}
-   .skiee-mobile-nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;height:50px!important;min-height:50px!important;max-height:50px!important;padding:6px 4px!important;gap:3px!important;border:2px solid #191b22!important;border-radius:10px!important;box-shadow:3px 3px 0 #191b22!important;background:#fff!important;color:#191b22!important;font-size:10px!important;line-height:1.1!important;font-weight:800!important;text-align:center!important;transition:transform .08s ease,box-shadow .08s ease!important;-webkit-tap-highlight-color:transparent}
-   .skiee-mobile-nav a.active,.skiee-mobile-nav a[aria-current="page"]{background:#FFD600!important;background-color:#FFD600!important;color:#191b22!important;box-shadow:3px 3px 0 #0F172A!important;transform:none!important}
-   .skiee-mobile-nav a:active:not(.active):not([aria-current="page"]){transform:translate(3px,3px)!important;box-shadow:0 0 0 #0F172A!important}
-   .skiee-mobile-nav .skiee-svg-box,.skiee-mobile-nav svg{display:block!important;width:18px!important;height:18px!important}
-   body{padding-bottom:80px!important}
+   .skiee-bottom-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;z-index:2147483000!important;width:auto!important;max-width:480px!important;margin:0 auto!important;padding:5px!important;gap:5px!important;background:#fff!important;border:2.5px solid #0F172A!important;border-radius:14px!important;box-shadow:3px 3px 0 #0F172A!important}
+   .skiee-bottom-nav .nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:4px!important;gap:2px!important;border:2px solid #0F172A!important;border-radius:9px!important;box-shadow:2px 2px 0 #0F172A!important;background:#fff!important;color:#0F172A!important;font-size:9.5px!important;line-height:1!important;font-weight:800!important;text-align:center!important;text-decoration:none!important;transition:transform .08s ease,box-shadow .08s ease,background-color .15s ease!important;-webkit-tap-highlight-color:transparent}
+   .skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{background:#FFD600!important;color:#0F172A!important;box-shadow:2px 2px 0 #0F172A!important;transform:none!important}
+   .skiee-bottom-nav .nav-item:active:not(.active):not([aria-current="page"]){transform:translate(2px,2px)!important;box-shadow:0 0 0 #0F172A!important}
+   .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:18px!important;height:18px!important}
+   body{padding-bottom:76px!important}
    #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:calc(175px + env(safe-area-inset-bottom))!important;scroll-margin-bottom:160px!important}
   }
-  @media(min-width:768px){.skiee-mobile-nav{display:none!important}}
+  @media(min-width:768px){.skiee-bottom-nav{display:none!important}}
   .header .nav{padding:5px!important;gap:4px!important;font-size:10px!important}
   .header .nav a{padding:8px 11px!important}
   .header .nav a.active,.header .nav a[aria-current="page"]{background:#FFD600!important;background-color:#FFD600!important;color:#191b22!important;transform:none!important;box-shadow:3px 3px 0 #0F172A!important}
-  body.chat-open .skiee-mobile-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  body.chat-open .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg,
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg *{fill:#087BFF!important;stroke:#087BFF!important}
  `;
  document.head.appendChild(style);
+ // Mark all interactive store controls for the shared Neo-Brutalism press treatment.
+ const markBrutalButtons = root => {
+  const selector='button, input[type="submit"], .btn, .primary, .account, .catalog-more, .chip, .gamecard, .product-choice, .payment-option, .method-card, .shortcut, [role="button"]';
+  const nodes=[];
+  if(root && root.nodeType===1 && root.matches?.(selector)) nodes.push(root);
+  if(root?.querySelectorAll) nodes.push(...root.querySelectorAll(selector));
+  nodes.forEach(el=>{
+   if(el.closest('#chatPanel,.chat-panel,.chat-history-panel,.ai-widget,[class*="chat"],[id*="chat"],[id*="ai"]')) return;
+   el.classList.add('brutal-btn');
+  });
+ };
+ markBrutalButtons(document);
+ const brutalObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)markBrutalButtons(node)})));
+ brutalObserver.observe(document.documentElement,{childList:true,subtree:true});
 })();
 const $=id=>document.getElementById(id);
 const SUPABASE_URL="https://rjgeitbkpcyymgemcztx.supabase.co";
