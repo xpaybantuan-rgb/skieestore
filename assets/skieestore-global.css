@@ -401,3 +401,25 @@ nav.skiee-mobile-nav a[aria-current="page"],
   fill:#fff!important;
   stroke:none!important;
 }
+
+
+/* FINAL GLOBAL HEADER + FOOTER SPACING — excludes the AI chat window */
+body:not(.chat-open) {
+  padding-bottom: 0 !important;
+}
+body:not(.chat-open) main {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+body:not(.chat-open) footer.xp-footer#footer,
+body:not(.chat-open) #footer.xp-footer,
+body:not(.chat-open) footer.xp-footer {
+  padding-bottom: 82px !important;
+  margin-bottom: 0 !important;
+}
+body:not(.chat-open) > header,
+body:not(.chat-open) header.header,
+body:not(.chat-open) header.top {
+  background-color: #FFFFFF !important;
+  border-bottom: 2.5px solid #0F172A !important;
+}
