@@ -35,6 +35,10 @@
    #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:calc(175px + env(safe-area-inset-bottom))!important;scroll-margin-bottom:160px!important}
   }
   @media(min-width:768px){.skiee-mobile-nav{display:none!important}}
+  .header .nav{padding:5px!important;gap:4px!important;font-size:10px!important}
+  .header .nav a{padding:8px 11px!important}
+  .header .nav a.active,.header .nav a[aria-current="page"]{background:#FFE66D!important;color:#191b22!important}
+  body.chat-open .skiee-mobile-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg,
@@ -215,11 +219,13 @@ if(window.visualViewport){
 window.addEventListener("resize",()=>{syncChatViewport();if(!$("chatPanel").hidden)scrollChatToLatest()});
 function openChat(){
   chatPreviousOverflow=document.body.style.overflow;
+  document.body.classList.add("chat-open");
   $("chatPanel").hidden=false;$("chatPanel").classList.add("keyboard-aware");$("chatToggle").hidden=true;$("chatToggle").setAttribute("aria-expanded","true");
   document.body.style.overflow="hidden";syncChatViewport();
   loadChat();setTimeout(()=>{$("chatInput").focus({preventScroll:true});syncChatViewport()},120);
 }
 function closeChat(){
+  document.body.classList.remove("chat-open");
   $("chatPanel").hidden=true;$("chatPanel").classList.remove("keyboard-aware");$("chatToggle").hidden=false;$("chatToggle").setAttribute("aria-expanded","false");
   $("chatHistoryPanel").hidden=true;document.body.style.overflow=chatPreviousOverflow;
   $("chatToggle").focus();
