@@ -424,7 +424,7 @@ document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().g
  function closePanel(clear){
   if(panel)panel.hidden=true;
   if(suggestions){suggestions.hidden=true;suggestions.innerHTML="";}
-  if(input&&clear)input.value="";
+  if(input&&clear){input.value="";input.dispatchEvent(new Event("input",{bubbles:true}));}
   if(input)input.setAttribute("aria-expanded","false");
   setButton(false);
  }
