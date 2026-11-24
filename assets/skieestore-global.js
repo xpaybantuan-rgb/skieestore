@@ -43,7 +43,7 @@
   @media(min-width:768px){.skiee-mobile-nav{display:none!important}}
   .header .nav{padding:5px!important;gap:4px!important;font-size:10px!important}
   .header .nav a{padding:8px 11px!important}
-  .header .nav a.active,.header .nav a[aria-current="page"]{background:#FFE66D!important;color:#191b22!important}
+  .header .nav a.active,.header .nav a[aria-current="page"]{background:#FFD600!important;background-color:#FFD600!important;color:#191b22!important;transform:none!important;box-shadow:3px 3px 0 #0F172A!important}
   body.chat-open .skiee-mobile-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
