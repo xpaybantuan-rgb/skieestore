@@ -354,3 +354,50 @@ html body .nav a[aria-current="page"]:active {
   transform: none !important;
   box-shadow: 3px 3px 0 #0F172A !important;
 }
+
+
+/* User-requested shared header, floating navigation and Neo-Brutalism press rules. */
+.header-search-btn {
+  width:40px !important;
+  height:40px !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:#E0F2FE !important;
+  border:2.5px solid #0F172A !important;
+  border-radius:10px !important;
+  box-shadow:3px 3px 0 #0F172A !important;
+}
+.header-search-btn svg { width:20px !important; height:20px !important; }
+.brutal-btn:not(.ai-widget):not(.chat-fab):not([id*="chat"]):not([class*="chat"]):not([id*="ai"]) {
+  transition:transform .08s cubic-bezier(.2,0,0,1),box-shadow .08s cubic-bezier(.2,0,0,1) !important;
+  transform:translate(0,0);
+}
+.brutal-btn:not(.ai-widget):not(.chat-fab):not([id*="chat"]):not([class*="chat"]):not([id*="ai"]):active {
+  transform:translate(3px,3px) !important;
+  box-shadow:0 0 0 #0F172A !important;
+}
+.brutal-btn.chip.active,
+.brutal-btn.chip.active:active,
+.brutal-btn[aria-pressed="true"],
+.brutal-btn[aria-selected="true"] {
+  transform:none !important;
+  box-shadow:3px 3px 0 #0F172A !important;
+  background:#FFD600 !important;
+  color:#0F172A !important;
+}
+.skiee-bottom-nav .nav-item.active,
+.skiee-bottom-nav .nav-item.active:active {
+  transform:none !important;
+  box-shadow:2px 2px 0 #0F172A !important;
+  background:#FFD600 !important;
+  color:#0F172A !important;
+}
+@media (max-width:767px) {
+  .chat-fab, #chatToggle, .xp-footer .chat-fab {
+    bottom:66px !important;
+    right:14px !important;
+  }
+  .skiee-bottom-nav { bottom:8px !important; }
+}
