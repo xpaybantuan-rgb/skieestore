@@ -274,18 +274,18 @@ function fixSkieeProfileAndFooter(){
    box.dataset.skieeFixed="1";box.style.backgroundColor="#CFFAFE";box.innerHTML=skieeProfileIcons.topup;
   }
  });
- document.querySelectorAll(".xp-foot-contact a").forEach(link=>{
+ document.querySelectorAll("footer a, .xp-foot-contact a").forEach(link=>{
   if(link.dataset.skieeFixed)return;
   const label=link.textContent||"";
   if(label.includes("WhatsApp Customer Service")){
    link.dataset.skieeFixed="1";
    const icon=link.querySelector(".xp-foot-icon");
-   if(icon)icon.outerHTML=skieeProfileIcons.wa;
+   if(icon)icon.innerHTML=skieeProfileIcons.wa;
    else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.wa);
   }else if(label.includes("adminskiee@gmail.com")){
    link.dataset.skieeFixed="1";
    const icon=link.querySelector(".xp-foot-icon");
-   if(icon)icon.outerHTML=skieeProfileIcons.mail;
+   if(icon)icon.innerHTML=skieeProfileIcons.mail;
    else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.mail);
   }
  });
@@ -301,11 +301,12 @@ function replaceSkieeIcons(){
   if(aliases[token]&&!n.parentElement?.dataset.skieeIconDone)pending.push({node:n,token});
  }
  pending.forEach(({node,token})=>{
-  const parent=node.parentElement;if(!parent||parent.dataset.skieeIconDone)return;
+  const parent=node.parentElement;if(!parent)return;
   let key=aliases[token];
   const memberCard=parent.closest(".feature-card");
   if(token==="▤"&&memberCard&&memberCard.textContent.includes("Riwayat Transaksi"))key="history";
-  parent.dataset.skieeIconDone="1";parent.innerHTML=skieeSvg[key];
+  const icon=document.createElement("span");icon.innerHTML=skieeSvg[key];
+  node.replaceWith(icon);
  });
  document.querySelectorAll(".shortcut-card[href='topup.html'] .shortcut-icon").forEach(icon=>{
   if(!icon.dataset.skieeGameIcon){icon.dataset.skieeGameIcon="1";icon.innerHTML=skieeSvg.game}
