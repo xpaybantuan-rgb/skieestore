@@ -398,4 +398,86 @@ document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().g
 
 /* Legacy duplicate navigation removed; .skiee-bottom-nav above is the single global component. */
 
+
+
+/* XP-SAFE-001: one header search controller for catalog, invoice lookup, and hidden pages. */
+(function(){
+ const path=(location.pathname||"/").toLowerCase().replace(/\/+$/,"")||"/";
+ const isInvoice=/\/cek-pesanan(?:\.html)?$/.test(path);
+ const isProfile=/\/profil(?:\.html)?$/.test(path);
+ const isInfo=/\/(?:tentang-skieestore|pusat-bantuan|kebijakan-privasi|syarat-ketentuan|cara-top-up)(?:\.html)?$/.test(path);
+ const button=document.querySelector("#headerSearchToggle,#mainHeaderSearchToggle,.guide-search");
+ const panel=document.querySelector("#headerSearchPanel,#mainHeaderSearchPanel");
+ const input=document.querySelector("#gameSearch,#globalGameSearch,#mainHeaderSearchInput");
+ const suggestions=document.querySelector("#searchSuggestions,#topupSearchResults");
+ const invoiceInput=document.getElementById("code");
+
+ const searchSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="#E0F2FE" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
+ const closeSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#0F172A" stroke-width="2.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+ function setButton(open){
+  if(!button)return;
+  button.innerHTML=open?closeSvg:searchSvg;
+  button.setAttribute("aria-expanded",String(open));
+  button.setAttribute("aria-label",open?"Tutup pencarian":"Cari game");
+  button.classList.toggle("is-search-open",open);
+ }
+ function closePanel(clear){
+  if(panel)panel.hidden=true;
+  if(suggestions){suggestions.hidden=true;suggestions.innerHTML="";}
+  if(input&&clear)input.value="";
+  if(input)input.setAttribute("aria-expanded","false");
+  setButton(false);
+ }
+ if(isProfile||isInfo){
+  document.body.classList.add("skiee-search-hidden");
+  if(panel)panel.hidden=true;
+  if(button){button.hidden=true;button.setAttribute("aria-hidden","true");}
+  document.querySelectorAll(".guide-search,.main-header-search-btn,.header-search-btn").forEach(el=>{
+   el.hidden=true;el.setAttribute("aria-hidden","true");
+  });
+  return;
+ }
+ if(!button)return;
+
+ if(isInvoice){
+  closePanel(true);
+  button.addEventListener("click",function(e){
+   e.preventDefault();
+   e.stopImmediatePropagation();
+   if(!invoiceInput)return;
+   invoiceInput.scrollIntoView({behavior:"smooth",block:"center"});
+   window.setTimeout(()=>invoiceInput.focus({preventScroll:true}),180);
+  },true);
+  return;
+ }
+
+ if(!panel||!input)return;
+ setButton(false);
+ button.addEventListener("click",function(e){
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  if(panel.hidden){
+   panel.hidden=false;
+   setButton(true);
+   window.setTimeout(()=>input.focus({preventScroll:true}),0);
+  }else{
+   closePanel(true);
+  }
+ },true);
+
+ document.addEventListener("click",function(e){
+  if(panel.hidden)return;
+  if(e.target.closest("[data-search-game]")){
+   closePanel(true);
+   return;
+  }
+  if(!e.target.closest("#headerSearchPanel")&&!e.target.closest("#mainHeaderSearchPanel")&&!e.target.closest("#headerSearchToggle")&&!e.target.closest("#mainHeaderSearchToggle")){
+   closePanel(true);
+  }
+ },true);
+ document.addEventListener("keydown",function(e){
+  if(e.key==="Escape"&&!panel.hidden)closePanel(true);
+ });
+})();
+
 })();
