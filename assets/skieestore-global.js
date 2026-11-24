@@ -42,6 +42,23 @@
     body{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important}
    }
    @media(min-width:621px){.skiee-mobile-nav{display:none!important}}
+
+   /* Final navigation correction: one mobile dock, reliable active page, clear footer. */
+   .nav.skiee-global-nav{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;z-index:auto!important}
+   @media(max-width:620px){
+    .header .nav,.header nav.nav,.nav:not(.skiee-mobile-nav){display:none!important;position:static!important}
+    .skiee-mobile-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:2147483000!important;width:auto!important;margin:0!important;padding:7px!important;gap:7px!important;background:#fff!important;border:2px solid #191b22!important;border-radius:16px!important;box-shadow:4px 4px 0 #191b22!important}
+    .skiee-mobile-nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:62px!important;padding:5px 2px!important;border:2px solid #191b22!important;border-radius:10px!important;box-shadow:2px 2px 0 #191b22!important;background:#fff!important;color:#191b22!important;font-size:10px!important;font-weight:900!important}
+    .skiee-mobile-nav a.active,.skiee-mobile-nav a[aria-current="page"]{background:#FFE66D!important;color:#191b22!important}
+    body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+    footer,.footer,.site-footer,.xp-footer{padding-bottom:calc(145px + env(safe-area-inset-bottom))!important}
+   }
+   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"],
+   .xp-footer .xp-foot-contact a[href*="wa.me"],
+   .xp-footer .xp-foot-contact a[href*="whatsapp"]{color:#087BFF!important}
+   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *,
+   .xp-footer .xp-foot-contact a[href*="wa.me"] *,
+   .xp-footer .xp-foot-contact a[href*="whatsapp"] *{color:#087BFF!important}
   `;
   document.head.appendChild(style);
  }
