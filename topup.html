@@ -440,7 +440,13 @@ body.topup-page { padding-bottom: 110px !important; }
 
 <style id="xp-game-title-spacing-fix">
 /* Keep game category, name, and publisher on separate readable lines. */
-.nb-game-title #heroCategory,
+.nb-game-title #heroCategory {
+  display: inline-flex !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
 .nb-game-title #heroName,
 .nb-game-title #heroMeta {
   display: block !important;
