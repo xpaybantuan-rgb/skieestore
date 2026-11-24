@@ -701,7 +701,7 @@ function applyFormConfig(){verifiedNickname="";$("summaryNickname").textContent=
   activeForm={playerLabel:"ID Akun",playerPlaceholder:"Pilih produk terlebih dahulu",serverLabel:"Server / Zone ID",serverPlaceholder:"Pilih produk terlebih dahulu",showServer:false,playerRequired:false,serverRequired:false,requiresTarget:false,requiresManual:false,help:"Pilih produk terlebih dahulu. Kolom data tujuan akan muncul otomatis sesuai kebutuhan produk yang kamu pilih."};
   $("accountTitle").textContent="Data Tujuan";
   $("playerField").hidden=true;$("playerField").style.display="none";
-  $("serverField").hidden=true;$("serverField").style.display="none";$("serverSelect").hidden=true;$("serverId").hidden=false;$("summaryNicknameRow").hidden=/age of empires mobile|arena of valor|astral guardians/i.test(selected?.name||"");
+  $("serverField").hidden=true;$("serverField").style.display="none";$("serverSelect").hidden=true;$("serverId").hidden=false;$("summaryNicknameRow").hidden=!/mobile legends|free fire|pubg mobile/i.test(String(selected?.name||"").toLowerCase());
   $("summaryServerRow").hidden=true;$("summaryServerRow").style.display="none";
   $("accountHelp").textContent=activeForm.help;$("accountHelpAccordion").hidden=true;
   $("nicknameCheckWrap").hidden=true;$("nicknameCheckResult").hidden=true;
