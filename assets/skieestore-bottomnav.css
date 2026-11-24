@@ -164,3 +164,114 @@
   z-index: 999 !important;
   box-shadow: 0 4px 0 #0f172a !important;
 }
+
+
+/* FINAL INTERACTION + COMPACT NAV RULES — XP-SAFE-001 */
+button, input[type="submit"], .btn, .primary, .account, .catalog-more,
+.btn-primary, .btn-outline, .btn-light, .chip, .gamecard,
+.bottomnav > a, .bottomnav .bottom-nav-item,
+nav.skiee-mobile-nav a, .nav a {
+  transition: transform .08s ease, box-shadow .08s ease !important;
+}
+button:hover, input[type="submit"]:hover, .btn:hover, .primary:hover,
+.account:hover, .catalog-more:hover, .btn-primary:hover,
+.btn-outline:hover, .btn-light:hover, .chip:hover, .gamecard:hover,
+.bottomnav > a:hover, .bottomnav .bottom-nav-item:hover,
+nav.skiee-mobile-nav a:hover, .nav a:hover {
+  transform: none !important;
+}
+button:active, input[type="submit"]:active, .btn:active, .primary:active,
+.account:active, .catalog-more:active, .btn-primary:active,
+.btn-outline:active, .btn-light:active, .chip:active, .gamecard:active,
+.bottomnav > a:active, .bottomnav .bottom-nav-item:active,
+nav.skiee-mobile-nav a:active, .nav a:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0 0 0 #0F172A !important;
+}
+/* Selected filters and current navigation stay raised even while touched. */
+.chip.active, .chip.active:hover, .chip.active:active,
+.nav a.active, .nav a.active:hover, .nav a.active:active,
+.nav a[aria-current="page"], .nav a[aria-current="page"]:active,
+.bottomnav > a.active, .bottomnav > a.active:active,
+.bottomnav > a[aria-current="page"], .bottomnav > a[aria-current="page"]:active,
+nav.skiee-mobile-nav a.active, nav.skiee-mobile-nav a.active:active,
+nav.skiee-mobile-nav a[aria-current="page"],
+nav.skiee-mobile-nav a[aria-current="page"]:active {
+  background: #FFD600 !important;
+  background-color: #FFD600 !important;
+  color: #0F172A !important;
+  border-color: #0F172A !important;
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+/* Static surfaces and form controls never inherit press animation. */
+.hero-card, .intro, .panel, .section-card, .checkout-card, .summary-card,
+.feature, .promobox, .notice, .info-card, .order-card, .profile-card,
+.balance-card, .wallet-card, .history-card, .searchbox, .search,
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
+select, textarea, .product, .product-card:not(.gamecard) {
+  transition: none !important;
+  transform: none !important;
+}
+/* Only clickable game cards get the press motion. */
+.gamecard { transition: transform .08s ease, box-shadow .08s ease !important; }
+.gamecard:hover { transform: none !important; }
+.gamecard:active { transform: translate(3px, 3px) !important; box-shadow: 0 0 0 #0F172A !important; }
+
+@media (max-width: 767px) {
+  body { padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
+  .bottomnav {
+    gap: 6px !important;
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom)) !important;
+  }
+  .bottomnav > a, .bottomnav .bottom-nav-item {
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 6px 4px !important;
+    gap: 3px !important;
+    border-radius: 10px !important;
+    box-shadow: 3px 3px 0 #0F172A !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
+  .bottomnav > a > span:first-child,
+  .bottomnav .nav-icon,
+  .bottomnav .skiee-svg-box,
+  .bottomnav svg {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+  }
+  .bottomnav > a > span:last-child,
+  .bottomnav .nav-label {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
+  nav.skiee-mobile-nav {
+    padding: 6px 10px !important;
+    gap: 6px !important;
+  }
+  nav.skiee-mobile-nav a {
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 6px 4px !important;
+    border-radius: 10px !important;
+    box-shadow: 3px 3px 0 #0F172A !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+  }
+  nav.skiee-mobile-nav a.active,
+  nav.skiee-mobile-nav a[aria-current="page"] {
+    background: #FFD600 !important;
+    background-color: #FFD600 !important;
+    transform: none !important;
+    box-shadow: 3px 3px 0 #0F172A !important;
+  }
+  nav.skiee-mobile-nav .skiee-svg-box,
+  nav.skiee-mobile-nav svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
