@@ -274,3 +274,8 @@ button,input,select,textarea{max-width:100%;min-width:0}
   .chat-head{padding-top:calc(14px + env(safe-area-inset-top))!important}
 }
 
+
+/* Shared header navigation SVGs: one consistent icon system across customer pages. */
+.header .nav a{display:inline-flex;align-items:center;gap:8px}
+.header .nav .skiee-svg-box{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:28px!important;height:28px!important;min-width:28px!important;flex:0 0 28px!important;visibility:visible!important;opacity:1!important}
+.header .nav .skiee-svg-box svg{display:block!important;width:24px!important;height:24px!important;visibility:visible!important;opacity:1!important}
