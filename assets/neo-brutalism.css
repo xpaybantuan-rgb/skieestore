@@ -428,7 +428,10 @@ body.topup-page .nb-game-brand img {
 }
 body.topup-page .nb-game-brand strong {
   display: block;
-  font: 800 15px "Space Grotesk", sans-serif;
+  font-family: var(--font-ui) !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
   letter-spacing: .04em;
 }
 body.topup-page .nb-game-brand small {
