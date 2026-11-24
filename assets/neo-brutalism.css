@@ -536,13 +536,10 @@ button[type="submit"]:active, input[type="submit"]:active,
 }
 
 
-/* COLOR PASS v1 — richer Neo-Brutalism accents; footer and layout stay untouched */
+/* COLOR PASS v2 — only the three user-selected colors */
 :root {
   --nb-cream: #FFF8E7;
   --nb-lemon: #FFE66D;
-  --nb-mint: #B9F3D0;
-  --nb-lilac: #DCCBFF;
-  --nb-coral: #FFB6A3;
   --nb-sky: #BDEBFF;
 }
 html body,
@@ -552,45 +549,41 @@ html body main > .section {
   background-color: var(--nb-cream) !important;
 }
 .hero-card {
-  background: linear-gradient(120deg, #FFF0A8 0%, #FFF8E7 52%, #DDF5FF 100%) !important;
+  background: linear-gradient(120deg, var(--nb-lemon) 0%, var(--nb-cream) 58%, var(--nb-sky) 100%) !important;
 }
 .intro {
-  background: linear-gradient(125deg, #FFF0A8 0%, #FFF8E7 68%, #E7F8FF 100%) !important;
+  background: linear-gradient(125deg, var(--nb-lemon) 0%, var(--nb-cream) 68%, var(--nb-sky) 100%) !important;
 }
-.gamecard:nth-child(4n + 1), .game:nth-child(4n + 1),
-.product-card:nth-child(4n + 1), .product:nth-child(4n + 1) {
-  background: #FFF1B8 !important;
+.gamecard:nth-child(3n + 1), .game:nth-child(3n + 1),
+.product-card:nth-child(3n + 1), .product:nth-child(3n + 1) {
+  background: var(--nb-lemon) !important;
 }
-.gamecard:nth-child(4n + 2), .game:nth-child(4n + 2),
-.product-card:nth-child(4n + 2), .product:nth-child(4n + 2) {
-  background: #DDF7E7 !important;
+.gamecard:nth-child(3n + 2), .game:nth-child(3n + 2),
+.product-card:nth-child(3n + 2), .product:nth-child(3n + 2) {
+  background: var(--nb-sky) !important;
 }
-.gamecard:nth-child(4n + 3), .game:nth-child(4n + 3),
-.product-card:nth-child(4n + 3), .product:nth-child(4n + 3) {
-  background: #E9E0FF !important;
-}
-.gamecard:nth-child(4n), .game:nth-child(4n),
-.product-card:nth-child(4n), .product:nth-child(4n) {
-  background: #FFE1D8 !important;
+.gamecard:nth-child(3n), .game:nth-child(3n),
+.product-card:nth-child(3n), .product:nth-child(3n) {
+  background: var(--nb-cream) !important;
 }
 .chip.active, .nav a.active {
   background: var(--nb-lemon) !important;
   color: #191b22 !important;
 }
 .notice, .alert, .success, .status-success {
-  background: var(--nb-mint) !important;
-  color: #173b2a !important;
+  background: var(--nb-cream) !important;
+  color: #191b22 !important;
 }
 .feature, .promobox {
-  background: var(--nb-lilac) !important;
+  background: var(--nb-sky) !important;
   color: #191b22 !important;
 }
 .catalog-more {
-  background: var(--nb-coral) !important;
+  background: var(--nb-lemon) !important;
   color: #191b22 !important;
 }
 body.topup-page .nb-game-identity {
-  background: linear-gradient(135deg, #FFF1B8, #FFFFFF 72%) !important;
+  background: linear-gradient(135deg, var(--nb-lemon), var(--nb-cream) 72%) !important;
 }
 body.topup-page .nb-game-title .eyebrow {
   background: var(--nb-lemon) !important;
@@ -598,4 +591,4 @@ body.topup-page .nb-game-title .eyebrow {
 body.topup-page .nb-game-art {
   background: var(--nb-sky) !important;
 }
-/* End color pass v1 */
+/* End color pass v2 */
