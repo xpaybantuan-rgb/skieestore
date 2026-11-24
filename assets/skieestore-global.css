@@ -347,3 +347,27 @@ button,input,select,textarea{max-width:100%;min-width:0}
 .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg *{
   fill:#087BFF!important;stroke:#087BFF!important
 }
+
+
+/* WhatsApp footer: blue label, preserve original green WhatsApp icon */
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{
+  color:#087BFF!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon{
+  color:inherit!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon svg{
+  fill:#25D366!important;
+  stroke:#0F172A!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon svg path:first-of-type{
+  fill:#25D366!important;
+  stroke:#0F172A!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon svg path:last-of-type{
+  fill:#fff!important;
+  stroke:none!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon svg polyline{
+  stroke:#0F172A!important;
+}
