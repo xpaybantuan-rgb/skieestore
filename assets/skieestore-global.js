@@ -4,7 +4,7 @@
 (function(){
  const pathname=(window.location.pathname||"/").toLowerCase();
  const items=[
-  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
+  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
   {href:"cek-pesanan.html",label:"Cek Pesanan",active:pathname.startsWith("/cek"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'},
   {href:"topup.html",label:"Top Up",active:pathname.startsWith("/topup"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'},
   {href:"profil.html",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
@@ -32,11 +32,12 @@
  style.textContent=`
   @media(max-width:767px){
    .header .nav,.header nav.nav,nav.nav,.bottomnav{display:none!important;visibility:hidden!important}
-   .skiee-bottom-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;z-index:2147483000!important;width:auto!important;max-width:480px!important;margin:0 auto!important;padding:5px!important;gap:5px!important;background:#fff!important;border:2.5px solid #0F172A!important;border-radius:14px!important;box-shadow:3px 3px 0 #0F172A!important}
-   .skiee-bottom-nav .nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:4px!important;gap:2px!important;border:2px solid #0F172A!important;border-radius:9px!important;box-shadow:2px 2px 0 #0F172A!important;background:#fff!important;color:#0F172A!important;font-size:9.5px!important;line-height:1!important;font-weight:800!important;text-align:center!important;text-decoration:none!important;transition:transform .08s ease,box-shadow .08s ease,background-color .15s ease!important;-webkit-tap-highlight-color:transparent}
+   .skiee-bottom-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;z-index:2147483000!important;width:auto!important;max-width:480px!important;margin:0 auto!important;padding:5px!important;gap:5px!important;background:#fff!important;border:1px solid #0F172A!important;border-radius:12px!important;box-shadow:none!important;box-sizing:border-box!important}
+   .skiee-bottom-nav .nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:3px!important;gap:2px!important;border:2px solid #0F172A!important;border-radius:8px!important;box-shadow:2px 2px 0 #0F172A!important;background:#fff!important;color:#0F172A!important;font-size:9.5px!important;line-height:1!important;font-weight:800!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important;transition:transform .08s ease,box-shadow .08s ease,background-color .15s ease!important;-webkit-tap-highlight-color:transparent}
    .skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{background:#FFD600!important;color:#0F172A!important;box-shadow:2px 2px 0 #0F172A!important;transform:none!important}
    .skiee-bottom-nav .nav-item:active:not(.active):not([aria-current="page"]){transform:translate(2px,2px)!important;box-shadow:0 0 0 #0F172A!important}
-   .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:18px!important;height:18px!important}
+   .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
+   .skiee-bottom-nav .nav-item>span:last-child{font-size:9.5px!important;white-space:nowrap!important;line-height:1!important}
    body{padding-bottom:76px!important}
    #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:calc(175px + env(safe-area-inset-bottom))!important;scroll-margin-bottom:160px!important}
   }
@@ -383,19 +384,6 @@ skieeIconObserver.observe(document.body,{childList:true,subtree:true});
 
 document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());
 
-/* Restore shared primary navigation on informational pages that have no header nav. */
-(function restoreSkieeGlobalNav(){
- if(document.querySelector(".nav"))return;
- const path=(location.pathname||"/").toLowerCase();
- const items=[
- ["/","Beranda",'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#fff"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#fff"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg>'],
- ["/cek-pesanan.html","Cek Pesanan",'<svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'],
- ["/topup.html","Top Up",'<svg viewBox="0 0 24 24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'],
- ["/profil.html","Profil",'<svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>']
- ];
- const nav=document.createElement("nav");nav.className="nav skiee-global-nav";nav.setAttribute("aria-label","Navigasi utama");
- nav.innerHTML=items.map(([href,label,svg])=>{const active=href==="/" ? path==="/" : href.startsWith("/cek") ? path.startsWith("/cek") : href.startsWith("/topup") ? path.startsWith("/topup") : path.startsWith("/profil");return '<a href="'+href+'" '+(active?'class="active" aria-current="page"':'')+'><span class="skiee-svg-box" aria-hidden="true">'+svg+'</span><span>'+label+'</span></a>'}).join("");
- document.body.appendChild(nav);
-})();
+/* Legacy duplicate navigation removed; .skiee-bottom-nav above is the single global component. */
 
 })();
