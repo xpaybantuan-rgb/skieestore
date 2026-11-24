@@ -741,6 +741,11 @@ $("productSearch").oninput=renderProducts;$("playerId").oninput=()=>{verifiedNic
  const button=$("checkoutButton"),status=$("checkoutStatus"),method="qris";
   try{
   if(method==="qris"){
+   status.textContent="Pembayaran QRIS sedang dinonaktifkan sementara. Kami sedang menyiapkan Duitku. Silakan coba lagi nanti.";
+   button.disabled=false;button.textContent="PEMBAYARAN BELUM TERSEDIA";
+   return;
+  }
+  if(false && method==="qris"){
    status.textContent="Membuat pesanan SKIEESTORE…";
    const orderKey=crypto.randomUUID()+crypto.randomUUID().slice(0,8);
    const orderResponse=await fetch("https://skieestore-payment-engine.xpaybantuan.workers.dev/v1/order/create",{
