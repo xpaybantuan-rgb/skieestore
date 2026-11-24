@@ -311,4 +311,20 @@ skieeIconObserver.observe(document.body,{childList:true,subtree:true});
 
 
 document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());
+
+/* Restore shared primary navigation on informational pages that have no header nav. */
+(function restoreSkieeGlobalNav(){
+ if(document.querySelector(".nav"))return;
+ const path=(location.pathname.split("/").pop()||"index.html").toLowerCase();
+ const items=[
+ ["index.html","Beranda",'<svg viewBox="0 0 24 24" fill="#FFD600" stroke="#0F172A" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#fff"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#fff"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg>'],
+ ["cek-pesanan.html","Cek Pesanan",'<svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'],
+ ["topup.html","Top Up",'<svg viewBox="0 0 24 24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'],
+ ["profil.html","Profil",'<svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>']
+ ];
+ const nav=document.createElement("nav");nav.className="nav skiee-global-nav";nav.setAttribute("aria-label","Navigasi utama");
+ nav.innerHTML=items.map(([href,label,svg])=>'<a href="'+href+'" '+(path===href?'class="active"':'')+'><span class="skiee-svg-box" aria-hidden="true">'+svg+'</span><span>'+label+'</span></a>').join("");
+ document.body.appendChild(nav);
+})();
+
 })();
