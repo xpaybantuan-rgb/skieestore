@@ -265,12 +265,61 @@ function replaceSkieeIcons(){
  });
 }
 replaceSkieeIcons();
+fixSkieeProfileAndFooter();
+setInterval(fixSkieeProfileAndFooter,400);
 let skieeIconQueued=false;
 const skieeIconObserver=new MutationObserver(()=>{
  if(skieeIconQueued)return;skieeIconQueued=true;
  requestAnimationFrame(()=>{skieeIconQueued=false;replaceSkieeIcons()});
 });
 skieeIconObserver.observe(document.body,{childList:true,subtree:true});
+
+
+/* Profile + footer icon correction using nearby labels (user-provided SVG design). */
+const skieeProfileIcons={
+ guest:'<svg viewBox="0 0 24 24" width="28" height="28" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>',
+ history:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#A78BFA" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8" fill="#FFF"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
+ topup:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="11" r="1" fill="#0F172A"></circle><circle cx="17.5" cy="13" r="1" fill="#0F172A"></circle></svg>',
+ wa:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#25D366" stroke="#0F172A" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+ mail:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#FACC15" stroke="#0F172A" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6" fill="none"></polyline></svg>'
+};
+function fixSkieeProfileAndFooter(){
+ const memberCard=document.querySelector(".member-card");
+ if(memberCard&&/selamat datang/i.test(memberCard.textContent)&&/guest/i.test(memberCard.textContent)){
+  const box=memberCard.querySelector(".member-avatar");
+  if(box&&!box.dataset.skieeFixed){
+   box.dataset.skieeFixed="1";
+   box.style.backgroundColor="#E0F2FE";
+   box.style.border="2px solid #0F172A";
+   box.innerHTML=skieeProfileIcons.guest;
+  }
+ }
+ document.querySelectorAll(".profile-shortcuts .shortcut-card").forEach(card=>{
+  const label=card.textContent||"";
+  const box=card.querySelector(".shortcut-icon");
+  if(!box||box.dataset.skieeFixed)return;
+  if(label.includes("Riwayat Pesanan")&&label.includes("Cek status transaksi")){
+   box.dataset.skieeFixed="1";box.style.backgroundColor="#F3E8FF";box.innerHTML=skieeProfileIcons.history;
+  }else if(label.includes("Mulai Top Up")&&label.includes("Pilih game")){
+   box.dataset.skieeFixed="1";box.style.backgroundColor="#CFFAFE";box.innerHTML=skieeProfileIcons.topup;
+  }
+ });
+ document.querySelectorAll(".xp-foot-contact a").forEach(link=>{
+  if(link.dataset.skieeFixed)return;
+  const label=link.textContent||"";
+  if(label.includes("WhatsApp Customer Service")){
+   link.dataset.skieeFixed="1";
+   const icon=link.querySelector(".xp-foot-icon");
+   if(icon)icon.outerHTML=skieeProfileIcons.wa;
+   else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.wa);
+  }else if(label.includes("adminskiee@gmail.com")){
+   link.dataset.skieeFixed="1";
+   const icon=link.querySelector(".xp-foot-icon");
+   if(icon)icon.outerHTML=skieeProfileIcons.mail;
+   else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.mail);
+  }
+ });
+}
 
 document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());
 })();
