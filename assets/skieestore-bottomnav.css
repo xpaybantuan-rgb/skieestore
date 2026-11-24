@@ -275,3 +275,28 @@ select, textarea, .product, .product-card:not(.gamecard) {
     height: 18px !important;
   }
 }
+
+
+/* Higher-specificity safeguards for homepage inline catalog styles. */
+html body #gameFilters.chips .chip:hover,
+html body #gameFilters.chips .chip:active {
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body #gameFilters.chips .chip.active,
+html body #gameFilters.chips .chip.active:hover,
+html body #gameFilters.chips .chip.active:active {
+  background: #FFD600 !important;
+  background-color: #FFD600 !important;
+  color: #0F172A !important;
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body main .gamegrid > button.gamecard:hover {
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body main .gamegrid > button.gamecard:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0 0 0 #0F172A !important;
+}
