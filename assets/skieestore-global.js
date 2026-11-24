@@ -52,6 +52,7 @@ const SUPABASE_KEY="sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR";
 let toastTimer=0;
 function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function notify(msg){const t=$("toast");if(!t){alert(msg);return}t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2600)}
+if($("chatPanel") && $("chatToggle")){
 const CHAT_ENDPOINT=SUPABASE_URL+"/functions/v1/ai-chat";
 let chatDeviceId=localStorage.getItem("xp-chat-device");
 if(!chatDeviceId){chatDeviceId=crypto.randomUUID();localStorage.setItem("xp-chat-device",chatDeviceId)}
@@ -277,6 +278,7 @@ chatExpand.addEventListener("click",()=>{const expanded=chatInput.classList.togg
 chatInput.addEventListener("keydown",e=>{if(e.key==="Escape"&&chatInput.classList.contains("expanded")){chatInput.classList.remove("expanded");chatExpand.textContent="⤢"}else if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("chatForm").requestSubmit()}});
 syncComposer();
 
+}
 /* Site-wide SVG icon replacement: shared by homepage, profile and navigation pages. */
 const skieeIconStyle=document.createElement("style");
 skieeIconStyle.textContent=".skiee-svg-box{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-box svg{width:24px;height:24px;display:block}.skiee-svg-mini{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-mini svg{width:20px;height:20px;margin-right:6px;display:block}.feature-icon .skiee-svg-box{width:24px;height:24px}.bottomnav .skiee-svg-box svg{width:22px;height:22px}";
