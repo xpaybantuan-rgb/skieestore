@@ -371,3 +371,33 @@ button,input,select,textarea{max-width:100%;min-width:0}
 .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] .xp-foot-icon svg polyline{
   stroke:#0F172A!important;
 }
+
+
+/* FINAL: yellow active navigation state across desktop and mobile */
+.nav a.active,
+.nav a[aria-current="page"],
+.header .nav a.active,
+nav.skiee-mobile-nav a.active,
+nav.skiee-mobile-nav a[aria-current="page"],
+.bottomnav a.active,
+.bottomnav a[aria-current="page"]{
+  background:#FFE66D!important;
+  background-color:#FFE66D!important;
+  color:#191b22!important;
+  border-color:#191b22!important;
+}
+/* WhatsApp: only label is blue; SVG keeps its original inline green artwork */
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{
+  color:#087BFF!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg{
+  fill:#25D366!important;
+  stroke:#0F172A!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg path:first-of-type{
+  fill:#25D366!important;
+}
+.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg path:last-of-type{
+  fill:#fff!important;
+  stroke:none!important;
+}
