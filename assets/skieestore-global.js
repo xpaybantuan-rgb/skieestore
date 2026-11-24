@@ -227,5 +227,50 @@ chatClear.addEventListener("click",()=>{chatInput.value="";syncComposer();chatIn
 chatExpand.addEventListener("click",()=>{const expanded=chatInput.classList.toggle("expanded");chatExpand.textContent=expanded?"⤡":"⤢";chatExpand.setAttribute("aria-label",expanded?"Kecilkan kolom pesan":"Perbesar kolom pesan");if(expanded)chatInput.focus()});
 chatInput.addEventListener("keydown",e=>{if(e.key==="Escape"&&chatInput.classList.contains("expanded")){chatInput.classList.remove("expanded");chatExpand.textContent="⤢"}else if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("chatForm").requestSubmit()}});
 syncComposer();
+
+/* Site-wide SVG icon replacement: shared by homepage, profile and navigation pages. */
+const skieeIconStyle=document.createElement("style");
+skieeIconStyle.textContent=".skiee-svg-box{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-box svg{width:24px;height:24px;display:block}.skiee-svg-mini{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-mini svg{width:20px;height:20px;margin-right:6px;display:block}.feature-icon .skiee-svg-box{width:24px;height:24px}.bottomnav .skiee-svg-box svg{width:22px;height:22px}";
+document.head.appendChild(skieeIconStyle);
+const skieeSvg={
+grid:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg></span>',
+tag:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#4ADE80" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#0F172A"/></svg></span>',
+search:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg></span>',
+support:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6" fill="none"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>',
+wallet:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 11h6v4h-6a2 2 0 0 1 0-4z" fill="#FFF"/></svg></span>',
+reward:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FB923C" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>',
+history:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#A78BFA" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8" fill="#FFF"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>',
+game:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4" fill="none"/><circle cx="15" cy="11" r="1" fill="#0F172A"/><circle cx="17.5" cy="13" r="1" fill="#0F172A"/></svg></span>',
+user:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>',
+wa:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#25D366" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>',
+mail:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6" fill="none"/></svg></span>'
+};
+function replaceSkieeIcons(){
+ const aliases={"▦":"grid","◈":"tag","⌕":"search","✆":"support","◎":"wallet","◉":"wallet","✦":"reward","☰":"history","▤":"game","👤":"user","☻":"user","옷":"user","⌂":"grid","☎":"wa","✉":"mail"};
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const pending=[];let n;
+ while((n=walker.nextNode())){
+  const token=n.nodeValue.trim();
+  if(aliases[token]&&!n.parentElement?.dataset.skieeIconDone)pending.push({node:n,token});
+ }
+ pending.forEach(({node,token})=>{
+  const parent=node.parentElement;if(!parent||parent.dataset.skieeIconDone)return;
+  let key=aliases[token];
+  const memberCard=parent.closest(".feature-card");
+  if(token==="▤"&&memberCard&&memberCard.textContent.includes("Riwayat Transaksi"))key="history";
+  parent.dataset.skieeIconDone="1";parent.innerHTML=skieeSvg[key];
+ });
+ document.querySelectorAll(".shortcut-card[href='topup.html'] .shortcut-icon").forEach(icon=>{
+  if(!icon.dataset.skieeGameIcon){icon.dataset.skieeGameIcon="1";icon.innerHTML=skieeSvg.game}
+ });
+}
+replaceSkieeIcons();
+let skieeIconQueued=false;
+const skieeIconObserver=new MutationObserver(()=>{
+ if(skieeIconQueued)return;skieeIconQueued=true;
+ requestAnimationFrame(()=>{skieeIconQueued=false;replaceSkieeIcons()});
+});
+skieeIconObserver.observe(document.body,{childList:true,subtree:true});
+
 document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());
 })();
