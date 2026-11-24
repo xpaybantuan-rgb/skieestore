@@ -56,7 +56,7 @@
 .product-group{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
 .product-group.open{border-color:#00CFFF;box-shadow:0 8px 24px #087BFF10}
 .product-group-head{width:100%;display:flex;align-items:center;gap:12px;padding:14px;background:#fff;border:0;text-align:left;cursor:pointer;color:var(--text)}
-.product-group-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:11px;background:var(--soft);color:var(--accent);flex:none}.product-group-icon svg{width:31px;height:31px;display:block;filter:drop-shadow(0 2px 3px #17255425)}
+.product-group-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:11px;background:var(--soft);color:var(--accent);flex:none}.product-group-icon img{width:31px;height:31px;display:block;object-fit:contain;filter:drop-shadow(0 2px 3px #17255425)}
 .product-group-copy{flex:1;min-width:0}.product-group-copy strong{display:block;font-size:12px}.product-group-copy small{display:block;color:var(--muted);font-size:9px;margin-top:4px}
 .product-group-count{font-size:9px;font-weight:800;color:var(--muted);white-space:nowrap}.product-group-chevron{color:var(--muted);transition:transform .2s}.product-group.open .product-group-chevron{transform:rotate(180deg)}
 .product-group-body{display:none;padding:0 12px 12px}.product-group.open .product-group-body{display:block}
@@ -641,8 +641,29 @@ function renderProducts(){
  const groups={};list.forEach(p=>{const k=/arena of valor/i.test(selected.name||"")?"Top Up / Mata Uang":productGroup(p,selected);(groups[k]??=[]).push(p)});
  const order=/be the king/i.test(selected.name||"")?["Be The King · Gold","Be The King · Ult Tokens"]: /castle duels/i.test(selected.name||"")?["Castle Duels · Platinum","Castle Duels · Crystals","Castle Duels · Pass & Membership"]:["Top Up / Mata Uang","Pass & Membership","Voucher & Gift Card"];
  // Each game and category uses its own illustrated currency/pass/voucher asset.
- const currencyIconKey=(game,group)=>{if(/pass|membership|weekly card|welkin|strike pass|battle pass/i.test(String(group||"")))return "pass-ticket";if(/voucher|gift card/i.test(String(group||"")))return "gift-box";const n=String(game?.name||"").toLowerCase();if(/be the king/.test(n))return group.includes("Ult Tokens")?"btk-ult":"btk-gold";if(/castle duels/.test(n))return group.includes("Crystals")?"castle-crystal":group.includes("Platinum")?"castle-platinum":"castle-platinum";if(/mobile legends/.test(n)||/magic chess/.test(n))return /magic chess/.test(n)?"mcgg-diamond":"ml-diamond";if(/free fire max/.test(n))return "ffmax-diamond";if(/free fire/.test(n))return "ff-diamond";if(/pubg mobile/.test(n))return "pubg-uc";if(/genshin impact/.test(n))return "genshin-crystal";if(/blood strike/.test(n))return "bloodstrike-gold";if(/call of duty mobile|codm/.test(n))return "codm-cp";if(/ace racer/.test(n))return "ace-token";if(/afk journey/.test(n))return "afk-dragon-crystal";if(/age of empires mobile/.test(n))return "aoem-coins";if(/arena breakout/.test(n))return "arena-bonds";if(/arena of valor/.test(n))return "aov-voucher";if(/astral guardians/.test(n))return "astral-diamond";return "ml-diamond"};
- const groupIconMarkup=(game,group)=>'<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><use href="/assets/game-currency-icons.svg#'+currencyIconKey(game,group)+'"></use></svg>';
+ const currencyIconUrl=(game,group)=>{
+  const n=String(game?.name||"").toLowerCase(),g=String(group||"").toLowerCase();
+  // Official in-game currency/product artwork from publisher or established top-up catalog image endpoints.
+  if(/pass|membership|weekly card|welkin|strike pass|battle pass/.test(g))return game?.image_url||"";
+  if(/voucher|gift card/.test(g))return game?.image_url||"";
+  if(/be the king/.test(n))return g.includes("ult tokens")?"https://cdn1.codashop.com/S/content/common/images/denom-image/BetheKing/60_BTK_UltTokens.png":"https://cdn1.codashop.com/S/content/common/images/denom-image/BetheKing/60_BetheKing_Gold.png";
+  if(/castle duels/.test(n))return g.includes("crystal")?"https://market.my.games/s3/media/2024/8/26/7f0712a3b8fe16cdc27df633fa7e5b4f.png":"https://market.my.games/s3/media/2024/8/26/252e2d9f1e169ded6f05e6a44c0b325b.png";
+  if(/mobile legends/.test(n))return "https://goodappx.com/mobilelegends/diamonds.png";
+  if(/magic chess/.test(n))return "https://cdn.qukasoft.com/f/990724/cG96YWFtNG0vcUp3ZUdGckg4OG5icmdQYmNFPQ/p/magic-chess-go-go-50-50-elmas-first-top-up--71156512-sw700sh700.png";
+  if(/free fire/.test(n))return "https://armadaboost.com/public/product/images/buy-free-fire-diamonds-armadaboost.png";
+  if(/pubg mobile/.test(n))return "https://api-public-gaming.eco.rt.ru/static/images/currency/retina/Pubg.webp";
+  if(/genshin impact/.test(n))return "https://ditusi.co.id/storage/currencies/01J8M1X9HG9VGXY0ACBVZCVKB2.webp";
+  if(/blood strike/.test(n))return "https://cdn.topuplive.com/cdn-cgi/image/format%3Dwebp/uploads/images/goods/20260114/1768371870_ZRXTVxUnu1.png";
+  if(/call of duty mobile|codm/.test(n))return "https://gamensia.com/assets/images/product/imagesz-20241202194420bf63ef.webp";
+  if(/ace racer/.test(n))return "https://cdn.qukasoft.com/f/990724/cG96YWFtNG0vcUp3ZUdFOVU1NG5hQT09/p/ace-racer-3180-tokens-35875921-sw1024sh1024.png";
+  if(/afk journey/.test(n))return "https://assets.nuuvem.com/image/upload/t_screenshot_full/v1/products/689e1048ee693076b871f32d/screenshots/ax0t8ammoj0l1o0hkyc0.jpg";
+  if(/age of empires mobile/.test(n))return "https://cdn.epinium.net/epinium/files/www.hi2games.com/products/9e003cdd5f432ebb86e291290e0b4ba2.png";
+  if(/arena breakout/.test(n))return "https://voodoo.market/images/parameter/arena-breakout-bonds-id_SMly4eR.webp";
+  if(/arena of valor/.test(n))return "https://www.24buym.com/storage/packphotos/loV1J6Abqc5eNThFrWbGu0mD3p5ICZ0UbTaW8scc.webp";
+  if(/astral guardians/.test(n))return "https://cdn.qukasoft.com/f/990724/cG96YWFtNG0vcUp3ZUdFOVU1NG5icmdQYmNFPQ/p/698b1ce84b51d-66350729-sw700sh700.png";
+  return game?.image_url||"";
+ };
+ const groupIconMarkup=(game,group)=>{const src=currencyIconUrl(game,group);return src?'<img src="'+safe(src)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">':'<span aria-hidden="true">🎮</span>'};
  $("productGroups").innerHTML=list.length?order.filter(k=>groups[k]?.length).map(k=>{
   const label=productGroupLabel(selected,k);
   return '<section class="product-group '+(openProductGroup===k?"open":"")+'"><button type="button" class="product-group-head" data-group="'+safe(k)+'"><span class="product-group-icon">'+groupIconMarkup(selected,k)+'</span><span class="product-group-copy"><strong>'+safe(label)+'</strong><small>Pilih nominal sesuai kebutuhan akun kamu</small></span><span class="product-group-count">'+groups[k].length+' produk</span><span class="product-group-chevron">⌄</span></button><div class="product-group-body"><div class="products">'+groups[k].map(p=>'<button type="button" class="product-choice '+(selectedProduct?.id===p.id?"selected ":"")+(promoIds.has(p.id)?"promo-product":"")+'" data-product="'+p.id+'"><span class="tag">'+(p.region==="GLOBAL"?"GLOBAL":(/^INDONESIA - /.test(p.name||"")?"":"INDONESIA -"))+'</span>'+(promoIds.has(p.id)?'<span class="promo-flag">🔥 PROMO</span>':'')+'<strong>'+safe(displayProductName(p.name))+'</strong><div class="price">'+money(p.sell_price)+'</div></button>').join("")+'</div></div></section>'
