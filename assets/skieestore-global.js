@@ -274,21 +274,7 @@ function fixSkieeProfileAndFooter(){
    box.dataset.skieeFixed="1";box.style.backgroundColor="#CFFAFE";box.innerHTML=skieeProfileIcons.topup;
   }
  });
- document.querySelectorAll("footer a, .xp-foot-contact a").forEach(link=>{
-  if(link.dataset.skieeFixed)return;
-  const label=link.textContent||"";
-  if(label.includes("WhatsApp Customer Service")){
-   link.dataset.skieeFixed="1";
-   const icon=link.querySelector(".xp-foot-icon");
-   if(icon)icon.innerHTML=skieeProfileIcons.wa;
-   else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.wa);
-  }else if(label.includes("adminskiee@gmail.com")){
-   link.dataset.skieeFixed="1";
-   const icon=link.querySelector(".xp-foot-icon");
-   if(icon)icon.innerHTML=skieeProfileIcons.mail;
-   else link.insertAdjacentHTML("afterbegin",skieeProfileIcons.mail);
-  }
- });
+ /* Footer markup is canonical HTML from index.html; never mutate it at runtime. */
 }
 
 
@@ -297,6 +283,7 @@ function replaceSkieeIcons(){
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  const pending=[];let n;
  while((n=walker.nextNode())){
+  if(n.parentElement?.closest(".nav,.bottomnav,footer"))continue;
   const token=n.nodeValue.trim();
   if(aliases[token]&&!n.parentElement?.dataset.skieeIconDone)pending.push({node:n,token});
  }
