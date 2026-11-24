@@ -675,6 +675,26 @@ function getFormConfig(product,game){
  cfg.help=plain+" Jenis data tujuan belum dapat dipastikan dari instruksi supplier. Hubungi admin sebelum memesan.";
  return cfg;
 }
+function accountHelpText(form,game){
+ const n=String(game?.name||"").toLowerCase();
+ const guides=[
+  [/^mobile legends$/,"Buka Mobile Legends, ketuk avatar profil di pojok kiri atas. User ID dan Zone ID terlihat di halaman profil, tepat di bawah nama akun. Salin keduanya dengan benar."],
+  [/magic chess:\\s*go go/,"Buka profil akun melalui avatar di pojok kiri atas. User ID dan Zone ID tercantum di halaman profil akun Mobile Legends / Magic Chess."],
+  [/free fire max|free fire/,"Buka Free Fire, ketuk avatar profil di pojok kiri atas. Player ID / UID terlihat pada halaman profil. Salin angka ID, bukan nickname."],
+  [/pubg mobile/,"Buka PUBG Mobile, ketuk avatar profil di pojok kiri atas. Character ID / Player ID dapat dilihat pada halaman profil (Basic Info)."],
+  [/blood strike/,"Dari lobi Blood Strike, buka avatar atau profil pemain. User ID / Player ID tercantum pada halaman profil akun."],
+  [/genshin impact/,"Buka menu Paimon. UID 9–10 digit terlihat di bagian bawah layar. Pilih server yang sama dengan server akun kamu."],
+  [/call of duty mobile/,"Buka Settings → Legal and Privacy → Player ID. Salin Open ID / Player ID yang ditampilkan."],
+  [/arena of valor/,"Buka Settings → General → OpenID di dalam game. Salin Open ID lengkap."],
+  [/ace racer/,"Dari lobi Ace Racer, buka avatar atau profil pemain. User ID tercantum di profil. Pilih server yang sama dengan server akun kamu."],
+  [/age of empires mobile/,"Buka avatar profil Gubernur di pojok kiri atas. Salin Player ID / Governor ID yang tercantum di halaman profil."],
+  [/arena breakout/,"Dari lobi Arena Breakout, buka avatar profil pemain. Player ID / Character ID tercantum pada halaman profil akun."],
+  [/astral guardians/,"Buka profil di pojok kiri atas dalam game. Salin Role ID / User ID dan pastikan kode Server yang dipilih sesuai dengan server akun."],
+  [/afk journey/,"Buka avatar profil di pojok kiri atas. User ID terlihat di halaman profil. Masukkan kode server tempat karakter kamu dibuat."]
+ ];
+ const guide=guides.find(([re])=>re.test(n))?.[1];
+ return guide?guide+(form?.help?" "+form.help:""):(form?.help||"Buka profil akun game dan salin User ID sesuai petunjuk di dalam game.");
+}
 function applyFormConfig(){verifiedNickname="";$("summaryNickname").textContent=activeForm.nicknameSupported===false?"Tidak tersedia":"Belum dicek";$("universalTargetWarning").textContent="⚠️ Pastikan data tujuan yang kamu masukkan sudah benar. Kesalahan input oleh pembeli bukan tanggung jawab SKIEESTORE dan transaksi yang sudah diproses tidak dapat dibatalkan atau di-refund.";
  const hasProduct=!!selectedProduct;
  if(!hasProduct){
@@ -689,7 +709,7 @@ function applyFormConfig(){verifiedNickname="";$("summaryNickname").textContent=
   $("playerId").required=false;$("serverId").required=false;
   return;
  }
- activeForm=getFormConfig(selectedProduct,selected);if(!/mobile legends|free fire|pubg mobile/i.test(String(selected?.name||"").toLowerCase())){activeForm.nicknameSupported=false;activeForm.hideNicknameSummary=true;}activeForm.targetValidationType=getTargetValidationType(activeForm,selected);$("accountHelpAccordion").hidden=false;
+ activeForm=getFormConfig(selectedProduct,selected);activeForm.help=accountHelpText(activeForm,selected);if(!/mobile legends|free fire|pubg mobile/i.test(String(selected?.name||"").toLowerCase())){activeForm.nicknameSupported=false;activeForm.hideNicknameSummary=true;}activeForm.targetValidationType=getTargetValidationType(activeForm,selected);$("accountHelpAccordion").hidden=false;
  $("accountTitle").textContent=/email|gmail/.test(activeForm.playerLabel)?"Data Penerima":"Data Tujuan";
  $("playerLabel").textContent=activeForm.playerLabel;$("playerId").placeholder=activeForm.playerPlaceholder;
  $("serverLabel").textContent=activeForm.serverLabel;$("serverId").placeholder=activeForm.serverPlaceholder;
