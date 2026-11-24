@@ -300,3 +300,57 @@ html body main .gamegrid > button.gamecard:active {
   transform: translate(3px, 3px) !important;
   box-shadow: 0 0 0 #0F172A !important;
 }
+
+
+/* Additional clickable controls and non-button static surfaces. */
+html body #filters.filters .chip:hover,
+html body #filters.filters .chip:active {
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body #filters.filters .chip.active,
+html body #filters.filters .chip.active:hover,
+html body #filters.filters .chip.active:active {
+  background: #FFD600 !important;
+  background-color: #FFD600 !important;
+  color: #0F172A !important;
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body #games .game {
+  transition: transform .08s ease, box-shadow .08s ease !important;
+}
+html body #games .game:hover {
+  transform: none !important;
+}
+html body #games .game:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 0 0 0 #0F172A !important;
+}
+html body .product-choice,
+html body .product-choice:hover,
+html body .shortcut-card,
+html body .shortcut-card:hover,
+html body .payment-option,
+html body .payment-option:hover {
+  transition: none !important;
+  transform: none !important;
+}
+/* Header navigation is a static current-page marker, not a press target. */
+html body .nav a,
+html body .nav a:hover,
+html body .nav a:active {
+  transition: none !important;
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
+html body .nav a.active,
+html body .nav a.active:hover,
+html body .nav a.active:active,
+html body .nav a[aria-current="page"],
+html body .nav a[aria-current="page"]:active {
+  background: #FFD600 !important;
+  background-color: #FFD600 !important;
+  transform: none !important;
+  box-shadow: 3px 3px 0 #0F172A !important;
+}
