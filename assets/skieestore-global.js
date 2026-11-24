@@ -77,7 +77,7 @@ if($("chatPanel") && $("chatToggle")){
 const CHAT_ENDPOINT=SUPABASE_URL+"/functions/v1/ai-chat";
 let chatDeviceId=localStorage.getItem("xp-chat-device");
 if(!chatDeviceId){chatDeviceId=crypto.randomUUID();localStorage.setItem("xp-chat-device",chatDeviceId)}
-let chatMessages=[],chatLoaded=false,chatBusy=false,chatConversationId=localStorage.getItem("xp-chat-conversation")||"";
+let chatMessages=[],chatLoaded=false,chatBusy=false,chatCooldownUntil=0,chatCooldownTimer=0,chatConversationId=localStorage.getItem("xp-chat-conversation")||"";
 const CHAT_GREETING="Halo Gamers! 👋 Ada yang bisa SKIEESTORE AI bantu seputar top up game, voucher, atau cek status invoice kamu? Ketik aja pertanyaanmu di bawah!";
 function scrollChatToLatest(){
   const box=$("chatMessages");
@@ -118,6 +118,9 @@ function renderChat(){
   box.innerHTML=chatMessages.map(m=>'<div class="chat-bubble '+(m.role==="user"?"user":"bot")+'"><small class="chat-sender">'+(m.role==="user"?"KlienSKIEE":safe(m.provider||"SKIEESTORE AI"))+'</small><div>'+chatMessageHtml(m.content)+'</div></div>').join("");
   scrollChatToLatest();
 }
+function syncChatSendState(){const button=$("chatSend");if(!button)return;const remaining=Math.max(0,Math.ceil((chatCooldownUntil-Date.now())/1000));button.disabled=chatBusy||remaining>0;button.textContent=remaining>0?remaining+"s":"➤";if(remaining===0&&chatCooldownTimer){clearInterval(chatCooldownTimer);chatCooldownTimer=0}}
+function startChatCooldown(){chatCooldownUntil=Date.now()+2000;if(chatCooldownTimer)clearInterval(chatCooldownTimer);const tick=()=>syncChatSendState();tick();chatCooldownTimer=setInterval(tick,200)}
+$("chatMessages").hidden=true;
 const chatScrollObserver=new MutationObserver(()=>scrollChatToLatest());
 chatScrollObserver.observe($("chatMessages"),{childList:true,subtree:true,characterData:true});
 const chatPanelObserver=new MutationObserver(()=>{if(!$("chatPanel").hidden)scrollChatToLatest()});
@@ -242,7 +245,7 @@ window.addEventListener("resize",()=>{syncChatViewport();if(!$("chatPanel").hidd
 function openChat(){
   chatPreviousOverflow=document.body.style.overflow;
   document.body.classList.add("chat-open");
-  $("chatPanel").hidden=false;$("chatPanel").classList.add("keyboard-aware");$("chatToggle").hidden=true;$("chatToggle").setAttribute("aria-expanded","true");
+  $("chatPanel").hidden=false;$("chatMessages").hidden=false;$("chatPanel").classList.add("keyboard-aware");$("chatToggle").hidden=true;$("chatToggle").setAttribute("aria-expanded","true");
   document.body.style.overflow="hidden";syncChatViewport();
   loadChat();setTimeout(()=>{$("chatInput").focus({preventScroll:true});syncChatViewport()},120);
 }
@@ -265,13 +268,14 @@ $("chatHistoryList").addEventListener("click",async e=>{
   if(del)deleteChat(del.dataset.deleteChat);
 });
 $("chatForm").addEventListener("submit",async e=>{
-  e.preventDefault();if(chatBusy)return;
+  e.preventDefault();if(chatBusy||Date.now()<chatCooldownUntil)return;
   const text=$("chatInput").value.trim();if(!text)return;
+  startChatCooldown();
   const history=chatMessages.slice(-8).map(m=>({role:m.role,content:m.content}));
   chatMessages.push({role:"user",content:text});
   const assistantIndex=chatMessages.push({role:"assistant",content:""})-1;
   $("chatInput").value="";syncComposer();renderChat();
-  chatBusy=true;$("chatSend").disabled=true;$("chatTyping").hidden=false;
+  chatBusy=true;syncChatSendState();$("chatTyping").hidden=false;
   let received=false;
   try{
     await chatStreamCall({conversationId:chatConversationId,messages:[...history,{role:"user",content:text}]},(token,provider)=>{
@@ -287,7 +291,7 @@ $("chatForm").addEventListener("submit",async e=>{
   }catch(err){
     chatMessages[assistantIndex].content=err.message||"Koneksi sedang terganggu. Coba lagi sebentar ya.";
   }finally{
-    chatBusy=false;$("chatSend").disabled=false;$("chatTyping").hidden=true;
+    chatBusy=false;syncChatSendState();$("chatTyping").hidden=true;
     $("chatInput").focus({preventScroll:true});renderChat();scrollChatToLatest();
   }
 });
