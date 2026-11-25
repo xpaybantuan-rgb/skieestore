@@ -533,6 +533,17 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 #chatPanel .chat-history-item{background:#fff!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:3px 3px 0 #191b22!important}
 #chatPanel .chat-history-open,#chatPanel .chat-history-empty{color:#191b22!important;font-family:'Plus Jakarta Sans',sans-serif!important}
 @media(max-width:620px){#chatPanel{border:0!important;box-shadow:none!important}}
+
+/* Homepage FAQ: readable, crawlable answers without JavaScript dependency */
+.faq-home{padding:34px 0 12px}
+.faq-home-list{display:grid;gap:10px;max-width:900px;margin:18px auto 0}
+.faq-home-item{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:0 17px}
+.faq-home-item summary{cursor:pointer;list-style:none;padding:16px 30px 16px 0;position:relative;font-size:12px;font-weight:800;color:var(--text)}
+.faq-home-item summary::-webkit-details-marker{display:none}
+.faq-home-item summary:after{content:"+";position:absolute;right:2px;top:12px;color:var(--accent);font:700 21px "Space Grotesk",sans-serif}
+.faq-home-item[open] summary:after{content:"−"}
+.faq-home-answer{padding:0 0 16px;color:var(--muted);font-size:11px;line-height:1.8}
+.faq-home-answer a{color:var(--accent2);font-weight:800;text-decoration:underline;text-underline-offset:3px}
 </style>
 
 </head>
@@ -573,6 +584,41 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 <div class="feature"><div class="ficon"><div class="skiee-icon-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg></div></div><strong>Status pesanan dapat dicek</strong><p>Gunakan nomor invoice untuk melihat informasi dan perkembangan pesananmu.</p></div>
 <div class="feature"><div class="ficon"><div class="skiee-icon-box"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6" fill="none"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div></div><strong>Dukungan pelanggan</strong><p>Butuh bantuan? Hubungi layanan pelanggan SKIEESTORE melalui kanal kontak yang tersedia.</p></div>
 </div></div></section>
+
+
+<section class="section faq-home" id="faq-home" aria-labelledby="faq-home-title">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="kicker">BANTUAN PEMBELI</div>
+        <h2 id="faq-home-title">Pertanyaan Umum Top Up Game</h2>
+        <p class="sub">Informasi singkat sebelum memesan produk digital di SKIEESTORE.</p>
+      </div>
+    </div>
+    <div class="faq-home-list">
+      <details class="faq-home-item">
+        <summary>Bagaimana cara top up game di SKIEESTORE?</summary>
+        <div class="faq-home-answer">Buka halaman <a href="/topup">Katalog Top Up</a>, pilih game atau voucher, tentukan nominal, lalu isi User ID dan data tujuan sesuai petunjuk. Periksa kembali ringkasan pesanan sebelum menyelesaikan pembayaran. Lihat <a href="/cara-top-up">panduan cara top up</a> untuk langkah lebih lengkap.</div>
+      </details>
+      <details class="faq-home-item">
+        <summary>Bagaimana cara mengetahui harga dan nominal produk?</summary>
+        <div class="faq-home-answer">Pilih game atau voucher di katalog untuk melihat pilihan produk dan harga yang tersedia. Pastikan nama produk, nominal, dan total pembayaran sudah sesuai sebelum melanjutkan checkout.</div>
+      </details>
+      <details class="faq-home-item">
+        <summary>Bagaimana cara mengecek status pesanan?</summary>
+        <div class="faq-home-answer">Gunakan nomor invoice atau pesanan pada halaman <a href="/cek-pesanan">Cek Status Pesanan</a>. Simpan nomor tersebut agar detail transaksi lebih mudah ditemukan jika kamu membutuhkan bantuan.</div>
+      </details>
+      <details class="faq-home-item">
+        <summary>Apa yang harus dilakukan jika salah memasukkan User ID atau server?</summary>
+        <div class="faq-home-answer">Segera hubungi layanan pelanggan dan siapkan nomor invoice serta data tujuan yang dimasukkan. Periksa data sebelum membayar karena kesalahan input dapat memengaruhi keberhasilan pengiriman dan transaksi yang sudah diproses mengikuti ketentuan layanan.</div>
+      </details>
+      <details class="faq-home-item">
+        <summary>Ke mana harus menghubungi SKIEESTORE jika mengalami kendala?</summary>
+        <div class="faq-home-answer">Hubungi Customer Service melalui tautan WhatsApp pada bagian Hubungi Kami. Jam operasional yang tercantum di website adalah 08.00–22.00 WIB. Sertakan nomor invoice dan penjelasan kendala agar pemeriksaan lebih terarah.</div>
+      </details>
+    </div>
+  </div>
+</section>
 
 </main>
 <footer class="xp-footer" id="footer"><div class="xp-foot-wrap">
