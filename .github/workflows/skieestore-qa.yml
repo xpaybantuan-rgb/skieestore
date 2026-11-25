@@ -42,18 +42,18 @@ jobs:
               "/cara-top-up", "/pusat-bantuan", "/tentang-skieestore",
               "/kebijakan-privasi", "/syarat-ketentuan"
           ]
-          failures, report = [], []
+          failures, report, browser_errors = [], [], []
 
           with sync_playwright() as p:
               browser = p.chromium.launch()
               page = browser.new_page(viewport={"width": 390, "height": 844},
                                       device_scale_factor=1, is_mobile=True, has_touch=True)
-              page.on("pageerror", lambda e: failures.append("JS runtime: " + str(e)))
+              page.on("pageerror", lambda e: browser_errors.append("JS runtime: " + str(e)))
               page.on("console", lambda m: failures.append("console error: " + m.text[:300])
                       if m.type == "error" else None)
 
               for path in PAGES:
-                  errors_before = len(failures)
+                  errors_before = len(browser_errors)
                   response = page.goto(BASE + path, wait_until="domcontentloaded", timeout=45000)
                   page.wait_for_timeout(1200)
                   status = response.status if response else 0
@@ -62,7 +62,7 @@ jobs:
                       try:
                           page.wait_for_function("""() => {
                             const cards=[...document.querySelectorAll('#gameGrid .gameinfo small')];
-                            return cards.length && cards.some(x => /[1-9][0-9]* produk aktif/.test(x.innerText));
+                            return cards.length && cards.some(x => /[1-9][0-9]* produk aktif/i.test(x.innerText));
                           }""", timeout=30000)
                       except Exception:
                           failures.append("Homepage product counts stayed at zero/loading after 30 seconds")
@@ -86,7 +86,7 @@ jobs:
                   if not data["copyright"]: issues.append("copyright missing")
                   if not data["chatToggle"] or not data["chatPanel"]: issues.append("XP AI widget missing")
                   if data["brokenImages"]: issues.append("broken images: " + ", ".join(data["brokenImages"]))
-                  if len(failures) > errors_before: issues.append("browser JS/console errors")
+                  if len(browser_errors) > errors_before: issues.append("browser JS/console errors: " + " | ".join(browser_errors[errors_before:][:5]))
                   if path == "/" and data["productCountText"] and all(x.startswith("0 ") for x in data["productCountText"]):
                       issues.append("visible game cards show zero active products")
 
@@ -120,7 +120,7 @@ jobs:
                   page.screenshot(path=f"qa-bottom-{path.strip('/').replace('/','_') or 'home'}.png")
                   page.evaluate("window.scrollTo(0,0)")
                   page.screenshot(path=f"qa-top-{path.strip('/').replace('/','_') or 'home'}.png")
-                  report.append({"page":path,"http":status,**data,"footerGeometry":geometry,"issues":issues})
+                  report.append({"page":path,"http":status,**data,"footerGeometry":geometry,"browserErrors":browser_errors[errors_before:],"issues":issues})
                   print(json.dumps(report[-1],ensure_ascii=False))
                   failures.extend([f"{path}: {x}" for x in issues])
 
