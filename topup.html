@@ -759,7 +759,7 @@ $("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSumma
    sessionStorage.setItem("xpay_skieepay_token_"+payment.id,orderData.guest_token);
    sessionStorage.setItem("xpay_skieepay_exp_"+payment.id,payment.expires_at||"");
    sessionStorage.setItem("xpay_skieepay_order_"+payment.id,payment.order_code||orderData.order.order_code||"");
-   location.href="pembayaran.html?payment_id="+encodeURIComponent(payment.id);
+   location.href="/pembayaran?payment_id="+encodeURIComponent(payment.id);
    return;
   }
   status.textContent="Menghubungkan ke pembayaran Midtrans…";
