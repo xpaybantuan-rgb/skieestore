@@ -68,8 +68,33 @@
 <section><h3>Media Sosial</h3><div class="xp-foot-contact"><a href="https://www.instagram.com/skieestore?lqvp=MWhlc3VtdHpkOWs1" target="_blank" rel="noopener noreferrer" aria-label="Instagram SKIEESTORE"><span class="xp-foot-icon"><svg class="skiee-mini-icon" viewBox="0 0 24 24" fill="#F43F5E" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4" fill="#FFFFFF"/><circle cx="17.5" cy="6.5" r="1" fill="#FFFFFF" stroke="none"/></svg></span>Instagram · skieestore</a><a href="https://www.facebook.com/profile.php?id=61595844852789" target="_blank" rel="noopener noreferrer"><span class="xp-foot-icon"><svg class="skiee-mini-icon" viewBox="0 0 24 24" fill="#3B82F6" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M15 8h-2a1 1 0 0 0-1 1v2h3l-.5 3H12v6H9v-6H7v-3h2V9a4 4 0 0 1 4-4h2v3z" fill="#FFFFFF" stroke="none"/></svg></span>Facebook · skieestore</a></div></section>
 </div>
 
-<div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span></div>
+<div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span><button class="chat-fab" id="chatToggle" type="button" aria-label="Buka XP AI" aria-expanded="false"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 9.5h32v23H23l-9 7v-7H8z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M15 18h18M15 24h13" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m36 4 1.7 4.3L42 10l-4.3 1.7L36 16l-1.7-4.3L30 10l4.3-1.7z" fill="currentColor"/></svg></button></div>
 </div></footer>
+
+<div class="toast" id="toast" hidden></div>
+<div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Asisten virtual SKIEESTORE" hidden>
+  <div class="chat-head">
+    <div class="chat-brand"><span class="chat-avatar" aria-label="Logo SKIEESTORE">S</span><div class="chat-brand-copy"><strong>SKIEESTORE AI · Asisten Virtual</strong></div></div>
+    <button class="chat-close" id="chatClose" aria-label="Tutup chat">×</button>
+  </div>
+  <div class="chat-toolbar">
+    <button class="chat-tool-btn primary" id="chatNew">＋ Chat baru</button>
+    <button class="chat-tool-btn" id="chatHistoryOpen">◷ Riwayat chat</button>
+  </div>
+  <div class="chat-history-panel" id="chatHistoryPanel" hidden>
+    <div class="chat-history-head"><span>Riwayat percakapan</span><button class="chat-close" id="chatHistoryClose" aria-label="Tutup riwayat">×</button></div>
+    <div class="chat-history-list" id="chatHistoryList"></div>
+  </div>
+  <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+  <div class="chat-typing" id="chatTyping" hidden>SKIEESTORE AI sedang mengetik…</div>
+  <form class="chat-compose" id="chatForm">
+    <textarea id="chatInput" rows="1" maxlength="2500" placeholder="Tulis pertanyaanmu…" aria-label="Pesan untuk SKIEESTORE AI"></textarea>
+    <button class="chat-compose-btn chat-clear" id="chatClear" type="button" aria-label="Hapus semua teks" title="Hapus semua teks" hidden>×</button>
+    <button class="chat-compose-btn" id="chatExpand" type="button" aria-label="Perbesar kolom pesan" title="Perbesar kolom pesan">⤢</button>
+    <button class="chat-send" id="chatSend" type="submit" aria-label="Kirim pesan">➤</button>
+  </form>
+  <div class="chat-footer">© <span id="chatYear"></span> SKIEESTORE · Asisten virtual</div>
+</div>
 
 <script src="assets/skieestore-global.js?v=20261125-11" defer></script>
 </body></html>
