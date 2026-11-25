@@ -333,6 +333,11 @@ body.topup-page { padding-bottom: 110px !important; }
 .nb-game-brand>img{border:2px solid #000!important;border-radius:10px!important;padding:4px!important;background:#fff!important;box-sizing:border-box!important}
 .nb-game-title #heroName,.section-title h2{letter-spacing:.02em!important;word-spacing:.12em!important}
 </style>
+<style id="skiee-topup-final-brand-spacing">
+.store-logo-box{width:60px;height:60px;padding:6px;box-sizing:border-box;border:2px solid #000;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 60px}
+.store-logo-box img{display:block;width:100%;height:100%;object-fit:contain}
+.btn-back-catalog{letter-spacing:.5px;word-spacing:2px}
+</style>
 </head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="index.html" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
@@ -355,10 +360,10 @@ body.topup-page { padding-bottom: 110px !important; }
 <div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps">Apps</button><button class="chip" data-filter="Streaming">Streaming</button></div><div class="games" id="games" aria-label="Memuat katalog game"><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div></div></section>
 </section>
 <section class="game-detail-page" id="gameDetailPage">
-<button class="detail-back" id="backCatalog">← Kembali ke katalog game</button>
+<button class="detail-back btn-back-catalog" id="backCatalog">← Kembali ke katalog game</button>
 <section class="game-hero nb-game-identity" aria-label="Informasi layanan">
   <div class="nb-game-brand">
-    <img src="assets/skieestore-logo-asli.png" alt="Logo SKIEESTORE">
+    <div class="store-logo-box"><img src="assets/skieestore-logo-asli.png" alt="Logo SKIEESTORE"></div>
     <div><strong>SKIEESTORE</strong><small>Dikembangkan oleh nandoskiee</small></div>
   </div>
   <div class="nb-game-service">
