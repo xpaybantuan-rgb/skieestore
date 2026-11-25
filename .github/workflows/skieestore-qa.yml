@@ -36,11 +36,11 @@ jobs:
           from playwright.sync_api import sync_playwright
           import json, sys, re
 
-          BASE = "https://skieestore.pages.dev"
+          BASE = "https://skieestore.biz.id"
           PAGES = [
-              "/", "/topup.html", "/cek-pesanan.html", "/profil.html",
-              "/cara-top-up.html", "/pusat-bantuan.html", "/tentang-skieestore.html",
-              "/kebijakan-privasi.html", "/syarat-ketentuan.html"
+              "/", "/topup", "/cek-pesanan", "/profil",
+              "/cara-top-up", "/pusat-bantuan", "/tentang-skieestore",
+              "/kebijakan-privasi", "/syarat-ketentuan"
           ]
           failures, report = [], []
 
