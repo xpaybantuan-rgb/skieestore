@@ -596,3 +596,71 @@ header.top > .container.headrow {
   header.top > .headrow,
   header.top > .container.headrow { height: auto !important; min-height: auto !important; }
 }
+
+
+/* FINAL COMPACT FLOATING HEADER — all customer HTML pages */
+body > header.header,
+body > header.site-header,
+body > header.top {
+  position: sticky !important;
+  top: 8px !important;
+  margin: 8px auto 10px auto !important;
+  box-sizing: border-box !important;
+  padding: 6px 12px !important;
+  min-height: unset !important;
+  height: auto !important;
+}
+body > header.header > .container.headrow,
+body > header.site-header > .container.headrow,
+body > header.top > .container.headrow,
+body > header.header > .headrow,
+body > header.site-header > .headrow,
+body > header.top > .headrow {
+  height: auto !important;
+  min-height: unset !important;
+  padding: 0 !important;
+}
+body > header.header .brand-image img,
+body > header.site-header .brand-image img,
+body > header.top .brand-image img {
+  display: block !important;
+  width: auto !important;
+  height: 32px !important;
+  min-height: 30px !important;
+  max-height: 32px !important;
+  max-width: min(48vw, 190px) !important;
+  object-fit: contain !important;
+}
+body > header.header .header-search-toggle,
+body > header.header .header-search-btn,
+body > header.header #mainHeaderSearchToggle,
+body > header.site-header .header-search-toggle,
+body > header.site-header .header-search-btn,
+body > header.site-header #mainHeaderSearchToggle,
+body > header.top .header-search-toggle,
+body > header.top .header-search-btn,
+body > header.top #mainHeaderSearchToggle {
+  display: grid !important;
+  place-items: center !important;
+  box-sizing: border-box !important;
+  width: 38px !important;
+  min-width: 38px !important;
+  max-width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  padding: 0 !important;
+  border-radius: 10px !important;
+}
+body > header.header .header-search-toggle svg,
+body > header.header .header-search-btn svg,
+body > header.header #mainHeaderSearchToggle svg,
+body > header.site-header .header-search-toggle svg,
+body > header.site-header .header-search-btn svg,
+body > header.site-header #mainHeaderSearchToggle svg,
+body > header.top .header-search-toggle svg,
+body > header.top .header-search-btn svg,
+body > header.top #mainHeaderSearchToggle svg {
+  width: 20px !important;
+  height: 20px !important;
+}
