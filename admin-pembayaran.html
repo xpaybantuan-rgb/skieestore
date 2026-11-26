@@ -135,7 +135,8 @@ body > header {
  <div class="toolbar"><div><h2>Status toko</h2><p class="muted">Sakelar status operasional yang disimpan di Supabase.</p></div><button class="btn" id="opsStoreToggle">Memuat status…</button></div><div class="status" id="opsStoreStatus"></div>
  <p class="ops-note">Sakelar ini menyimpan status di xpaypoint_store_settings. Agar checkout pembeli benar-benar ditolak saat maintenance, pemeriksaan status juga harus diterapkan pada endpoint pembuatan pesanan.</p>
 </section>
-\n<div class="status" id="dashboardStatus" role="status"></div>
+
+<div class="status" id="dashboardStatus" role="status"></div>
 </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -445,7 +446,8 @@ body > header {
   $("opsLoadFlash").onclick=opsLoadFlash;$("opsSaveFlash").onclick=opsSaveFlash;$("opsLoadMembers").onclick=opsLoadMembers;$("opsMemberSearch").oninput=opsRenderMembers;$("opsLoadTransactions").onclick=opsLoadTransactions;$("opsStoreToggle").onclick=opsToggleStore;
  }
  async function opsLoadAll(){opsInit();await Promise.all([opsLoadBalance(),opsLoadFinance(),opsLoadProducts(),opsLoadFlash(),opsLoadMembers(),opsLoadTransactions(),opsLoadStore()])}
-\n boot();
+
+ boot();
 })();
 </script>
 </body></html>
