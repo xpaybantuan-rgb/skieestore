@@ -773,7 +773,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  const URL="https://rjgeitbkpcyymgemcztx.supabase.co",KEY="sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR",PAY="https://skieestore-payment-engine.xpaybantuan.workers.dev";
  const sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
  const $=id=>document.getElementById(id),money=n=>"Rp"+Number(n||0).toLocaleString("id-ID");
- let session=null;
+ let session=null,googleProviderEnabled=null;
  function status(msg,error){const el=$("memberAuthStatus");if(el){el.textContent=msg;el.style.borderColor=error?"#dc2626":"#0f172a";el.style.background=error?"#fff1f2":"#fff";}}
  function dateText(v){if(!v)return "Tidak ada masa aktif";return new Date(v).toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"})+" WIB";}
  async function renderNotifications(){
@@ -783,10 +783,16 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   box.innerHTML=data&&data.length?data.map(n=>'<article class="member-notification '+(n.read_at?"":"unread")+'"><b>'+String(n.title||"Notifikasi").replace(/[<>]/g,"")+'</b><div>'+String(n.body||"").replace(/[<>]/g,"")+'</div><small>'+new Date(n.created_at).toLocaleString("id-ID")+'</small></article>').join(""):'<div class="member-alert">Belum ada notifikasi.</div>';
   const unread=(data||[]).filter(n=>!n.read_at).map(n=>n.id);if(unread.length)await sb.from("skieestore_user_notifications").update({read_at:new Date().toISOString()}).in("id",unread);
  }
+ async function checkGoogleProvider(){
+  if(googleProviderEnabled!==null)return googleProviderEnabled;
+  try{const r=await fetch("/api/duitku?action=google_status",{cache:"no-store"});const d=await r.json();googleProviderEnabled=!!d.google_enabled;}
+  catch{googleProviderEnabled=false;}
+  return googleProviderEnabled;
+ }
  async function loadAccount(){
   const {data}=await sb.auth.getSession();session=data.session;
   $("memberGoogleLogin").hidden=!!session;$("memberLogout").hidden=!session;
-  if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";status("Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.");await renderNotifications();return;}
+  if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";const googleReady=await checkGoogleProvider();status(googleReady?"Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.":"Login Google belum diaktifkan pada Supabase Auth. Provider Google memerlukan OAuth Client ID dan Client Secret.",!googleReady);await renderNotifications();return;}
   const user=session.user;$("memberName").textContent="Halo, "+(user.user_metadata?.full_name||user.user_metadata?.name||user.email||"Member");$("memberEmail").textContent=user.email||"Akun Google terhubung";$("memberAccountBadge").innerHTML="<i></i> Akun terhubung";
   const {data:member,error}=await sb.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at").eq("user_id",user.id).maybeSingle();
   if(error){status("Login berhasil, tetapi status paket belum dapat dibaca: "+error.message,true);}
