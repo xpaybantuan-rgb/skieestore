@@ -54,6 +54,14 @@ body{background:radial-gradient(1000px 420px at 90% -15%,#ffe6ea 0,transparent 6
 
 .admin-extra{margin-top:14px}.admin-extra h2{font-size:18px;margin:0 0 5px}.filterbar{display:flex;gap:9px;margin:12px 0;flex-wrap:wrap}.filterbar input,.filterbar select{border:1px solid #e2e5eb;border-radius:10px;padding:11px 12px;background:#fff;font:inherit;font-size:12px;min-width:180px}.filterbar input{flex:1}.table-scroll{overflow:auto}.admin-table{width:100%;border-collapse:collapse;min-width:680px}.admin-table th,.admin-table td{text-align:left;padding:12px 10px;border-bottom:1px solid #eef0f4;font-size:11px}.admin-table th{color:#777f8d;font-size:10px}.catalog-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.catalog-item{border:1px solid #e9eaf0;border-radius:13px;padding:13px;background:#fff}.catalog-item strong{display:block;font-size:12px;margin:6px 0}.catalog-item small{color:#818896;font-size:10px}.catalog-price{font-weight:900;color:#0756D8;font-size:13px;margin-top:8px}@media(max-width:650px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:430px){.catalog-grid{grid-template-columns:1fr}.filterbar>*{width:100%}}
 .vip-tools{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.vip-tools input,.vip-tools select{border:1px solid #e2e5eb;border-radius:10px;padding:11px 12px;background:#fff;font:inherit;font-size:12px;min-width:220px;flex:1}.vip-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.vip-stat{background:#f8f9fb;border:1px solid #eceef3;border-radius:12px;padding:13px}.vip-stat small{display:block;color:#7b8290;font-size:10px}.vip-stat strong{display:block;font-size:20px;margin-top:5px}.vip-list{display:grid;gap:9px;margin-top:14px}.vip-row{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(130px,170px);gap:12px;align-items:center;border:1px solid #e8eaf0;border-radius:13px;padding:13px}.vip-row h3{font-size:12px;margin:0 0 5px}.vip-row small{font-size:10px;color:#7b8290;display:block;line-height:1.5}.vip-row input[type=number]{width:100%;border:1px solid #e1e4ea;border-radius:9px;padding:10px;font:inherit;font-size:12px}.vip-row input[type=checkbox]{width:18px;height:18px;accent-color:#087BFF}.vip-price label{font-size:9px;font-weight:800;color:#737987;display:block;margin-bottom:5px}.vip-pagination{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:13px}.vip-pagination span{font-size:11px;color:#737987}.vip-hint{font-size:10px;color:#777f8d;line-height:1.6;margin-top:10px}@media(max-width:600px){.vip-stats{grid-template-columns:1fr 1fr}.vip-row{grid-template-columns:auto minmax(0,1fr)}.vip-price{grid-column:2}.vip-tools>*{width:100%}}
+
+/* Admin operations-only layout: legacy GoPay/catalog/wallet panels are intentionally removed from the visible dashboard. */
+#dashboard>.panel.toolbar,#dashboard>.kpis,#dashboard>#payments,#dashboard>#adminOrders,#dashboard>#adminCatalog,#dashboard>#adminVipayment,#dashboard>#adminWallet{display:none!important}
+#topActions #refresh{display:none!important}
+.admin-tabs{position:sticky;top:58px;z-index:20;display:flex;gap:7px;overflow-x:auto;padding:10px 0;background:#f8fafc}
+.admin-tabs a{flex:0 0 auto;border:2px solid #0f172a;border-radius:12px;padding:9px 12px;background:#fff;color:#0f172a;font-weight:900;text-decoration:none;white-space:nowrap}
+.admin-tabs a:focus,.admin-tabs a:hover{background:#00e5ff;color:#0f172a}
+
 </style>
 <link rel="stylesheet" href="/assets/neo-brutalism.css?v=9">
 
@@ -162,7 +170,6 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  async function showDashboard(user){
   await checkAdmin(user);currentUser=user;
   $("loginPanel").hidden=true;$("dashboard").hidden=false;$("topActions").hidden=false;
-  await loadPayments();
   await opsLoadAll();
  }
  async function boot(){
