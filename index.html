@@ -549,13 +549,19 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 
 
 <style>
-.seo-game-directory{margin:24px 0;padding:20px;border:1px solid var(--line,#e5e7eb);border-radius:16px;background:var(--surface,#fff)}
-.seo-game-directory h2{margin:0 0 6px;font-size:18px;line-height:1.35}
-.seo-game-directory p{margin:0 0 14px;color:var(--muted,#667085);font-size:12px}
-.seo-game-directory nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px}
-.seo-game-directory nav a{display:block;padding:9px 11px;border:1px solid var(--line,#e5e7eb);border-radius:9px;color:var(--text,#191b22);font-size:11px;font-weight:700;text-decoration:none;background:var(--surface2,#f8fafc)}
-.seo-game-directory nav a:hover{border-color:var(--accent,#087BFF);color:var(--accent,#087BFF)}
-@media(max-width:480px){.seo-game-directory{padding:14px}.seo-game-directory nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Keep internal game links crawlable without showing a duplicate directory to shoppers. */
+.seo-game-directory{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+ overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;
+ white-space:nowrap!important;border:0!important;
+}
+</style>
+<style id="global-mobile-focus-cleanup">
+/* Remove browser focus rectangles and tap flashes from links and buttons. */
+a:focus,a:focus-visible,button:focus,button:focus-visible{
+ outline:none!important;outline-offset:0!important;box-shadow:none!important;
+}
+a,button{-webkit-tap-highlight-color:transparent!important;}
 </style>
 </head>
 <body>
