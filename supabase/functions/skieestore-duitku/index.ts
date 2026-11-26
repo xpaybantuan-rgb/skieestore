@@ -49,6 +49,30 @@ async function callback(req:Request){
  return new Response("SUCCESS",{status:200});
 }
 async function storeOpen(){const {data,error}=await db().from("xpaypoint_store_settings").select("setting_value").eq("setting_key","store_status").maybeSingle();if(error)throw error;return data?.setting_value?.open!==false;}
+
+async function createTopupPayment(supa:any,order:any,user:any){
+ const {data:product,error:productErr}=await supa.from("xpaypoint_products").select("base_price,sell_price,metadata").eq("id",order.product_id).single();
+ if(productErr||!product)return json({ok:false,code:"PRODUCT_NOT_FOUND"},404);
+ const basePrice=Number(product.base_price||0),normalPrice=Number(product.sell_price||order.sell_price||0);let finalPrice=normalPrice;
+ if(user){const {data:member}=await supa.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at").eq("user_id",user.id).maybeSingle();const expiry=member?.member_expired_at||member?.expires_at;if(member&&["pass","vip","pro"].includes(member.tier)&&expiry&&new Date(expiry)>new Date()){const special=Number(product.metadata?.member_prices?.[member.tier]||0);if(Number.isSafeInteger(special)&&special>0)finalPrice=Math.min(finalPrice,special);}}
+ const {data:sales}=await supa.from("xpaypoint_flash_sales").select("promo_price").eq("product_id",order.product_id).eq("is_active",true).lte("starts_at",new Date().toISOString()).gt("ends_at",new Date().toISOString()).limit(1);
+ if(sales?.[0])finalPrice=Math.min(finalPrice,Number(sales[0].promo_price));
+ if(finalPrice<Math.ceil(basePrice*1.007))return json({ok:false,code:"PRICE_BELOW_COST_MDR",minimum:Math.ceil(basePrice*1.007)},409);
+ const payable=Math.max(0,finalPrice-Number(order.discount_xc||0));if(payable<10000)return json({ok:false,code:"DUITKU_MINIMUM_PAYMENT_10000",minimum:10000},409);
+ const update={user_id:user?.id||order.user_id||null,sell_price:finalPrice,payable_amount:payable,base_price_snapshot:basePrice,updated_at:new Date().toISOString()};
+ const {error:updateErr}=await supa.from("xpaypoint_orders").update(update).eq("id",order.id).eq("status","pending_payment");
+ if(updateErr)return json({ok:false,code:"ORDER_PRICE_UPDATE_FAILED",detail:updateErr.message},502);
+ const {data:prior}=await supa.from("xpaypoint_payments").select("id,amount,checkout_url,qr_string,expires_at").eq("order_id",order.id).eq("gateway","duitku").eq("status","pending").order("created_at",{ascending:false}).limit(1);
+ if(prior?.[0]&&prior[0].expires_at&&new Date(prior[0].expires_at)>new Date()&&(prior[0].checkout_url||prior[0].qr_string))return json({ok:true,payment:{id:prior[0].id,order_code:order.order_code,amount:prior[0].amount,payment_url:prior[0].checkout_url,qr_string:prior[0].qr_string,expires_at:prior[0].expires_at},reused:true});
+ const merchantOrderId="SKT"+Date.now().toString(36).toUpperCase()+crypto.randomUUID().replace(/-/g,"").slice(0,10).toUpperCase();
+ const {data:payment,error:payErr}=await supa.from("xpaypoint_payments").insert({order_id:order.id,user_id:user?.id||order.user_id||null,gateway:"duitku",payment_type:"qris",purpose:"topup",amount:payable,status:"pending",merchant_order_id:merchantOrderId,gateway_reference:merchantOrderId,expires_at:new Date(Date.now()+600000).toISOString()}).select("id").single();
+ if(payErr||!payment)return json({ok:false,code:"PAYMENT_INTENT_CREATE_FAILED",detail:payErr?.message},502);
+ const invoice=await createInvoice(payable,merchantOrderId,order.game_name_snapshot+" - "+order.product_name_snapshot,order.receipt_email||user?.email||"",order.receipt_whatsapp||"",SITE+"/cek-pesanan?order_code="+encodeURIComponent(order.order_code));
+ if(invoice.error){await supa.from("xpaypoint_payments").update({status:"failed",raw_callback:{error:invoice.error}}).eq("id",payment.id);return json({ok:false,code:invoice.error,missing:invoice.missing||[]},503);}
+ await supa.from("xpaypoint_payments").update({gateway_reference:invoice.reference||merchantOrderId,checkout_url:invoice.payment_url,qr_string:invoice.qr_string,expires_at:invoice.expires_at,raw_callback:invoice.data,updated_at:new Date().toISOString()}).eq("id",payment.id);
+ return json({ok:true,payment:{id:payment.id,order_code:order.order_code,amount:invoice.amount,payment_url:invoice.payment_url,qr_string:invoice.qr_string,expires_at:invoice.expires_at}},201);
+}
+
 Deno.serve(async(req:Request)=>{
  if(req.method==="OPTIONS")return new Response(null,{status:204,headers:cors});
  const url=new URL(req.url),action=url.searchParams.get("action")||"";
@@ -82,41 +106,29 @@ Deno.serve(async(req:Request)=>{
  }
  if(action==="topup_create"){
   if(!(await storeOpen()))return json({ok:false,code:"STORE_MAINTENANCE",message:"Toko sedang maintenance."},503);
-  const orderId=String(body.order_id||""),guestToken=String(body.guest_token||"");
-  if(!orderId||guestToken.length<32||guestToken.length>128)return json({ok:false,code:"INVALID_ORDER_ACCESS"},400);
-  const hash=await sha256(guestToken);
-  const {data:order,error:orderErr}=await supa.from("xpaypoint_orders").select("id,order_code,user_id,game_id,product_id,target_id,zone_id,product_name_snapshot,game_name_snapshot,sell_price,payable_amount,discount_xc,base_price_snapshot,status,receipt_email,receipt_whatsapp,guest_token_hash").eq("id",orderId).eq("guest_token_hash",hash).maybeSingle();
+  const orderId=String(body.order_id||""),orderCode=String(body.order_code||""),guestToken=String(body.guest_token||"");
+  if((!orderId&&!orderCode)||guestToken.length<32||guestToken.length>128)return json({ok:false,code:"INVALID_ORDER_ACCESS"},400);
+  const hash=await sha256(guestToken);let query=supa.from("xpaypoint_orders").select("id,order_code,user_id,game_id,product_id,target_id,zone_id,product_name_snapshot,game_name_snapshot,sell_price,payable_amount,discount_xc,base_price_snapshot,status,receipt_email,receipt_whatsapp,guest_token_hash").eq("guest_token_hash",hash);
+  query=orderId?query.eq("id",orderId):query.eq("order_code",orderCode);
+  const {data:order,error:orderErr}=await query.maybeSingle();
   if(orderErr||!order)return json({ok:false,code:"ORDER_NOT_FOUND"},404);
   if(order.status!=="pending_payment")return json({ok:false,code:"ORDER_NOT_PAYABLE"},409);
   let user=null;try{user=await authUser(req);}catch{return json({ok:false,code:"INVALID_SESSION"},401);}
-  const {data:product,error:productErr}=await supa.from("xpaypoint_products").select("base_price,sell_price,metadata").eq("id",order.product_id).single();
-  if(productErr||!product)return json({ok:false,code:"PRODUCT_NOT_FOUND"},404);
-  const basePrice=Number(product.base_price||0),normalPrice=Number(product.sell_price||order.sell_price||0);
-  let finalPrice=normalPrice;
-  if(user){
-   const {data:member}=await supa.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at").eq("user_id",user.id).maybeSingle();
-   const expiry=member?.member_expired_at||member?.expires_at;
-   if(member&&["pass","vip","pro"].includes(member.tier)&&expiry&&new Date(expiry)>new Date()){
-    const special=Number(product.metadata?.member_prices?.[member.tier]||0);if(Number.isSafeInteger(special)&&special>0)finalPrice=Math.min(finalPrice,special);
-   }
-  }
-  const {data:sales}=await supa.from("xpaypoint_flash_sales").select("promo_price").eq("product_id",order.product_id).eq("is_active",true).lte("starts_at",new Date().toISOString()).gt("ends_at",new Date().toISOString()).limit(1);
-  if(sales?.[0])finalPrice=Math.min(finalPrice,Number(sales[0].promo_price));
-  if(finalPrice<Math.ceil(basePrice*1.007))return json({ok:false,code:"PRICE_BELOW_COST_MDR",minimum:Math.ceil(basePrice*1.007)},409);
-  const payable=Math.max(0,finalPrice-Number(order.discount_xc||0));
-  if(payable<10000)return json({ok:false,code:"DUITKU_MINIMUM_PAYMENT_10000",minimum:10000},409);
-  const update={user_id:user?.id||order.user_id||null,sell_price:finalPrice,payable_amount:payable,base_price_snapshot:basePrice,updated_at:new Date().toISOString()};
-  const {error:updateErr}=await supa.from("xpaypoint_orders").update(update).eq("id",order.id).eq("status","pending_payment");
-  if(updateErr)return json({ok:false,code:"ORDER_PRICE_UPDATE_FAILED",detail:updateErr.message},502);
-  const {data:prior}=await supa.from("xpaypoint_payments").select("id,amount,checkout_url,qr_string,expires_at").eq("order_id",order.id).eq("gateway","duitku").eq("status","pending").order("created_at",{ascending:false}).limit(1);
-  if(prior?.[0]&&prior[0].expires_at&&new Date(prior[0].expires_at)>new Date()&&(prior[0].checkout_url||prior[0].qr_string))return json({ok:true,payment:{id:prior[0].id,order_code:order.order_code,amount:prior[0].amount,payment_url:prior[0].checkout_url,qr_string:prior[0].qr_string,expires_at:prior[0].expires_at},reused:true});
-  const merchantOrderId="SKT"+Date.now().toString(36).toUpperCase()+crypto.randomUUID().replace(/-/g,"").slice(0,10).toUpperCase();
-  const {data:payment,error:payErr}=await supa.from("xpaypoint_payments").insert({order_id:order.id,user_id:user?.id||order.user_id||null,gateway:"duitku",payment_type:"qris",purpose:"topup",amount:payable,status:"pending",merchant_order_id:merchantOrderId,gateway_reference:merchantOrderId,expires_at:new Date(Date.now()+600000).toISOString()}).select("id").single();
-  if(payErr||!payment)return json({ok:false,code:"PAYMENT_INTENT_CREATE_FAILED",detail:payErr?.message},502);
-  const invoice=await createInvoice(payable,merchantOrderId,order.game_name_snapshot+" - "+order.product_name_snapshot,order.receipt_email||user?.email||"",order.receipt_whatsapp||"",SITE+"/cek-pesanan?order_code="+encodeURIComponent(order.order_code));
-  if(invoice.error){await supa.from("xpaypoint_payments").update({status:"failed",raw_callback:{error:invoice.error}}).eq("id",payment.id);return json({ok:false,code:invoice.error,missing:invoice.missing||[]},503);}
-  await supa.from("xpaypoint_payments").update({gateway_reference:invoice.reference||merchantOrderId,checkout_url:invoice.payment_url,qr_string:invoice.qr_string,expires_at:invoice.expires_at,raw_callback:invoice.data,updated_at:new Date().toISOString()}).eq("id",payment.id);
-  return json({ok:true,payment:{id:payment.id,order_code:order.order_code,amount:invoice.amount,payment_url:invoice.payment_url,qr_string:invoice.qr_string,expires_at:invoice.expires_at}},201);
+  return await createTopupPayment(supa,order,user);
+ }
+ if(action==="topup_resume"){
+  if(!(await storeOpen()))return json({ok:false,code:"STORE_MAINTENANCE",message:"Toko sedang maintenance."},503);
+  const orderCode=String(body.order_code||"").trim().toUpperCase(),phone=String(body.whatsapp||"").replace(/\\D/g,"").replace(/^62/,"0");
+  if(!orderCode||phone.length<8)return json({ok:false,code:"INVALID_ORDER_ACCESS"},400);
+  const {data:order,error:orderErr}=await supa.from("xpaypoint_orders").select("id,order_code,user_id,game_id,product_id,target_id,zone_id,product_name_snapshot,game_name_snapshot,sell_price,payable_amount,discount_xc,base_price_snapshot,status,receipt_email,receipt_whatsapp").eq("order_code",orderCode).maybeSingle();
+  if(orderErr||!order)return json({ok:false,code:"ORDER_NOT_FOUND"},404);
+  const savedPhone=String(order.receipt_whatsapp||"").replace(/\\D/g,"").replace(/^62/,"0");
+  if(!savedPhone||savedPhone!==phone)return json({ok:false,code:"ORDER_ACCESS_DENIED",message:"Nomor WhatsApp tidak cocok dengan invoice."},403);
+  if(order.status!=="pending_payment")return json({ok:false,code:"ORDER_NOT_PAYABLE"},409);
+  let user=null;try{user=await authUser(req);}catch{return json({ok:false,code:"INVALID_SESSION"},401);}
+  if(user&&order.user_id&&user.id!==order.user_id)user=null;
+  if(user&&!order.user_id&&String(user.email||"").toLowerCase()!==String(order.receipt_email||"").toLowerCase())user=null;
+  return await createTopupPayment(supa,order,user);
  }
  return json({ok:false,code:"UNKNOWN_ACTION"},400);
 });
