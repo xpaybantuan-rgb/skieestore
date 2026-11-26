@@ -478,6 +478,20 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  else{el.textContent="QRIS Duitku belum aktif. Environment Supabase belum berisi: "+(d.missing||[]).join(", ")+" · Telegram "+(d.telegram_configured?"aktif":"belum dikonfigurasi");el.className="status error";}
  }catch(e){el.textContent="Status Duitku tidak dapat diperiksa.";el.className="status error";}
 }
+$("sendTestEmail").addEventListener("click",async()=>{
+ const button=$("sendTestEmail"),el=$("testEmailStatus");
+ button.disabled=true;el.textContent="Mengirim email percobaan…";el.className="status";
+ try{
+  const {data,error}=await sb.auth.getSession();if(error)throw error;
+  const token=data.session?.access_token;if(!token)throw new Error("Sesi login admin tidak ditemukan. Keluar lalu login kembali.");
+  const response=await fetch(URL+"/functions/v1/skieestore-duitku?action=test_email",{method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify({})});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok||!result.ok)throw new Error(result.code||result.detail?.message||"Pengiriman email tes gagal.");
+  el.textContent="Resend menerima email tes. ID: "+(result.email_id||"tersedia")+". Periksa Inbox dan Spam adminskiee@gmail.com.";
+  el.className="status success";
+ }catch(e){el.textContent="Gagal: "+(e.message||String(e));el.className="status error";}
+ finally{button.disabled=false;}
+});
 function opsActivateTab(id){
  document.querySelectorAll("#dashboard .admin-extra").forEach(p=>{p.classList.toggle("active",p.id===id);p.setAttribute("aria-hidden",p.id===id?"false":"true");});
  document.querySelectorAll(".admin-tabs a").forEach(a=>{const active=a.getAttribute("href")==="#"+id;a.classList.toggle("active",active);a.setAttribute("aria-current",active?"page":"false");});
