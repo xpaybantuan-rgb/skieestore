@@ -371,19 +371,23 @@ body > header {
   try{
    const from=opsStartOf("year");
    const {data:orders,error}=await sb.from("xpaypoint_orders").select("id,product_id,sell_price,payable_amount,status,created_at").in("status",["paid","processing","success"]).gte("created_at",from).order("created_at",{ascending:false}).limit(3000);if(error)throw error;
-   const ids=[...new Set((orders||[]).map(o=>o.product_id))],{data:products,error:pe}=ids.length?await sb.from("xpaypoint_products").select("id,base_price").in("id",ids):{data:[],error:null};if(pe)throw pe;
-   const costs=new Map((products||[]).map(p=>[p.id,Number(p.base_price||0)]));
+   const productIds=[...new Set((orders||[]).map(o=>o.product_id))],orderIds=(orders||[]).map(o=>o.id);
+   const [pr,py]=await Promise.all([
+    productIds.length?sb.from("xpaypoint_products").select("id,base_price").in("id",productIds):Promise.resolve({data:[],error:null}),
+    orderIds.length?sb.from("xpaypoint_payments").select("order_id,payment_type,status").in("order_id",orderIds).eq("status","paid"):Promise.resolve({data:[],error:null})
+   ]);if(pr.error||py.error)throw pr.error||py.error;
+   const costs=new Map((pr.data||[]).map(p=>[p.id,Number(p.base_price||0)])),paymentTypes=new Map((py.data||[]).map(p=>[p.order_id,p.payment_type]));
    const labels=[["Hari Ini","day"],["Bulan Ini","month"],["Tahun Ini","year"]];
-   $("opsFinanceCards").innerHTML=labels.map(([label,kind])=>{const start=opsStartOf(kind),rows=(orders||[]).filter(o=>o.created_at>=start);let gross=0,cost=0,profit=0;for(const o of rows){const c=costs.get(o.product_id)||0,pay=Number(o.payable_amount||0),qris=0.007*pay;gross+=Number(o.sell_price||0);cost+=c;profit+=pay-c-qris;}return '<div class="ops-kpi"><small>'+label+' · Top up produk</small><strong>Omzet '+opsMoney(gross)+'</strong><div class="ops-note">Modal '+opsMoney(cost)+'<br><b>Estimasi laba bersih '+opsMoney(profit)+'</b><br>'+rows.length+' pesanan lunas</div><hr><small>Langganan member</small><strong>Belum ada data transaksi</strong></div>'}).join("");
-   opsStatus("opsFinanceStatus","Data dihitung dari "+(orders||[]).length+" pesanan lunas sejak awal tahun. Data modal memakai harga modal produk saat ini.","success");
+   $("opsFinanceCards").innerHTML=labels.map(([label,kind])=>{const fromDate=opsStartOf(kind),rows=(orders||[]).filter(o=>o.created_at>=fromDate);let gross=0,cost=0,profit=0;for(const o of rows){const c=costs.get(o.product_id)||0,pay=Number(o.payable_amount||0),mdr=paymentTypes.get(o.id)==="qris"?Math.ceil(pay*.007):0;gross+=Number(o.sell_price||0);cost+=c;profit+=pay-c-mdr;}return '<div class="ops-kpi"><small>'+label+' · Top up produk</small><strong>Omzet '+opsMoney(gross)+'</strong><div class="ops-note">Modal '+opsMoney(cost)+'<br><b>Estimasi laba bersih '+opsMoney(profit)+'</b><br>'+rows.length+' pesanan lunas</div><hr><small>Langganan member</small><strong>Belum ada data transaksi</strong></div>'}).join("");
+   opsStatus("opsFinanceStatus","Data dihitung dari "+(orders||[]).length+" pesanan lunas sejak awal tahun. Modal memakai harga supplier saat ini; MDR 0,7% hanya untuk pembayaran QRIS.","success");
   }catch(e){opsStatus("opsFinanceStatus",e.message,"error")}
  }
  async function opsLoadProducts(){
   $("opsPriceRows").innerHTML='<tr><td colspan="8">Memuat…</td></tr>';
-  const [{data:p,error:pe},{data:g,error:ge}]=await Promise.all([sb.from("xpaypoint_products").select("id,game_id,name,provider,provider_sku,sell_price,base_price,is_active,metadata,region").order("name").limit(2500),sb.from("xpaypoint_games").select("id,name").order("name")]);if(pe||ge){opsStatus("opsPriceStatus",(pe||ge).message,"error");return}
-  opsProducts=p||[];opsGames=g||[];const gm=new Map(opsGames.map(x=>[x.id,x.name]));
-  const gameSel=$("opsPriceGame"),prev=gameSel.value;gameSel.innerHTML='<option value="">Semua game</option>'+opsGames.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("");if(prev)gameSel.value=prev;
-  $("opsFlashProduct").innerHTML='<option value="">Pilih produk…</option>'+opsProducts.filter(p=>p.is_active).map(p=>'<option value="'+p.id+'">'+esc(gm.get(p.game_id)||"Game")+' · '+esc(p.name)+' · '+opsMoney(p.sell_price)+'</option>').join("");
+  const {data:g,error:ge}=await sb.from("xpaypoint_games").select("id,name").order("name");if(ge){opsStatus("opsPriceStatus",ge.message,"error");return}
+  let p=[],offset=0;while(true){const {data:batch,error}=await sb.from("xpaypoint_products").select("id,game_id,name,provider,provider_sku,sell_price,base_price,is_active,metadata,region").order("name").range(offset,offset+999);if(error){opsStatus("opsPriceStatus",error.message,"error");return}p.push(...(batch||[]));if(!batch||batch.length<1000)break;offset+=1000;if(offset>=10000)break}
+  opsProducts=p;opsGames=g||[];const gameSel=$("opsPriceGame"),prev=gameSel.value;gameSel.innerHTML='<option value="">Semua game</option>'+opsGames.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("");if(prev)gameSel.value=prev;
+  const gm=new Map(opsGames.map(x=>[x.id,x.name]));$("opsFlashProduct").innerHTML='<option value="">Pilih produk…</option>'+opsProducts.filter(p=>p.is_active).map(p=>'<option value="'+p.id+'">'+esc(gm.get(p.game_id)||"Game")+' · '+esc(p.name)+' · '+opsMoney(p.sell_price)+'</option>').join("");
   opsRenderProducts();
  }
  function opsRenderProducts(){
@@ -425,10 +429,12 @@ body > header {
   $("opsMemberRows").querySelectorAll("[data-member-extend]").forEach(b=>b.onclick=async()=>{const row=b.closest("[data-member]");try{await opsCall("member_extend",{user_id:row.dataset.member});opsStatus("opsMemberStatus","Masa aktif ditambah 30 hari.","success");await opsLoadMembers()}catch(e){opsStatus("opsMemberStatus",e.message,"error")}});
  }
  async function opsLoadTransactions(){
-  $("opsTransactionRows").innerHTML='<tr><td colspan="7">Memuat…</td></tr>';
-  const [{data:o,error:oe},{data:pay,error:pe}]=await Promise.all([sb.from("xpaypoint_orders").select("id,order_code,product_name_snapshot,game_name_snapshot,payable_amount,status,supplier_status,created_at").order("created_at",{ascending:false}).limit(100),sb.from("xpaypoint_payments").select("order_id,gateway,status,paid_at").order("created_at",{ascending:false}).limit(300)]);
+  $("opsTransactionRows").innerHTML='<tr><td colspan="8">Memuat…</td></tr>';
+  const [{data:o,error:oe},{data:pay,error:pe}]=await Promise.all([sb.from("xpaypoint_orders").select("id,order_code,product_name_snapshot,game_name_snapshot,payable_amount,status,supplier_status,supplier_reference,created_at").order("created_at",{ascending:false}).limit(100),sb.from("xpaypoint_payments").select("order_id,gateway,status,paid_at").order("created_at",{ascending:false}).limit(300)]);
   if(oe||pe){opsStatus("opsTransactionStatus",(oe||pe).message,"error");return}
-  const pm=new Map((pay||[]).map(x=>[x.order_id,x]));$("opsTransactionRows").innerHTML=(o||[]).length?(o||[]).map(x=>{const p=pm.get(x.id);return '<tr><td>'+new Date(x.created_at).toLocaleString("id-ID")+'</td><td>'+esc(x.order_code)+'</td><td>'+esc(x.game_name_snapshot)+'<br>'+esc(x.product_name_snapshot)+'</td><td>'+opsMoney(x.payable_amount)+'</td><td>'+esc(p?.gateway||"—")+'<br>'+esc(p?.status||"—")+'</td><td>'+esc(x.supplier_status||"belum dikirim")+'</td><td>'+esc(x.status)+'</td></tr>'}).join(""):'<tr><td colspan="7">Belum ada transaksi.</td></tr>';
+  const pm=new Map((pay||[]).map(x=>[x.order_id,x]));
+  $("opsTransactionRows").innerHTML=(o||[]).length?(o||[]).map(x=>{const p=pm.get(x.id);return '<tr data-order="'+x.id+'"><td>'+new Date(x.created_at).toLocaleString("id-ID")+'</td><td>'+esc(x.order_code)+'</td><td>'+esc(x.game_name_snapshot)+'<br>'+esc(x.product_name_snapshot)+'</td><td>'+opsMoney(x.payable_amount)+'</td><td>'+esc(p?.gateway||"—")+'<br>'+esc(p?.status||"—")+'</td><td>'+esc(x.supplier_status||"belum dikirim")+'</td><td>'+esc(x.status)+'</td><td>'+(x.supplier_reference?'<button class="btn secondary" data-recheck="'+x.id+'">Cek VIP</button>':'—')+'</td></tr>'}).join(""):'<tr><td colspan="8">Belum ada transaksi.</td></tr>';
+  $("opsTransactionRows").querySelectorAll("[data-recheck]").forEach(b=>b.onclick=async()=>{b.disabled=true;b.textContent="Cek…";try{const d=await opsCall("refresh_supplier_status",{order_id:b.dataset.recheck});opsStatus("opsTransactionStatus",d.order_code+": status VIPayment "+d.supplier_status,"success");await opsLoadTransactions()}catch(e){opsStatus("opsTransactionStatus",e.message,"error");b.disabled=false;b.textContent="Cek VIP"}});
   opsStatus("opsTransactionStatus","Menampilkan "+(o||[]).length+" pesanan terbaru.","success");
  }
  async function opsLoadStore(){
