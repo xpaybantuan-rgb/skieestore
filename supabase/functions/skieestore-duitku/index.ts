@@ -40,6 +40,7 @@ async function callback(req:Request){
  }
  const {data:result,error}=await supa.rpc("skieestore_apply_duitku_callback",{p_merchant_order_id:orderId,p_amount:Number(amount),p_reference:String(p.reference||""),p_payload:p,p_paid_at:new Date().toISOString()});
  if(error||!result?.ok){console.error("Duitku callback DB processing failed",error?.message);return new Response("PROCESSING_ERROR",{status:500});}
+ if(result.result==="duplicate_event")return new Response("SUCCESS",{status:200});
  if(result.result==="topup_paid"&&result.order_id){
   const res=await fetch(supabaseUrl()+"/functions/v1/vipayment-fulfill",{method:"POST",headers:{Authorization:"Bearer "+serviceKey(),apikey:serviceKey(),"Content-Type":"application/json"},body:JSON.stringify({action:"fulfill",order_id:result.order_id})});
   if(!res.ok)console.error("VIPayment fulfillment failed",res.status,await res.text().catch(()=> ""));
