@@ -62,6 +62,11 @@ body{background:radial-gradient(1000px 420px at 90% -15%,#ffe6ea 0,transparent 6
 .admin-tabs a{flex:0 0 auto;border:2px solid #0f172a;border-radius:12px;padding:9px 12px;background:#fff;color:#0f172a;font-weight:900;text-decoration:none;white-space:nowrap}
 .admin-tabs a:focus,.admin-tabs a:hover{background:#00e5ff;color:#0f172a}
 
+
+#dashboard .admin-extra{display:none!important}
+#dashboard .admin-extra.active{display:block!important}
+.admin-tabs a.active{background:#00e5ff;color:#0f172a;box-shadow:2px 2px 0 #0f172a}
+
 </style>
 <link rel="stylesheet" href="/assets/neo-brutalism.css?v=9">
 
@@ -473,6 +478,12 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  else{el.textContent="QRIS Duitku belum aktif. Environment Supabase belum berisi: "+(d.missing||[]).join(", ")+" · Telegram "+(d.telegram_configured?"aktif":"belum dikonfigurasi");el.className="status error";}
  }catch(e){el.textContent="Status Duitku tidak dapat diperiksa.";el.className="status error";}
 }
+function opsActivateTab(id){
+ document.querySelectorAll("#dashboard .admin-extra").forEach(p=>{p.classList.toggle("active",p.id===id);p.setAttribute("aria-hidden",p.id===id?"false":"true");});
+ document.querySelectorAll(".admin-tabs a").forEach(a=>{const active=a.getAttribute("href")==="#"+id;a.classList.toggle("active",active);a.setAttribute("aria-current",active?"page":"false");});
+}
+document.querySelectorAll(".admin-tabs a").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();opsActivateTab((a.getAttribute("href")||"").slice(1));}));
+opsActivateTab("adminFinance");
 async function opsLoadAll(){opsInit();await Promise.all([opsLoadBalance(),opsLoadFinance(),opsLoadProducts(),opsLoadFlash(),opsLoadMembers(),opsLoadTransactions(),opsLoadMembershipTransactions(),opsLoadBanners(),opsLoadStore(),opsLoadDuitkuStatus()])}
 
  boot();
