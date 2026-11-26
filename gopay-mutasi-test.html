@@ -52,9 +52,12 @@ async function init(){
   client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   client.auth.onAuthStateChange((_event,newSession)=>{session=newSession||null; if(session) setAuth("Sesi login terdeteksi. Hak admin diperiksa oleh server saat tombol dijalankan.","ok");});
   const current=await getCurrentSession();
+  const authStorageKey="sb-rjgeitbkpcyymgemcztx-auth-token";
+  let storageState="tidak bisa diperiksa";
+  try{storageState=localStorage.getItem(authStorageKey)?"token tersimpan":"token tidak ditemukan";}catch(e){storageState="localStorage diblokir browser";}
   if(current?.access_token) setAuth("Sesi ditemukan. Hak admin akan diverifikasi oleh server saat tombol dijalankan.","ok");
-  else setAuth("Sesi belum terbaca di halaman ini. Tombol tetap aktif; coba tekan setelah login di Profil. Jika gagal, login ulang lalu muat ulang halaman.","warn");
- }catch(e){setAuth("Pengecekan sesi gagal: "+(e.message||e)+". Tombol tetap aktif untuk menampilkan detail saat ditekan.","warn");}
+  else setAuth("Sesi belum terbaca. Domain: "+location.origin+" · Penyimpanan login: "+storageState+". Pastikan Profil dan halaman tes dibuka pada domain yang sama, bukan www vs tanpa www. Buka Profil di tab ini, login, lalu kembali dan muat ulang.","warn");
+ }catch(e){let storageState="";try{storageState=localStorage.getItem("sb-rjgeitbkpcyymgemcztx-auth-token")?"token tersimpan":"token tidak ditemukan";}catch(_){storageState="localStorage diblokir";}setAuth("Pengecekan sesi gagal: "+(e.message||e)+" · Domain: "+location.origin+" · "+storageState+". Tombol tetap aktif.","warn");}
 }
 $("run").addEventListener("click",async()=>{
  let request_body;
