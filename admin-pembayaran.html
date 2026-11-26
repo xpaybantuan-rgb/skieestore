@@ -70,7 +70,11 @@ body > header {
 }
 </style>
   <link rel="stylesheet" href="assets/header-compact.css?v=1">
-</head>
+<style id="admin-operations-style">
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.admin-tabs a{padding:9px 12px;border:1px solid #e4e7ed;border-radius:999px;background:#fff;color:#2455a6;text-decoration:none;font-size:11px;font-weight:800}
+.ops-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.ops-kpi{border:1px solid #e7eaf0;border-radius:14px;padding:14px;background:#fbfcff}.ops-kpi small{display:block;color:#747b89;font-size:10px;font-weight:800}.ops-kpi strong{display:block;font-size:18px;margin-top:7px}.ops-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:12px 0}.ops-row input,.ops-row select{border:1px solid #e1e4ea;border-radius:10px;padding:10px 12px;font:inherit;font-size:12px;min-width:130px}.ops-row input[type=search]{flex:1}.ops-table{width:100%;border-collapse:collapse;min-width:850px}.ops-table th,.ops-table td{padding:10px 9px;border-bottom:1px solid #eef0f4;text-align:left;font-size:11px;vertical-align:middle}.ops-table th{color:#777f8d}.ops-table input{width:105px;border:1px solid #dfe3eb;border-radius:8px;padding:8px;font:inherit}.ops-table input.price-bad{border:2px solid #dc2626;background:#fff1f2;color:#991b1b}.ops-warning{color:#b91c1c;font-size:10px;font-weight:800}.ops-pill{display:inline-block;padding:4px 7px;border-radius:99px;background:#eef5ff;color:#1856a8;font-size:9px;font-weight:850}.ops-member{display:grid;grid-template-columns:minmax(150px,1fr) 130px 150px auto;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid #eef0f4}.ops-member select{padding:8px;border:1px solid #dfe3eb;border-radius:8px}.ops-member small{display:block;color:#737987;font-size:10px;overflow-wrap:anywhere}.ops-member-actions{display:flex;gap:6px;flex-wrap:wrap}.ops-note{font-size:10px;color:#727987;line-height:1.6;margin-top:8px}.ops-red{color:#b91c1c;font-weight:900}.ops-green{color:#137547;font-weight:900}
+@media(max-width:700px){.ops-kpis{grid-template-columns:1fr}.ops-member{grid-template-columns:1fr 1fr}.ops-member-actions{grid-column:1/-1}.ops-row>*{flex:1}.ops-row input[type=search]{flex-basis:100%}}
+</style></head>
 <body>
 <main class="wrap">
 <header class="top"><div><div class="brand">XPAY<em>POINT</em> · ADMIN</div><small>Verifikasi pembayaran GoPay Merchant</small></div><div id="topActions" hidden><button class="btn secondary" id="refresh">Muat ulang</button> <button class="btn secondary" id="logout">Keluar</button></div></header>
@@ -97,7 +101,41 @@ body > header {
 
 <section class="panel admin-extra" id="adminVipayment"><div class="toolbar"><div><h2>VIPayment · Sinkron & pilih produk</h2><p class="muted">Tarik katalog terbaru dari supplier, pilih produk yang ingin dijual, lalu publikasikan ke toko SKIEESTORE.</p></div><button class="btn" id="syncVipayment">Sinkron dari VIPayment</button></div><div class="vip-stats"><div class="vip-stat"><small>Produk di katalog supplier</small><strong id="vipStageCount">9.942</strong></div><div class="vip-stat"><small>Dipilih untuk dijual</small><strong id="vipSelectedCount">0</strong></div><div class="vip-stat"><small>Produk aktif di toko</small><strong id="vipLiveCount">—</strong></div></div><div class="vip-tools"><select id="vipGameSelect" aria-label="Pilih game"><option value="">Semua game</option></select><input id="vipSearch" placeholder="Opsional: cari nama produk atau SKU"><button class="btn secondary" id="vipSearchBtn">Cari produk</button><button class="btn secondary" id="vipRefreshBtn">Muat ulang</button></div><div class="vip-hint">Pilih produk satu per satu. Harga rekomendasi memakai margin bertingkat dan bisa diedit sebelum dipublikasikan. Sinkron katalog tidak otomatis mengubah produk yang sedang dijual.</div><div class="vip-list" id="vipCatalogList"><div class="empty">Tekan “Muat halaman” untuk melihat produk VIPayment.</div></div><div class="vip-pagination"><button class="btn secondary" id="vipPrev" disabled>Sebelumnya</button><span id="vipPageLabel">Halaman 1</span><button class="btn secondary" id="vipNext">Berikutnya</button></div><div class="actions"><button class="btn secondary" id="vipSaveSelection">Simpan pilihan & harga</button><button class="btn" id="vipPublishSelection">Publikasikan produk terpilih ke toko</button></div><div class="status" id="vipStatus" role="status"></div></section>
 <section class="panel admin-extra" id="adminWallet"><div class="toolbar"><div><h2>XPAYCOIN · Dompet member</h2><p class="muted">Ringkasan saldo deposit, rewards, dan aktivitas top-up. Saldo tidak diedit langsung.</p></div><button class="btn secondary" id="loadAdminWallet">Muat ulang</button></div><div class="kpis kpis-four"><div class="kpi"><div class="kpi-label">Dompet member</div><div class="kpi-value" id="adminWalletCount">—</div></div><div class="kpi"><div class="kpi-label">Total Deposit</div><div class="kpi-value" id="adminDepositTotal">—</div></div><div class="kpi"><div class="kpi-label">Total Rewards</div><div class="kpi-value" id="adminRewardsTotal">—</div></div><div class="kpi"><div class="kpi-label">Mutasi ledger</div><div class="kpi-value" id="adminLedgerCount">—</div></div></div><h3 style="font-size:14px;margin:22px 0 10px">Permintaan top-up terbaru</h3><div class="table-scroll"><table class="admin-table"><thead><tr><th>Member ID</th><th>Nominal</th><th>Metode</th><th>Status</th><th>Dibuat</th></tr></thead><tbody id="adminTopupRows"><tr><td colspan="5">Belum dimuat</td></tr></tbody></table></div><p class="notice">Penambahan atau pengurangan saldo harus melalui transaksi ledger yang tercatat. Panel ini hanya menampilkan data dan tidak mengubah saldo member.</p></section>
-<div class="status" id="dashboardStatus" role="status"></div>
+
+<div class="admin-tabs"><a href="#adminFinance">Keuangan</a><a href="#adminPriceOps">Harga & Modal</a><a href="#adminFlash">Flash Sale</a><a href="#adminMembers">Member</a><a href="#adminTransactions">Mutasi</a><a href="#adminStore">Status Toko</a></div>
+<section class="panel admin-extra" id="adminFinance">
+ <div class="toolbar"><div><h2>Ringkasan pemasukan & laba</h2><p class="muted">Hanya transaksi top up yang sudah dibayar dan tercatat sebagai paid/processing/success.</p></div><button class="btn secondary" id="opsRefreshFinance">Perbarui angka</button></div>
+ <div class="vip-stat" style="margin:12px 0;background:#eff8ff"><small>Saldo akun VIPayment saat ini</small><strong id="opsVipBalance">Memuat…</strong><small id="opsVipBalanceMeta">Data langsung dari profil supplier</small></div>
+ <div class="ops-kpis" id="opsFinanceCards"><div class="ops-kpi"><small>Hari Ini</small><strong>Memuat…</strong></div><div class="ops-kpi"><small>Bulan Ini</small><strong>Memuat…</strong></div><div class="ops-kpi"><small>Tahun Ini</small><strong>Memuat…</strong></div></div>
+ <p class="ops-note">Omzet = nilai jual produk; modal = base_price VIPayment saat ini; laba estimasi = nilai bayar dikurangi modal dan MDR QRIS 0,7%. Angka historis bisa berubah jika modal supplier berubah. Pemasukan langganan member belum dapat dirinci karena belum ada tabel transaksi langganan pada sistem saat ini.</p>
+ <div class="status" id="opsFinanceStatus"></div>
+</section>
+<section class="panel admin-extra" id="adminPriceOps">
+ <div class="toolbar"><div><h2>Harga jual & cek modal VIPayment</h2><p class="muted">Harga tier member disimpan pada metadata produk, tanpa mengubah kartu katalog publik.</p></div><button class="btn" id="opsSyncPrice">Sinkronisasi Harga Modal & Stok VIPayment</button></div>
+ <div class="ops-row"><select id="opsPriceGame"><option value="">Semua game</option></select><input id="opsPriceSearch" type="search" placeholder="Cari produk / SKU"><input id="opsBulkMargin" type="number" placeholder="Margin massal (Rp)"><button class="btn secondary" id="opsApplyMargin">Terapkan margin</button><button class="btn secondary" id="opsLoadPrices">Muat ulang</button><button class="btn" id="opsSavePrices">Simpan harga</button></div>
+ <div class="table-scroll"><table class="ops-table"><thead><tr><th>Game / Produk</th><th>Modal VIPayment</th><th>Harga Normal</th><th>SKIEE PASS</th><th>SKIEE VIP</th><th>SKIEE PRO</th><th>Profit normal*</th><th>Validasi</th></tr></thead><tbody id="opsPriceRows"><tr><td colspan="8">Memuat katalog…</td></tr></tbody></table></div>
+ <p class="ops-note">*Estimasi profit normal setelah MDR QRIS 0,7%. Harga jual minimum otomatis dihitung sebagai modal + 0,7%; harga di bawah batas akan diberi peringatan merah dan ditolak server.</p><div class="status" id="opsPriceStatus"></div>
+</section>
+<section class="panel admin-extra" id="adminFlash">
+ <div class="toolbar"><div><h2>Kontrol Flash Sale</h2><p class="muted">Pilih produk, tentukan harga dan durasi. Promo tersimpan pada tabel khusus.</p></div><button class="btn secondary" id="opsLoadFlash">Muat Flash Sale</button></div>
+ <div class="ops-row"><select id="opsFlashProduct"><option value="">Pilih produk…</option></select><input id="opsFlashPrice" type="number" min="1" placeholder="Harga promo (Rp)"><input id="opsFlashHours" type="number" min="1" max="720" value="3" placeholder="Durasi jam"><button class="btn" id="opsSaveFlash">Simpan & Aktifkan</button></div>
+ <div class="table-scroll"><table class="ops-table"><thead><tr><th>Produk</th><th>Harga Promo</th><th>Mulai</th><th>Berakhir</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="opsFlashRows"><tr><td colspan="6">Belum dimuat</td></tr></tbody></table></div><div class="status" id="opsFlashStatus"></div>
+ <p class="ops-note">Catatan: bagian ini menyimpan konfigurasi Flash Sale. Agar promo otomatis terlihat di Beranda pembeli, index.html perlu membaca tabel ini dan merender blok promo; bagian Beranda belum disentuh pada tahap ini agar tampilan yang ada tetap aman.</p>
+</section>
+<section class="panel admin-extra" id="adminMembers">
+ <div class="toolbar"><div><h2>Manajemen anggota SKIEE</h2><p class="muted">Daftar akun Supabase, tier, dan tanggal kedaluwarsa. Perubahan manual tercatat sebagai tindakan admin.</p></div><button class="btn secondary" id="opsLoadMembers">Muat anggota</button></div>
+ <div class="ops-row"><input id="opsMemberSearch" type="search" placeholder="Cari email atau ID member"></div><div id="opsMemberRows"><div class="empty">Tekan Muat anggota.</div></div><div class="status" id="opsMemberStatus"></div>
+</section>
+<section class="panel admin-extra" id="adminTransactions">
+ <div class="toolbar"><div><h2>Mutasi & riwayat pesanan</h2><p class="muted">Status pembayaran dari gateway dan status pengiriman dari VIPayment.</p></div><button class="btn secondary" id="opsLoadTransactions">Perbarui mutasi</button></div>
+ <div class="table-scroll"><table class="ops-table"><thead><tr><th>Waktu</th><th>Invoice</th><th>Produk</th><th>Nominal</th><th>Gateway / Pembayaran</th><th>VIPayment</th><th>Status pesanan</th></tr></thead><tbody id="opsTransactionRows"><tr><td colspan="7">Belum dimuat</td></tr></tbody></table></div><div class="status" id="opsTransactionStatus"></div>
+ <p class="ops-note">Data Duitku hanya akan muncul jika transaksi Duitku benar-benar dibuat oleh gateway dan tercatat pada xpaypoint_payments. Saat audit, transaksi yang tersimpan memakai GoPay manual, KaseraPay, Midtrans, dan RCBPay; belum ditemukan transaksi Duitku.</p>
+</section>
+<section class="panel admin-extra" id="adminStore">
+ <div class="toolbar"><div><h2>Status toko</h2><p class="muted">Sakelar status operasional yang disimpan di Supabase.</p></div><button class="btn" id="opsStoreToggle">Memuat status…</button></div><div class="status" id="opsStoreStatus"></div>
+ <p class="ops-note">Sakelar ini menyimpan status di xpaypoint_store_settings. Agar checkout pembeli benar-benar ditolak saat maintenance, pemeriksaan status juga harus diterapkan pada endpoint pembuatan pesanan.</p>
+</section>
+\n<div class="status" id="dashboardStatus" role="status"></div>
 </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -320,7 +358,94 @@ body > header {
  }
  $("loadAdminWallet").onclick=loadAdminWallet;
 
- boot();
+
+ async function opsCall(action,extra={}){const {data,error}=await sb.functions.invoke("skieestore-admin-ops",{body:{action,...extra}});if(error)throw error;if(!data?.ok)throw new Error(data?.error||"Operasi gagal");return data}
+ const opsMoney=n=>"Rp"+Number(n||0).toLocaleString("id-ID");
+ let opsProducts=[],opsGames=[],opsMembers=[],opsFlash=[];
+ function opsStatus(id,msg,type=""){const e=$(id);if(e){e.textContent=msg;e.className="status "+type}}
+ async function opsLoadBalance(){try{const d=await opsCall("vipayment_balance");$("opsVipBalance").textContent=d.balance==null?"Saldo tidak tersedia dari respons profil":opsMoney(d.balance);$("opsVipBalanceMeta").textContent="Diperiksa "+new Date(d.checked_at).toLocaleString("id-ID")+(d.account_level?" · Level "+d.account_level:"")}catch(e){$("opsVipBalance").textContent="Tidak dapat dimuat";$("opsVipBalanceMeta").textContent=e.message}}
+ function opsStartOf(kind){const d=new Date(),y=d.getFullYear(),m=d.getMonth();if(kind==="day")return new Date(y,m,d.getDate()).toISOString();if(kind==="month")return new Date(y,m,1).toISOString();return new Date(y,0,1).toISOString()}
+ async function opsLoadFinance(){
+  opsStatus("opsFinanceStatus","Menghitung transaksi yang sudah dibayar…");
+  try{
+   const from=opsStartOf("year");
+   const {data:orders,error}=await sb.from("xpaypoint_orders").select("id,product_id,sell_price,payable_amount,status,created_at").in("status",["paid","processing","success"]).gte("created_at",from).order("created_at",{ascending:false}).limit(3000);if(error)throw error;
+   const ids=[...new Set((orders||[]).map(o=>o.product_id))],{data:products,error:pe}=ids.length?await sb.from("xpaypoint_products").select("id,base_price").in("id",ids):{data:[],error:null};if(pe)throw pe;
+   const costs=new Map((products||[]).map(p=>[p.id,Number(p.base_price||0)]));
+   const labels=[["Hari Ini","day"],["Bulan Ini","month"],["Tahun Ini","year"]];
+   $("opsFinanceCards").innerHTML=labels.map(([label,kind])=>{const start=opsStartOf(kind),rows=(orders||[]).filter(o=>o.created_at>=start);let gross=0,cost=0,profit=0;for(const o of rows){const c=costs.get(o.product_id)||0,pay=Number(o.payable_amount||0),qris=0.007*pay;gross+=Number(o.sell_price||0);cost+=c;profit+=pay-c-qris;}return '<div class="ops-kpi"><small>'+label+' · Top up produk</small><strong>Omzet '+opsMoney(gross)+'</strong><div class="ops-note">Modal '+opsMoney(cost)+'<br><b>Estimasi laba bersih '+opsMoney(profit)+'</b><br>'+rows.length+' pesanan lunas</div><hr><small>Langganan member</small><strong>Belum ada data transaksi</strong></div>'}).join("");
+   opsStatus("opsFinanceStatus","Data dihitung dari "+(orders||[]).length+" pesanan lunas sejak awal tahun. Data modal memakai harga modal produk saat ini.","success");
+  }catch(e){opsStatus("opsFinanceStatus",e.message,"error")}
+ }
+ async function opsLoadProducts(){
+  $("opsPriceRows").innerHTML='<tr><td colspan="8">Memuat…</td></tr>';
+  const [{data:p,error:pe},{data:g,error:ge}]=await Promise.all([sb.from("xpaypoint_products").select("id,game_id,name,provider,provider_sku,sell_price,base_price,is_active,metadata,region").order("name").limit(2500),sb.from("xpaypoint_games").select("id,name").order("name")]);if(pe||ge){opsStatus("opsPriceStatus",(pe||ge).message,"error");return}
+  opsProducts=p||[];opsGames=g||[];const gm=new Map(opsGames.map(x=>[x.id,x.name]));
+  const gameSel=$("opsPriceGame"),prev=gameSel.value;gameSel.innerHTML='<option value="">Semua game</option>'+opsGames.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join("");if(prev)gameSel.value=prev;
+  $("opsFlashProduct").innerHTML='<option value="">Pilih produk…</option>'+opsProducts.filter(p=>p.is_active).map(p=>'<option value="'+p.id+'">'+esc(gm.get(p.game_id)||"Game")+' · '+esc(p.name)+' · '+opsMoney(p.sell_price)+'</option>').join("");
+  opsRenderProducts();
+ }
+ function opsRenderProducts(){
+  const q=$("opsPriceSearch").value.toLowerCase(),game=$("opsPriceGame").value;
+  const rows=opsProducts.filter(p=>(!game||p.game_id===game)&&[p.name,p.provider_sku].join(" ").toLowerCase().includes(q)).slice(0,400),gm=new Map(opsGames.map(x=>[x.id,x.name]));
+  $("opsPriceRows").innerHTML=rows.length?rows.map(p=>{const cost=Number(p.base_price||0),min=Math.ceil(cost*1.007),m=p.metadata||{},tiers=m.member_prices||{},normal=Number(p.sell_price||0),pass=Number(tiers.pass||normal),vip=Number(tiers.vip||normal),pro=Number(tiers.pro||normal),bad=normal<min;return '<tr data-product="'+p.id+'"><td><b>'+esc(gm.get(p.game_id)||"")+'</b><br>'+esc(p.name)+'<br><small>'+esc(p.provider_sku||"")+'</small></td><td>'+opsMoney(cost)+'<br><small>'+(p.provider==="vipayment"?"VIPayment":"Manual")+'</small></td><td><input data-normal value="'+normal+'" type="number" min="1"></td><td><input data-pass value="'+pass+'" type="number" min="1"></td><td><input data-vip value="'+vip+'" type="number" min="1"></td><td><input data-pro value="'+pro+'" type="number" min="1"></td><td>'+opsMoney(normal-cost-Math.ceil(normal*.007))+'</td><td class="'+(bad?"ops-red":"ops-green")+'">'+(bad?"RUGI · minimum "+opsMoney(min):"AMAN")+'</td></tr>'}).join(""):'<tr><td colspan="8">Produk tidak ditemukan.</td></tr>';
+ }
+ async function opsSavePrices(){
+  const items=[...$("opsPriceRows").querySelectorAll("tr[data-product]")].map(row=>{const p=opsProducts.find(x=>x.id===row.dataset.product),normal=Number(row.querySelector("[data-normal]").value),pass=Number(row.querySelector("[data-pass]").value),vip=Number(row.querySelector("[data-vip]").value),pro=Number(row.querySelector("[data-pro]").value);return {id:p.id,sell_price:normal,metadata:{...(p.metadata||{}),member_prices:{pass,vip,pro}}}});
+  const invalid=items.find(x=>{const p=opsProducts.find(y=>y.id===x.id);return ![x.sell_price,x.metadata.member_prices.pass,x.metadata.member_prices.vip,x.metadata.member_prices.pro].every(Number.isSafeInteger)||Math.min(x.sell_price,x.metadata.member_prices.pass,x.metadata.member_prices.vip,x.metadata.member_prices.pro)<Math.ceil(Number(p.base_price||0)*1.007)});
+  if(invalid){opsStatus("opsPriceStatus","Ada harga yang lebih rendah dari modal + MDR QRIS 0,7%. Perbaiki nilai yang merah.","error");return}
+  try{const d=await opsCall("product_price_update",{items});opsStatus("opsPriceStatus",d.updated+" harga berhasil disimpan.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}
+ }
+ async function opsSyncPrices(){
+  const b=$("opsSyncPrice");b.disabled=true;b.textContent="Sinkronisasi…";
+  try{const {data,error}=await sb.functions.invoke("vipayment-sync-regions",{body:{}});if(error)throw error;if(!data?.success)throw new Error(data?.error||"Sinkronisasi gagal");opsStatus("opsPriceStatus","Katalog supplier staging diperbarui: "+(data.saved_unique_skus||data.received||0)+" SKU. Publikasi produk live tetap melalui panel VIPayment yang ada.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}finally{b.disabled=false;b.textContent="Sinkronisasi Harga Modal & Stok VIPayment"}
+ }
+ async function opsLoadFlash(){
+  const {data,error}=await sb.from("xpaypoint_flash_sales").select("id,product_id,promo_price,starts_at,ends_at,is_active").order("updated_at",{ascending:false});if(error){opsStatus("opsFlashStatus",error.message,"error");return}
+  opsFlash=data||[];const ids=[...new Set(opsFlash.map(x=>x.product_id))],{data:ps}=ids.length?await sb.from("xpaypoint_products").select("id,name").in("id",ids):{data:[]};const names=new Map((ps||[]).map(x=>[x.id,x.name]));
+  $("opsFlashRows").innerHTML=opsFlash.length?opsFlash.map(x=>'<tr><td>'+esc(names.get(x.product_id)||x.product_id)+'</td><td>'+opsMoney(x.promo_price)+'</td><td>'+new Date(x.starts_at).toLocaleString("id-ID")+'</td><td>'+new Date(x.ends_at).toLocaleString("id-ID")+'</td><td>'+(x.is_active&&new Date(x.ends_at)>new Date()?"Aktif":"Nonaktif")+'</td><td><button class="btn secondary" data-flash-toggle="'+x.id+'">'+(x.is_active?"Matikan":"Aktifkan")+'</button></td></tr>').join(""):'<tr><td colspan="6">Belum ada Flash Sale.</td></tr>';
+  $("opsFlashRows").querySelectorAll("[data-flash-toggle]").forEach(b=>b.onclick=async()=>{const x=opsFlash.find(y=>y.id===b.dataset.flashToggle);const {error}=await sb.from("xpaypoint_flash_sales").update({is_active:!x.is_active,updated_at:new Date().toISOString()}).eq("id",x.id);if(error)opsStatus("opsFlashStatus",error.message,"error");else{opsStatus("opsFlashStatus","Status Flash Sale diperbarui.","success");opsLoadFlash()}});
+ }
+ async function opsSaveFlash(){
+  const id=$("opsFlashProduct").value,price=Number($("opsFlashPrice").value),hours=Number($("opsFlashHours").value),p=opsProducts.find(x=>x.id===id);
+  if(!p||!Number.isSafeInteger(price)||price<=0||!Number.isInteger(hours)||hours<1||hours>720){opsStatus("opsFlashStatus","Pilih produk, isi harga promo dan durasi 1–720 jam.","error");return}
+  if(price>=Number(p.sell_price)){opsStatus("opsFlashStatus","Harga promo harus lebih rendah dari harga jual normal.","error");return}
+  const start=new Date(),end=new Date(start.getTime()+hours*3600000),row={product_id:id,promo_price:price,starts_at:start.toISOString(),ends_at:end.toISOString(),is_active:true,created_by:currentUser.id,updated_at:start.toISOString()};
+  const {error}=await sb.from("xpaypoint_flash_sales").upsert(row,{onConflict:"product_id"});if(error)opsStatus("opsFlashStatus",error.message,"error");else{opsStatus("opsFlashStatus","Flash Sale aktif sampai "+end.toLocaleString("id-ID"),"success");opsLoadFlash()}
+ }
+ async function opsLoadMembers(){
+  $("opsMemberRows").innerHTML='<div class="empty">Memuat akun Supabase…</div>';
+  try{const d=await opsCall("members_list");opsMembers=d.members||[];opsRenderMembers()}catch(e){opsStatus("opsMemberStatus",e.message,"error");$("opsMemberRows").innerHTML='<div class="empty">'+esc(e.message)+'</div>'}
+ }
+ function opsRenderMembers(){
+  const q=$("opsMemberSearch").value.toLowerCase(),rows=opsMembers.filter(x=>(x.email+" "+x.user_id).toLowerCase().includes(q)).slice(0,300);
+  $("opsMemberRows").innerHTML=rows.length?rows.map(m=>{const tier=m.membership?.tier||"free",expiry=m.membership?.expires_at?new Date(m.membership.expires_at).toLocaleDateString("id-ID"):"—";return '<div class="ops-member" data-member="'+m.user_id+'"><div><b>'+esc(m.email||"Tanpa email")+'</b><small>'+esc(m.user_id)+'</small><small>Aktif sampai: '+expiry+'</small></div><select data-tier><option value="free" '+(tier==="free"?"selected":"")+'>Free</option><option value="pass" '+(tier==="pass"?"selected":"")+'>SKIEE PASS · 10rb</option><option value="vip" '+(tier==="vip"?"selected":"")+'>SKIEE VIP · 15rb</option><option value="pro" '+(tier==="pro"?"selected":"")+'>SKIEE PRO · 20rb</option></select><span class="ops-pill">'+tier.toUpperCase()+'</span><div class="ops-member-actions"><button class="btn secondary" data-member-save>Simpan tier</button><button class="btn secondary" data-member-extend>+30 hari</button></div></div>'}).join(""):'<div class="empty">Tidak ada anggota cocok.</div>';
+  $("opsMemberRows").querySelectorAll("[data-member-save]").forEach(b=>b.onclick=async()=>{const row=b.closest("[data-member]"),tier=row.querySelector("[data-tier]").value;try{await opsCall("member_set",{user_id:row.dataset.member,tier});opsStatus("opsMemberStatus","Tier member berhasil diperbarui.","success");await opsLoadMembers()}catch(e){opsStatus("opsMemberStatus",e.message,"error")}});
+  $("opsMemberRows").querySelectorAll("[data-member-extend]").forEach(b=>b.onclick=async()=>{const row=b.closest("[data-member]");try{await opsCall("member_extend",{user_id:row.dataset.member});opsStatus("opsMemberStatus","Masa aktif ditambah 30 hari.","success");await opsLoadMembers()}catch(e){opsStatus("opsMemberStatus",e.message,"error")}});
+ }
+ async function opsLoadTransactions(){
+  $("opsTransactionRows").innerHTML='<tr><td colspan="7">Memuat…</td></tr>';
+  const [{data:o,error:oe},{data:pay,error:pe}]=await Promise.all([sb.from("xpaypoint_orders").select("id,order_code,product_name_snapshot,game_name_snapshot,payable_amount,status,supplier_status,created_at").order("created_at",{ascending:false}).limit(100),sb.from("xpaypoint_payments").select("order_id,gateway,status,paid_at").order("created_at",{ascending:false}).limit(300)]);
+  if(oe||pe){opsStatus("opsTransactionStatus",(oe||pe).message,"error");return}
+  const pm=new Map((pay||[]).map(x=>[x.order_id,x]));$("opsTransactionRows").innerHTML=(o||[]).length?(o||[]).map(x=>{const p=pm.get(x.id);return '<tr><td>'+new Date(x.created_at).toLocaleString("id-ID")+'</td><td>'+esc(x.order_code)+'</td><td>'+esc(x.game_name_snapshot)+'<br>'+esc(x.product_name_snapshot)+'</td><td>'+opsMoney(x.payable_amount)+'</td><td>'+esc(p?.gateway||"—")+'<br>'+esc(p?.status||"—")+'</td><td>'+esc(x.supplier_status||"belum dikirim")+'</td><td>'+esc(x.status)+'</td></tr>'}).join(""):'<tr><td colspan="7">Belum ada transaksi.</td></tr>';
+  opsStatus("opsTransactionStatus","Menampilkan "+(o||[]).length+" pesanan terbaru.","success");
+ }
+ async function opsLoadStore(){
+  const {data,error}=await sb.from("xpaypoint_store_settings").select("setting_value").eq("setting_key","store_status").maybeSingle();if(error){opsStatus("opsStoreStatus",error.message,"error");return}
+  const open=data?.setting_value?.open!==false;const b=$("opsStoreToggle");b.dataset.open=open;b.textContent=open?"TOKO BUKA · klik untuk maintenance":"MAINTENANCE · klik untuk buka";b.style.background=open?"#087BFF":"#b91c1c";
+ }
+ async function opsToggleStore(){
+  const open=$("opsStoreToggle").dataset.open!=="true",row={setting_key:"store_status",setting_value:{open},updated_by:currentUser.id,updated_at:new Date().toISOString()};
+  const {error}=await sb.from("xpaypoint_store_settings").upsert(row,{onConflict:"setting_key"});if(error)opsStatus("opsStoreStatus",error.message,"error");else{opsStatus("opsStoreStatus",open?"Status toko: BUKA":"Status toko: MAINTENANCE","success");opsLoadStore()}
+ }
+ function opsInit(){
+  $("opsRefreshFinance").onclick=opsLoadFinance;$("opsLoadPrices").onclick=opsLoadProducts;$("opsSavePrices").onclick=opsSavePrices;$("opsSyncPrice").onclick=opsSyncPrices;
+  $("opsPriceSearch").oninput=opsRenderProducts;$("opsPriceGame").onchange=opsRenderProducts;
+  $("opsApplyMargin").onclick=()=>{const margin=Number($("opsBulkMargin").value);if(!Number.isSafeInteger(margin)||margin<0){opsStatus("opsPriceStatus","Isi margin massal dalam rupiah, minimal 0.","error");return}for(const row of $("opsPriceRows").querySelectorAll("tr[data-product]")){const p=opsProducts.find(x=>x.id===row.dataset.product),v=Math.ceil(Number(p.base_price||0)*1.007)+margin;row.querySelector("[data-normal]").value=v;row.querySelector("[data-pass]").value=v;row.querySelector("[data-vip]").value=v;row.querySelector("[data-pro]").value=v}opsStatus("opsPriceStatus","Margin diterapkan pada produk yang sedang tampil. Tekan Simpan harga untuk menyimpan.","success")};
+  $("opsLoadFlash").onclick=opsLoadFlash;$("opsSaveFlash").onclick=opsSaveFlash;$("opsLoadMembers").onclick=opsLoadMembers;$("opsMemberSearch").oninput=opsRenderMembers;$("opsLoadTransactions").onclick=opsLoadTransactions;$("opsStoreToggle").onclick=opsToggleStore;
+ }
+ async function opsLoadAll(){opsInit();await Promise.all([opsLoadBalance(),opsLoadFinance(),opsLoadProducts(),opsLoadFlash(),opsLoadMembers(),opsLoadTransactions(),opsLoadStore()])}
+\n boot();
 })();
 </script>
 </body></html>
