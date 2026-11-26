@@ -24,6 +24,8 @@
 <button class="active" data-tab="channels"><span class="ico">▦</span>Channel QRIS</button>
 <button data-tab="system"><span class="ico">◷</span>System & Poller</button>
 <button data-tab="notifications"><span class="ico">♧</span>Notifikasi</button>
+<button data-tab="branding"><span class="ico">✦</span>Branding Checkout</button>
+<button data-tab="sandbox"><span class="ico">⌘</span>Sandbox</button>
 </nav>
 <div class="content">
 <section class="tab active" id="tab-channels">
@@ -37,6 +39,7 @@
 <h2>QRIS GoPay Merchant</h2><p class="sub">Simpan QRIS statis outlet. Sistem akan memakai payload ini sebagai dasar QRIS dinamis.</p>
 <div class="form-grid" style="margin-top:14px">
 <div class="field full"><label>Payload QRIS statis</label><textarea id="staticQris" spellcheck="false" placeholder="000201..."></textarea><span class="hint">Masukkan teks QRIS statis dari outlet GoBiz. Jangan masukkan QRIS dinamis dari struk pembayaran.</span></div>
+<div class="field full"><label>Scan QRIS dari gambar</label><input id="qrisImage" type="file" accept="image/*"><span class="hint">Pilih foto QRIS statis. Browser akan membaca kode QR lalu mengisi payload di atas; gambar tidak diunggah ke server.</span><div class="feedback" id="qrisImageFeedback"></div></div>
 <div class="field"><label>Nama merchant</label><input id="merchantName" placeholder="Nama merchant"></div>
 <div class="field"><label>Merchant ID</label><input id="merchantId" placeholder="ID merchant" readonly></div>
 </div>
@@ -65,6 +68,26 @@
 <div class="actions"><button class="btn" id="saveNotifyBtn">Simpan preferensi notifikasi</button></div><div class="feedback" id="notifyFeedback"></div>
 </div>
 </section>
+<section class="tab" id="tab-branding">
+<div class="panel"><div class="panel-head"><div><h2>Branding Checkout</h2><p class="sub">Atur identitas yang ditampilkan pada halaman pembayaran SKIEESTORE.</p></div><span class="status">Preferensi</span></div>
+<div class="form-grid">
+<div class="field"><label>Judul checkout</label><input id="checkoutTitle" maxlength="80" placeholder="Pembayaran SKIEESTORE"></div>
+<div class="field"><label>Subjudul checkout</label><input id="checkoutSubtitle" maxlength="140" placeholder="Selesaikan pembayaran pesanan kamu"></div>
+<div class="field"><label>URL logo checkout</label><input id="checkoutLogo" type="url" placeholder="https://skieestore.biz.id/assets/logo.png"></div>
+<div class="field"><label>Warna aksen</label><input id="checkoutAccent" type="color" value="#2563eb" style="height:43px;padding:5px"></div>
+</div>
+<div class="callout" style="margin-top:14px">Pengaturan branding disimpan di SKIEEPAY. Tampilan checkout publik baru akan berubah setelah payment engine membaca konfigurasi ini.</div>
+<div class="actions"><button class="btn" id="saveBrandingBtn">Simpan branding</button></div><div class="feedback" id="brandingFeedback"></div>
+</div>
+</section>
+<section class="tab" id="tab-sandbox">
+<div class="panel"><div class="panel-head"><div><h2>Mode Sandbox</h2><p class="sub">Konfigurasi uji coba pembayaran tanpa menganggap transaksi simulasi sebagai pembayaran pelanggan.</p></div><span class="status" id="sandboxBadge">Nonaktif</span></div>
+<div class="toggle-row"><div><strong>Aktifkan mode sandbox</strong><small>Menandai konfigurasi untuk pengujian. Tidak otomatis mengubah alur pembayaran live.</small></div><input class="switch" type="checkbox" id="sandboxEnabled"></div>
+<div class="field" style="margin-top:14px"><label>Catatan pengujian</label><textarea id="sandboxNote" maxlength="500" placeholder="Contoh: Pengujian QRIS GoBiz internal admin."></textarea></div>
+<div class="callout warn" style="margin-top:14px">Peringatan: sakelar ini hanya menyimpan status konfigurasi. Pembatasan transaksi sandbox/live wajib diterapkan dan diverifikasi di backend sebelum mode ini digunakan untuk transaksi nyata.</div>
+<div class="actions"><button class="btn" id="saveSandboxBtn">Simpan mode sandbox</button></div><div class="feedback" id="sandboxFeedback"></div>
+</div>
+</section>
 </div></div>
 </section>
 </main>
@@ -90,6 +113,14 @@ async function loadSettings(){
  $("fallbackWebhook").value=settings.fallback_webhook_url||"";
  $("emailPaid").checked=settings.notify_email_paid!==false;
  $("emailSession").checked=settings.notify_email_session!==false;
+ $("checkoutTitle").value=settings.checkout_title||"Pembayaran SKIEESTORE";
+ $("checkoutSubtitle").value=settings.checkout_subtitle||"Selesaikan pembayaran pesanan kamu";
+ $("checkoutLogo").value=settings.checkout_logo_url||"";
+ $("checkoutAccent").value=settings.checkout_accent_color||"#2563eb";
+ $("sandboxEnabled").checked=settings.sandbox_enabled===true;
+ $("sandboxNote").value=settings.sandbox_note||"";
+ $("sandboxBadge").textContent=settings.sandbox_enabled?"Aktif (konfigurasi)":"Nonaktif";
+ $("sandboxBadge").className="status "+(settings.sandbox_enabled?"bad":"");
  $("pollerStatus").textContent=settings.poller_active?"Aktif":"Belum aktif";
  $("gopayBadge").textContent=data?.enabled?"Channel aktif":"Belum aktif";
  $("gobizStatus").textContent="Memeriksa sesi";
@@ -129,6 +160,9 @@ $("saveChannelBtn").onclick=async()=>{try{const payload=$("staticQris").value.tr
 $("setDefaultBtn").onclick=()=>say("channelFeedback","GoPay sudah dipilih sebagai channel utama pada rancangan. Aktivasi transaksi menunggu poller backend teruji.","");
 $("saveSystemBtn").onclick=async()=>{try{const min=Number($("uniqueMin").value),max=Number($("uniqueMax").value),interval=Number($("pollInterval").value);if(!Number.isInteger(min)||!Number.isInteger(max)||min<1||max>999||min>max)throw Error("Rentang kode unik tidak valid.");if(![5000,7000,10000,15000].includes(interval))throw Error("Interval poller tidak valid.");const webhook=$("fallbackWebhook").value.trim();if(webhook&&!/^https:\/\//i.test(webhook))throw Error("Webhook harus menggunakan HTTPS.");await saveSettings({unique_code_enabled:$("uniqueEnabled").checked,unique_code_mode:$("uniqueMode").value,unique_code_min:min,unique_code_max:max,poll_interval_ms:interval,fallback_webhook_url:webhook},"systemFeedback")}catch(e){say("systemFeedback",e.message,"err")}};
 $("saveNotifyBtn").onclick=async()=>{try{await saveSettings({notify_email_paid:$("emailPaid").checked,notify_email_session:$("emailSession").checked},"notifyFeedback")}catch(e){say("notifyFeedback",e.message,"err")}};
+$("saveBrandingBtn").onclick=async()=>{try{const logo=$("checkoutLogo").value.trim();if(logo&&!/^https:\/\//i.test(logo))throw Error("URL logo harus menggunakan HTTPS.");const color=$("checkoutAccent").value;if(!/^#[0-9a-f]{6}$/i.test(color))throw Error("Warna aksen tidak valid.");await saveSettings({checkout_title:$("checkoutTitle").value.trim(),checkout_subtitle:$("checkoutSubtitle").value.trim(),checkout_logo_url:logo,checkout_accent_color:color},"brandingFeedback")}catch(e){say("brandingFeedback",e.message,"err")}};
+$("saveSandboxBtn").onclick=async()=>{try{await saveSettings({sandbox_enabled:$("sandboxEnabled").checked,sandbox_note:$("sandboxNote").value.trim()},"sandboxFeedback");$("sandboxBadge").textContent=$("sandboxEnabled").checked?"Aktif (konfigurasi)":"Nonaktif";$("sandboxBadge").className="status "+($("sandboxEnabled").checked?"bad":"")}catch(e){say("sandboxFeedback",e.message,"err")}};
+$("qrisImage").onchange=async()=>{const file=$("qrisImage").files?.[0];if(!file)return;try{if(!("BarcodeDetector" in window))throw Error("Pemindai QR belum didukung browser ini. Masukkan payload QRIS secara manual.");const detector=new BarcodeDetector({formats:["qr_code"]});const bitmap=await createImageBitmap(file);const codes=await detector.detect(bitmap);bitmap.close();const raw=String(codes[0]?.rawValue||"").trim();if(!raw.startsWith("000201"))throw Error("QRIS tidak terbaca atau bukan payload QRIS yang valid.");$("staticQris").value=raw;say("qrisImageFeedback","QRIS berhasil dibaca. Periksa payload lalu tekan Simpan pengaturan QRIS.","ok")}catch(e){say("qrisImageFeedback",e.message||"Gagal membaca gambar QRIS.","err")}};
 $("checkSessionBtn").onclick=async()=>{try{await loadSettings();say("channelFeedback","Status sesi GoBiz diperbarui.","ok")}catch(e){say("channelFeedback",e.message,"err")}};
 $("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click()});
 boot().catch(e=>{showApp(false);say("loginFeedback",e.message,"err")});
