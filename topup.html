@@ -836,7 +836,22 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 }
 </style>
   <link rel="stylesheet" href="assets/header-compact.css?v=1">
-</head><body class="topup-page"><header class="header"><div class="container headrow">
+<style>
+#duitkuQrModal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:#101828a8;backdrop-filter:blur(8px)}
+#duitkuQrModal.show{display:flex}
+#duitkuQrModal .qr-card{width:min(100%,430px);max-height:calc(100dvh - 36px);overflow:auto;background:#fff;border-radius:22px;padding:22px;box-shadow:0 24px 80px #0003;text-align:center}
+#duitkuQrModal .qr-title{font:800 21px "Space Grotesk",sans-serif;margin:0 0 6px;color:#151923}
+#duitkuQrModal .qr-sub{font-size:11px;line-height:1.6;color:#667085;margin:0 0 15px}
+#duitkuQrModal .qr-amount{padding:12px;border-radius:13px;background:#f2f8ff;border:1px solid #d8eaff;font:800 23px "Space Grotesk",sans-serif;color:#087BFF}
+#duitkuQrModal .qr-code{display:grid;place-items:center;margin:15px auto 10px;min-height:250px}
+#duitkuQrModal .qr-code img{max-width:100%;height:auto}
+#duitkuQrModal .qr-expiry{font-size:10px;font-weight:800;color:#a15c13;background:#fff7eb;border:1px solid #f6e2c3;border-radius:9px;padding:9px}
+#duitkuQrModal .qr-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
+#duitkuQrModal button,#duitkuQrModal a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;color:#343843;font:800 10px Manrope,sans-serif;text-decoration:none;cursor:pointer}
+#duitkuQrModal .qr-primary{background:#087BFF;border-color:#087BFF;color:#fff}
+#duitkuQrModal .qr-wide{grid-column:1/-1}
+@media(max-width:420px){#duitkuQrModal .qr-card{padding:17px}#duitkuQrModal .qr-actions{grid-template-columns:1fr}#duitkuQrModal .qr-wide{grid-column:auto}}
+</style></head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
 <a href="/"><span class="skiee-svg-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg></span><span>Beranda</span></a>
@@ -987,6 +1002,22 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 
 <div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span><button class="chat-fab" id="chatToggle" type="button" aria-label="Buka XP AI" aria-expanded="false"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 9.5h32v23H23l-9 7v-7H8z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M15 18h18M15 24h13" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m36 4 1.7 4.3L42 10l-4.3 1.7L36 16l-1.7-4.3L30 10l4.3-1.7z" fill="currentColor"/></svg></button></div>
 </div></footer>
+<div id="duitkuQrModal" role="dialog" aria-modal="true" aria-labelledby="duitkuQrTitle">
+ <section class="qr-card">
+  <h2 class="qr-title" id="duitkuQrTitle">Scan QRIS untuk membayar</h2>
+  <p class="qr-sub" id="duitkuQrMethod">QRIS Duitku</p>
+  <div class="qr-amount" id="duitkuQrAmount">Rp0</div>
+  <div class="qr-code" id="duitkuQrCode"></div>
+  <div class="qr-expiry" id="duitkuQrTimer">Menyiapkan masa berlaku…</div>
+  <p class="qr-sub" style="margin:12px 0 0">Buka aplikasi bank atau e-wallet, pilih Scan QRIS, lalu pindai kode di atas. Pastikan nominalnya sesuai.</p>
+  <div class="qr-actions">
+   <button type="button" id="duitkuCopyQr">Salin kode QRIS</button>
+   <a class="qr-primary" id="duitkuOpenInvoice" href="#" target="_blank" rel="noopener" hidden>Buka invoice</a>
+   <button type="button" class="qr-wide" id="duitkuCloseQr">Tutup QRIS</button>
+  </div>
+ </section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 document.querySelectorAll(".footer-year").forEach(e=>e.textContent=new Date().getFullYear());
@@ -1321,7 +1352,23 @@ function updateSummary(){$("summaryNicknameRow").hidden=activeForm.nicknameSuppo
 function updateGameSeo(game){const baseTitle="Katalog Top Up Game & Voucher Digital | SKIEESTORE";const baseDescription="Pilih top up Mobile Legends, Free Fire, PUBG Mobile, dan voucher digital di katalog SKIEESTORE. Cek nominal serta harga sebelum mengisi data tujuan dan memesan.";const canonical=document.querySelector('link[rel="canonical"]');const description=document.querySelector('meta[name="description"]');const ogTitle=document.querySelector('meta[property="og:title"]');const ogDescription=document.querySelector('meta[property="og:description"]');const ogUrl=document.querySelector('meta[property="og:url"]');const twitterTitle=document.querySelector('meta[name="twitter:title"]');const twitterDescription=document.querySelector('meta[name="twitter:description"]');if(!game){document.title=baseTitle;if(description)description.content=baseDescription;if(ogTitle)ogTitle.content=baseTitle;if(ogDescription)ogDescription.content=baseDescription;if(ogUrl)ogUrl.content="https://skieestore.biz.id/topup";if(twitterTitle)twitterTitle.content=baseTitle;if(twitterDescription)twitterDescription.content="Pilih game, cek nominal dan harga, lalu lanjutkan pemesanan di SKIEESTORE.";if(canonical)canonical.href="https://skieestore.biz.id/topup";return}const name=String(game.name||"Game");const title="Top Up "+name+" Murah & Cepat | SKIEESTORE";const desc="Top up "+name+" di SKIEESTORE. Lihat pilihan nominal dan harga terbaru, masukkan data akun dengan benar, lalu siapkan pesanan dengan praktis.";const url=window.__SKIEE_CANONICAL__||("https://skieestore.biz.id/topup?game="+encodeURIComponent(game.id));document.title=title;if(description)description.content=desc;if(ogTitle)ogTitle.content=title;if(ogDescription)ogDescription.content=desc;if(ogUrl)ogUrl.content=url;if(twitterTitle)twitterTitle.content=title;if(twitterDescription)twitterDescription.content=desc;if(canonical)canonical.href=url}
 function openGame(id){selected=games.find(g=>g.id===id);if(!selected)return;updateGameSeo(selected);selectedProduct=null;openProductGroup=null;applyFormConfig();setActiveFlowStep("product");$("catalogPage").classList.add("hide");$("gameDetailPage").classList.add("show");$("heroName").textContent=selected.name;$("heroMeta").textContent="Oleh "+publisherForGame(selected);$("heroCategory").textContent=categoryLabel(selected.category);$("heroArt").innerHTML=selected.image_url?'<img src="'+safe(selected.image_url)+'" alt="'+safe(selected.name)+'">':gameArtwork(selected);const heroImg=$("heroArt").querySelector("img");if(heroImg)heroImg.onerror=()=>{$("heroArt").innerHTML=gameArtwork(selected)};$("playerId").value="";$("serverId").value="";$("serverSelect").value="";$("platformSelect").value="";$("productSearch").value="";updateSummary();renderProducts();const u=new URL(location.href);u.searchParams.set("game",selected.id);history.pushState({game:selected.id},"",u);window.scrollTo({top:0,behavior:"smooth"})}
 function closeGame(){selected=null;updateGameSeo(null);selectedProduct=null;document.documentElement.classList.remove("has-game-param");$("gameDetailPage").classList.remove("show");$("catalogPage").classList.remove("hide");const u=new URL(location.href);u.searchParams.delete("game");history.pushState({},"",u);window.scrollTo({top:0,behavior:"smooth"})}
-$("productSearch").oninput=renderProducts;$("playerId").oninput=()=>{if(activeForm.aovOpenIdFormat||activeForm.astralGuardiansRoleIdFormat||activeForm.beTheKingServerFormat)$("playerId").value=$("playerId").value.replace(/\\D/g,"");scheduleNicknameCheck()};$("serverId").oninput=scheduleNicknameCheck;$("serverSelect").onchange=()=>{$("serverId").value=$("serverSelect").value;scheduleNicknameCheck()};$("platformSelect").onchange=()=>{$("serverId").value=$("platformSelect").value;scheduleNicknameCheck()};function rememberRecentOrder(orderCode){try{const code=String(orderCode||"").trim().toUpperCase();if(!code)return;const item={order_code:code,game_name:selected?.name||selected?.game_name||"Game",product_name:selectedProduct?.name||selectedProduct?.product_name||selectedProduct?.title||"Produk",created_at:new Date().toISOString()};let list=JSON.parse(localStorage.getItem("skieestore_recent_orders_v1")||"[]");if(!Array.isArray(list))list=[];list=[item,...list.filter(x=>String(x.order_code||"").toUpperCase()!==code)].slice(0,5);localStorage.setItem("skieestore_recent_orders_v1",JSON.stringify(list));}catch(e){console.warn("Riwayat invoice lokal tidak dapat disimpan",e)}}
+$("productSearch").oninput=renderProducts;$("playerId").oninput=()=>{if(activeForm.aovOpenIdFormat||activeForm.astralGuardiansRoleIdFormat||activeForm.beTheKingServerFormat)$("playerId").value=$("playerId").value.replace(/\\D/g,"");scheduleNicknameCheck()};$("serverId").oninput=scheduleNicknameCheck;$("serverSelect").onchange=()=>{$("serverId").value=$("serverSelect").value;scheduleNicknameCheck()};$("platformSelect").onchange=()=>{$("serverId").value=$("platformSelect").value;scheduleNicknameCheck()};let duitkuQrTimer=null,duitkuQrRaw="";
+function showDuitkuQr(payment,method){
+ const modal=$("duitkuQrModal"),target=$("duitkuQrCode");
+ if(!modal||!target||!payment?.qr_string||typeof QRCode==="undefined")throw Error("QRIS diterima tetapi gambar QR belum bisa ditampilkan. Muat ulang halaman.");
+ duitkuQrRaw=String(payment.qr_string);target.innerHTML="";
+ new QRCode(target,{text:duitkuQrRaw,width:260,height:260,colorDark:"#111111",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+ $("duitkuQrAmount").textContent=money(payment.amount);
+ $("duitkuQrMethod").textContent="QRIS "+(method==="NQ"?"Nobu":method==="SP"?"ShopeePay":"Duitku");
+ const link=$("duitkuOpenInvoice");if(payment.payment_url){link.href=payment.payment_url;link.hidden=false;}else link.hidden=true;
+ const expiry=payment.expires_at?new Date(payment.expires_at).getTime():Date.now()+600000;
+ const tick=()=>{const left=Math.max(0,expiry-Date.now());$("duitkuQrTimer").textContent=left>0?"Berlaku "+Math.floor(left/60000)+" menit "+Math.floor(left%60000/1000)+" detik":"QRIS kedaluwarsa. Buat invoice baru.";if(left<=0&&duitkuQrTimer){clearInterval(duitkuQrTimer);duitkuQrTimer=null;}};
+ tick();if(duitkuQrTimer)clearInterval(duitkuQrTimer);duitkuQrTimer=setInterval(tick,1000);modal.classList.add("show");
+}
+$("duitkuCloseQr").onclick=()=>{$("duitkuQrModal").classList.remove("show");if(duitkuQrTimer){clearInterval(duitkuQrTimer);duitkuQrTimer=null;}};
+$("duitkuQrModal").addEventListener("click",e=>{if(e.target===$("duitkuQrModal"))$("duitkuCloseQr").click();});
+$("duitkuCopyQr").onclick=async()=>{try{await navigator.clipboard.writeText(duitkuQrRaw);$("duitkuCopyQr").textContent="Kode QRIS tersalin";}catch{$("duitkuCopyQr").textContent="Tidak dapat menyalin";}};
+function rememberRecentOrder(orderCode){try{const code=String(orderCode||"").trim().toUpperCase();if(!code)return;const item={order_code:code,game_name:selected?.name||selected?.game_name||"Game",product_name:selectedProduct?.name||selectedProduct?.product_name||selectedProduct?.title||"Produk",created_at:new Date().toISOString()};let list=JSON.parse(localStorage.getItem("skieestore_recent_orders_v1")||"[]");if(!Array.isArray(list))list=[];list=[item,...list.filter(x=>String(x.order_code||"").toUpperCase()!==code)].slice(0,5);localStorage.setItem("skieestore_recent_orders_v1",JSON.stringify(list));}catch(e){console.warn("Riwayat invoice lokal tidak dapat disimpan",e)}}
 $("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSummary;document.querySelectorAll("input[name=paymentMethod]").forEach(el=>el.addEventListener("change",()=>{document.querySelectorAll("input[name=paymentMethod]").forEach(x=>x.closest(".payment-option")?.classList.toggle("selected",x.checked));updateSummary()}));$("checkoutButton").onclick=async()=>{
  if(!selected||!selectedProduct)return;
  const button=$("checkoutButton"),status=$("checkoutStatus");button.disabled=true;button.textContent="MEMBUAT INVOICE…";
@@ -1337,8 +1384,14 @@ $("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSumma
   const paymentData=await paymentResponse.json().catch(()=>({}));
   if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment)throw Error(paymentData.code==="DUITKU_NOT_CONFIGURED"?"Kredensial merchant Duitku belum dikonfigurasi.":paymentData.code==="DUITKU_MINIMUM_PAYMENT_10000"?"Minimal transaksi QRIS Duitku Rp10.000.":paymentData.code==="DUITKU_EMAIL_REQUIRED"?"Isi email yang valid untuk menerima invoice.":paymentData.code==="STORE_MAINTENANCE"?"Toko sedang maintenance. Checkout ditutup sementara.":paymentData.message||paymentData.code||"Invoice QRIS Duitku gagal dibuat.");
   const payment=paymentData.payment;sessionStorage.setItem("skiee_guest_token_"+(payment.order_code||orderData.order.order_code),orderData.guest_token);rememberRecentOrder(payment.order_code||orderData.order.order_code);
-  if(payment.payment_url){status.textContent="Invoice berhasil dibuat. Membuka pembayaran Duitku…";location.href=payment.payment_url;return;}
-  throw Error("Duitku tidak mengembalikan tautan pembayaran.");
+  if(payment.qr_string){
+   showDuitkuQr(payment,paymentData.payment_method||document.querySelector("input[name=paymentMethod]:checked")?.value||"NQ");
+   status.textContent="QRIS berhasil dibuat. Silakan scan QR untuk membayar.";
+   button.disabled=false;button.textContent="BUAT PESANAN LAIN";
+   return;
+  }
+  if(payment.payment_url){status.textContent="Invoice berhasil dibuat. Membuka halaman pembayaran…";location.href=payment.payment_url;return;}
+  throw Error("Duitku tidak mengembalikan QRIS maupun tautan pembayaran.");
  }catch(error){status.textContent="Pembayaran gagal: "+(error.message||"Gagal menghubungkan pembayaran.");button.disabled=false;button.textContent="COBA LAGI";}
 };;$("applyVoucher").onclick=()=>{$("voucherStatus").textContent="Validasi voucher akan tersedia setelah sistem promo diaktifkan."};const backCatalogButton=$("backCatalog");if(backCatalogButton)backCatalogButton.onclick=closeGame;
 $("filters").onclick=e=>{const b=e.target.closest("[data-filter]");if(!b)return;filter=b.dataset.filter;$("filters").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));renderGames()};
