@@ -784,10 +784,11 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   const unread=(data||[]).filter(n=>!n.read_at).map(n=>n.id);if(unread.length)await sb.from("skieestore_user_notifications").update({read_at:new Date().toISOString()}).in("id",unread);
  }
  async function checkGoogleProvider(){
-  if(googleProviderEnabled!==null)return googleProviderEnabled;
-  try{const r=await fetch("/api/duitku?action=google_status",{cache:"no-store"});const d=await r.json();googleProviderEnabled=!!d.google_enabled;}
-  catch{googleProviderEnabled=false;}
-  return googleProviderEnabled;
+  // Do not use the custom google_status proxy as a login gate.
+  // Supabase's own OAuth flow is the source of truth; the proxy can
+  // report a false negative even when Google is enabled in Auth settings.
+  googleProviderEnabled=true;
+  return true;
  }
  async function loadAccount(){
   const {data}=await sb.auth.getSession();session=data.session;
