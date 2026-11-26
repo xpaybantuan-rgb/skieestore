@@ -27,7 +27,7 @@ export async function onRequestGet({ request, params }) {
     const canonical = SITE + "/game/" + encodeURIComponent(slug);
     const config = "<base href=\"/\"><script>window.__SKIEE_GAME_ID__=" + JSON.stringify(String(game.id)) + ";window.__SKIEE_GAME_SLUG__=" + JSON.stringify(slug) + ";window.__SKIEE_CANONICAL__=" + JSON.stringify(canonical) + ";window.__SKIEE_GAME_NAME__=" + JSON.stringify(name) + ";</script>";
     html = html.replace("<head>", "<head>" + config);
-    html = html.replace(/<title>[\\s\\S]*?<\\/title>/i, "<title>" + esc(title) + "</title>");
+    html = html.replace(/<title>[\s\S]*?<\/title>/i, "<title>" + esc(title) + "</title>");
     html = html.replace(/<meta name="description" content="[^"]*">/i, '<meta name="description" content="' + esc(description) + '">');
     html = html.replace(/<link rel="canonical" href="[^"]*">/i, '<link rel="canonical" href="' + esc(canonical) + '">');
     html = html.replace(/<meta property="og:title" content="[^"]*">/i, '<meta property="og:title" content="' + esc(title) + '">');
