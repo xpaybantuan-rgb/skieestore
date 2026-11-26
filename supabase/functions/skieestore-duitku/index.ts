@@ -118,11 +118,11 @@ Deno.serve(async(req:Request)=>{
  }
  if(action==="topup_resume"){
   if(!(await storeOpen()))return json({ok:false,code:"STORE_MAINTENANCE",message:"Toko sedang maintenance."},503);
-  const orderCode=String(body.order_code||"").trim().toUpperCase(),phone=String(body.whatsapp||"").replace(/\\D/g,"").replace(/^62/,"0");
+  const orderCode=String(body.order_code||"").trim().toUpperCase(),phone=String(body.whatsapp||"").replace(/\D/g,"").replace(/^62/,"0");
   if(!orderCode||phone.length<8)return json({ok:false,code:"INVALID_ORDER_ACCESS"},400);
   const {data:order,error:orderErr}=await supa.from("xpaypoint_orders").select("id,order_code,user_id,game_id,product_id,target_id,zone_id,product_name_snapshot,game_name_snapshot,sell_price,payable_amount,discount_xc,base_price_snapshot,status,receipt_email,receipt_whatsapp").eq("order_code",orderCode).maybeSingle();
   if(orderErr||!order)return json({ok:false,code:"ORDER_NOT_FOUND"},404);
-  const savedPhone=String(order.receipt_whatsapp||"").replace(/\\D/g,"").replace(/^62/,"0");
+  const savedPhone=String(order.receipt_whatsapp||"").replace(/\D/g,"").replace(/^62/,"0");
   if(!savedPhone||savedPhone!==phone)return json({ok:false,code:"ORDER_ACCESS_DENIED",message:"Nomor WhatsApp tidak cocok dengan invoice."},403);
   if(order.status!=="pending_payment")return json({ok:false,code:"ORDER_NOT_PAYABLE"},409);
   let user=null;try{user=await authUser(req);}catch{return json({ok:false,code:"INVALID_SESSION"},401);}
