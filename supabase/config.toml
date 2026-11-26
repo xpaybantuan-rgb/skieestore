@@ -1,0 +1,5 @@
+[functions.skieestore-duitku]
+verify_jwt = false
+
+[functions.skieestore-admin-ops]
+verify_jwt = true
