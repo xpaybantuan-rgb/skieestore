@@ -1328,7 +1328,6 @@ $("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSumma
  try{
   status.textContent="Membuat pesanan SKIEESTORE…";
   const orderKey=crypto.randomUUID()+crypto.randomUUID().slice(0,8),orderHeaders={"content-type":"application/json","Idempotency-Key":orderKey};
-  if(currentAuthSession&&currentAuthSession.access_token)orderHeaders.Authorization="Bearer "+currentAuthSession.access_token;
   const orderResponse=await fetch("https://skieestore-payment-engine.xpaybantuan.workers.dev/v1/order/create",{method:"POST",headers:orderHeaders,body:JSON.stringify({game_id:selected.id,product_id:selectedProduct.id,target_id:activeForm.requiresTarget===false?"AUTO":$("playerId").value.trim(),zone_id:($("serverSelect").value||$("serverId").value).trim(),receipt_email:$("receiptEmail").value.trim(),receipt_whatsapp:$("receiptWhatsapp").value.trim()})});
   const orderData=await orderResponse.json().catch(()=>({}));
   if(!orderResponse.ok||!orderData.order||!orderData.order.id||!orderData.guest_token)throw Error(orderData.message||orderData.code||"Gagal membuat pesanan SKIEESTORE.");
