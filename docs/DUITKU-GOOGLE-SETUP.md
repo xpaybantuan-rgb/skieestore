@@ -42,4 +42,4 @@ The project currently reports Google provider disabled. Client credentials are n
 
 ## Payment minimum
 
-Duitku lists QRIS-specific limits of Rp1 minimum and Rp10.000.000 maximum. The top-up flow rejects payable amounts outside those QRIS limits before creating a payment intent.
+Duitku API v2 currently documents a Rp10.000 minimum payment amount for transaction inquiry. The top-up flow rejects a payable amount below Rp10.000 before creating a payment intent; member plans are all above this threshold.
