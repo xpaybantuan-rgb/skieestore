@@ -42,4 +42,4 @@ The project currently reports Google provider disabled. Client credentials are n
 
 ## Payment minimum
 
-Duitku QRIS has a Rp10.000 minimum per invoice. The top-up flow rejects a payable amount below that minimum before creating a payment intent. Products below Rp10.000 cannot be paid individually using this QRIS channel.
+Duitku lists QRIS-specific limits of Rp1 minimum and Rp10.000.000 maximum. The top-up flow rejects payable amounts outside those QRIS limits before creating a payment intent.
