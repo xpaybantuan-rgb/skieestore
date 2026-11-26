@@ -740,7 +740,20 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 </script>
 <script>document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().getFullYear());</script>
 
-<div class="toast" id="toast" hidden></div>
+<div class="toast" id="toast" hidden></div><style>
+#memberQrModal[hidden]{display:none!important}#memberQrModal{position:fixed;inset:0;z-index:9999;background:#101828b8;display:grid;place-items:center;padding:18px}
+#memberQrModal .member-qr-card{width:min(100%,390px);background:#fff;border-radius:22px;padding:24px;text-align:center;box-shadow:0 24px 80px #0004;position:relative}
+#memberQrModal .member-qr-close{position:absolute;right:13px;top:10px;border:0;background:#f2f4f7;border-radius:50%;width:34px;height:34px;font-size:22px;cursor:pointer}
+#memberQrModal h2{font:700 22px "Space Grotesk",sans-serif;margin:8px 0;color:#17181d}#memberQrModal p{font-size:12px;color:#667085;line-height:1.6}
+#memberQrCode{width:264px;min-height:264px;margin:18px auto 12px;display:grid;place-items:center;padding:12px;border:1px solid #e5e7eb;border-radius:15px;background:#fff}
+#memberQrCode img,#memberQrCode canvas{max-width:100%;height:auto!important}#memberQrAmount{font-size:23px!important;font-weight:900;color:#087BFF!important;margin:8px 0}
+#memberQrTimer{font-size:12px;font-weight:800;color:#b42318}#memberQrFallback{display:inline-block;margin-top:12px;color:#087BFF;font-size:12px;font-weight:800;text-decoration:underline}
+</style>
+<div id="memberQrModal" hidden role="dialog" aria-modal="true" aria-labelledby="memberQrTitle"><div class="member-qr-card">
+<button type="button" class="member-qr-close" id="memberQrClose" aria-label="Tutup">×</button><span class="profile-eyebrow">PEMBAYARAN SKIEESTORE</span><h2 id="memberQrTitle">Scan QRIS</h2>
+<p id="memberQrTier">Selesaikan pembayaran dengan aplikasi bank atau e-wallet.</p><div id="memberQrCode"></div><div id="memberQrAmount"></div><p id="memberQrTimer">Memuat masa berlaku…</p>
+<p>Scan QRIS di atas. Paket member aktif otomatis setelah pembayaran terkonfirmasi.</p><a id="memberQrFallback" href="#" target="_blank" rel="noopener noreferrer" hidden>Buka halaman pembayaran Duitku</a>
+</div></div>
 <div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Asisten virtual SKIEESTORE" hidden>
   <div class="chat-head">
     <div class="chat-brand"><span class="chat-avatar" aria-label="Logo SKIEESTORE">S</span><div class="chat-brand-copy"><strong>SKIEESTORE AI · Asisten Virtual</strong></div></div>
@@ -768,6 +781,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 <script src="assets/skieestore-global.js?v=20261125-11" defer></script>
 <link rel="stylesheet" href="assets/skieestore-bottomnav.css?v=6">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (()=> {
@@ -777,6 +791,23 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  let session=null,googleProviderEnabled=null;
  function status(msg,error){const el=$("memberAuthStatus");if(el){el.textContent=msg;el.style.borderColor=error?"#dc2626":"#0f172a";el.style.background=error?"#fff1f2":"#fff";}}
  function dateText(v){if(!v)return "Tidak ada masa aktif";return new Date(v).toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"})+" WIB";}
+ let memberQrInterval=null;
+ function closeMemberQr(){$("memberQrModal").hidden=true;if(memberQrInterval)clearInterval(memberQrInterval);memberQrInterval=null;}
+ $("memberQrClose")?.addEventListener("click",closeMemberQr);
+ $("memberQrModal")?.addEventListener("click",e=>{if(e.target.id==="memberQrModal")closeMemberQr();});
+ function showMemberQr(payment,tier,method){
+  if(!payment?.qr_string){if(payment?.payment_url){location.href=payment.payment_url;return;}throw new Error("Duitku tidak mengirim QRIS maupun tautan pembayaran.");}
+  if(typeof QRCode==="undefined"){if(payment.payment_url){location.href=payment.payment_url;return;}throw new Error("QRIS diterima tetapi pemuat QR belum tersedia. Muat ulang halaman.");}
+  const modal=$("memberQrModal"),target=$("memberQrCode");target.innerHTML="";
+  new QRCode(target,{text:payment.qr_string,width:240,height:240,colorDark:"#111111",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  $("memberQrTitle").textContent="QRIS "+(method==="NQ"?"Nobu":"ShopeePay");
+  $("memberQrTier").textContent="Paket SKIEE "+tier.toUpperCase()+" · Scan QR untuk membayar.";
+  $("memberQrAmount").textContent=money(payment.amount);
+  const fallback=$("memberQrFallback");if(payment.payment_url){fallback.href=payment.payment_url;fallback.hidden=false;}else fallback.hidden=true;
+  const expiry=payment.expires_at?new Date(payment.expires_at).getTime():Date.now()+(method==="NQ"?24:10)*60000;
+  const tick=()=>{const left=Math.max(0,expiry-Date.now());$("memberQrTimer").textContent=left>0?"Berlaku "+Math.floor(left/60000)+" menit "+Math.floor(left%60000/1000)+" detik":"QRIS kedaluwarsa. Buat invoice baru.";if(left<=0&&memberQrInterval){clearInterval(memberQrInterval);memberQrInterval=null;}};
+  tick();if(memberQrInterval)clearInterval(memberQrInterval);memberQrInterval=setInterval(tick,1000);modal.hidden=false;
+ }
  async function renderNotifications(){
   const box=$("memberNotifications");if(!session){box.innerHTML='<div class="member-alert">Login untuk melihat notifikasi pembayaran dan aktivitas member.</div>';return;}
   const {data,error}=await sb.from("skieestore_user_notifications").select("id,title,body,metadata,read_at,created_at").eq("user_id",session.user.id).order("created_at",{ascending:false}).limit(30);
@@ -808,7 +839,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  $("memberGoogleLogin").addEventListener("click",async()=>{const b=$("memberGoogleLogin");b.disabled=true;status("Membuka login Google…");const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/profil",queryParams:{prompt:"select_account"}}});if(error){status("Login Google gagal: "+error.message,true);b.disabled=false;}});
  $("memberLogout").addEventListener("click",async()=>{await sb.auth.signOut();await loadAccount();});
  document.querySelectorAll('input[name="memberPaymentMethod"]').forEach(el=>el.addEventListener("change",()=>document.querySelectorAll('input[name="memberPaymentMethod"]').forEach(x=>x.closest(".payment-option")?.classList.toggle("selected",x.checked))));
- document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat invoice QRIS Duitku untuk SKIEE "+tier.toUpperCase()+"…");const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),20000);try{const r=await fetch("/api/duitku?action=membership_create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({tier,payment_method:document.querySelector('input[name="memberPaymentMethod"]:checked')?.value||"NQ"}),signal:controller.signal});const raw=await r.text();let d={};try{d=JSON.parse(raw);}catch{}if(!r.ok||!d.ok){const messages={DUITKU_NOT_CONFIGURED:"Kredensial merchant Duitku belum dikonfigurasi.",STORE_MAINTENANCE:"Toko sedang maintenance. Checkout langganan ditutup sementara.",DUITKU_NETWORK_ERROR:"Koneksi ke Duitku Sandbox gagal atau timeout. Coba lagi sebentar.",DUITKU_INQUIRY_FAILED:"Duitku menolak pembuatan invoice"+(d.provider_code?" ("+d.provider_code+")":"")+". "+(d.message||""),INVALID_SESSION:"Sesi login berakhir. Silakan login ulang.",LOGIN_REQUIRED:"Silakan login sebelum membeli paket."};throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat invoice (HTTP "+r.status+")."));}if(d.payment?.payment_url){location.href=d.payment.payment_url;return;}if(d.payment?.qr_string){status("Invoice berhasil dibuat, tetapi Duitku tidak mengirim tautan pembayaran. Hubungi admin dengan kode transaksi.");throw new Error("URL pembayaran tidak tersedia.");}throw new Error("Duitku tidak mengembalikan URL pembayaran.");}catch(e){const msg=e.name==="AbortError"?"Permintaan terlalu lama. Coba lagi; jika terulang, kirim waktu percobaannya ke admin.":(e.message||"Terjadi kesalahan saat membuat invoice.");status(msg,true);b.disabled=false;}finally{clearTimeout(timeout);}}));
+ document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat invoice QRIS Duitku untuk SKIEE "+tier.toUpperCase()+"…");const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),20000);try{const r=await fetch("/api/duitku?action=membership_create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({tier,payment_method:document.querySelector('input[name="memberPaymentMethod"]:checked')?.value||"NQ"}),signal:controller.signal});const raw=await r.text();let d={};try{d=JSON.parse(raw);}catch{}if(!r.ok||!d.ok){const messages={DUITKU_NOT_CONFIGURED:"Kredensial merchant Duitku belum dikonfigurasi.",STORE_MAINTENANCE:"Toko sedang maintenance. Checkout langganan ditutup sementara.",DUITKU_NETWORK_ERROR:"Koneksi ke Duitku Sandbox gagal atau timeout. Coba lagi sebentar.",DUITKU_INQUIRY_FAILED:"Duitku menolak pembuatan invoice"+(d.provider_code?" ("+d.provider_code+")":"")+". "+(d.message||""),INVALID_SESSION:"Sesi login berakhir. Silakan login ulang.",LOGIN_REQUIRED:"Silakan login sebelum membeli paket."};throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat invoice (HTTP "+r.status+")."));}showMemberQr(d.payment,tier,document.querySelector('input[name="memberPaymentMethod"]:checked')?.value||"NQ");return;}catch(e){const msg=e.name==="AbortError"?"Permintaan terlalu lama. Coba lagi; jika terulang, kirim waktu percobaannya ke admin.":(e.message||"Terjadi kesalahan saat membuat invoice.");status(msg,true);b.disabled=false;}finally{clearTimeout(timeout);}}));
  sb.auth.onAuthStateChange((_event,newSession)=>{session=newSession;loadAccount().catch(e=>status(e.message,true));});
  loadAccount().catch(e=>status(e.message,true));
 })();
