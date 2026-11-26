@@ -65,9 +65,11 @@ export async function onRequestGet({ params }) {
 <div class="brand">SKIEESTORE</div>
 <h1>Top Up ${name}</h1>
 <p>Top up ${name} dengan praktis di SKIEESTORE. Lihat pilihan nominal dan harga yang tersedia, lalu lanjutkan pemesanan.</p>
-<a class="cta" href="${target}">Pilih nominal top up</a>
+<a class="cta" href="${target}">Lanjut ke transaksi top up</a>
 <a class="back" href="/">Kembali ke beranda SKIEESTORE</a>
 </main>
+<script>/* Keep the server-rendered game SEO page available, then take buyers straight to this game\x27s transaction form. */window.setTimeout(function(){window.location.replace("${target}")},700);</script>
+<noscript><p style="text-align:center;padding:12px"><a href="${target}">Klik untuk membuka transaksi top up ${name}</a></p></noscript>
 </body>
 </html>`;
     return new Response(html, {
