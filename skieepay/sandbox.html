@@ -16,7 +16,20 @@ body{background:radial-gradient(900px 430px at 88% -12%,#dcecff 0,transparent 62
 .pill.pending{background:#fff5df;color:#946300}.pill.paid{background:#e8f8f0;color:#16784d}.pill.expired{background:#fff0f1;color:#b83245}.invoicebox{background:#f3f8ff;border-color:#cfe1fa;border-radius:13px}.msg{font-size:11px;line-height:1.6}.msg.ok{color:#16845a}.msg.error{color:#c53b50}.foot{color:#8a96a8;padding:28px 0 38px}
 @media(max-width:760px){.wrap{width:calc(100% - 28px)}header{height:68px}.brand{font-size:15px;gap:8px}.brand .small{display:none}.hero{padding:29px 0 18px}.grid{grid-template-columns:1fr}.card{padding:17px}.row{gap:5px}.row .btn{padding:9px 10px;font-size:10px}.banner{font-size:10px}}
 
-</style></head>
+</style>
+<style id="skieestore-home-style-parity">
+/* Home baseline: floating header shared across all repository pages with a header. */
+body > header {
+  border: 2px solid #0f172a !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  margin: 10px auto 14px auto !important;
+  width: calc(100% - 24px) !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+}
+</style>
+</head>
 <body>
 <header class="wrap"><a class="brand" href="index.html"><span class="logo">S</span>SkieePay <span class="small">/ SANDBOX</span></a><div class="row"><a class="btn" href="gopay.html">GoPay</a><a class="btn" href="admin.html">Dashboard</a><button class="btn" id="reloadBtn">Refresh</button></div></header>
 <main class="wrap"><section class="hero"><div class="eyebrow">DEVELOPER TOOLS · TEST MODE</div><h1>API Playground</h1><p class="muted">Buat invoice uji, cek status, lalu simulasikan pembayaran berhasil atau kedaluwarsa.</p></section>
