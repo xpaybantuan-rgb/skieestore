@@ -16,7 +16,7 @@ async function createInvoice(amount:number,merchantOrderId:string,details:string
  const c=cfg();if(c.missing.length)return {error:"DUITKU_NOT_CONFIGURED",missing:c.missing};
  if(!["NQ","SP","SQ","GQ"].includes(c.method))return {error:"DUITKU_QRIS_METHOD_INVALID"};
  if(!Number.isSafeInteger(amount)||amount<10000)return {error:"DUITKU_MINIMUM_PAYMENT_10000"};
- if(!email||!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email))return {error:"DUITKU_EMAIL_REQUIRED"};
+ if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return {error:"DUITKU_EMAIL_REQUIRED"};
  const signature=await hmac(c.apiKey,c.merchant+merchantOrderId+String(amount));
  const payload={merchantCode:c.merchant,paymentAmount:amount,paymentMethod:c.method,merchantOrderId,productDetails:clean(details,255),email:clean(email,50),phoneNumber:clean(phone,50),customerVaName:"SKIEESTORE",callbackUrl:SITE+"/api/duitku?action=callback",returnUrl,signature,expiryPeriod:10};
  let response:Response;try{response=await fetch(c.host+"/webapi/api/merchant/v2/inquiry",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload),signal:AbortSignal.timeout(15000)});}catch{return {error:"DUITKU_NETWORK_ERROR"};}
