@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#081321">
+<title>SkieePay Admin — QRIS Gateway Mandiri</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{background:#081321;color:#e8f0fa;font-family:Inter,system-ui,-apple-system,sans-serif}
+.glass{background:linear-gradient(145deg,#12243aee,#0d1b2cee);border:1px solid #263c55;border-radius:18px;box-shadow:0 12px 36px #0003}
+.input{width:100%;background:#091625;border:1px solid #2b4057;border-radius:10px;padding:12px;color:#e8f0fa;font-size:13px;outline:none}.input:focus{border-color:#22c6a3;box-shadow:0 0 0 3px #22c6a322}
+.btn{border-radius:10px;padding:11px 15px;font-size:12px;font-weight:800;transition:.15s}.primary{background:#12b995;color:#041b18}.primary:hover{background:#36d6b4}.secondary{background:#1b3048;color:#e8f0fa;border:1px solid #38506b}.danger{background:#5a202b;color:#ffd9dd}.muted{color:#8da2ba}.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:800;background:#1b3048;color:#b9cbe0}.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}.good{color:#35d6a6;background:#10382f}.bad{color:#ff777e;background:#421f2a}.warn{color:#f3c66b;background:#42351e}.switch{appearance:none;width:44px;height:25px;border-radius:30px;background:#34475c;position:relative;cursor:pointer;transition:.2s}.switch:checked{background:#13b995}.switch:after{content:"";position:absolute;width:19px;height:19px;top:3px;left:3px;background:white;border-radius:50%;transition:.2s}.switch:checked:after{left:22px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:780px}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid #24384e;font-size:11px}th{color:#8da2ba;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:9px}td{color:#dbe7f5}.hide{display:none!important}#qrcode img,#qrcode canvas{margin:auto;max-width:100%}
+</style>
+</head>
+<body>
+<div class="max-w-7xl mx-auto px-4 py-5 md:px-7 md:py-8">
+<header class="flex flex-wrap items-center justify-between gap-4 mb-8">
+ <div class="flex items-center gap-3"><div class="w-12 h-12 rounded-2xl bg-emerald-400/15 border border-emerald-300/30 grid place-items-center text-emerald-300 font-black text-xl">S</div><div><div class="font-black tracking-tight text-xl md:text-2xl">Skiee<span class="text-emerald-300">Pay</span></div><div class="text-[10px] tracking-[.2em] muted font-bold">QRIS PAYMENT GATEWAY MANDIRI</div></div></div>
+ <div class="flex items-center gap-2"><span id="adminBadge" class="pill">Admin belum login</span><button id="logoutBtn" class="btn secondary hide">Keluar</button></div>
+</header>
+<section id="loginPanel" class="glass max-w-md mx-auto p-6 md:p-8 mt-12">
+ <div class="text-emerald-300 text-[10px] font-black tracking-[.2em]">RESTRICTED ADMIN ACCESS</div><h1 class="text-2xl font-black mt-2">Masuk SkieePay</h1><p class="muted text-xs mt-2 leading-6">Login khusus akun admin <b class="text-slate-100">xpaybantuan@gmail.com</b>.</p>
+ <form id="loginForm" class="mt-6 space-y-3"><input id="email" class="input" type="email" autocomplete="username" value="xpaybantuan@gmail.com" required><input id="password" class="input" type="password" autocomplete="current-password" placeholder="Password admin" required><button class="btn primary w-full" type="submit">Login Admin</button></form><div id="loginMsg" class="text-xs mt-3 muted"></div>
+</section>
+<main id="app" class="hide space-y-6">
+ <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+  <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">KONEKSI GO PAY MERCHANT</div><div class="flex items-center justify-between mt-3 gap-2"><div><div id="connectionText" class="font-black text-lg">Belum dicek</div><div class="muted text-[10px] mt-1">G264474754 · Skieestore, Gaming</div></div><span id="connectionPill" class="pill warn"><i class="dot"></i> UNKNOWN</span></div><button id="checkConnectionBtn" class="btn secondary w-full mt-4">Cek status token</button></div>
+  <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">TOTAL OMSET SKIEEPAY</div><div id="revenue" class="text-2xl font-black mt-3">Rp0</div><div class="muted text-[10px] mt-1">Order terverifikasi / diproses</div></div>
+  <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">TRANSAKSI SUKSES</div><div id="successCount" class="text-2xl font-black mt-3">0</div><div class="muted text-[10px] mt-1">Tidak termasuk order sandbox</div></div>
+  <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">VIPAYMENT WORKER</div><div id="workerStatus" class="font-black text-lg mt-3">Memeriksa…</div><div class="muted text-[10px] mt-1">Kunci server terpasang / belum</div></div>
+ </section>
+
+ <section class="glass p-5 md:p-6">
+  <div class="flex flex-wrap justify-between items-start gap-3"><div><div class="text-emerald-300 text-[10px] font-black tracking-widest">01 / MERCHANT CONFIGURATION</div><h2 class="text-lg font-black mt-1">Kredensial GoBiz & QRIS</h2><p class="muted text-xs mt-1">Token disimpan di database dan hanya dibaca Edge Function dengan Service Role. Token tidak pernah ditampilkan kembali.</p></div><span id="tokenState" class="pill warn">Token belum diatur</span></div>
+  <div class="grid md:grid-cols-2 gap-4 mt-5">
+   <label class="block"><span class="text-xs font-bold">GOBIZ_TOKEN · Bearer Token</span><input id="gobizToken" class="input mt-2" type="password" autocomplete="new-password" placeholder="Tempel token GoBiz terbaru"><span class="muted text-[10px] block mt-2">Kosongkan jika tidak ingin mengganti token yang sudah tersimpan.</span></label>
+   <label class="block"><span class="text-xs font-bold">Merchant ID</span><input class="input mt-2 opacity-70" value="G264474754" readonly><span class="muted text-[10px] block mt-2">Nama merchant: Skieestore, Gaming</span></label>
+   <label class="block md:col-span-2"><span class="text-xs font-bold">QRIS_STATIS · Payload QRIS outlet</span><textarea id="qrisStatic" class="input mt-2 min-h-28 font-mono text-[11px]" spellcheck="false"></textarea></label>
+  </div>
+  <div class="flex flex-wrap gap-2 mt-4"><button id="saveCredentialsBtn" class="btn primary">Simpan Kredensial</button><button id="refreshSettingsBtn" class="btn secondary">Muat Ulang</button></div><div id="settingsMsg" class="text-xs muted mt-3"></div>
+ </section>
+
+ <section class="grid lg:grid-cols-2 gap-4">
+  <div class="glass p-5 md:p-6">
+   <div class="text-emerald-300 text-[10px] font-black tracking-widest">02 / POLLER CONTROL</div><h2 class="text-lg font-black mt-1">Payment Poller</h2><p class="muted text-xs leading-5 mt-1">Sakelar konfigurasi pemeriksaan mutasi. Duitku tetap berjalan terpisah dan tidak disentuh.</p>
+   <div class="flex items-center justify-between gap-3 mt-5 p-4 rounded-xl bg-slate-950/40 border border-slate-700"><div><div class="font-bold text-sm">Poller SkieePay</div><div id="pollerLabel" class="muted text-[10px] mt-1">OFF</div></div><input id="pollerToggle" type="checkbox" class="switch"></div>
+   <div class="text-amber-200/90 text-[10px] leading-5 mt-3">Catatan: ON/OFF tersimpan di database dan dibaca fungsi pemeriksaan. Jadwal polling otomatis dan pencocokan mutasi-ke-invoice belum diaktifkan; jangan anggap pembayaran otomatis sudah live sebelum pengujian end-to-end.</div>
+  </div>
+  <div class="glass p-5 md:p-6">
+   <div class="text-emerald-300 text-[10px] font-black tracking-widest">03 / SANDBOX</div><h2 class="text-lg font-black mt-1">Mode Uji Coba QRIS</h2><p class="muted text-xs leading-5 mt-1">Buat QRIS dinamis nominal tepat Rp1.000. Order tes tidak diteruskan ke VIPayment.</p>
+   <div class="flex items-center justify-between gap-3 mt-5 p-4 rounded-xl bg-slate-950/40 border border-slate-700"><div><div class="font-bold text-sm">Sandbox QRIS</div><div id="sandboxLabel" class="muted text-[10px] mt-1">ON</div></div><input id="sandboxToggle" type="checkbox" class="switch" checked></div>
+   <button id="createTestBtn" class="btn primary w-full mt-4">＋ Tes Buat QRIS Rp 1.000</button>
+  </div>
+ </section>
+
+ <section id="testResult" class="glass p-5 md:p-6 hide">
+  <div class="flex flex-wrap items-center justify-between gap-2"><div><div class="text-emerald-300 text-[10px] font-black tracking-widest">SANDBOX QR RESULT</div><h2 class="text-lg font-black mt-1">QRIS Rp1.000</h2></div><span id="testOrderStatus" class="pill warn">PENDING</span></div>
+  <div class="grid md:grid-cols-[220px_1fr] gap-5 items-center mt-4"><div class="bg-white rounded-2xl p-4 min-h-[220px] grid place-items-center"><div id="qrcode"></div></div><div><div class="muted text-[10px]">TOTAL PEMBAYARAN</div><div id="testAmount" class="text-3xl font-black mt-1">Rp1.000</div><div id="testOrderId" class="text-[10px] muted break-all mt-3"></div><p class="text-[10px] muted leading-5 mt-3">Scan QR ini dari aplikasi pembayaran. Status order belum otomatis berubah sampai poller pencocokan mutasi diaktifkan.</p><button id="copyQrisBtn" class="btn secondary mt-3">Salin payload QRIS</button></div></div>
+ </section>
+
+ <section class="glass p-5 md:p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3"><div><div class="text-emerald-300 text-[10px] font-black tracking-widest">04 / TRANSACTION MONITOR</div><h2 class="text-lg font-black mt-1">Riwayat Order SkieePay</h2><p class="muted text-xs mt-1">Maksimal 300 transaksi terbaru.</p></div><button id="refreshOrdersBtn" class="btn secondary">↻ Refresh</button></div>
+  <div class="table-wrap mt-4"><table><thead><tr><th>Order / Tanggal</th><th>Produk / Tujuan</th><th>Total</th><th>Status</th><th>VIPayment</th><th>Aksi</th></tr></thead><tbody id="ordersBody"><tr><td colspan="6" class="muted">Memuat transaksi…</td></tr></tbody></table></div><div id="ordersMsg" class="text-xs muted mt-3"></div>
+ </section>
+</main>
+<footer class="text-center muted text-[10px] py-8">SkieePay · Sistem pembayaran mandiri SKIEESTORE · Duitku tetap terpisah</footer>
+</div>
+<script>
+(()=>{"use strict";
+const SUPABASE_URL="https://rjgeitbkpcyymgemcztx.supabase.co";
+const SUPABASE_KEY="sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const $=id=>document.getElementById(id);let currentUser=null,lastQris="";
+const money=n=>"Rp"+Number(n||0).toLocaleString("id-ID");
+const msg=(id,s,ok=false)=>{$(id).textContent=s;$(id).className="text-xs mt-3 "+(ok?"text-emerald-300":"text-rose-300")};
+async function edge(name,body){const {data:{session}}=await db.auth.getSession();if(!session)throw Error("Sesi login berakhir.");const r=await fetch(SUPABASE_URL+"/functions/v1/"+name,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+session.access_token},body:JSON.stringify(body)});const d=await r.json().catch(()=>({}));if(!r.ok||d.ok===false)throw Error([d.message,d.error,d.code,d.stage,d.upstream_status?("HTTP "+d.upstream_status):""].filter(Boolean).join(" · ")||("HTTP "+r.status));return d}
+async function adminApi(body){return edge("skieepay-admin-api",body)}
+function show(on){$("loginPanel").classList.toggle("hide",on);$("app").classList.toggle("hide",!on);$("logoutBtn").classList.toggle("hide",!on)}
+async function loginCheck(){
+ const {data:{session}}=await db.auth.getSession();
+ if(!session){show(false);return}
+ if(String(session.user.email||"").toLowerCase()!=="xpaybantuan@gmail.com"){await db.auth.signOut();show(false);msg("loginMsg","Akses ditolak. Gunakan xpaybantuan@gmail.com.");return}
+ currentUser=session.user;show(true);$("adminBadge").textContent="ADMIN · "+session.user.email;
+ await loadSettings();await loadDashboard();await checkConnection();
+}
+async function loadSettings(){
+ const d=await adminApi({action:"settings_get"}),s=d.settings||{};
+ $("qrisStatic").value=s.qris_statis||"";
+ $("tokenState").textContent=s.token_configured?"Token tersimpan · tersembunyi":"Token belum diatur";
+ $("tokenState").className="pill "+(s.token_configured?"good":"bad");
+ $("pollerToggle").checked=!!s.poller_enabled;$("pollerLabel").textContent=s.poller_enabled?"ON · konfigurasi aktif":"OFF · dihentikan";
+ $("sandboxToggle").checked=s.sandbox_enabled!==false;$("sandboxLabel").textContent=s.sandbox_enabled===false?"OFF":"ON";
+}
+async function saveSettings(patch){
+ const d=await adminApi({action:"settings_save",...patch});
+ $("tokenState").textContent=d.settings.token_configured?"Token tersimpan · tersembunyi":"Token belum diatur";
+ $("tokenState").className="pill "+(d.settings.token_configured?"good":"bad");
+ $("pollerToggle").checked=!!d.settings.poller_enabled;$("pollerLabel").textContent=d.settings.poller_enabled?"ON · konfigurasi aktif":"OFF · dihentikan";
+ $("sandboxToggle").checked=d.settings.sandbox_enabled!==false;$("sandboxLabel").textContent=d.settings.sandbox_enabled===false?"OFF":"ON";
+}
+async function loadDashboard(){
+ const d=await adminApi({action:"dashboard"}),s=d.stats||{};
+ $("revenue").textContent=money(s.revenue);$("successCount").textContent=Number(s.success_count||0).toLocaleString("id-ID");
+ $("workerStatus").textContent=s.worker_configured?"KEY TERPASANG":"KEY BELUM ADA";
+ $("workerStatus").className="font-black text-lg mt-3 "+(s.worker_configured?"text-emerald-300":"text-rose-300");
+ renderOrders(d.orders||[]);
+}
+function renderOrders(rows){
+ const body=$("ordersBody");body.innerHTML="";
+ if(!rows.length){body.innerHTML='<tr><td colspan="6" class="muted">Belum ada transaksi SkieePay.</td></tr>';return}
+ for(const o of rows){
+  const tr=document.createElement("tr"),status=String(o.status||"").toUpperCase();
+  const badge=status==="SUCCESS"?"good":status==="PAID"?"warn":status==="FAILED"?"bad":"";
+  const retry=status==="PAID"?'<button class="btn primary retry" data-id="'+String(o.order_id).replace(/"/g,"&quot;")+'">Kirim ulang</button>':'<span class="muted">—</span>';
+  tr.innerHTML='<td><div class="font-bold">'+String(o.order_id).slice(0,13)+'…</div><div class="muted mt-1">'+new Date(o.created_at).toLocaleString("id-ID")+'</div></td><td><div class="font-bold">'+String(o.game_code||"—")+'</div><div class="muted mt-1">'+String(o.target_id||"")+(o.target_zone?" · "+String(o.target_zone):"")+'</div></td><td class="font-bold">'+money(o.total_bayar)+'</td><td><span class="pill '+badge+'">'+status+'</span></td><td>'+String(o.vipayment_status||"—")+'<div class="muted mt-1">'+String(o.vipayment_trx_id||"")+'</div></td><td>'+retry+'</td>';
+  body.appendChild(tr);
+ }
+ body.querySelectorAll(".retry").forEach(b=>b.onclick=async()=>{if(!confirm("Kirim ulang order PAID ini ke VIPayment? Pastikan belum pernah terkirim agar tidak terjadi top-up ganda."))return;b.disabled=true;b.textContent="Mengirim…";try{const r=await adminApi({action:"retry_fulfillment",order_id:b.dataset.id});msg("ordersMsg","Permintaan dikirim. Status: "+JSON.stringify(r.result||{}),true);await loadDashboard()}catch(e){msg("ordersMsg",e.message)}finally{b.disabled=false;b.textContent="Kirim ulang"}});
+}
+async function checkConnection(){
+ $("connectionText").textContent="Memeriksa…";$("connectionPill").textContent="CHECKING";
+ try{
+  const d=await edge("check-mutasi-gopay",{force:true});
+  if(d.ok&&d.stage==="JOURNAL_SEARCH"&&d.upstream_status>=200&&d.upstream_status<300){
+   $("connectionText").textContent="Terhubung";$("connectionPill").className="pill good";$("connectionPill").innerHTML='<i class="dot"></i> CONNECTED';
+  }else if(d.upstream_status===401||d.upstream_status===403){
+   $("connectionText").textContent="Token Expired";$("connectionPill").className="pill bad";$("connectionPill").innerHTML='<i class="dot"></i> TOKEN EXPIRED';
+  }else{
+   $("connectionText").textContent=d.code||d.stage||"Perlu dicek";$("connectionPill").className="pill warn";$("connectionPill").textContent="CHECK REQUIRED";
+  }
+ }catch(e){
+  const missing=/GOBIZ_TOKEN_MISSING/i.test(e.message);
+  const expired=!missing&&/(401|403|EXPIRED)/i.test(e.message);
+  $("connectionText").textContent=missing?"Token belum diatur":(expired?"Token Expired":"Belum terverifikasi");
+  $("connectionPill").className="pill "+(expired?"bad":"warn");
+  $("connectionPill").innerHTML='<i class="dot"></i> '+(missing?"TOKEN NOT SET":(expired?"TOKEN EXPIRED":"UNKNOWN"));
+ }
+}
+$("loginForm").onsubmit=async e=>{e.preventDefault();msg("loginMsg","Memeriksa akun…");try{const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)throw error;if(String(data.user.email||"").toLowerCase()!=="xpaybantuan@gmail.com")throw Error("Email ini tidak diizinkan.");await loginCheck()}catch(e){await db.auth.signOut();msg("loginMsg",e.message)}};
+$("logoutBtn").onclick=async()=>{await db.auth.signOut();currentUser=null;show(false)};
+$("saveCredentialsBtn").onclick=async()=>{const token=$("gobizToken").value.trim(),qris=$("qrisStatic").value.trim();if(!qris.startsWith("000201")){msg("settingsMsg","Payload QRIS statis tidak valid.");return}try{const p={qris_statis:qris};if(token)p.gobiz_token=token;await saveSettings(p);$("gobizToken").value="";msg("settingsMsg","Kredensial SkieePay berhasil disimpan. Token tidak ditampilkan kembali.",true);await checkConnection()}catch(e){msg("settingsMsg",e.message)}};
+$("refreshSettingsBtn").onclick=async()=>{try{await loadSettings();msg("settingsMsg","Pengaturan dimuat ulang.",true)}catch(e){msg("settingsMsg",e.message)}};
+$("pollerToggle").onchange=async()=>{const val=$("pollerToggle").checked;$("pollerToggle").disabled=true;try{await saveSettings({poller_enabled:val});msg("settingsMsg","Sakelar poller disimpan: "+(val?"ON":"OFF"),true)}catch(e){$("pollerToggle").checked=!val;msg("settingsMsg",e.message)}finally{$("pollerToggle").disabled=false}};
+$("sandboxToggle").onchange=async()=>{const val=$("sandboxToggle").checked;$("sandboxToggle").disabled=true;try{await saveSettings({sandbox_enabled:val});msg("settingsMsg","Mode sandbox "+(val?"ON":"OFF")+" tersimpan.",true)}catch(e){$("sandboxToggle").checked=!val;msg("settingsMsg",e.message)}finally{$("sandboxToggle").disabled=false}};
+$("checkConnectionBtn").onclick=async()=>{await checkConnection()};
+$("createTestBtn").onclick=async()=>{if(!$("sandboxToggle").checked){alert("Aktifkan Sandbox terlebih dahulu.");return}const b=$("createTestBtn");b.disabled=true;b.textContent="Membuat QRIS…";try{const d=await edge("create-qris-gopay",{admin_test:true});const o=d.order;lastQris=o.qris_string;$("testResult").classList.remove("hide");$("testAmount").textContent=money(o.total_bayar);$("testOrderId").textContent="Order ID: "+o.order_id;$("testOrderStatus").textContent=o.status;$("qrcode").innerHTML="";new QRCode($("qrcode"),{text:o.qris_string,width:190,height:190,colorDark:"#071321",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});$("testResult").scrollIntoView({behavior:"smooth",block:"center"});await loadDashboard()}catch(e){alert("Gagal membuat QRIS: "+e.message)}finally{b.disabled=false;b.textContent="＋ Tes Buat QRIS Rp 1.000"}};
+$("copyQrisBtn").onclick=async()=>{if(!lastQris)return;await navigator.clipboard.writeText(lastQris);$("copyQrisBtn").textContent="Tersalin ✓";setTimeout(()=>$("copyQrisBtn").textContent="Salin payload QRIS",1500)};
+$("refreshOrdersBtn").onclick=async()=>{try{await loadDashboard();msg("ordersMsg","Riwayat transaksi diperbarui.",true)}catch(e){msg("ordersMsg",e.message)}};
+db.auth.onAuthStateChange((_event,session)=>{if(!session){show(false)}});
+loginCheck().catch(e=>{show(false);msg("loginMsg",e.message)});
+})();
+</script>
+</body>
+</html>
