@@ -19,7 +19,7 @@ function page(game, products) {
   const name = game.name || "Game";
   const title = "Top Up " + name + " Murah & Cepat | SKIEESTORE";
   const category = String(game.category || "Game").trim();
-  const categoryLabel = /voucher/i.test(category) ? "voucher digital" : /game/i.test(category) ? "top up game" : category.toLowerCase();
+  const categoryLabel = /voucher/i.test(category) ? "voucher digital" : "top up game";
   const description = "Lihat pilihan " + categoryLabel + " " + name + " di SKIEESTORE. Bandingkan nominal, wilayah produk, dan harga katalog sebelum memesan.";
   const productCount = products.length;
   const regions = [...new Set(products.map(p => String(p.region || "").trim()).filter(Boolean))].slice(0, 8);
