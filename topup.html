@@ -1259,6 +1259,20 @@ function accountHelpText(form,game){
 }
 function applyFormConfig(){if(nicknameCheckTimer)clearTimeout(nicknameCheckTimer);nicknameCheckTimer=null;nicknameCheckRequest++;verifiedNickname="";$("summaryNickname").textContent=activeForm.nicknameSupported===false?"Tidak tersedia":"Belum dicek";$("universalTargetWarning").textContent="⚠️ Pastikan data tujuan yang kamu masukkan sudah benar. Kesalahan input oleh pembeli bukan tanggung jawab SKIEESTORE dan transaksi yang sudah diproses tidak dapat dibatalkan atau di-refund.";
  const hasProduct=!!selectedProduct;
+ $("playerId").readOnly=false;
+ if(hasProduct && selectedProduct.provider_sku==="SKIEE_QRIS_TEST_50"){
+  activeForm={playerLabel:"Data Tujuan",playerPlaceholder:"TES QRIS GOPAY",serverLabel:"Server / Zone ID",serverPlaceholder:"Tidak diperlukan",showServer:false,playerRequired:false,serverRequired:false,requiresTarget:true,requiresManual:false,nicknameSupported:false,hideNicknameSummary:true,help:"Produk khusus tes pembayaran QRIS GoPay. Data tujuan diisi otomatis."};
+  $("accountTitle").textContent="Data Tujuan";
+  $("accountPanel").classList.remove("is-locked");$("accountLockedMessage").hidden=true;
+  $("playerLabel").textContent="Data Tujuan";$("playerId").placeholder="TES QRIS GOPAY";$("playerId").value="TES QRIS GOPAY";$("playerId").readOnly=true;$("playerId").required=false;
+  $("playerField").hidden=false;$("playerField").style.display="";
+  $("serverField").hidden=true;$("serverField").style.display="none";$("serverSelect").hidden=true;$("serverId").hidden=true;$("platformField").hidden=true;$("platformSelect").value="";
+  $("summaryServerRow").hidden=true;$("summaryServerRow").style.display="none";$("summaryPlayerLabel").textContent="Data Tujuan";$("summaryNicknameRow").hidden=true;
+  $("accountHelp").textContent=activeForm.help;$("accountHelpAccordion").hidden=true;
+  $("nicknameCheckWrap").hidden=true;$("nicknameCheckResult").hidden=true;
+  $("playerId").removeAttribute("pattern");$("playerId").removeAttribute("minlength");$("playerId").removeAttribute("maxlength");
+  return;
+ }
  if(!hasProduct){
   activeForm={playerLabel:"ID Akun",playerPlaceholder:"Pilih produk terlebih dahulu",serverLabel:"Server / Zone ID",serverPlaceholder:"Pilih produk terlebih dahulu",showServer:false,playerRequired:false,serverRequired:false,requiresTarget:false,requiresManual:false,help:"Pilih produk terlebih dahulu. Kolom data tujuan akan muncul otomatis sesuai kebutuhan produk yang kamu pilih."};
   $("accountTitle").textContent="Data Tujuan";
