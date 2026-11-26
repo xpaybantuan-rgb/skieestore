@@ -942,15 +942,16 @@ function selectGame(id){const game=games.find(g=>g.id===id);if(!game)return;loca
 
 async function loadHomeBannersAndFlashSales(){
  const safeHref=v=>{const s=String(v||"/topup").trim();if(s.startsWith("/")&&!s.startsWith("//"))return s;try{const u=new URL(s);if(u.protocol==="https:")return u.href;}catch(e){}return "/topup";};
- const safeImage=v=>{const s=String(v||"").trim();if(s.startsWith("/"))return s;try{const u=new URL(s);if(u.protocol==="https:")return u.href;}catch(e){}return "";};
+ const safeImage=v=>{const s=String(v||"").trim();if(s.startsWith("/")&&!s.startsWith("//"))return s;try{const u=new URL(s);if(u.protocol==="https:")return u.href;}catch(e){}return "";};
  const track=$("homeBannerTrack"),dots=$("homeBannerDots");let slides=[],active=0,timer=null;
  const defaults=[
   {title:"Top Up Game Favoritmu",tag:"SKIEESTORE · GAME TOP UP",desc:"Harga jelas, pilihan lengkap, checkout praktis.",href:"/topup"},
   {title:"PASS · VIP · PRO",tag:"SKIEE MEMBER",desc:"Aktifkan keanggotaan 30 hari dan nikmati harga spesial.",href:"/profil"},
   {title:"Flash Sale SKIEESTORE",tag:"⚡ PROMO TERBATAS",desc:"Temukan harga promo sebelum waktunya habis.",href:"/topup"}
  ];
- try{const rows=await api("site_banners?select=id,title,image_url,target_url,aspect_ratio,sort_order&is_active=eq.true&order=sort_order.asc,created_at.desc");if(rows.length)slides=rows.map(x=>({title:x.title||"SKIEESTORE",tag:"PROMO SKIEESTORE",desc:"Lihat penawaran terbaru dari SKIEESTORE.",href:x.target_url||"/topup",image:x.image_url||""}));}catch(e){console.warn("Banner database tidak dapat dimuat, gunakan default",e);}
+ try{const rows=await api("site_banners?select=id,title,image_url,target_url,aspect_ratio,sort_order&is_active=eq.true&order=sort_order.asc,created_at.desc");if(rows.length)slides=rows.map(x=>({title:x.title||"SKIEESTORE",tag:"PROMO SKIEESTORE",desc:"Lihat penawaran terbaru dari SKIEESTORE.",href:x.target_url||"/topup",image:x.image_url||"",ratio:x.aspect_ratio||"16:9"}));}catch(e){console.warn("Banner database tidak dapat dimuat, gunakan default",e);}
  if(!slides.length)slides=defaults;
+ $("homeBanner").style.aspectRatio=(slides[0].ratio==="2:1"?"2 / 1":"16 / 9");
  track.innerHTML=slides.map((s,i)=>'<a class="home-banner-slide" href="'+safe(safeHref(s.href))+'">'+(s.image?'<img src="'+safe(safeImage(s.image))+'" alt="'+safe(s.title)+'" loading="'+(i===0?"eager":"lazy")+'">':'')+'<div class="home-banner-copy"><small>'+safe(s.tag)+'</small><strong>'+safe(s.title)+'</strong><span>'+safe(s.desc)+'</span></div></a>').join("");
  dots.innerHTML=slides.map((_,i)=>'<button type="button" data-banner-dot="'+i+'" aria-label="Banner '+(i+1)+'" class="'+(i===0?"active":"")+'"></button>').join("");
  function show(n){active=(n+slides.length)%slides.length;track.style.transform="translateX(-"+(active*100)+"%)";dots.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("active",i===active));}
