@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f5f7fb">
+<title>Pengaturan Payment Gateway — SKIEESTORE</title>
+<link rel="icon" type="image/webp" href="/assets/skieestore-logo-exact.webp?v=3">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{font-family:Inter,system-ui,sans-serif;color:#172033;background:#f4f6fa;--blue:#2563eb;--line:#e6eaf1;--muted:#788397;--ink:#172033;--green:#159766;--orange:#c27a16}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 350px at 100% -5%,#e3edff 0,transparent 65%),#f4f6fa;color:var(--ink)}button,input,select,textarea{font:inherit}.shell{width:min(1180px,calc(100% - 30px));margin:22px auto 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 19px;background:#ffffffed;border:1px solid var(--line);border-radius:17px;box-shadow:0 8px 25px #1b2c4c08}.brand{font-weight:900;letter-spacing:-.5px}.brand span{color:var(--blue)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.12em;margin-top:4px}.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--blue);color:white;font-size:11px;font-weight:800;cursor:pointer}.btn.secondary{background:#fff;color:#344054;border:1px solid var(--line)}.btn:disabled{opacity:.5;cursor:not-allowed}.intro{padding:26px 3px 19px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.16em;color:var(--blue)}h1{font-size:clamp(25px,4vw,34px);letter-spacing:-1.1px;margin:8px 0}.intro p{color:var(--muted);font-size:12px;line-height:1.7;margin:0;max-width:700px}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start}.side,.panel{background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:0 8px 26px #1b2c4c07}.side{padding:10px;position:sticky;top:12px}.side button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:0;background:transparent;color:#5f6c80;border-radius:11px;padding:12px;font-size:11px;font-weight:800;cursor:pointer}.side button.active{background:#edf4ff;color:#1d55c8}.side .ico{width:27px;height:27px;border-radius:8px;background:#f2f5fa;display:grid;place-items:center;font-size:14px}.side button.active .ico{background:#dce9ff}.content{min-width:0}.tab{display:none}.tab.active{display:block}.panel{padding:21px;margin-bottom:13px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:17px}.panel h2{font-size:15px;letter-spacing:-.3px;margin:0 0 5px}.sub{font-size:10px;color:var(--muted);line-height:1.65;margin:0}.status{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:99px;background:#fff4e5;color:#a36510;font-size:9px;font-weight:900;white-space:nowrap}.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.status.good{background:#e8f8f0;color:#148456}.status.bad{background:#fff0ef;color:#c43e36}.channels{display:grid;gap:10px}.channel{border:1px solid var(--line);border-radius:14px;padding:15px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}.channel-main{display:flex;gap:12px;align-items:center;min-width:0}.channel-icon{width:43px;height:43px;flex:none;border-radius:12px;background:#edf4ff;display:grid;place-items:center;font-weight:900;color:#1d55c8;font-size:12px}.channel h3{font-size:12px;margin:0 0 5px}.channel p{font-size:10px;color:var(--muted);margin:0;line-height:1.55}.channel-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.mini{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 11px;font-size:10px;font-weight:800;color:#334155;cursor:pointer}.mini.primary{background:#edf4ff;border-color:#d5e4ff;color:#1d55c8}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:10px;font-weight:800;color:#465267}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe5ee;border-radius:10px;padding:12px;background:#fff;color:var(--ink);font-size:11px;outline:none}.field textarea{min-height:90px;resize:vertical;line-height:1.6}.field input:focus,.field select:focus,.field textarea:focus{border-color:#8db5ff;box-shadow:0 0 0 3px #2563eb12}.hint{font-size:9px;color:var(--muted);line-height:1.6}.divider{height:1px;background:#edf0f5;margin:18px 0}.toggle-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #eff1f5}.toggle-row:last-child{border:0}.toggle-row strong{display:block;font-size:11px}.toggle-row small{display:block;color:var(--muted);font-size:9px;margin-top:4px;line-height:1.5}.switch{appearance:none;width:38px;height:22px;border-radius:99px;background:#d7dde7;position:relative;cursor:pointer;flex:none;transition:.18s}.switch:checked{background:#2563eb}.switch:after{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0002;transition:.18s}.switch:checked:after{left:19px}.range-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.callout{padding:12px 14px;border-radius:11px;background:#f3f7ff;border:1px solid #e1eaff;color:#465b7d;font-size:10px;line-height:1.65}.callout.warn{background:#fff8eb;border-color:#f6e6c6;color:#8a631e}.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:16px}.notice{font-size:10px;color:var(--muted);line-height:1.6;margin-top:10px}.feedback{font-size:10px;margin-top:12px;min-height:15px;color:var(--muted)}.feedback.ok{color:var(--green)}.feedback.err{color:#c43e36}.login{max-width:420px;margin:9vh auto;padding:26px;background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:0 12px 35px #1b2c4c0b}.login h1{font-size:23px}.login p{font-size:11px;color:var(--muted);line-height:1.6}.login .field{margin:13px 0}.hidden{display:none!important}
+@media(max-width:760px){.shell{width:calc(100% - 22px);margin:12px auto 50px}.layout{grid-template-columns:1fr}.side{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:6px}.side button{justify-content:center;flex-direction:column;gap:5px;padding:9px 3px;font-size:9px}.side .ico{width:25px;height:25px}.panel{padding:16px}.channel{grid-template-columns:1fr}.channel-actions{justify-content:flex-start}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.top{padding:13px}.top-actions .btn{padding:9px 10px;font-size:9px}.intro{padding:21px 2px 15px}}
+@media(max-width:420px){.range-grid{grid-template-columns:1fr}.panel-head{flex-direction:column}.status{align-self:flex-start}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top"><div class="brand">SKIEE<span>STORE</span><small>PAYMENT CONTROL CENTER</small></div><div class="top-actions"><button class="btn secondary" id="refreshBtn">↻ Refresh</button><button class="btn secondary" id="logoutBtn">Keluar</button></div></header>
+<section id="loginBox" class="login hidden"><div class="eyebrow">ADMIN ACCESS</div><h1>Masuk ke pengaturan</h1><p>Halaman ini khusus admin SKIEESTORE. Gunakan akun admin yang terdaftar di sistem payment.</p><div class="field"><label>Email admin</label><input id="email" type="email" autocomplete="username" placeholder="Email admin"></div><div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Password akun admin"></div><button class="btn" id="loginBtn" style="width:100%">Login Admin</button><div class="feedback" id="loginFeedback"></div></section>
+<section id="app" class="hidden">
+<div class="intro"><div class="eyebrow">PAYMENT SETTINGS</div><h1>Pengaturan Gateway</h1><p>Kelola channel QRIS, pengaturan kode unik dan poller, serta notifikasi transaksi SKIEESTORE dari satu tempat.</p></div>
+<div class="layout">
+<nav class="side" aria-label="Menu pengaturan">
+<button class="active" data-tab="channels"><span class="ico">▦</span>Channel QRIS</button>
+<button data-tab="system"><span class="ico">◷</span>System & Poller</button>
+<button data-tab="notifications"><span class="ico">♧</span>Notifikasi</button>
+</nav>
+<div class="content">
+<section class="tab active" id="tab-channels">
+<div class="panel"><div class="panel-head"><div><h2>Channel Pembayaran</h2><p class="sub">Pilih sumber mutasi dan kelola koneksi merchant.</p></div><span class="status" id="gobizStatus">Memeriksa sesi</span></div>
+<div class="channels">
+<article class="channel"><div class="channel-main"><div class="channel-icon">GPay</div><div><h3>GoPay Merchant · GoBiz QRIS</h3><p id="gobizMeta">Memuat informasi sesi GoBiz…</p></div></div><div class="channel-actions"><span class="status" id="gopayBadge">Belum dicek</span><button class="mini primary" id="checkSessionBtn">Cek sesi</button></div></article>
+<article class="channel"><div class="channel-main"><div class="channel-icon">D</div><div><h3>DANA Bisnis</h3><p>Android Forwarder · Channel tambahan</p></div></div><div class="channel-actions"><span class="status">Belum dihubungkan</span><button class="mini" disabled>Segera</button></div></article>
+<article class="channel"><div class="channel-main"><div class="channel-icon">S</div><div><h3>ShopeePay Partner</h3><p>Merchant Web Portal · Channel tambahan</p></div></div><div class="channel-actions"><span class="status">Belum dihubungkan</span><button class="mini" disabled>Segera</button></div></article>
+</div>
+<div class="divider"></div>
+<h2>QRIS GoPay Merchant</h2><p class="sub">Simpan QRIS statis outlet. Sistem akan memakai payload ini sebagai dasar QRIS dinamis.</p>
+<div class="form-grid" style="margin-top:14px">
+<div class="field full"><label>Payload QRIS statis</label><textarea id="staticQris" spellcheck="false" placeholder="000201..."></textarea><span class="hint">Masukkan teks QRIS statis dari outlet GoBiz. Jangan masukkan QRIS dinamis dari struk pembayaran.</span></div>
+<div class="field"><label>Nama merchant</label><input id="merchantName" placeholder="Nama merchant"></div>
+<div class="field"><label>Merchant ID</label><input id="merchantId" placeholder="ID merchant" readonly></div>
+</div>
+<div class="callout warn" style="margin-top:14px">Status sesi GoBiz saat ini hanya dibaca dari penyimpanan terenkripsi. Form login GoBiz/OTP harus diproses melalui backend; password dan token tidak pernah disimpan di halaman browser.</div>
+<div class="actions"><button class="btn" id="saveChannelBtn">Simpan pengaturan QRIS</button><button class="btn secondary" id="setDefaultBtn">Jadikan channel utama</button></div><div class="feedback" id="channelFeedback"></div>
+</div>
+</section>
+<section class="tab" id="tab-system">
+<div class="panel"><div class="panel-head"><div><h2>Smart Random Slot</h2><p class="sub">Kode unik nominal untuk mencocokkan transaksi masuk dengan invoice.</p></div><span class="status" id="pollerStatus">Konfigurasi saja</span></div>
+<div class="toggle-row"><div><strong>Aktifkan kode unik otomatis</strong><small>Tambahkan atau kurangi nominal invoice dengan angka acak.</small></div><input class="switch" type="checkbox" id="uniqueEnabled"></div>
+<div class="form-grid" style="margin-top:15px"><div class="field"><label>Mode kode unik</label><select id="uniqueMode"><option value="addition">Penambahan (+)</option><option value="subtraction">Pengurangan (−)</option></select></div><div class="field"><label>Preset rentang</label><select id="uniquePreset"><option value="custom">Kustom</option><option value="1-50">1 – 50</option><option value="1-100">1 – 100</option><option value="100-999">100 – 999</option></select></div></div>
+<div class="range-grid" style="margin-top:12px"><div class="field"><label>Nilai minimum</label><input id="uniqueMin" type="number" min="1" max="998" value="1"></div><div class="field"><label>Nilai maksimum</label><input id="uniqueMax" type="number" min="1" max="999" value="100"></div></div>
+<div class="divider"></div><h2>Payment Poller</h2><p class="sub">Frekuensi pemeriksaan mutasi GoBiz untuk invoice yang belum dibayar.</p>
+<div class="form-grid" style="margin-top:14px"><div class="field"><label>Interval polling</label><select id="pollInterval"><option value="5000">5 detik</option><option value="7000">7 detik</option><option value="10000">10 detik</option><option value="15000">15 detik</option></select></div><div class="field"><label>URL fallback webhook</label><input id="fallbackWebhook" type="url" placeholder="https://domain-kamu/webhook"></div></div>
+<div class="callout warn" style="margin-top:14px">Menyimpan interval di sini belum menjalankan poller. Worker/cron server harus diaktifkan dan diuji terlebih dahulu agar tidak ada invoice yang salah ditandai lunas.</div>
+<div class="actions"><button class="btn" id="saveSystemBtn">Simpan pengaturan sistem</button></div><div class="feedback" id="systemFeedback"></div>
+</div>
+</section>
+<section class="tab" id="tab-notifications">
+<div class="panel"><div class="panel-head"><div><h2>Notifikasi Admin</h2><p class="sub">Atur pemberitahuan ketika transaksi berubah status atau koneksi merchant terputus.</p></div><span class="status">Opsional</span></div>
+<div class="toggle-row"><div><strong>Email transaksi berhasil</strong><small>Kirim ringkasan ketika pembayaran terverifikasi.</small></div><input class="switch" type="checkbox" id="emailPaid" checked></div>
+<div class="toggle-row"><div><strong>Peringatan sesi GoBiz terputus</strong><small>Beritahu admin jika sesi merchant perlu dihubungkan ulang.</small></div><input class="switch" type="checkbox" id="emailSession" checked></div>
+<div class="divider"></div><h2>Telegram Bot (opsional)</h2><p class="sub">Channel notifikasi Telegram dapat diaktifkan setelah token bot disimpan melalui konfigurasi server yang aman.</p>
+<div class="form-grid" style="margin-top:14px"><div class="field"><label>Telegram Bot Token</label><input type="password" id="telegramToken" placeholder="Token bot — belum tersambung" disabled></div><div class="field"><label>Telegram Chat ID</label><input id="telegramChat" placeholder="Chat ID — belum tersambung" disabled></div></div>
+<div class="callout" style="margin-top:14px">Notifikasi email Resend yang sudah ada di alur pembayaran SKIEESTORE tetap dipertahankan. Pengaturan ini belum mengubah atau mematikan notifikasi yang sedang berjalan.</div>
+<div class="actions"><button class="btn" id="saveNotifyBtn">Simpan preferensi notifikasi</button></div><div class="feedback" id="notifyFeedback"></div>
+</div>
+</section>
+</div></div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(()=>{"use strict";
+const URL="https://rjgeitbkpcyymgemcztx.supabase.co",KEY="sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR",db=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const $=id=>document.getElementById(id);let currentUser=null,settings={};
+const say=(id,msg,type="")=>{const el=$(id);el.textContent=msg;el.className="feedback "+type};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function showApp(on){$("app").classList.toggle("hidden",!on);$("loginBox").classList.toggle("hidden",on)}
+async function adminCheck(user){const {data,error}=await db.from("skieepay_admins").select("user_id").eq("user_id",user.id).maybeSingle();if(error)throw error;if(!data)throw Error("Akun ini belum terdaftar sebagai admin payment SKIEESTORE.");}
+async function loadSettings(){
+ const {data,error}=await db.from("skieepay_payment_methods").select("method_code,display_name,enabled,mode,settings").eq("method_code","qris_custom").maybeSingle();if(error)throw error;
+ settings=data?.settings||{};
+ $("staticQris").value=settings.static_qris_payload||"";
+ $("merchantName").value=settings.merchant_name||"";
+ $("uniqueEnabled").checked=settings.unique_code_enabled!==false;
+ $("uniqueMode").value=settings.unique_code_mode||"addition";
+ $("uniqueMin").value=settings.unique_code_min??1;
+ $("uniqueMax").value=settings.unique_code_max??100;
+ $("pollInterval").value=String(settings.poll_interval_ms||5000);
+ $("fallbackWebhook").value=settings.fallback_webhook_url||"";
+ $("emailPaid").checked=settings.notify_email_paid!==false;
+ $("emailSession").checked=settings.notify_email_session!==false;
+ $("pollerStatus").textContent=settings.poller_active?"Aktif":"Belum aktif";
+ $("gopayBadge").textContent=data?.enabled?"Channel aktif":"Belum aktif";
+ $("gobizStatus").textContent="Memeriksa sesi";
+ const {data:session,error:sessionError}=await db.from("skieepay_provider_sessions").select("provider,merchant_id,outlet_name,masked_phone,expires_at,connected_at,last_refresh_at,last_polled_at,updated_at").eq("provider","gopay").maybeSingle();
+ if(sessionError)throw sessionError;
+ if(session){
+   const expired=session.expires_at&&new Date(session.expires_at).getTime()<=Date.now();
+   $("gobizStatus").textContent=expired?"Session expired":"Sesi tersimpan";
+   $("gobizStatus").className="status "+(expired?"bad":"good");
+   $("gopayBadge").textContent=expired?"Perlu login ulang":"Sesi tersimpan";
+   $("gopayBadge").className="status "+(expired?"bad":"good");
+   $("gobizMeta").textContent=(session.outlet_name||"GoPay Merchant")+" · "+(session.masked_phone||"nomor tersamarkan")+" · "+(expired?"kedaluwarsa":"terdaftar");
+   $("merchantName").value=$("merchantName").value||session.outlet_name||"";
+   $("merchantId").value=session.merchant_id||"";
+ }else{
+   $("gobizStatus").textContent="Belum terhubung";$("gobizStatus").className="status bad";
+   $("gopayBadge").textContent="Tidak ada sesi";$("gopayBadge").className="status bad";
+   $("gobizMeta").textContent="Belum ada sesi GoBiz tersimpan.";
+ }
+}
+async function saveSettings(patch,feedbackId){
+ const next={...settings,...patch};
+ const {error}=await db.from("skieepay_payment_methods").update({settings:next,updated_at:new Date().toISOString()}).eq("method_code","qris_custom");
+ if(error)throw error;settings=next;say(feedbackId,"Pengaturan berhasil disimpan.", "ok");
+}
+async function boot(){
+ const {data:{session}}=await db.auth.getSession();
+ if(!session){showApp(false);return}
+ try{await adminCheck(session.user);currentUser=session.user;showApp(true);await loadSettings()}catch(e){showApp(false);say("loginFeedback",e.message,"err");await db.auth.signOut()}
+}
+$("loginBtn").onclick=async()=>{const b=$("loginBtn");b.disabled=true;say("loginFeedback","Memeriksa akun admin…");try{const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)throw error;await adminCheck(data.user);currentUser=data.user;showApp(true);await loadSettings()}catch(e){await db.auth.signOut();say("loginFeedback",e.message||"Login gagal.","err")}finally{b.disabled=false}};
+$("logoutBtn").onclick=async()=>{await db.auth.signOut();currentUser=null;showApp(false)};
+$("refreshBtn").onclick=async()=>{try{await loadSettings();say("channelFeedback","Data berhasil diperbarui.","ok")}catch(e){say("channelFeedback",e.message,"err")}};
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.id==="tab-"+b.dataset.tab))});
+$("uniquePreset").onchange=()=>{const v=$("uniquePreset").value;if(v==="custom")return;const [a,b]=v.split("-");$("uniqueMin").value=a;$("uniqueMax").value=b};
+$("saveChannelBtn").onclick=async()=>{try{const payload=$("staticQris").value.trim();if(payload&&!payload.startsWith("000201"))throw Error("Payload QRIS harus diawali 000201.");await saveSettings({static_qris_payload:payload,merchant_name:$("merchantName").value.trim()}, "channelFeedback")}catch(e){say("channelFeedback",e.message,"err")}};
+$("setDefaultBtn").onclick=()=>say("channelFeedback","GoPay sudah dipilih sebagai channel utama pada rancangan. Aktivasi transaksi menunggu poller backend teruji.","");
+$("saveSystemBtn").onclick=async()=>{try{const min=Number($("uniqueMin").value),max=Number($("uniqueMax").value),interval=Number($("pollInterval").value);if(!Number.isInteger(min)||!Number.isInteger(max)||min<1||max>999||min>max)throw Error("Rentang kode unik tidak valid.");if(![5000,7000,10000,15000].includes(interval))throw Error("Interval poller tidak valid.");const webhook=$("fallbackWebhook").value.trim();if(webhook&&!/^https:\/\//i.test(webhook))throw Error("Webhook harus menggunakan HTTPS.");await saveSettings({unique_code_enabled:$("uniqueEnabled").checked,unique_code_mode:$("uniqueMode").value,unique_code_min:min,unique_code_max:max,poll_interval_ms:interval,fallback_webhook_url:webhook},"systemFeedback")}catch(e){say("systemFeedback",e.message,"err")}};
+$("saveNotifyBtn").onclick=async()=>{try{await saveSettings({notify_email_paid:$("emailPaid").checked,notify_email_session:$("emailSession").checked},"notifyFeedback")}catch(e){say("notifyFeedback",e.message,"err")}};
+$("checkSessionBtn").onclick=async()=>{try{await loadSettings();say("channelFeedback","Status sesi GoBiz diperbarui.","ok")}catch(e){say("channelFeedback",e.message,"err")}};
+$("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click()});
+boot().catch(e=>{showApp(false);say("loginFeedback",e.message,"err")});
+})();
+</script>
+</body></html>
