@@ -18,7 +18,20 @@ header{height:76px;border-bottom:1px solid #e3eaf4;background:#ffffffd9;backdrop
 .msg{font-size:11px;line-height:1.6}.msg.ok{color:#16845a}.msg.error{color:#c53b50}.foot{color:#8a96a8;padding:28px 0 38px}
 @media(max-width:760px){.wrap{width:calc(100% - 28px)}header{height:68px}.brand{font-size:15px;gap:8px}.brand .small{display:none}.hero{padding:29px 0 18px}.grid{grid-template-columns:1fr}.card{padding:17px}.row .btn{padding:10px 11px;font-size:10px}.notice{font-size:10px}}
 
-</style></head><body>
+</style>
+<style id="skieestore-home-style-parity">
+/* Home baseline: floating header shared across all repository pages with a header. */
+body > header {
+  border: 2px solid #0f172a !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  margin: 10px auto 14px auto !important;
+  width: calc(100% - 24px) !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+}
+</style>
+</head><body>
 <header class="wrap"><a class="brand" href="admin.html"><span class="logo">S</span>SkieePay <span class="small">/ GOPAY MERCHANT</span></a><div class="row"><a class="btn" href="sandbox.html">Sandbox</a><a class="btn" href="admin.html">Dashboard</a></div></header>
 <main class="wrap"><section class="hero"><div class="eyebrow">PRIVATE ACCOUNT CONNECTION</div><h1>GoPay Merchant</h1><p class="muted">Hubungkan akun GoPay Merchant milik SkieePay melalui verifikasi OTP. Sesi lama dari sistem lain tidak akan digunakan.</p></section>
 <div class="notice"><b>Integrasi nonresmi.</b> Koneksi ini memakai endpoint GoBiz nonpublik dan dapat berubah sewaktu-waktu. Akun harus khusus untuk SkieePay. QRIS milik SkieePay harus diatur terpisah melalui konfigurasi Worker SKIEEPAY_QRIS_STATIC; QRIS dari sistem toko tidak digunakan. OTP dimasukkan langsung di halaman ini—jangan kirim OTP, password, atau token ke chat.</div>

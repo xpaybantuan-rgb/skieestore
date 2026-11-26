@@ -323,7 +323,20 @@ body[data-page="profil-bisnis"] .main>.page-content{display:none!important}body[
 @media(max-width:760px){.top{padding:10px 12px!important;gap:10px;border-radius:0 0 14px 14px!important}.top:after{left:12px;right:12px}.top .pageTitle,.top .title,.top h1{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.top,.top *{transition:none!important;animation:none!important}}
 
-</style></head><body data-page="profil-bisnis">
+</style>
+<style id="skieestore-home-style-parity">
+/* Home baseline: floating header shared across all repository pages with a header. */
+body > header {
+  border: 2px solid #0f172a !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  margin: 10px auto 14px auto !important;
+  width: calc(100% - 24px) !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+}
+</style>
+</head><body data-page="profil-bisnis">
 <div id="loginView" class="loginwrap"><form class="login" id="loginForm"><div class="logo">S</div><h1>SkieePay Admin</h1><p class="sub">Masuk menggunakan akun admin yang telah terdaftar. Kelola bisnis milikmu dan pantau transaksi dari satu dashboard privat.</p><div class="field"><label for="email">EMAIL ADMIN</label><input id="email" type="email" autocomplete="username" required value="xpaybantuan@gmail.com"></div><div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required placeholder="Masukkan password"></div><button class="btn full" id="loginBtn">Masuk ke dashboard</button><div id="loginMsg" class="msg" role="status"></div></form></div>
 <div id="appView" class="app hidden"><div class="drawerShade" id="drawerShade"></div><aside class="side" id="sideDrawer">
 <div class="brand"><div class="logo">S</div><div>SkieePay<small>PAYMENT DASHBOARD</small></div><button class="drawerClose" id="drawerClose" aria-label="Tutup menu">×</button></div>
