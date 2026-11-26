@@ -128,7 +128,7 @@ body > header {
 </section>
 <section class="panel admin-extra" id="adminTransactions">
  <div class="toolbar"><div><h2>Mutasi & riwayat pesanan</h2><p class="muted">Status pembayaran dari gateway dan status pengiriman dari VIPayment.</p></div><button class="btn secondary" id="opsLoadTransactions">Perbarui mutasi</button></div>
- <div class="table-scroll"><table class="ops-table"><thead><tr><th>Waktu</th><th>Invoice</th><th>Produk</th><th>Nominal</th><th>Gateway / Pembayaran</th><th>VIPayment</th><th>Status pesanan</th></tr></thead><tbody id="opsTransactionRows"><tr><td colspan="7">Belum dimuat</td></tr></tbody></table></div><div class="status" id="opsTransactionStatus"></div>
+ <div class="table-scroll"><table class="ops-table"><thead><tr><th>Waktu</th><th>Invoice</th><th>Produk</th><th>Nominal</th><th>Gateway / Pembayaran</th><th>VIPayment</th><th>Status pesanan</th><th>Cek ulang</th></tr></thead><tbody id="opsTransactionRows"><tr><td colspan="8">Belum dimuat</td></tr></tbody></table></div><div class="status" id="opsTransactionStatus"></div>
  <p class="ops-note">Data Duitku hanya akan muncul jika transaksi Duitku benar-benar dibuat oleh gateway dan tercatat pada xpaypoint_payments. Saat audit, transaksi yang tersimpan memakai GoPay manual, KaseraPay, Midtrans, dan RCBPay; belum ditemukan transaksi Duitku.</p>
 </section>
 <section class="panel admin-extra" id="adminStore">
@@ -160,6 +160,7 @@ body > header {
   await checkAdmin(user);currentUser=user;
   $("loginPanel").hidden=true;$("dashboard").hidden=false;$("topActions").hidden=false;
   await loadPayments();
+  await opsLoadAll();
  }
  async function boot(){
   const {data}=await sb.auth.getSession();
@@ -403,7 +404,7 @@ body > header {
  }
  async function opsSyncPrices(){
   const b=$("opsSyncPrice");b.disabled=true;b.textContent="Sinkronisasi…";
-  try{const {data,error}=await sb.functions.invoke("vipayment-sync-regions",{body:{}});if(error)throw error;if(!data?.success)throw new Error(data?.error||"Sinkronisasi gagal");opsStatus("opsPriceStatus","Katalog supplier staging diperbarui: "+(data.saved_unique_skus||data.received||0)+" SKU. Publikasi produk live tetap melalui panel VIPayment yang ada.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}finally{b.disabled=false;b.textContent="Sinkronisasi Harga Modal & Stok VIPayment"}
+  try{const {data,error}=await sb.functions.invoke("vipayment-sync-regions",{body:{}});if(error)throw error;if(!data?.success)throw new Error(data?.error||"Sinkronisasi gagal");opsStatus("opsPriceStatus","Sinkron selesai: "+(data.saved_unique_skus||data.received||0)+" SKU; modal produk live diperbarui "+(data.live_updated||0)+"; dinonaktifkan karena stok/kode tidak valid "+(data.live_deactivated||0)+". Harga jual tidak diubah.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}finally{b.disabled=false;b.textContent="Sinkronisasi Harga Modal & Stok VIPayment"}
  }
  async function opsLoadFlash(){
   const {data,error}=await sb.from("xpaypoint_flash_sales").select("id,product_id,promo_price,starts_at,ends_at,is_active").order("updated_at",{ascending:false});if(error){opsStatus("opsFlashStatus",error.message,"error");return}
