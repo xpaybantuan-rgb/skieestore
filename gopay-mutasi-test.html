@@ -33,33 +33,41 @@
 <script>
 const SUPABASE_URL="https://rjgeitbkpcyymgemcztx.supabase.co";
 const SUPABASE_KEY="sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR";
-const supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id);
+let client=null;
 let session=null;
-async function init(){
- const {data,error}=await supabase.auth.getSession();
+function setAuth(message,kind="status"){ $("authStatus").className="status "+kind; $("authStatus").textContent=message; }
+async function getCurrentSession(){
+ if(!client) throw new Error("Library Supabase belum termuat. Muat ulang halaman atau coba browser lain.");
+ const {data,error}=await client.auth.getSession();
+ if(error) throw error;
  session=data?.session||null;
- if(error||!session?.access_token){
-  $("authStatus").className="status warn";
-  $("authStatus").textContent="Belum login. Login ke akun admin SKIEESTORE, lalu buka ulang halaman ini.";
-  return;
- }
- $("authStatus").className="status ok";
- $("authStatus").textContent="Sesi ditemukan. Hak admin akan diverifikasi oleh server saat tombol dijalankan.";
+ return session;
+}
+async function init(){
+ // Tombol sengaja tetap bisa ditekan; sesi akan diperiksa ulang saat aksi dijalankan.
  $("run").disabled=false;
+ try{
+  if(!window.supabase?.createClient) throw new Error("Library Supabase gagal dimuat dari CDN.");
+  client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  client.auth.onAuthStateChange((_event,newSession)=>{session=newSession||null; if(session) setAuth("Sesi login terdeteksi. Hak admin diperiksa oleh server saat tombol dijalankan.","ok");});
+  const current=await getCurrentSession();
+  if(current?.access_token) setAuth("Sesi ditemukan. Hak admin akan diverifikasi oleh server saat tombol dijalankan.","ok");
+  else setAuth("Sesi belum terbaca di halaman ini. Tombol tetap aktif; coba tekan setelah login di Profil. Jika gagal, login ulang lalu muat ulang halaman.","warn");
+ }catch(e){setAuth("Pengecekan sesi gagal: "+(e.message||e)+". Tombol tetap aktif untuk menampilkan detail saat ditekan.","warn");}
 }
 $("run").addEventListener("click",async()=>{
  let request_body;
  try{request_body=JSON.parse($("payload").value||"{}");if(!request_body||Array.isArray(request_body)||typeof request_body!=="object")throw Error("Body harus berupa object JSON.");}
  catch(e){$("resultStatus").className="status warn";$("resultStatus").textContent="JSON tidak valid: "+e.message;return;}
  $("run").disabled=true;$("run").textContent="MEMERIKSA…";
- $("resultStatus").className="status";$("resultStatus").textContent="Menghubungi GoBiz melalui Edge Function…";
+ $("resultStatus").className="status";$("resultStatus").textContent="Memeriksa sesi dan menghubungi Edge Function…";
  try{
-  const {data}=await supabase.auth.getSession();session=data?.session||null;
-  if(!session?.access_token)throw Error("Sesi login berakhir. Login ulang.");
+  const current=await getCurrentSession();
+  if(!current?.access_token) throw Error("Sesi login tidak ditemukan pada domain ini. Buka /profil, pastikan login, lalu muat ulang halaman tes.");
   const response=await fetch(SUPABASE_URL+"/functions/v1/check-mutasi-gopay",{
    method:"POST",
-   headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+session.access_token,"Content-Type":"application/json"},
+   headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+current.access_token,"Content-Type":"application/json"},
    body:JSON.stringify({request_body})
   });
   const result=await response.json().catch(()=>({raw:"Respons bukan JSON."}));
