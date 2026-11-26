@@ -469,8 +469,8 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  async function opsLoadDuitkuStatus(){
  const el=$("opsDuitkuStatus");if(!el)return;
  try{const r=await fetch("/api/duitku",{cache:"no-store"});const d=await r.json();
- if(d.configured){el.textContent="QRIS Duitku siap · metode "+(d.method||"NQ")+" · "+(d.environment||"production");el.className="status success";}
- else{el.textContent="QRIS Duitku belum aktif. Environment Cloudflare/Supabase belum berisi: "+(d.missing||[]).join(", ");el.className="status error";}
+ if(d.configured){el.textContent="QRIS Duitku siap · metode "+(d.method||"NQ")+" · "+(d.environment||"production")+" · Telegram "+(d.telegram_configured?"aktif":"belum dikonfigurasi");el.className="status success";}
+ else{el.textContent="QRIS Duitku belum aktif. Environment Supabase belum berisi: "+(d.missing||[]).join(", ")+" · Telegram "+(d.telegram_configured?"aktif":"belum dikonfigurasi");el.className="status error";}
  }catch(e){el.textContent="Status Duitku tidak dapat diperiksa.";el.className="status error";}
 }
 async function opsLoadAll(){opsInit();await Promise.all([opsLoadBalance(),opsLoadFinance(),opsLoadProducts(),opsLoadFlash(),opsLoadMembers(),opsLoadTransactions(),opsLoadMembershipTransactions(),opsLoadBanners(),opsLoadStore(),opsLoadDuitkuStatus()])}
