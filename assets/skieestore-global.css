@@ -541,3 +541,26 @@ body.skiee-search-hidden #mainHeaderSearchPanel{
   box-shadow:3px 3px 0 #0F172A!important;
 }
 
+
+
+/* Global mobile/browser focus cleanup — preserve all existing borders. */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent !important;
+}
+*:focus,
+*:focus-visible,
+*:active,
+summary:focus,
+summary:focus-visible,
+details:focus,
+details:focus-visible,
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible,
+[tabindex]:focus,
+[tabindex]:focus-visible {
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
+}
