@@ -114,9 +114,9 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  <div class="status" id="opsFinanceStatus"></div>
 </section>
 <section class="panel admin-extra" id="adminPriceOps">
- <div class="toolbar"><div><h2>Harga jual & cek modal VIPayment</h2><p class="muted">Harga tier member disimpan pada metadata produk, tanpa mengubah kartu katalog publik.</p></div><button class="btn" id="opsSyncPrice">Sinkronisasi Harga Modal & Stok VIPayment</button></div>
+ <div class="toolbar"><div><h2>Harga jual & cek modal VIPayment</h2><p class="muted">Harga tier member disimpan pada metadata produk, tanpa mengubah kartu katalog publik.</p></div><button class="btn" id="opsSyncPrice">Sinkronkan Produk & Harga Modal VIPayment</button></div>
  <div class="ops-row"><select id="opsPriceGame"><option value="">Semua game</option></select><input id="opsPriceSearch" type="search" placeholder="Cari produk / SKU"><input id="opsBulkMargin" type="number" placeholder="Margin massal (Rp)"><button class="btn secondary" id="opsApplyMargin">Terapkan margin</button><button class="btn secondary" id="opsLoadPrices">Muat ulang</button><button class="btn" id="opsSavePrices">Simpan harga</button></div>
- <div class="table-scroll"><table class="ops-table"><thead><tr><th>Game / Produk</th><th>Modal VIPayment</th><th>Harga Normal</th><th>SKIEE PASS</th><th>SKIEE VIP</th><th>SKIEE PRO</th><th>Profit normal*</th><th>Validasi</th></tr></thead><tbody id="opsPriceRows"><tr><td colspan="8">Memuat katalog…</td></tr></tbody></table></div>
+ <div class="table-scroll"><table class="ops-table"><thead><tr><th>Game / Produk</th><th>Modal VIPayment</th><th>Harga Normal</th><th>SKIEE PASS (10rb)</th><th>SKIEE VIP (15rb)</th><th>SKIEE PRO (20rb)</th><th>Estimasi Untung Bersih*</th><th>Validasi</th></tr></thead><tbody id="opsPriceRows"><tr><td colspan="8">Memuat katalog…</td></tr></tbody></table></div>
  <p class="ops-note">*Estimasi profit normal setelah MDR QRIS 0,7%. Harga jual minimum otomatis dihitung sebagai modal + 0,7%; harga di bawah batas akan diberi peringatan merah dan ditolak server.</p><div class="status" id="opsPriceStatus"></div>
 </section>
 <section class="panel admin-extra" id="adminFlash">
@@ -399,7 +399,7 @@ body{background:#f8fafc!important;color:#0f172a!important}.wrap{width:min(100% -
  }
  async function opsSyncPrices(){
   const b=$("opsSyncPrice");b.disabled=true;b.textContent="Sinkronisasi…";
-  try{const {data,error}=await sb.functions.invoke("vipayment-sync-regions",{body:{}});if(error)throw error;if(!data?.success)throw new Error(data?.error||"Sinkronisasi gagal");opsStatus("opsPriceStatus","Sinkron selesai: "+(data.saved_unique_skus||data.received||0)+" SKU; modal produk live diperbarui "+(data.live_updated||0)+"; dinonaktifkan karena stok/kode tidak valid "+(data.live_deactivated||0)+". Harga jual tidak diubah.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}finally{b.disabled=false;b.textContent="Sinkronisasi Harga Modal & Stok VIPayment"}
+  try{const {data,error}=await sb.functions.invoke("vipayment-sync-regions",{body:{}});if(error)throw error;if(!data?.success)throw new Error(data?.error||"Sinkronisasi gagal");opsStatus("opsPriceStatus","Sinkron selesai: "+(data.saved_unique_skus||data.received||0)+" SKU; modal produk live diperbarui "+(data.live_updated||0)+"; dinonaktifkan karena stok/kode tidak valid "+(data.live_deactivated||0)+". Harga jual tidak diubah.","success");await opsLoadProducts()}catch(e){opsStatus("opsPriceStatus",e.message,"error")}finally{b.disabled=false;b.textContent="Sinkronkan Produk & Harga Modal VIPayment"}
  }
  async function opsLoadFlash(){
   const {data,error}=await sb.from("xpaypoint_flash_sales").select("id,product_id,promo_price,starts_at,ends_at,is_active").order("updated_at",{ascending:false});if(error){opsStatus("opsFlashStatus",error.message,"error");return}
