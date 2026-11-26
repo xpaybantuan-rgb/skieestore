@@ -564,3 +564,35 @@ a:focus-visible,
   outline-width: 0 !important;
   outline-offset: 0 !important;
 }
+
+
+/* GLOBAL COMPACT HEADER — consistent height across all customer pages */
+header.header,
+header.site-header,
+header.top {
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding: 6px 12px !important;
+}
+header.header > .headrow,
+header.header > .container.headrow,
+header.site-header > .headrow,
+header.site-header > .container.headrow,
+header.top > .headrow,
+header.top > .container.headrow {
+  height: auto !important;
+  min-height: auto !important;
+  padding: 0 !important;
+}
+@media (max-width: 620px) {
+  header.header,
+  header.site-header,
+  header.top { padding: 6px 12px !important; }
+  header.header > .headrow,
+  header.header > .container.headrow,
+  header.site-header > .headrow,
+  header.site-header > .container.headrow,
+  header.top > .headrow,
+  header.top > .container.headrow { height: auto !important; min-height: auto !important; }
+}
