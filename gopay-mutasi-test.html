@@ -17,7 +17,7 @@
   <h1>Verifikasi Mutasi GoPay</h1>
   <p>Halaman admin untuk memeriksa respons mentah GoBiz. Tahap ini tidak mengubah status pesanan, tidak menandai pembayaran lunas, dan tidak memanggil VIPayment.</p>
   <div id="authStatus" class="status">Memeriksa sesi login…</div>
-  <div class="row"><a class="btn" href="/profil">Buka Profil / Login</a><button id="run" disabled>JALANKAN CEK MUTASI</button></div>
+  <div class="row"><button id="login" type="button">LOGIN GOOGLE DI HALAMAN INI</button><button id="logout" type="button" hidden>KELUAR</button><button id="run" disabled>JALANKAN CEK MUTASI</button></div>
  </section>
  <section class="card">
   <strong>Request body GoBiz</strong>
@@ -50,13 +50,13 @@ async function init(){
  try{
   if(!window.supabase?.createClient) throw new Error("Library Supabase gagal dimuat dari CDN.");
   client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  client.auth.onAuthStateChange((_event,newSession)=>{session=newSession||null; if(session) setAuth("Sesi login terdeteksi. Hak admin diperiksa oleh server saat tombol dijalankan.","ok");});
+  client.auth.onAuthStateChange((_event,newSession)=>{session=newSession||null; $("login").hidden=!!session; $("logout").hidden=!session; if(session) setAuth("Login terdeteksi: "+(session.user?.email||"akun Google")+". Hak admin diperiksa server saat tombol dijalankan.","ok"); else setAuth("Belum login. Tekan LOGIN GOOGLE DI HALAMAN INI.","warn");});
   const current=await getCurrentSession();
   const authStorageKey="sb-rjgeitbkpcyymgemcztx-auth-token";
   let storageState="tidak bisa diperiksa";
   try{storageState=localStorage.getItem(authStorageKey)?"token tersimpan":"token tidak ditemukan";}catch(e){storageState="localStorage diblokir browser";}
-  if(current?.access_token) setAuth("Sesi ditemukan. Hak admin akan diverifikasi oleh server saat tombol dijalankan.","ok");
-  else setAuth("Sesi belum terbaca. Domain: "+location.origin+" · Penyimpanan login: "+storageState+". Pastikan Profil dan halaman tes dibuka pada domain yang sama, bukan www vs tanpa www. Buka Profil di tab ini, login, lalu kembali dan muat ulang.","warn");
+  if(current?.access_token){ $("login").hidden=true; $("logout").hidden=false; setAuth("Sesi ditemukan: "+(current.user?.email||"akun Google")+". Hak admin akan diverifikasi server saat tombol dijalankan.","ok"); }
+  else { $("login").hidden=false; $("logout").hidden=true; setAuth("Belum ada sesi login di halaman ini. Tekan LOGIN GOOGLE DI HALAMAN INI; setelah login Google, browser akan kembali otomatis ke halaman tes.","warn"); }
  }catch(e){let storageState="";try{storageState=localStorage.getItem("sb-rjgeitbkpcyymgemcztx-auth-token")?"token tersimpan":"token tidak ditemukan";}catch(_){storageState="localStorage diblokir";}setAuth("Pengecekan sesi gagal: "+(e.message||e)+" · Domain: "+location.origin+" · "+storageState+". Tombol tetap aktif.","warn");}
 }
 $("run").addEventListener("click",async()=>{
@@ -82,7 +82,7 @@ $("run").addEventListener("click",async()=>{
   $("result").textContent=String(e);
  }finally{$("run").disabled=false;$("run").textContent="JALANKAN CEK MUTASI";}
 });
-init();
+async function loginHere(){ $("login").disabled=true; setAuth("Mengalihkan ke login Google…"); try{const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/gopay-mutasi-test.html",queryParams:{prompt:"select_account"}}});if(error)throw error;}catch(e){setAuth("Login Google gagal: "+(e.message||e),"warn");$("login").disabled=false;} }\n$("login").addEventListener("click",loginHere);\n$("logout").addEventListener("click",async()=>{await client.auth.signOut();session=null;$("login").hidden=false;$("logout").hidden=true;setAuth("Sesi sudah keluar. Login kembali jika diperlukan.","warn");});\ninit();
 </script>
 </body>
 </html>
