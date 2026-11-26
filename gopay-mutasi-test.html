@@ -67,7 +67,7 @@ $("run").addEventListener("click",async()=>{
  $("resultStatus").className="status";$("resultStatus").textContent="Memeriksa sesi dan menghubungi Edge Function…";
  try{
   const current=await getCurrentSession();
-  if(!current?.access_token) throw Error("Sesi login tidak ditemukan pada domain ini. Buka /profil, pastikan login, lalu muat ulang halaman tes.");
+  if(!current?.access_token) throw Error("Sesi login belum tersedia. Gunakan tombol LOGIN GOOGLE DI HALAMAN INI untuk masuk tanpa pindah ke Profil.");
   const response=await fetch(SUPABASE_URL+"/functions/v1/check-mutasi-gopay",{
    method:"POST",
    headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+current.access_token,"Content-Type":"application/json"},
@@ -82,7 +82,10 @@ $("run").addEventListener("click",async()=>{
   $("result").textContent=String(e);
  }finally{$("run").disabled=false;$("run").textContent="JALANKAN CEK MUTASI";}
 });
-async function loginHere(){ $("login").disabled=true; setAuth("Mengalihkan ke login Google…"); try{const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/gopay-mutasi-test.html",queryParams:{prompt:"select_account"}}});if(error)throw error;}catch(e){setAuth("Login Google gagal: "+(e.message||e),"warn");$("login").disabled=false;} }\n$("login").addEventListener("click",loginHere);\n$("logout").addEventListener("click",async()=>{await client.auth.signOut();session=null;$("login").hidden=false;$("logout").hidden=true;setAuth("Sesi sudah keluar. Login kembali jika diperlukan.","warn");});\ninit();
+async function loginHere(){ $("login").disabled=true; setAuth("Mengalihkan ke login Google…"); try{const {error}=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/gopay-mutasi-test.html",queryParams:{prompt:"select_account"}}});if(error)throw error;}catch(e){setAuth("Login Google gagal: "+(e.message||e),"warn");$("login").disabled=false;} }
+$("login").addEventListener("click",loginHere);
+$("logout").addEventListener("click",async()=>{await client.auth.signOut();session=null;$("login").hidden=false;$("logout").hidden=true;setAuth("Sesi sudah keluar. Login kembali jika diperlukan.","warn");});
+init();
 </script>
 </body>
 </html>
