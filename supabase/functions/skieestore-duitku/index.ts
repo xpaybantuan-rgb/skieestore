@@ -57,7 +57,7 @@ Deno.serve(async(req:Request)=>{
   const s=await r.json().catch(()=>({}));
   return json({ok:r.ok,google_enabled:!!s.external?.google?.enabled});
  }
- if(req.method==="GET"){const c=cfg();return json({ok:true,provider:"Duitku QRIS",configured:c.missing.length===0,missing:c.missing,method:c.method,environment:Deno.env.get("DUITKU_ENV")||"production"});}
+ if(req.method==="GET"){const c=cfg();return json({ok:true,provider:"Duitku QRIS",configured:c.missing.length===0,missing:c.missing,method:c.method,environment:Deno.env.get("DUITKU_ENV")||"production",telegram_configured:!!(Deno.env.get("TELEGRAM_BOT_TOKEN")&&Deno.env.get("TELEGRAM_CHAT_ID"))});}
  if(action==="callback")return callback(req);
  if(req.method!=="POST")return json({ok:false,error:"METHOD_NOT_ALLOWED"},405);
  const c=cfg();if(c.missing.length)return json({ok:false,code:"DUITKU_NOT_CONFIGURED",missing:c.missing},503);
