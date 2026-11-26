@@ -1335,7 +1335,7 @@ $("receiptEmail").oninput=updateSummary;$("receiptWhatsapp").oninput=updateSumma
   status.textContent="Menghubungkan ke QRIS Duitku…";
   const paymentResponse=await fetch("/api/duitku?action=topup_create",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({order_id:orderData.order.id,guest_token:orderData.guest_token})});
   const paymentData=await paymentResponse.json().catch(()=>({}));
-  if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment)throw Error(paymentData.code==="DUITKU_NOT_CONFIGURED"?"Kredensial merchant Duitku belum dikonfigurasi.":paymentData.code==="INVALID_AMOUNT"?"Minimal pembayaran QRIS Duitku Rp10.000.":paymentData.message||paymentData.code||"Invoice QRIS Duitku gagal dibuat.");
+  if(!paymentResponse.ok||!paymentData.ok||!paymentData.payment)throw Error(paymentData.code==="DUITKU_NOT_CONFIGURED"?"Kredensial merchant Duitku belum dikonfigurasi.":paymentData.code==="DUITKU_MINIMUM_PAYMENT_10000"?"Minimal pembayaran QRIS Duitku Rp10.000.":paymentData.code==="DUITKU_EMAIL_REQUIRED"?"Isi email yang valid untuk menerima invoice.":paymentData.code==="STORE_MAINTENANCE"?"Toko sedang maintenance. Checkout ditutup sementara.":paymentData.message||paymentData.code||"Invoice QRIS Duitku gagal dibuat.");
   const payment=paymentData.payment;rememberRecentOrder(payment.order_code||orderData.order.order_code);
   if(payment.payment_url){status.textContent="Invoice berhasil dibuat. Membuka pembayaran Duitku…";location.href=payment.payment_url;return;}
   throw Error("Duitku tidak mengembalikan tautan pembayaran.");
