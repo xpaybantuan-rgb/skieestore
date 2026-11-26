@@ -131,10 +131,11 @@ async function checkConnection(){
    $("connectionText").textContent=d.code||d.stage||"Perlu dicek";$("connectionPill").className="pill warn";$("connectionPill").textContent="CHECK REQUIRED";
   }
  }catch(e){
-  const expired=/TOKEN|401|403|EXPIRED/i.test(e.message);
-  $("connectionText").textContent=expired?"Token Expired":"Belum terverifikasi";
+  const missing=/GOBIZ_TOKEN_MISSING/i.test(e.message);
+  const expired=!missing&&/(401|403|EXPIRED)/i.test(e.message);
+  $("connectionText").textContent=missing?"Token belum diatur":(expired?"Token Expired":"Belum terverifikasi");
   $("connectionPill").className="pill "+(expired?"bad":"warn");
-  $("connectionPill").innerHTML='<i class="dot"></i> '+(expired?"TOKEN EXPIRED":"UNKNOWN");
+  $("connectionPill").innerHTML='<i class="dot"></i> '+(missing?"TOKEN NOT SET":(expired?"TOKEN EXPIRED":"UNKNOWN"));
  }
 }
 $("loginForm").onsubmit=async e=>{e.preventDefault();msg("loginMsg","Memeriksa akun…");try{const {data,error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error)throw error;if(String(data.user.email||"").toLowerCase()!=="xpaybantuan@gmail.com")throw Error("Email ini tidak diizinkan.");await loginCheck()}catch(e){await db.auth.signOut();msg("loginMsg",e.message)}};
