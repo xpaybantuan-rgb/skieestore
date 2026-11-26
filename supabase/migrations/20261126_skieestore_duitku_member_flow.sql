@@ -34,7 +34,9 @@ grant select,update on public.skieestore_user_notifications to authenticated;
 grant all on public.skieestore_user_notifications to service_role;
 create index if not exists skieestore_user_notifications_user_created_idx on public.skieestore_user_notifications(user_id,created_at desc);
 drop policy if exists "public active flash sales read" on public.xpaypoint_flash_sales;
-create policy "public active flash sales read" on public.xpaypoint_flash_sales for select to anon,authenticated using (is_active=true and starts_at<=now() and ends_at>now());
+drop policy if exists "users read own memberships" on public.xpaypoint_memberships;
+create policy "users read own memberships" on public.xpaypoint_memberships for select to authenticated using ((select auth.uid())=user_id);
+grant select on public.xpaypoint_memberships to authenticated;
 grant select on public.xpaypoint_flash_sales,public.site_banners to anon,authenticated;
 create or replace function public.apply_skieestore_checkout_rules()
 returns trigger language plpgsql set search_path=pg_catalog,public as $$
