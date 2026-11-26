@@ -15,8 +15,7 @@ async function authUser(req:Request){const token=(req.headers.get("Authorization
 async function createInvoice(amount:number,merchantOrderId:string,details:string,email:string,phone:string,returnUrl:string){
  const c=cfg();if(c.missing.length)return {error:"DUITKU_NOT_CONFIGURED",missing:c.missing};
  if(!["NQ","SP","SQ","GQ"].includes(c.method))return {error:"DUITKU_QRIS_METHOD_INVALID"};
- if(!Number.isSafeInteger(amount)||amount<1)return {error:"DUITKU_MINIMUM_PAYMENT_1"};
- if(amount>10000000)return {error:"DUITKU_MAXIMUM_PAYMENT_10000000"};
+ if(!Number.isSafeInteger(amount)||amount<10000)return {error:"DUITKU_MINIMUM_PAYMENT_10000"};
  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return {error:"DUITKU_EMAIL_REQUIRED"};
  const signature=await hmac(c.apiKey,c.merchant+merchantOrderId+String(amount));
  const payload={merchantCode:c.merchant,paymentAmount:amount,paymentMethod:c.method,merchantOrderId,productDetails:clean(details,255),email:clean(email,50),phoneNumber:clean(phone,50),customerVaName:"SKIEESTORE",callbackUrl:SITE+"/api/duitku?action=callback",returnUrl,signature,expiryPeriod:10};
@@ -105,8 +104,7 @@ Deno.serve(async(req:Request)=>{
   if(sales?.[0])finalPrice=Math.min(finalPrice,Number(sales[0].promo_price));
   if(finalPrice<Math.ceil(basePrice*1.007))return json({ok:false,code:"PRICE_BELOW_COST_MDR",minimum:Math.ceil(basePrice*1.007)},409);
   const payable=Math.max(0,finalPrice-Number(order.discount_xc||0));
-  if(payable<1)return json({ok:false,code:"DUITKU_MINIMUM_PAYMENT_1",minimum:1},409);
-  if(payable>10000000)return json({ok:false,code:"DUITKU_MAXIMUM_PAYMENT_10000000",maximum:10000000},409);
+  if(payable<10000)return json({ok:false,code:"DUITKU_MINIMUM_PAYMENT_10000",minimum:10000},409);
   const update={user_id:user?.id||order.user_id||null,sell_price:finalPrice,payable_amount:payable,base_price_snapshot:basePrice,updated_at:new Date().toISOString()};
   const {error:updateErr}=await supa.from("xpaypoint_orders").update(update).eq("id",order.id).eq("status","pending_payment");
   if(updateErr)return json({ok:false,code:"ORDER_PRICE_UPDATE_FAILED",detail:updateErr.message},502);
