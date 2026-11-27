@@ -684,13 +684,13 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   <div class="member-alert" id="memberAuthStatus" role="status" aria-live="polite">Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.</div>
   <section class="profile-section" id="memberSubscription">
     <div class="section-title"><div><span class="profile-eyebrow">LANGGANAN 30 HARI</span><h2>Pilih paket SKIEE</h2></div></div>
-    <div class="payment-options" style="margin:0 0 14px"><label class="payment-option payment-option-choice selected"><input type="radio" name="memberPaymentMethod" value="NQ" checked><span class="payment-symbol">N</span><span><strong>QRIS Nobu</strong><small>Biaya 0%</small></span></label><label class="payment-option payment-option-choice"><input type="radio" name="memberPaymentMethod" value="SP"><span class="payment-symbol">S</span><span><strong>QRIS ShopeePay</strong><small>Biaya 0,70%</small></span></label></div>
+    <div class="member-alert" style="margin:0 0 14px">Pembayaran QRIS GoBiz · Bisa scan dari aplikasi bank atau e-wallet apa pun.</div>
     <div class="member-plans">
       <article class="member-plan"><h3>SKIEE PASS</h3><strong>Rp10.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="pass">Pilih PASS · QRIS</button></article>
       <article class="member-plan featured"><h3>SKIEE VIP</h3><strong>Rp15.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="vip">Pilih VIP · QRIS</button></article>
       <article class="member-plan"><h3>SKIEE PRO</h3><strong>Rp20.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="pro">Pilih PRO · QRIS</button></article>
     </div>
-    <p class="member-card-note">Paket aktif otomatis 30 hari setelah callback pembayaran Duitku tervalidasi.</p>
+    <p class="member-card-note">Paket aktif otomatis 30 hari setelah pembayaran QRIS GoBiz terverifikasi.</p>
   </section>
   <section class="profile-section" id="memberNotificationsSection">
     <div class="section-title"><div><span class="profile-eyebrow">PEMBERITAHUAN</span><h2>Notifikasi akun</h2></div></div>
@@ -752,7 +752,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 <div id="memberQrModal" hidden role="dialog" aria-modal="true" aria-labelledby="memberQrTitle"><div class="member-qr-card">
 <button type="button" class="member-qr-close" id="memberQrClose" aria-label="Tutup">×</button><span class="profile-eyebrow">PEMBAYARAN SKIEESTORE</span><h2 id="memberQrTitle">Scan QRIS</h2>
 <p id="memberQrTier">Selesaikan pembayaran dengan aplikasi bank atau e-wallet.</p><div id="memberQrCode"></div><div id="memberQrAmount"></div><p id="memberQrTimer">Memuat masa berlaku…</p>
-<p>Scan QRIS di atas. Paket member aktif otomatis setelah pembayaran terkonfirmasi.</p><a id="memberQrFallback" href="#" target="_blank" rel="noopener noreferrer" hidden>Buka halaman pembayaran Duitku</a>
+<p>Scan QRIS di atas. Paket member aktif otomatis setelah pembayaran terkonfirmasi.</p><a id="memberQrFallback" href="#" target="_blank" rel="noopener noreferrer" hidden>Buka halaman pembayaran</a>
 </div></div>
 <div class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="Asisten virtual SKIEESTORE" hidden>
   <div class="chat-head">
@@ -791,22 +791,43 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  let session=null,googleProviderEnabled=null;
  function status(msg,error){const el=$("memberAuthStatus");if(el){el.textContent=msg;el.style.borderColor=error?"#dc2626":"#0f172a";el.style.background=error?"#fff1f2":"#fff";}}
  function dateText(v){if(!v)return "Tidak ada masa aktif";return new Date(v).toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"})+" WIB";}
- let memberQrInterval=null;
- function closeMemberQr(){$("memberQrModal").hidden=true;if(memberQrInterval)clearInterval(memberQrInterval);memberQrInterval=null;}
+ let memberQrInterval=null,memberPollInterval=null;
+ function closeMemberQr(){$("memberQrModal").hidden=true;if(memberQrInterval)clearInterval(memberQrInterval);if(memberPollInterval)clearInterval(memberPollInterval);memberQrInterval=null;memberPollInterval=null;}
  $("memberQrClose")?.addEventListener("click",closeMemberQr);
  $("memberQrModal")?.addEventListener("click",e=>{if(e.target.id==="memberQrModal")closeMemberQr();});
- function showMemberQr(payment,tier,method){
-  if(!payment?.qr_string){if(payment?.payment_url){location.href=payment.payment_url;return;}throw new Error("Duitku tidak mengirim QRIS maupun tautan pembayaran.");}
-  if(typeof QRCode==="undefined"){if(payment.payment_url){location.href=payment.payment_url;return;}throw new Error("QRIS diterima tetapi pemuat QR belum tersedia. Muat ulang halaman.");}
+ function showMemberQr(payment,tier){
+  if(!payment?.qr_string)throw new Error("GoBiz tidak mengirim data QRIS. Coba buat invoice baru.");
+  if(typeof QRCode==="undefined")throw new Error("QRIS diterima tetapi pemuat QR belum tersedia. Muat ulang halaman.");
   const modal=$("memberQrModal"),target=$("memberQrCode");target.innerHTML="";
   new QRCode(target,{text:payment.qr_string,width:240,height:240,colorDark:"#111111",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
-  $("memberQrTitle").textContent="QRIS "+(method==="NQ"?"Nobu":"ShopeePay");
+  $("memberQrTitle").textContent="QRIS GoBiz";
   $("memberQrTier").textContent="Paket SKIEE "+tier.toUpperCase()+" · Scan QR untuk membayar.";
   $("memberQrAmount").textContent=money(payment.amount);
-  const fallback=$("memberQrFallback");if(payment.payment_url){fallback.href=payment.payment_url;fallback.hidden=false;}else fallback.hidden=true;
-  const expiry=payment.expires_at?new Date(payment.expires_at).getTime():Date.now()+(method==="NQ"?24:10)*60000;
-  const tick=()=>{const left=Math.max(0,expiry-Date.now());$("memberQrTimer").textContent=left>0?"Berlaku "+Math.floor(left/60000)+" menit "+Math.floor(left%60000/1000)+" detik":"QRIS kedaluwarsa. Buat invoice baru.";if(left<=0&&memberQrInterval){clearInterval(memberQrInterval);memberQrInterval=null;}};
+  $("memberQrFallback").hidden=true;
+  const expiry=payment.expires_at?new Date(payment.expires_at).getTime():Date.now()+7*24*60*60*1000;
+  const tick=()=>{const left=Math.max(0,expiry-Date.now());$("memberQrTimer").textContent=left>0?"Berlaku "+Math.floor(left/86400000)+" hari "+Math.floor(left%86400000/3600000)+" jam":"QRIS kedaluwarsa. Buat invoice baru.";if(left<=0&&memberQrInterval){clearInterval(memberQrInterval);memberQrInterval=null;}};
   tick();if(memberQrInterval)clearInterval(memberQrInterval);memberQrInterval=setInterval(tick,1000);modal.hidden=false;
+ }
+ async function watchMemberPayment(paymentId,tier){
+  if(memberPollInterval)clearInterval(memberPollInterval);
+  let checks=0;
+  memberPollInterval=setInterval(async()=>{
+   checks++;
+   try{
+    const r=await fetch(URL+"/functions/v1/skieestore-membership-gobiz?action=status&payment_id="+encodeURIComponent(paymentId),{headers:{apikey:KEY,Authorization:"Bearer "+session.access_token}});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok&&d.ok){
+     if(d.payment.status==="paid"){
+      closeMemberQr();status("Pembayaran berhasil. SKIEE "+tier.toUpperCase()+" sudah aktif.");
+      await loadAccount();
+     }else if(["expired","failed","refunded"].includes(d.payment.status)){
+      clearInterval(memberPollInterval);memberPollInterval=null;
+      $("memberQrTimer").textContent="Pembayaran "+d.payment.status+". Silakan buat invoice baru.";
+     }
+    }
+   }catch(e){console.warn("Membership payment status check failed",e);}
+   if(checks>=720&&memberPollInterval){clearInterval(memberPollInterval);memberPollInterval=null;}
+  },5000);
  }
  async function renderNotifications(){
   const box=$("memberNotifications");if(!session){box.innerHTML='<div class="member-alert">Login untuk melihat notifikasi pembayaran dan aktivitas member.</div>';return;}
@@ -838,8 +859,32 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  }
  $("memberGoogleLogin").addEventListener("click",async()=>{const b=$("memberGoogleLogin");b.disabled=true;status("Membuka login Google…");const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/profil",queryParams:{prompt:"select_account"}}});if(error){status("Login Google gagal: "+error.message,true);b.disabled=false;}});
  $("memberLogout").addEventListener("click",async()=>{await sb.auth.signOut();await loadAccount();});
- document.querySelectorAll('input[name="memberPaymentMethod"]').forEach(el=>el.addEventListener("change",()=>document.querySelectorAll('input[name="memberPaymentMethod"]').forEach(x=>x.closest(".payment-option")?.classList.toggle("selected",x.checked))));
- document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat invoice QRIS Duitku untuk SKIEE "+tier.toUpperCase()+"…");const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),20000);try{const r=await fetch("/api/duitku?action=membership_create",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},body:JSON.stringify({tier,payment_method:document.querySelector('input[name="memberPaymentMethod"]:checked')?.value||"NQ"}),signal:controller.signal});const raw=await r.text();let d={};try{d=JSON.parse(raw);}catch{}if(!r.ok||!d.ok){const messages={DUITKU_NOT_CONFIGURED:"Kredensial merchant Duitku belum dikonfigurasi.",STORE_MAINTENANCE:"Toko sedang maintenance. Checkout langganan ditutup sementara.",DUITKU_NETWORK_ERROR:"Koneksi ke Duitku Sandbox gagal atau timeout. Coba lagi sebentar.",DUITKU_INQUIRY_FAILED:"Duitku menolak pembuatan invoice"+(d.provider_code?" ("+d.provider_code+")":"")+". "+(d.provider_message||d.message||"")+(d.proxy_status?" [HTTP "+d.proxy_status+"]":""),INVALID_SESSION:"Sesi login berakhir. Silakan login ulang.",LOGIN_REQUIRED:"Silakan login sebelum membeli paket."};throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat invoice (HTTP "+r.status+")."));}showMemberQr(d.payment,tier,document.querySelector('input[name="memberPaymentMethod"]:checked')?.value||"NQ");return;}catch(e){const msg=e.name==="AbortError"?"Permintaan terlalu lama. Coba lagi; jika terulang, kirim waktu percobaannya ke admin.":(e.message||"Terjadi kesalahan saat membuat invoice.");status(msg,true);b.disabled=false;}finally{clearTimeout(timeout);}}));
+ document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{
+  if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}
+  b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat QRIS GoBiz untuk SKIEE "+tier.toUpperCase()+"…");
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
+  try{
+   const r=await fetch(URL+"/functions/v1/skieestore-membership-gobiz?action=create",{
+    method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+session.access_token},
+    body:JSON.stringify({tier,request_id:crypto.randomUUID()}),signal:controller.signal
+   });
+   const d=await r.json().catch(()=>({}));
+   if(!r.ok||!d.ok){
+    const messages={
+     GOBIZ_NOT_CONFIGURED:"Akses API resmi GoBiz belum dimasukkan ke Supabase Secrets.",
+     GOBIZ_AUTH_FAILED:"GoBiz menolak kredensial OAuth. Periksa Client ID/Secret dan akses produksi.",
+     GOBIZ_PAYMENT_SCOPE_MISSING:"Kredensial belum memiliki scope payment:transaction:write.",
+     GOBIZ_TRANSACTION_CREATE_FAILED:"GoBiz gagal membuat QRIS. Periksa akses outlet dan scope Pay Integration.",
+     LOGIN_REQUIRED:"Silakan login sebelum membeli paket."
+    };
+    throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat QRIS (HTTP "+r.status+")."));
+   }
+   showMemberQr(d.payment,tier);watchMemberPayment(d.payment.id,tier);
+  }catch(e){
+   const msg=e.name==="AbortError"?"Permintaan ke GoBiz terlalu lama. Coba lagi sebentar.":(e.message||"Terjadi kesalahan saat membuat QRIS.");
+   status(msg,true);b.disabled=false;
+  }finally{clearTimeout(timeout);}
+ }));
  sb.auth.onAuthStateChange((_event,newSession)=>{session=newSession;loadAccount().catch(e=>status(e.message,true));});
  loadAccount().catch(e=>status(e.message,true));
 })();
