@@ -653,8 +653,13 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 .member-history-amount{font-size:15px;font-weight:900;text-align:right;color:#17181d}
 .member-history-status{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:850;background:#ecfdf3;color:#027a48}
 .member-history-status.pending{background:#fffaeb;color:#b54708}
-.member-history-status.failed{background:#fef3f2;color:#b42318}
-@media(max-width:520px){.member-history-item{padding:13px;gap:7px}.member-history-amount{font-size:13px}}
+.member-history-status.failed,.member-history-status.expired{background:#fef3f2;color:#b42318}
+.member-history-item.is-hidden{display:none}
+.member-history-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:5px}
+.member-history-note{font-size:10px;color:#737987;line-height:1.5}
+.member-history-toggle{border:1px solid #d9e8ff;border-radius:10px;background:#f1f7ff;color:#0756D8;padding:10px 13px;font-size:11px;font-weight:850;cursor:pointer}
+.member-history-toggle:hover{background:#e5f1ff}
+@media(max-width:520px){.member-history-item{padding:13px;gap:7px}.member-history-amount{font-size:13px}.member-history-controls{align-items:flex-start;flex-direction:column}}
 </style>
 </head><body><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
@@ -863,13 +868,26 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   const money=v=>"Rp"+Number(v||0).toLocaleString("id-ID");
   const date=v=>v?new Date(v).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"})+" WIB":"—";
   const labels={paid:"Berhasil",pending:"Menunggu pembayaran",failed:"Gagal",expired:"Kedaluwarsa",refunded:"Dikembalikan"};
-  box.innerHTML=data.map(t=>{
-   const state=String(t.status||"pending").toLowerCase(),tier=String(t.tier||"").toUpperCase();
+  const rows=data.map((t,index)=>{
+   const state=String(t.status||"pending").toLowerCase(),tier=String(t.tier||"").toLowerCase();
+   const tierName=tier==="pass"?"SKIEE PASS (PAKET LAMA)":"SKIEE "+tier.toUpperCase();
+   const gateway=String(t.gateway||"").toUpperCase();
    const ref=t.gateway_reference?'<small>Referensi: '+esc(t.gateway_reference)+'</small>':"";
    const paid=t.paid_at?'<small>Dibayar: '+esc(date(t.paid_at))+'</small>':'<small>Dibuat: '+esc(date(t.created_at))+'</small>';
    const expiry=t.expires_at?'<small>Masa paket: '+esc(date(t.starts_at))+' – '+esc(date(t.expires_at))+'</small>':"";
-   return '<article class="member-history-item"><div><b>SKIEE '+esc(tier)+' · '+esc(String(t.gateway||"").toUpperCase())+'</b>'+paid+expiry+ref+'<span class="member-history-status '+esc(state)+'">'+esc(labels[state]||state)+'</span></div><div class="member-history-amount">'+money(t.amount)+'</div></article>';
+   return '<article class="member-history-item'+(index>=5?' is-hidden':'')+'"><div><b>'+esc(tierName)+(gateway?' · '+esc(gateway):'')+'</b>'+paid+expiry+ref+'<span class="member-history-status '+esc(state)+'">'+esc(labels[state]||state)+'</span></div><div class="member-history-amount">'+money(t.amount)+'</div></article>';
   }).join("");
+  const more=data.length>5;
+  box.innerHTML=rows+(more?'<div class="member-history-controls"><span class="member-history-note">Menampilkan 5 transaksi terbaru dari '+data.length+' transaksi terakhir.</span><button type="button" class="member-history-toggle" id="memberHistoryToggle" aria-expanded="false">Tampilkan semua transaksi</button></div>':'<div class="member-history-note">Menampilkan '+data.length+' transaksi.</div>');
+  const toggle=$("memberHistoryToggle");
+  if(toggle)toggle.addEventListener("click",()=>{
+   const expanded=toggle.getAttribute("aria-expanded")==="true";
+   box.querySelectorAll(".member-history-item").forEach((item,index)=>{if(index>=5)item.classList.toggle("is-hidden",expanded);});
+   toggle.setAttribute("aria-expanded",String(!expanded));
+   toggle.textContent=expanded?"Tampilkan semua transaksi":"Tampilkan lebih sedikit";
+   const note=box.querySelector(".member-history-note");
+   if(note)note.textContent=expanded?"Menampilkan 5 transaksi terbaru dari "+data.length+" transaksi terakhir.":"Menampilkan seluruh "+data.length+" transaksi terakhir.";
+  });
  }
  async function checkGoogleProvider(){
   // Do not use the custom google_status proxy as a login gate.
