@@ -1134,7 +1134,7 @@ document.addEventListener("click",e=>{if(!e.target.closest("#headerSearchPanel")
 $("headerSearchToggle").addEventListener("click",()=>{const panel=$("headerSearchPanel"),open=panel.hidden;panel.hidden=!open;$("headerSearchToggle").setAttribute("aria-expanded",String(open));if(open)setTimeout(()=>$("gameSearch").focus(),0)});
 
 
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("headerSearchPanel").hidden=true;$("headerSearchToggle").setAttribute("aria-expanded","false")}});$("catalogMoreBtn").addEventListener("click",()=>{const q=$("gameSearch").value.trim().toLowerCase();const total=games.filter(g=>(activeFilter==="all"||g.category===activeFilter)&&g.name.toLowerCase().includes(q)).length;gameVisibleCount=$("catalogMoreBtn").dataset.action==="less"?10:total;renderGames()});$("productSearch").addEventListener("input",renderProducts);$("clearGame").addEventListener("click",()=>{$("productArea").hidden=true;activeGame=null});$("gameFilters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;gameVisibleCount=9;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderGames()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("headerSearchPanel").hidden=true;$("headerSearchToggle").setAttribute("aria-expanded","false")}});$("catalogMoreBtn").addEventListener("click",()=>{const collapse=$("catalogMoreBtn").dataset.action==="less";const q=$("gameSearch").value.trim().toLowerCase();const total=games.filter(g=>(activeFilter==="all"||g.category===activeFilter)&&g.name.toLowerCase().includes(q)).length;gameVisibleCount=collapse?10:total;renderGames();if(collapse)requestAnimationFrame(()=>{$("games").scrollIntoView({behavior:"smooth",block:"start"});});});$("productSearch").addEventListener("input",renderProducts);$("clearGame").addEventListener("click",()=>{$("productArea").hidden=true;activeGame=null});$("gameFilters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;gameVisibleCount=9;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderGames()});
 document.documentElement.dataset.theme="light";localStorage.removeItem("xp-theme");
 
 
@@ -1208,4 +1208,40 @@ document.documentElement.dataset.theme="light";localStorage.removeItem("xp-theme
 })();
 </script>
 
-</body></html>
+<style id="skiee-ui-fixes-20261128-v3">
+/* AI launcher: fixed square footprint; no inherited pill styling or distorted flex sizing. */
+button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{
+ position:fixed!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+ width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;
+ max-width:48px!important;max-height:48px!important;aspect-ratio:1/1!important;flex:0 0 48px!important;
+ padding:0!important;margin:0!important;border:0!important;border-radius:50%!important;
+ box-shadow:0 4px 12px rgba(15,23,42,.18)!important;outline:0!important;
+ transform:none!important;z-index:99999!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+button#chatToggle svg,button.chat-fab svg,.xp-footer button.chat-fab svg{
+ display:block!important;width:28px!important;height:28px!important;min-width:28px!important;
+ max-width:28px!important;min-height:28px!important;max-height:28px!important;flex:none!important;
+}
+@media(min-width:761px){
+ button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{bottom:28px!important}
+}
+</style><style id="skiee-home-banner-border-removal-v3">
+/* Remove every possible separator/shadow around the banner-to-catalog transition. */
+body:has(.home-banner-section) .home-banner-section,
+body:has(.home-banner-section) .home-banner-section>.container,
+body:has(.home-banner-section) #homeBanner,
+body:has(.home-banner-section) #homeBannerTrack,
+body:has(.home-banner-section) #homeBannerTrack>.home-banner-slide,
+body:has(.home-banner-section) #games,
+body:has(.home-banner-section) #games>.container{
+ border:0!important;border-top:0!important;border-bottom:0!important;
+ outline:0!important;box-shadow:none!important;
+}
+body:has(.home-banner-section) .home-banner-section{padding-bottom:0!important;margin-bottom:0!important;background:var(--bg)!important}
+body:has(.home-banner-section) #homeBanner{background:#0F172A!important}
+body:has(.home-banner-section) #games{margin-top:0!important;background:var(--bg)!important}
+body:has(.home-banner-section) .home-banner-section:after,
+body:has(.home-banner-section) .home-banner-section:before,
+body:has(.home-banner-section) #games:before{content:none!important;display:none!important}
+</style></body></html>
