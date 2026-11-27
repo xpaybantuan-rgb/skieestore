@@ -500,6 +500,29 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
 </script>
+
+<style id="skiee-final-ui-refinements-20261128">
+/* Floating AI assistant: thumb-friendly 52px target, safely above mobile navigation. */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{
+ position:fixed!important;right:18px!important;bottom:28px!important;
+ width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+ max-width:52px!important;max-height:52px!important;flex:0 0 52px!important;
+ display:grid!important;place-items:center!important;border-radius:50%!important;
+ padding:0!important;z-index:99998!important;box-sizing:border-box!important;
+}
+#chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{
+ width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;
+ display:block!important;
+}
+@media(max-width:760px){
+ #chatToggle,.chat-fab,.xp-footer .chat-fab{
+  right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+  width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+  max-width:52px!important;max-height:52px!important;flex-basis:52px!important;
+ }
+ #chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{width:29px!important;height:29px!important}
+}
+</style>
 </head><body><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
