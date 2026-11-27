@@ -571,4 +571,53 @@ const initialOrderCode=new URLSearchParams(location.search).get("order_code");if
 
 <script src="assets/skieestore-global.js?v=20261125-11" defer></script>
 <link rel="stylesheet" href="assets/skieestore-bottomnav.css?v=6">
-<script>(()=>{const KEY="skieestore_recent_orders_v1",code=document.getElementById("code"),form=document.getElementById("lookup"),list=document.getElementById("recentOrdersList");if(!code||!form||!list)return;const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));let items=[];try{const parsed=JSON.parse(localStorage.getItem(KEY)||"[]");items=Array.isArray(parsed)?parsed.slice(0,5):[]}catch(_){items=[]}if(!items.length){list.innerHTML='<div class="recent-orders-empty">Belum ada invoice tersimpan di perangkat ini.</div>';return}list.innerHTML=items.map((o,i)=>'<button type="button" class="recent-order-item" data-recent-index="'+i+'"><strong>'+esc(o.order_code)+'</strong><span>'+esc(o.game_name||"Game")+' · '+esc(o.product_name||"Produk")+'</span><small>'+esc(o.created_at?new Date(o.created_at).toLocaleString("id-ID"):"Tanggal tidak tersedia")+'</small></button>').join("");list.addEventListener("click",e=>{const item=e.target.closest("[data-recent-index]");if(!item)return;const record=items[Number(item.dataset.recentIndex)];if(!record||!record.order_code)return;code.value=record.order_code;form.requestSubmit()})})();</script></body></html>
+<script>(()=>{const KEY="skieestore_recent_orders_v1",code=document.getElementById("code"),form=document.getElementById("lookup"),list=document.getElementById("recentOrdersList");if(!code||!form||!list)return;const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));let items=[];try{const parsed=JSON.parse(localStorage.getItem(KEY)||"[]");items=Array.isArray(parsed)?parsed.slice(0,5):[]}catch(_){items=[]}if(!items.length){list.innerHTML='<div class="recent-orders-empty">Belum ada invoice tersimpan di perangkat ini.</div>';return}list.innerHTML=items.map((o,i)=>'<button type="button" class="recent-order-item" data-recent-index="'+i+'"><strong>'+esc(o.order_code)+'</strong><span>'+esc(o.game_name||"Game")+' · '+esc(o.product_name||"Produk")+'</span><small>'+esc(o.created_at?new Date(o.created_at).toLocaleString("id-ID"):"Tanggal tidak tersedia")+'</small></button>').join("");list.addEventListener("click",e=>{const item=e.target.closest("[data-recent-index]");if(!item)return;const record=items[Number(item.dataset.recentIndex)];if(!record||!record.order_code)return;code.value=record.order_code;form.requestSubmit()})})();</script>
+<style id="skiee-production-ui-hotfix-v2">
+/* Production hotfix: force the floating assistant above the mobile navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{
+ position:fixed!important;right:14px!important;bottom:24px!important;
+ width:46px!important;height:46px!important;min-width:46px!important;
+ max-width:46px!important;flex:none!important;z-index:99999!important;
+ border-radius:50%!important;box-sizing:border-box!important;
+}
+.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}
+@media(max-width:760px){
+ .chat-fab,#chatToggle,.xp-footer .chat-fab{
+  right:14px!important;bottom:calc(104px + env(safe-area-inset-bottom))!important;
+  width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;
+ }
+ .chat-fab svg,#chatToggle svg{width:23px!important;height:23px!important}
+}
+.gamegrid .gamecard .gameinfo small,#gameGrid .gamecard .gameinfo small{
+ max-width:none!important;overflow:visible!important;text-overflow:clip!important;
+ white-space:nowrap!important;font-size:10px!important;letter-spacing:0!important;
+}
+</style>
+<script id="skiee-production-text-hotfix-v2">
+(function(){
+ function clean(root){
+  if(!root||!root.querySelectorAll)return;
+  root.querySelectorAll('#gameGrid .gamecard .gameinfo small,.gamegrid .gamecard .gameinfo small').forEach(function(el){
+   var v=(el.textContent||'').trim(),m=v.match(/^(\d+)\s+PRODUK\b.*$/i);
+   if(m){var next=m[1]+' Produk';if(v!==next)el.textContent=next;return;}
+   m=v.match(/^(\d+)\s+ITEM\b.*$/i);
+   if(m){var nextItem=m[1]+' Item';if(v!==nextItem)el.textContent=nextItem;}
+  });
+  root.querySelectorAll('.xp-foot-payments span,.xp-footer .xp-foot-payments span').forEach(function(el){
+   var v=(el.textContent||'').trim();
+   var next=v.replace(/QRQRIS/gi,'QRIS').replace(/DDANA/gi,'DANA').replace(/OOVO/gi,'OVO');
+   if(v!==next)el.textContent=next;
+  });
+ }
+ function start(){
+  clean(document);
+  if(window.MutationObserver&&document.body){
+   var observer=new MutationObserver(function(){clean(document);});
+   observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
+</body></html>
