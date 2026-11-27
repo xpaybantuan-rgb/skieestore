@@ -47,6 +47,20 @@
  </div>
 </section>
 
+
+  <section class="glass p-5 md:p-6">
+   <div class="text-emerald-300 text-[10px] font-black tracking-widest">GO PAY MERCHANT · MUTASI</div>
+   <h2 class="text-lg font-black mt-1">Hubungkan akun GoPay Merchant</h2>
+   <p class="muted text-xs leading-5 mt-2">Gunakan nomor HP yang terdaftar di GoPay Merchant. OTP dikirim langsung oleh GoPay. Nomor dan kode OTP hanya dimasukkan di halaman admin ini, jangan kirim ke chat.</p>
+   <div id="gopayConnectState" class="pill warn mt-3">Belum terhubung</div>
+   <div class="grid md:grid-cols-2 gap-3 mt-4">
+    <label class="block"><span class="text-xs font-bold">Nomor HP GoPay Merchant</span><input id="gopayPhone" class="input mt-2" type="tel" inputmode="numeric" autocomplete="tel" placeholder="08xxxxxxxxxx"></label>
+    <label class="block"><span class="text-xs font-bold">Kode OTP</span><input id="gopayOtp" class="input mt-2" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Masukkan OTP"></label>
+   </div>
+   <div class="flex flex-wrap gap-2 mt-4"><button id="gopayRequestOtp" class="btn primary">Kirim OTP</button><button id="gopayVerifyOtp" class="btn secondary">Verifikasi & hubungkan</button><button id="gopayRefreshStatus" class="btn secondary">Cek status</button></div>
+   <div id="gopayConnectMsg" class="text-xs muted mt-3">Sesi merchant belum diperiksa.</div>
+  </section>
+
  <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
   <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">KONEKSI GO PAY MERCHANT</div><div class="flex items-center justify-between mt-3 gap-2"><div><div id="connectionText" class="font-black text-lg">Belum dicek</div><div class="muted text-[10px] mt-1">G264474754 · Skieestore, Gaming</div></div><span id="connectionPill" class="pill warn"><i class="dot"></i> UNKNOWN</span></div><button id="checkConnectionBtn" class="btn secondary w-full mt-4">Cek status token</button></div>
   <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">TOTAL OMSET SKIEEPAY</div><div id="revenue" class="text-2xl font-black mt-3">Rp0</div><div class="muted text-[10px] mt-1">Order terverifikasi / diproses</div></div>
