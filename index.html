@@ -767,6 +767,48 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 @media(max-width:800px){.payment-method-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:620px){.home-banner-note{font-size:9px}.payment-method-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.payment-method{min-height:64px;justify-content:flex-start;padding:10px 12px;border-radius:13px;gap:9px}.payment-method strong{font-size:10px}.payment-mark{width:31px;height:31px;border-radius:10px}.skeleton-card{display:block;padding:9px;border-radius:14px;text-align:center}.skeleton-art{width:100%;height:auto;aspect-ratio:1/1;margin-bottom:8px;border-radius:12px}.skeleton-title,.skeleton-meta{margin-left:auto;margin-right:auto}}
 </style>
+
+<style id="skiee-banner-color-fix">
+.home-banner-section{padding-bottom:0!important;margin-bottom:0!important}
+.home-banner{border-bottom:0!important;box-shadow:none!important;margin-bottom:0!important}
+.home-banner-track,.home-banner-slide{border-bottom:0!important;box-shadow:none!important}
+.home-banner-slide:nth-child(1){background:#0F172A!important}
+.home-banner-slide:nth-child(2){background:#1E1B4B!important}
+.home-banner-slide:nth-child(3){background:#7C2D12!important}
+.home-banner-slide:after{display:none!important;content:none!important}
+.home-banner-copy small,.home-banner-note{color:#FFDF4D!important}
+.home-banner-copy strong{color:#fff!important}
+.home-banner-copy span{color:#f8fafc!important}
+</style>
+
+<style id="skiee-global-ui-fixes">
+/* Global floating assistant: smaller and clear of the mobile bottom navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{position:fixed!important;right:16px!important;bottom:24px!important;width:48px!important;height:48px!important;min-width:48px!important;flex:none!important;z-index:9998!important;border-radius:50%!important}
+.chat-fab svg,#chatToggle svg{width:26px!important;height:26px!important}
+@media(max-width:620px){.chat-fab,#chatToggle,.xp-footer .chat-fab{right:14px!important;bottom:calc(88px + env(safe-area-inset-bottom))!important;width:46px!important;height:46px!important;min-width:46px!important}.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}}
+/* Compact catalog count badges; prevent ellipsis clipping. */
+.game-count-badge,.game-badge,.catalog-count,.product-count,.gameinfo small,.badge-count{max-width:100%;white-space:nowrap;overflow:visible;text-overflow:clip}
+</style>
+<script id="skiee-global-text-normalizer">
+(function(){
+  function clean(root){
+    if(!root||!root.querySelectorAll)return;
+    root.querySelectorAll('.xp-footer *,.game-count-badge,.game-badge,.catalog-count,.product-count,.badge-count,[class*="badge"],[class*="count"]').forEach(function(el){
+      if(el.children.length)return;
+      var v=(el.textContent||'').trim(),m=v.match(/^(\\d+)\\s+PRODUK\\s+(?:AKTIF|A[A-Z ]*).*$/i);
+      if(m)el.textContent=m[1]+' Produk';
+      else if((m=v.match(/^(\\d+)\\s+ITEM\\s+(?:AKTIF|A[A-Z ]*).*$/i)))el.textContent=m[1]+' Item';
+    });
+    root.querySelectorAll('.xp-footer *').forEach(function(el){
+      if(el.children.length)return;
+      var v=el.textContent||'';
+      el.textContent=v.replace(/\\bQRQRIS\\b/g,'QRIS').replace(/\\bDDANA\\b/g,'DANA').replace(/\\bOOVO\\b/g,'OVO');
+    });
+  }
+  function start(){clean(document);var target=document.body;if(target&&window.MutationObserver)new MutationObserver(function(records){records.forEach(function(r){r.addedNodes&&r.addedNodes.forEach(function(n){if(n.nodeType===1)clean(n);});});}).observe(target,{childList:true,subtree:true});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
 </head>
 <body>
 <header class="header"><div class="container headrow">
