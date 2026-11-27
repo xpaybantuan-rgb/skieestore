@@ -29,7 +29,7 @@
  <section id="membershipPanel" class="space-y-5">
  <div class="flex flex-wrap items-center justify-between gap-3">
   <div><div class="text-emerald-300 text-[10px] font-black tracking-widest">SKIEESTORE MEMBERSHIP</div><h1 class="text-2xl md:text-3xl font-black mt-1">PASS · VIP · PRO</h1><p class="muted text-xs mt-2">Dashboard khusus langganan member. Pembayaran QRIS GoBiz, pencatatan Supabase, tanpa VIPayment. Duitku tetap menangani checkout produk lain.</p></div>
-  <button id="refreshMembershipBtn" class="btn secondary">↻ Refresh data member</button>
+  <div class="flex flex-wrap gap-2"><button id="subscribeWebhookBtn" class="btn primary">Aktifkan webhook GoBiz</button><button id="refreshMembershipBtn" class="btn secondary">↻ Refresh data member</button></div>
  </div>
  <div class="grid sm:grid-cols-3 gap-3">
   <div class="glass p-5"><div class="muted text-[10px] font-bold tracking-wider">PENDAPATAN MEMBERSHIP</div><div id="memberRevenue" class="text-2xl font-black mt-3">Rp0</div><div class="muted text-[10px] mt-1">Total transaksi berstatus paid</div></div>
@@ -157,6 +157,7 @@ function renderMembershipTransactions(rows){
   tr.append(who,tier,amount,gateway,status,expiry);body.append(tr);
  }
 }
+$("subscribeWebhookBtn").addEventListener("click",async()=>{const b=$("subscribeWebhookBtn");b.disabled=true;b.textContent="Menghubungkan…";try{const d=await edge("skieestore-membership-gobiz",{action:"subscribe"});$("membershipMsg").textContent="Webhook settlement GoBiz berhasil didaftarkan: "+d.event;b.textContent="Webhook aktif";}catch(e){$("membershipMsg").textContent=e.message;b.textContent="Coba aktifkan webhook lagi";}finally{b.disabled=false;}});
 $("refreshMembershipBtn").addEventListener("click",async()=>{const b=$("refreshMembershipBtn");b.disabled=true;b.textContent="Memuat…";try{await loadDashboard();$("membershipMsg").textContent="Data membership diperbarui.";}catch(e){$("membershipMsg").textContent=e.message;}finally{b.disabled=false;b.textContent="↻ Refresh data member";}});
 function renderOrders(rows){
  const body=$("ordersBody");body.innerHTML="";
