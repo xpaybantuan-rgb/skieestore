@@ -33,9 +33,9 @@
  </section>
 
  <section class="glass p-5 md:p-6">
-  <div class="flex flex-wrap justify-between items-start gap-3"><div><div class="text-emerald-300 text-[10px] font-black tracking-widest">01 / MERCHANT CONFIGURATION</div><h2 class="text-lg font-black mt-1">Kredensial GoBiz & QRIS</h2><p class="muted text-xs mt-1">Token disimpan di database dan hanya dibaca Edge Function dengan Service Role. Token tidak pernah ditampilkan kembali.</p></div><span id="tokenState" class="pill warn">Token belum diatur</span></div>
+  <div class="flex flex-wrap justify-between items-start gap-3"><div><div class="text-emerald-300 text-[10px] font-black tracking-widest">01 / MERCHANT CONFIGURATION</div><h2 class="text-lg font-black mt-1">Kredensial GoBiz & QRIS</h2><p class="muted text-xs mt-1">Bagian token dan QRIS statis adalah konfigurasi lama. Integrasi live baru memakai OAuth2 GoBiz resmi dan webhook settlement terverifikasi.</p></div><span id="tokenState" class="pill warn">Token belum diatur</span></div>
   <div class="grid md:grid-cols-2 gap-4 mt-5">
-   <label class="block"><span class="text-xs font-bold">GOBIZ_TOKEN · Bearer Token</span><input id="gobizToken" class="input mt-2" type="password" autocomplete="new-password" placeholder="Tempel token GoBiz terbaru"><span class="muted text-[10px] block mt-2">Kosongkan jika tidak ingin mengganti token yang sudah tersimpan.</span></label>
+   <label class="block"><span class="text-xs font-bold">Token GoBiz lama · tidak dipakai untuk API live</span><input id="gobizToken" class="input mt-2" type="password" autocomplete="new-password" placeholder="Token aplikasi merchant (legacy)"><span class="muted text-[10px] block mt-2">Token ini tidak menggantikan OAuth Client ID / Client Secret resmi dari GoBiz Developer Portal.</span></label>
    <label class="block"><span class="text-xs font-bold">Merchant ID</span><input class="input mt-2 opacity-70" value="G264474754" readonly><span class="muted text-[10px] block mt-2">Nama merchant: Skieestore, Gaming</span></label>
    <label class="block md:col-span-2"><span class="text-xs font-bold">QRIS_STATIS · Payload QRIS outlet</span><textarea id="qrisStatic" class="input mt-2 min-h-28 font-mono text-[11px]" spellcheck="false"></textarea></label>
   </div>
@@ -44,9 +44,9 @@
 
  <section class="grid lg:grid-cols-2 gap-4">
   <div class="glass p-5 md:p-6">
-   <div class="text-emerald-300 text-[10px] font-black tracking-widest">02 / POLLER CONTROL</div><h2 class="text-lg font-black mt-1">Payment Poller</h2><p class="muted text-xs leading-5 mt-1">Sakelar konfigurasi pemeriksaan mutasi. Duitku tetap berjalan terpisah dan tidak disentuh.</p>
+   <div class="text-emerald-300 text-[10px] font-black tracking-widest">02 / POLLER CONTROL</div><h2 class="text-lg font-black mt-1">Payment Poller</h2><p class="muted text-xs leading-5 mt-1">Sakelar lama. Poller tetap dinonaktifkan sampai GoBiz OAuth resmi, QRIS transaksi, webhook settlement, dan pencocokan invoice lolos uji end-to-end. Duitku tetap terpisah.</p>
    <div class="flex items-center justify-between gap-3 mt-5 p-4 rounded-xl bg-slate-950/40 border border-slate-700"><div><div class="font-bold text-sm">Poller SkieePay</div><div id="pollerLabel" class="muted text-[10px] mt-1">OFF</div></div><input id="pollerToggle" type="checkbox" class="switch"></div>
-   <div class="text-amber-200/90 text-[10px] leading-5 mt-3">Catatan: ON/OFF tersimpan di database dan dibaca fungsi pemeriksaan. Jadwal polling otomatis dan pencocokan mutasi-ke-invoice belum diaktifkan; jangan anggap pembayaran otomatis sudah live sebelum pengujian end-to-end.</div>
+   <div class="text-amber-200/90 text-[10px] leading-5 mt-3">Status: OFF wajib dipertahankan. Polling mutasi dari endpoint portal internal tidak digunakan. Konfirmasi live memakai webhook settlement GoBiz resmi.</div>
   </div>
   <div class="glass p-5 md:p-6">
    <div class="text-emerald-300 text-[10px] font-black tracking-widest">03 / SANDBOX</div><h2 class="text-lg font-black mt-1">Mode Uji Coba QRIS</h2><p class="muted text-xs leading-5 mt-1">Buat QRIS dinamis nominal tepat Rp1.000. Order tes tidak diteruskan ke VIPayment.</p>
@@ -123,12 +123,12 @@ async function checkConnection(){
  $("connectionText").textContent="Memeriksa…";$("connectionPill").textContent="CHECKING";
  try{
   const d=await edge("check-mutasi-gopay",{force:true});
-  if(d.ok&&d.stage==="JOURNAL_SEARCH"&&d.upstream_status>=200&&d.upstream_status<300){
-   $("connectionText").textContent="Terhubung";$("connectionPill").className="pill good";$("connectionPill").innerHTML='<i class="dot"></i> CONNECTED';
+  if(d.ok&&d.stage==="OFFICIAL_GOAUTH_READY"){
+   $("connectionText").textContent="OAuth API terverifikasi";$("connectionPill").className="pill good";$("connectionPill").innerHTML='<i class="dot"></i> API READY';
   }else if(d.upstream_status===401||d.upstream_status===403){
    $("connectionText").textContent="Token Expired";$("connectionPill").className="pill bad";$("connectionPill").innerHTML='<i class="dot"></i> TOKEN EXPIRED';
   }else{
-   $("connectionText").textContent=d.code||d.stage||"Perlu dicek";$("connectionPill").className="pill warn";$("connectionPill").textContent="CHECK REQUIRED";
+   $("connectionText").textContent=d.message||d.code||d.stage||"Perlu dicek";$("connectionPill").className="pill warn";$("connectionPill").textContent=d.code==="OFFICIAL_GOBIZ_CREDENTIALS_MISSING"?"CONFIG REQUIRED":"CHECK REQUIRED";
   }
  }catch(e){
   const missing=/GOBIZ_TOKEN_MISSING/i.test(e.message);
