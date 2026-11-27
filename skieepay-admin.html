@@ -12,6 +12,7 @@
 .glass{background:linear-gradient(145deg,#12243aee,#0d1b2cee);border:1px solid #263c55;border-radius:18px;box-shadow:0 12px 36px #0003}
 .input{width:100%;background:#091625;border:1px solid #2b4057;border-radius:10px;padding:12px;color:#e8f0fa;font-size:13px;outline:none}.input:focus{border-color:#22c6a3;box-shadow:0 0 0 3px #22c6a322}
 .btn{border-radius:10px;padding:11px 15px;font-size:12px;font-weight:800;transition:.15s}.primary{background:#12b995;color:#041b18}.primary:hover{background:#36d6b4}.secondary{background:#1b3048;color:#e8f0fa;border:1px solid #38506b}.danger{background:#5a202b;color:#ffd9dd}.muted{color:#8da2ba}.pill{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:800;background:#1b3048;color:#b9cbe0}.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}.good{color:#35d6a6;background:#10382f}.bad{color:#ff777e;background:#421f2a}.warn{color:#f3c66b;background:#42351e}.switch{appearance:none;width:44px;height:25px;border-radius:30px;background:#34475c;position:relative;cursor:pointer;transition:.2s}.switch:checked{background:#13b995}.switch:after{content:"";position:absolute;width:19px;height:19px;top:3px;left:3px;background:white;border-radius:50%;transition:.2s}.switch:checked:after{left:22px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:780px}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid #24384e;font-size:11px}th{color:#8da2ba;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:9px}td{color:#dbe7f5}.hide{display:none!important}#qrcode img,#qrcode canvas{margin:auto;max-width:100%}
+#app > section:not(#membershipPanel){display:none!important}
 </style>
 </head>
 <body>
@@ -25,6 +26,27 @@
  <form id="loginForm" class="mt-6 space-y-3"><input id="email" class="input" type="email" autocomplete="username" value="xpaybantuan@gmail.com" required><input id="password" class="input" type="password" autocomplete="current-password" placeholder="Password admin" required><button class="btn primary w-full" type="submit">Login Admin</button></form><div id="loginMsg" class="text-xs mt-3 muted"></div>
 </section>
 <main id="app" class="hide space-y-6">
+ <section id="membershipPanel" class="space-y-5">
+ <div class="flex flex-wrap items-center justify-between gap-3">
+  <div><div class="text-emerald-300 text-[10px] font-black tracking-widest">SKIEESTORE MEMBERSHIP</div><h1 class="text-2xl md:text-3xl font-black mt-1">PASS · VIP · PRO</h1><p class="muted text-xs mt-2">Dashboard khusus langganan member. Pembayaran QRIS GoBiz, pencatatan Supabase, tanpa VIPayment. Duitku tetap menangani checkout produk lain.</p></div>
+  <button id="refreshMembershipBtn" class="btn secondary">↻ Refresh data member</button>
+ </div>
+ <div class="grid sm:grid-cols-3 gap-3">
+  <div class="glass p-5"><div class="muted text-[10px] font-bold tracking-wider">PENDAPATAN MEMBERSHIP</div><div id="memberRevenue" class="text-2xl font-black mt-3">Rp0</div><div class="muted text-[10px] mt-1">Total transaksi berstatus paid</div></div>
+  <div class="glass p-5"><div class="muted text-[10px] font-bold tracking-wider">MEMBER AKTIF</div><div id="activeMembers" class="text-2xl font-black mt-3">0</div><div class="muted text-[10px] mt-1">PASS, VIP, dan PRO belum kedaluwarsa</div></div>
+  <div class="glass p-5"><div class="muted text-[10px] font-bold tracking-wider">PEMBAYARAN SUKSES</div><div id="memberPaidCount" class="text-2xl font-black mt-3">0</div><div class="muted text-[10px] mt-1">Transaksi membership terverifikasi</div></div>
+ </div>
+ <div class="glass p-5 md:p-6">
+  <div class="flex items-center justify-between gap-3"><div><h2 class="text-lg font-black">Anggota aktif</h2><p class="muted text-xs mt-1">Maksimal 100 anggota terbaru berdasarkan masa aktif.</p></div></div>
+  <div class="table-wrap mt-4"><table><thead><tr><th>Anggota</th><th>Paket</th><th>Mulai</th><th>Berakhir</th></tr></thead><tbody id="membersBody"><tr><td colspan="4" class="muted">Memuat anggota…</td></tr></tbody></table></div>
+ </div>
+ <div class="glass p-5 md:p-6">
+  <div><h2 class="text-lg font-black">Riwayat pembayaran membership</h2><p class="muted text-xs mt-1">PASS Rp10.000 · VIP Rp15.000 · PRO Rp20.000 · masa aktif 30 hari.</p></div>
+  <div class="table-wrap mt-4"><table><thead><tr><th>Anggota / Tanggal</th><th>Paket</th><th>Jumlah</th><th>Gateway</th><th>Status</th><th>Berakhir</th></tr></thead><tbody id="membershipTransactionsBody"><tr><td colspan="6" class="muted">Memuat transaksi…</td></tr></tbody></table></div>
+  <div id="membershipMsg" class="text-xs muted mt-3"></div>
+ </div>
+</section>
+
  <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
   <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">KONEKSI GO PAY MERCHANT</div><div class="flex items-center justify-between mt-3 gap-2"><div><div id="connectionText" class="font-black text-lg">Belum dicek</div><div class="muted text-[10px] mt-1">G264474754 · Skieestore, Gaming</div></div><span id="connectionPill" class="pill warn"><i class="dot"></i> UNKNOWN</span></div><button id="checkConnectionBtn" class="btn secondary w-full mt-4">Cek status token</button></div>
   <div class="glass p-4"><div class="muted text-[10px] font-bold tracking-wider">TOTAL OMSET SKIEEPAY</div><div id="revenue" class="text-2xl font-black mt-3">Rp0</div><div class="muted text-[10px] mt-1">Order terverifikasi / diproses</div></div>
@@ -83,7 +105,7 @@ async function loginCheck(){
  if(!session){show(false);return}
  if(String(session.user.email||"").toLowerCase()!=="xpaybantuan@gmail.com"){await db.auth.signOut();show(false);msg("loginMsg","Akses ditolak. Gunakan xpaybantuan@gmail.com.");return}
  currentUser=session.user;show(true);$("adminBadge").textContent="ADMIN · "+session.user.email;
- await loadSettings();await loadDashboard();await checkConnection();
+ await loadDashboard();
 }
 async function loadSettings(){
  const d=await adminApi({action:"settings_get"}),s=d.settings||{};
@@ -101,12 +123,41 @@ async function saveSettings(patch){
  $("sandboxToggle").checked=d.settings.sandbox_enabled!==false;$("sandboxLabel").textContent=d.settings.sandbox_enabled===false?"OFF":"ON";
 }
 async function loadDashboard(){
- const d=await adminApi({action:"dashboard"}),s=d.stats||{};
- $("revenue").textContent=money(s.revenue);$("successCount").textContent=Number(s.success_count||0).toLocaleString("id-ID");
- $("workerStatus").textContent=s.worker_configured?"KEY TERPASANG":"KEY BELUM ADA";
- $("workerStatus").className="font-black text-lg mt-3 "+(s.worker_configured?"text-emerald-300":"text-rose-300");
- renderOrders(d.orders||[]);
+ const d=await adminApi({action:"membership_dashboard"}),st=d.stats||{};
+ $("memberRevenue").textContent=money(st.revenue);
+ $("activeMembers").textContent=Number(st.active_members||0).toLocaleString("id-ID");
+ $("memberPaidCount").textContent=Number(st.paid_count||0).toLocaleString("id-ID");
+ renderMembers(d.members||[]);
+ renderMembershipTransactions(d.transactions||[]);
 }
+function localDate(v){return v?new Date(v).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"}):"—";}
+function renderMembers(rows){
+ const body=$("membersBody");body.replaceChildren();
+ if(!rows.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=4;td.className="muted";td.textContent="Belum ada anggota aktif.";tr.append(td);body.append(tr);return;}
+ for(const m of rows){
+  const tr=document.createElement("tr");
+  const who=document.createElement("td");who.textContent=m.name||m.email||String(m.user_id||"").slice(0,14)+"…";
+  const tier=document.createElement("td");tier.textContent=String(m.tier||"").toUpperCase();
+  const start=document.createElement("td");start.textContent=localDate(m.starts_at);
+  const expiry=document.createElement("td");expiry.textContent=localDate(m.member_expired_at||m.expires_at);
+  tr.append(who,tier,start,expiry);body.append(tr);
+ }
+}
+function renderMembershipTransactions(rows){
+ const body=$("membershipTransactionsBody");body.replaceChildren();
+ if(!rows.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=6;td.className="muted";td.textContent="Belum ada transaksi membership.";tr.append(td);body.append(tr);return;}
+ for(const x of rows){
+  const tr=document.createElement("tr");
+  const who=document.createElement("td");who.textContent=(x.name||x.email||String(x.user_id||"").slice(0,14)+"…")+" · "+localDate(x.created_at);
+  const tier=document.createElement("td");tier.textContent=String(x.tier||"").toUpperCase();
+  const amount=document.createElement("td");amount.textContent=money(x.amount);
+  const gateway=document.createElement("td");gateway.textContent=x.gateway||"—";
+  const status=document.createElement("td");status.textContent=String(x.status||"").toUpperCase();
+  const expiry=document.createElement("td");expiry.textContent=localDate(x.expires_at);
+  tr.append(who,tier,amount,gateway,status,expiry);body.append(tr);
+ }
+}
+$("refreshMembershipBtn").addEventListener("click",async()=>{const b=$("refreshMembershipBtn");b.disabled=true;b.textContent="Memuat…";try{await loadDashboard();$("membershipMsg").textContent="Data membership diperbarui.";}catch(e){$("membershipMsg").textContent=e.message;}finally{b.disabled=false;b.textContent="↻ Refresh data member";}});
 function renderOrders(rows){
  const body=$("ordersBody");body.innerHTML="";
  if(!rows.length){body.innerHTML='<tr><td colspan="6" class="muted">Belum ada transaksi SkieePay.</td></tr>';return}
