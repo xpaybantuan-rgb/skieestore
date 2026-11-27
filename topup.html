@@ -880,6 +880,61 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
 </script>
+
+<style id="skiee-final-ui-refinements-20261128">
+/* Floating AI assistant: thumb-friendly 52px target, safely above mobile navigation. */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{
+ position:fixed!important;right:18px!important;bottom:28px!important;
+ width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+ max-width:52px!important;max-height:52px!important;flex:0 0 52px!important;
+ display:grid!important;place-items:center!important;border-radius:50%!important;
+ padding:0!important;z-index:99998!important;box-sizing:border-box!important;
+}
+#chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{
+ width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;
+ display:block!important;
+}
+@media(max-width:760px){
+ #chatToggle,.chat-fab,.xp-footer .chat-fab{
+  right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+  width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+  max-width:52px!important;max-height:52px!important;flex-basis:52px!important;
+ }
+ #chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{width:29px!important;height:29px!important}
+}
+</style>
+
+<style id="skiee-topup-banner-match-home-20261128">
+.topup-page .main{padding-top:18px!important}
+.topup-page .catalog-page>.back{margin-bottom:10px!important}
+.topup-page .catalog-page>.intro{
+ position:relative!important;display:flex!important;flex-direction:column!important;justify-content:center!important;
+ min-height:112px!important;padding:18px 22px!important;margin:0 0 16px!important;
+ border:0!important;border-radius:18px!important;background:#0F172A!important;
+ color:#fff!important;box-shadow:none!important;overflow:hidden!important;
+}
+.topup-page .catalog-page>.intro:after{
+ content:""!important;position:absolute!important;inset:0!important;pointer-events:none!important;
+ background:radial-gradient(ellipse at 88% 10%,rgba(8,123,255,.24),transparent 48%)!important;
+}
+.topup-page .catalog-page>.intro>*{position:relative!important;z-index:1!important}
+.topup-page .catalog-page>.intro .eyebrow{
+ color:#FFDF4D!important;font-size:9px!important;letter-spacing:.16em!important;margin:0 0 5px!important;
+}
+.topup-page .catalog-page>.intro h1{
+ color:#fff!important;font:700 clamp(20px,3vw,27px)/1.15 "Space Grotesk",sans-serif!important;
+ letter-spacing:-.5px!important;margin:0 0 6px!important;
+}
+.topup-page .catalog-page>.intro p{
+ max-width:680px!important;color:#e2e8f0!important;font-size:11px!important;line-height:1.55!important;margin:0!important;
+}
+@media(max-width:620px){
+ .topup-page .main{padding-top:14px!important}
+ .topup-page .catalog-page>.intro{min-height:104px!important;padding:16px 17px!important;border-radius:17px!important;margin-bottom:13px!important}
+ .topup-page .catalog-page>.intro h1{font-size:21px!important}
+ .topup-page .catalog-page>.intro p{font-size:10px!important}
+}
+</style>
 </head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
@@ -897,7 +952,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 <main class="container main">
 <section class="catalog-page" id="catalogPage">
 <a class="back" href="/">← Kembali ke Beranda</a>
-<section class="intro"><div class="eyebrow">KATALOG RESMI SKIEESTORE</div><h1>Top Up Game Online &amp; Voucher Digital</h1><p>Pilih game atau produk digital, lalu cek pilihan nominal dan harga yang tersedia. SKIEESTORE menyediakan katalog top up Mobile Legends, Free Fire, PUBG Mobile, serta voucher digital dalam satu halaman.</p></section>
+<section class="intro"><div class="eyebrow">KATALOG RESMI SKIEESTORE</div><h1>TOP UP GAME &amp; VOUCHER</h1><p>Pilih game favoritmu dan temukan nominal top up dengan harga yang jelas.</p></section>
 <section class="panel"><div class="panelhead"><div><div class="kicker">KATALOG GAME</div><h2>Pilih game atau voucher</h2></div></div>
 <div class="filters" id="filters"><button class="chip active" data-filter="Mobile">Mobile</button><button class="chip" data-filter="PC">PC</button><button class="chip" data-filter="Voucher">Voucher</button><button class="chip" data-filter="Apps">Apps</button><button class="chip" data-filter="Streaming">Streaming</button></div><div class="games" id="games" aria-label="Memuat katalog game"><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div><div class="catalog-skeleton" aria-hidden="true"><span class="skeleton-art"></span><span class="skeleton-copy"><i></i><i></i></span></div></div></section>
 <section class="seo-game-directory" aria-labelledby="seo-game-directory-title">
