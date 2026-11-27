@@ -59,7 +59,7 @@ button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;curs
     <div class="panel-head"><div><h2>Koneksi GoPay Merchant</h2><p class="panel-desc">Hubungkan akun merchant untuk membaca mutasi QRIS.</p></div><span id="gopayBadge" class="status warn">BELUM TERHUBUNG</span></div>
     <div class="notice" style="margin-top:0">Hubungkan akun GoPay Merchant untuk membaca mutasi QRIS. OTP dikirim langsung oleh GoPay. Jangan bagikan kode OTP kepada siapa pun.</div>
     <label class="field"><span>Metode login GoPay Merchant</span><select id="gopayLoginMethod" class="input"><option value="email" selected>Email (disarankan)</option><option value="phone">Nomor HP</option></select></label>
-    <label class="field"><span id="gopayIdentityLabel">Email GoPay Merchant</span><input id="gopayIdentity" class="input" type="email" inputmode="email" autocomplete="email" placeholder="adminskie@gmail.com"></label>
+    <label class="field"><span id="gopayIdentityLabel">Email GoPay Merchant</span><input id="gopayIdentity" class="input" type="email" inputmode="email" autocomplete="email" value="adminskie@gmail.com" placeholder="adminskie@gmail.com"></label>
     <button id="requestOtpBtn" class="btn primary" style="width:100%">Kirim OTP ke email</button>
     <label class="field"><span>Kode OTP</span><input id="gopayOtp" class="input" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Masukkan 4–8 digit OTP"></label>
     <button id="verifyOtpBtn" class="btn" style="width:100%">Verifikasi & hubungkan</button>
