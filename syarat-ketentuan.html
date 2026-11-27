@@ -462,4 +462,53 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 </div>
 
 <script src="assets/skieestore-global.js?v=20261125-11" defer></script>
+
+<style id="skiee-production-ui-hotfix-v2">
+/* Production hotfix: force the floating assistant above the mobile navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{
+ position:fixed!important;right:14px!important;bottom:24px!important;
+ width:46px!important;height:46px!important;min-width:46px!important;
+ max-width:46px!important;flex:none!important;z-index:99999!important;
+ border-radius:50%!important;box-sizing:border-box!important;
+}
+.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}
+@media(max-width:760px){
+ .chat-fab,#chatToggle,.xp-footer .chat-fab{
+  right:14px!important;bottom:calc(104px + env(safe-area-inset-bottom))!important;
+  width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;
+ }
+ .chat-fab svg,#chatToggle svg{width:23px!important;height:23px!important}
+}
+.gamegrid .gamecard .gameinfo small,#gameGrid .gamecard .gameinfo small{
+ max-width:none!important;overflow:visible!important;text-overflow:clip!important;
+ white-space:nowrap!important;font-size:10px!important;letter-spacing:0!important;
+}
+</style>
+<script id="skiee-production-text-hotfix-v2">
+(function(){
+ function clean(root){
+  if(!root||!root.querySelectorAll)return;
+  root.querySelectorAll('#gameGrid .gamecard .gameinfo small,.gamegrid .gamecard .gameinfo small').forEach(function(el){
+   var v=(el.textContent||'').trim(),m=v.match(/^(\d+)\s+PRODUK\b.*$/i);
+   if(m){var next=m[1]+' Produk';if(v!==next)el.textContent=next;return;}
+   m=v.match(/^(\d+)\s+ITEM\b.*$/i);
+   if(m){var nextItem=m[1]+' Item';if(v!==nextItem)el.textContent=nextItem;}
+  });
+  root.querySelectorAll('.xp-foot-payments span,.xp-footer .xp-foot-payments span').forEach(function(el){
+   var v=(el.textContent||'').trim();
+   var next=v.replace(/QRQRIS/gi,'QRIS').replace(/DDANA/gi,'DANA').replace(/OOVO/gi,'OVO');
+   if(v!==next)el.textContent=next;
+  });
+ }
+ function start(){
+  clean(document);
+  if(window.MutationObserver&&document.body){
+   var observer=new MutationObserver(function(){clean(document);});
+   observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  }
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
 </body></html>
