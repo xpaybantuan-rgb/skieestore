@@ -686,7 +686,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
     <div class="section-title"><div><span class="profile-eyebrow">LANGGANAN 30 HARI</span><h2>Pilih paket SKIEE</h2></div></div>
     <div class="member-alert" style="margin:0 0 14px">Pembayaran QRIS melalui Kasera Pay · Scan dari aplikasi bank atau e-wallet yang mendukung QRIS.</div>
     <div class="member-plans">
-      <article class="member-plan"><h3>SKIEE PRO</h3><strong>Rp10.000</strong><small>30 hari · Akses PRO</small><button type="button" data-member-checkout="pro">Pilih PRO · QRIS</button></article>
+      <article class="member-plan"><h3>SKIEE PRO</h3><strong>Rp1.000</strong><small>30 hari · Harga tes sementara</small><button type="button" data-member-checkout="pro">Pilih PRO · QRIS</button></article>
       <article class="member-plan featured"><h3>SKIEE VIP</h3><strong>Rp15.000</strong><small>30 hari · Akses VIP</small><button type="button" data-member-checkout="vip">Pilih VIP · QRIS</button></article>
       <article class="member-plan"><h3>SKIEE MAX</h3><strong>Rp22.000</strong><small>30 hari · Akses MAX</small><button type="button" data-member-checkout="max">Pilih MAX · QRIS</button></article>
     </div>
@@ -848,12 +848,12 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   $("memberGoogleLogin").hidden=!!session;$("memberLogout").hidden=!session;
   if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";const googleReady=await checkGoogleProvider();status(googleReady?"Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.":"Login Google belum diaktifkan pada Supabase Auth. Provider Google memerlukan OAuth Client ID dan Client Secret.",!googleReady);await renderNotifications();return;}
   const user=session.user;$("memberName").textContent="Halo, "+(user.user_metadata?.full_name||user.user_metadata?.name||user.email||"Member");$("memberEmail").textContent=user.email||"Akun Google terhubung";$("memberAccountBadge").innerHTML="<i></i> Akun terhubung";
-  const {data:member,error}=await sb.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at").eq("user_id",user.id).maybeSingle();
+  const {data:member,error}=await sb.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at,is_manual").eq("user_id",user.id).maybeSingle();
   if(error){status("Login berhasil, tetapi status paket belum dapat dibaca: "+error.message,true);}
-  const expiry=member?.member_expired_at||member?.expires_at,tier=member&&expiry&&new Date(expiry)>new Date()?member.tier:"free";
-  const names={free:"Reguler",pass:"SKIEE PASS · Rp10.000",vip:"SKIEE VIP · Rp15.000",pro:"SKIEE PRO · Rp20.000"};
-  $("memberTierLabel").textContent=names[tier]||"Reguler";$("memberExpiryLabel").textContent=tier==="free"?"Tidak ada masa aktif · Reguler":"Berakhir: "+dateText(expiry);
-  $("memberCardNote").textContent=tier==="free"?"Pilih paket langganan untuk mendapatkan harga khusus member.":"Paket "+tier.toUpperCase()+" aktif dan harga khusus sudah terhubung ke checkout.";
+  const expiry=member?.member_expired_at||member?.expires_at,isLifetimeMax=member?.tier==="max"&&member?.is_manual===true,tier=isLifetimeMax?"max":member&&expiry&&new Date(expiry)>new Date()?member.tier:"free";
+  const names={free:"Reguler",pass:"SKIEE PASS · Rp10.000",vip:"SKIEE VIP · Rp15.000",pro:"SKIEE PRO · Rp10.000",max:"SKIEE MAX · PEMILIK"};
+  $("memberTierLabel").textContent=names[tier]||"Reguler";$("memberExpiryLabel").textContent=isLifetimeMax?"Seumur hidup · Akun pemilik":tier==="free"?"Tidak ada masa aktif · Reguler":"Berakhir: "+dateText(expiry);
+  $("memberCardNote").textContent=isLifetimeMax?"Akses SKIEE MAX permanen khusus akun pemilik.":"Paket "+tier.toUpperCase()+" aktif dan harga khusus sudah terhubung ke checkout.";
   status("Login berhasil. Harga member akan diterapkan otomatis saat membuat pesanan.");
   await renderNotifications();
  }
