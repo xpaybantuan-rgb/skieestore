@@ -684,13 +684,13 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   <div class="member-alert" id="memberAuthStatus" role="status" aria-live="polite">Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.</div>
   <section class="profile-section" id="memberSubscription">
     <div class="section-title"><div><span class="profile-eyebrow">LANGGANAN 30 HARI</span><h2>Pilih paket SKIEE</h2></div></div>
-    <div class="member-alert" style="margin:0 0 14px">Pembayaran QRIS GoBiz · Bisa scan dari aplikasi bank atau e-wallet apa pun.</div>
+    <div class="member-alert" style="margin:0 0 14px">Pembayaran QRIS melalui Kasera Pay · Scan dari aplikasi bank atau e-wallet yang mendukung QRIS.</div>
     <div class="member-plans">
-      <article class="member-plan"><h3>SKIEE PASS</h3><strong>Rp10.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="pass">Pilih PASS · QRIS</button></article>
-      <article class="member-plan featured"><h3>SKIEE VIP</h3><strong>Rp15.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="vip">Pilih VIP · QRIS</button></article>
-      <article class="member-plan"><h3>SKIEE PRO</h3><strong>Rp20.000</strong><small>30 hari · Harga khusus member</small><button type="button" data-member-checkout="pro">Pilih PRO · QRIS</button></article>
+      <article class="member-plan"><h3>SKIEE PRO</h3><strong>Rp10.000</strong><small>30 hari · Akses PRO</small><button type="button" data-member-checkout="pro">Pilih PRO · QRIS</button></article>
+      <article class="member-plan featured"><h3>SKIEE VIP</h3><strong>Rp15.000</strong><small>30 hari · Akses VIP</small><button type="button" data-member-checkout="vip">Pilih VIP · QRIS</button></article>
+      <article class="member-plan"><h3>SKIEE MAX</h3><strong>Rp22.000</strong><small>30 hari · Akses MAX</small><button type="button" data-member-checkout="max">Pilih MAX · QRIS</button></article>
     </div>
-    <p class="member-card-note">Paket aktif otomatis 30 hari setelah pembayaran QRIS GoBiz terverifikasi.</p>
+    <p class="member-card-note">Paket aktif otomatis selama 30 hari setelah pembayaran QRIS Kasera Pay terverifikasi.</p>
   </section>
   <section class="profile-section" id="memberNotificationsSection">
     <div class="section-title"><div><span class="profile-eyebrow">PEMBERITAHUAN</span><h2>Notifikasi akun</h2></div></div>
@@ -861,27 +861,27 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  $("memberLogout").addEventListener("click",async()=>{await sb.auth.signOut();await loadAccount();});
  document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{
   if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}
-  b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat QRIS GoBiz untuk SKIEE "+tier.toUpperCase()+"…");
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
+  b.disabled=true;const tier=b.dataset.memberCheckout;status("Membuat invoice Kasera Pay untuk SKIEE "+tier.toUpperCase()+"…");
+  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),25000);
   try{
-   const r=await fetch(URL+"/functions/v1/skieestore-membership-gobiz?action=create",{
-    method:"POST",headers:{"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+session.access_token},
+   const r=await fetch("https://skieestore-kasera.xpaybantuan.workers.dev/membership/create",{
+    method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token},
     body:JSON.stringify({tier,request_id:crypto.randomUUID()}),signal:controller.signal
    });
    const d=await r.json().catch(()=>({}));
    if(!r.ok||!d.ok){
     const messages={
-     GOBIZ_NOT_CONFIGURED:"Akses API resmi GoBiz belum dimasukkan ke Supabase Secrets.",
-     GOBIZ_AUTH_FAILED:"GoBiz menolak kredensial OAuth. Periksa Client ID/Secret dan akses produksi.",
-     GOBIZ_PAYMENT_SCOPE_MISSING:"Kredensial belum memiliki scope payment:transaction:write.",
-     GOBIZ_TRANSACTION_CREATE_FAILED:"GoBiz gagal membuat QRIS. Periksa akses outlet dan scope Pay Integration.",
-     LOGIN_REQUIRED:"Silakan login sebelum membeli paket."
+     WORKER_NOT_CONFIGURED:"Integrasi Kasera belum selesai dikonfigurasi di Cloudflare.",
+     LOGIN_REQUIRED:"Silakan login sebelum membeli paket.",
+     KASERA_CREATE_FAILED:"Kasera Pay gagal membuat invoice. Coba lagi atau hubungi admin."
     };
-    throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat QRIS (HTTP "+r.status+")."));
+    throw new Error(messages[d.code]||d.message||d.code||("Gagal membuat invoice (HTTP "+r.status+")."));
    }
-   showMemberQr(d.payment,tier);watchMemberPayment(d.payment.id,tier);
+   if(!d.checkout_url)throw new Error("Kasera tidak mengirim link pembayaran.");
+   status("Invoice berhasil dibuat. Mengalihkan ke halaman pembayaran Kasera Pay…");
+   location.href=d.checkout_url;
   }catch(e){
-   const msg=e.name==="AbortError"?"Permintaan ke GoBiz terlalu lama. Coba lagi sebentar.":(e.message||"Terjadi kesalahan saat membuat QRIS.");
+   const msg=e.name==="AbortError"?"Permintaan pembayaran terlalu lama. Coba lagi sebentar.":(e.message||"Terjadi kesalahan saat membuat invoice.");
    status(msg,true);b.disabled=false;
   }finally{clearTimeout(timeout);}
  }));
