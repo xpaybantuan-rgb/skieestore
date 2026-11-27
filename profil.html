@@ -646,6 +646,15 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 </style>
   <link rel="stylesheet" href="assets/header-compact.css?v=1">
 <style>
+.member-activity-shell{padding:22px;border:1px solid #e5eaf1;border-radius:20px;background:#fff;box-shadow:0 8px 28px rgba(16,24,40,.045)}
+.member-activity-shell>.section-title{margin-bottom:19px}
+.member-payment-panel{padding:19px;border:1px solid #e9edf3;border-radius:16px;background:#f8fafc}
+.member-payment-heading{margin-bottom:15px}
+.member-payment-heading h3{margin:5px 0 0;font:700 16px "Space Grotesk",sans-serif;letter-spacing:-.25px;color:#202127}
+.member-payment-panel .member-history-item{background:#fff}
+@media(max-width:520px){.member-activity-shell{padding:15px;border-radius:16px}.member-payment-panel{padding:13px;border-radius:13px}.member-payment-heading h3{font-size:15px}}
+</style>
+<style>
 .member-history{display:grid;gap:10px}
 .member-history-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:center;padding:15px 16px;border:1px solid #e7e9ee;border-radius:15px;background:#fff}
 .member-history-item b{display:block;font-size:13px;color:#202127}
@@ -720,8 +729,16 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   </section>
 
   <section class="profile-section" id="memberHistorySection">
-    <div class="section-title"><div><span class="profile-eyebrow">AKTIVITAS</span><h2>Riwayat Transaksi</h2><p>Pantau pesanan dan aktivitas akun dalam satu tempat.</p></div></div>
-    <div class="member-history" id="memberHistory"><div class="member-alert">Login untuk melihat riwayat transaksi.</div></div>
+    <div class="member-activity-shell">
+      <div class="section-title"><div><span class="profile-eyebrow">AKTIVITAS</span><h2>Riwayat Transaksi</h2><p>Pantau pesanan dan aktivitas akun dalam satu tempat.</p></div></div>
+      <div class="member-payment-panel">
+        <div class="member-payment-heading">
+          <span class="profile-eyebrow">AKTIVITAS PEMBAYARAN</span>
+          <h3>Riwayat transaksi member</h3>
+        </div>
+        <div class="member-history" id="memberHistory"><div class="member-alert">Login untuk melihat riwayat transaksi.</div></div>
+      </div>
+    </div>
   </section>
 
   <section class="profile-bottom">
