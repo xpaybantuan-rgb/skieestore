@@ -388,6 +388,35 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 }
 </style>
   <link rel="stylesheet" href="assets/header-compact.css?v=1">
+
+<style id="skiee-global-ui-fixes">
+/* Global floating assistant: smaller and clear of the mobile bottom navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{position:fixed!important;right:16px!important;bottom:24px!important;width:48px!important;height:48px!important;min-width:48px!important;flex:none!important;z-index:9998!important;border-radius:50%!important}
+.chat-fab svg,#chatToggle svg{width:26px!important;height:26px!important}
+@media(max-width:620px){.chat-fab,#chatToggle,.xp-footer .chat-fab{right:14px!important;bottom:calc(88px + env(safe-area-inset-bottom))!important;width:46px!important;height:46px!important;min-width:46px!important}.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}}
+/* Compact catalog count badges; prevent ellipsis clipping. */
+.game-count-badge,.game-badge,.catalog-count,.product-count,.gameinfo small,.badge-count{max-width:100%;white-space:nowrap;overflow:visible;text-overflow:clip}
+</style>
+<script id="skiee-global-text-normalizer">
+(function(){
+  function clean(root){
+    if(!root||!root.querySelectorAll)return;
+    root.querySelectorAll('.xp-footer *,.game-count-badge,.game-badge,.catalog-count,.product-count,.badge-count,[class*="badge"],[class*="count"]').forEach(function(el){
+      if(el.children.length)return;
+      var v=(el.textContent||'').trim(),m=v.match(/^(\\d+)\\s+PRODUK\\s+(?:AKTIF|A[A-Z ]*).*$/i);
+      if(m)el.textContent=m[1]+' Produk';
+      else if((m=v.match(/^(\\d+)\\s+ITEM\\s+(?:AKTIF|A[A-Z ]*).*$/i)))el.textContent=m[1]+' Item';
+    });
+    root.querySelectorAll('.xp-footer *').forEach(function(el){
+      if(el.children.length)return;
+      var v=el.textContent||'';
+      el.textContent=v.replace(/\\bQRQRIS\\b/g,'QRIS').replace(/\\bDDANA\\b/g,'DANA').replace(/\\bOOVO\\b/g,'OVO');
+    });
+  }
+  function start(){clean(document);var target=document.body;if(target&&window.MutationObserver)new MutationObserver(function(records){records.forEach(function(r){r.addedNodes&&r.addedNodes.forEach(function(n){if(n.nodeType===1)clean(n);});});}).observe(target,{childList:true,subtree:true});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
 </head><body><header class="header top main-site-header"><a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE" width="951" height="304"></a><div class="actions header-actions"><button class="iconbtn header-search-btn" id="mainHeaderSearchToggle" type="button" aria-label="Cari game" aria-expanded="false"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button></div></header><div class="main-header-search-panel" id="mainHeaderSearchPanel" hidden><form action="/topup" method="get"><label for="mainHeaderSearchInput">Cari game</label><div><input id="mainHeaderSearchInput" name="q" type="search" placeholder="Cari nama game..." autocomplete="off"><button type="submit">Cari</button></div></form></div><main class="wrap"><section class="intro"><h1>Tentang SKIEESTORE</h1><p>SKIEESTORE adalah platform pemesanan top up game dan voucher digital di Indonesia. Kami menyediakan katalog produk dengan informasi harga yang transparan serta alur pemesanan yang praktis dan mudah dipahami.</p></section><section class="section"><h2>Profil layanan</h2><p>Melalui SKIEESTORE, pengguna dapat memilih game atau voucher digital, menentukan nominal, mengisi User ID dan data tujuan sesuai instruksi, lalu memeriksa ringkasan sebelum membayar. Informasi produk dan total pembayaran ditampilkan dalam Rupiah (Rp).</p><h3>Pemrosesan pesanan</h3><p>Pesanan yang pembayarannya telah terkonfirmasi diteruskan ke proses pemenuhan secara otomatis apabila produk dan sistem penyedia mendukung pemrosesan otomatis. Waktu penyelesaian dapat berbeda menurut produk dan kondisi penyedia.</p><h3>Katalog dan harga transparan</h3><p>Kami menampilkan nama produk, pilihan nominal, dan harga dalam Rupiah agar pengguna dapat memeriksa biaya sebelum melanjutkan transaksi. Harga dan ketersediaan dapat berubah mengikuti pembaruan katalog. Harga yang menjadi acuan adalah harga pada ringkasan checkout saat pesanan dibuat.</p><h3>Bantuan pelanggan</h3><p>Jika mengalami kendala, pengguna dapat menghubungi WhatsApp Customer Service atau email adminskiee@gmail.com dengan menyertakan nomor invoice. Simpan nomor invoice untuk memeriksa status transaksi melalui halaman <a href="/cek-pesanan">Cek Status Pesanan</a>.</p><h3>Domisili usaha</h3><p>Lubuk Linggau, Sumatera Selatan, Indonesia.</p></section></main><footer class="xp-footer" id="footer"><div class="xp-foot-wrap">
 <a class="xp-foot-brand" href="/" aria-label="SKIEESTORE Beranda"><img class="xp-foot-logo" src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <p class="xp-foot-desc">Top up game dan voucher digital jadi lebih sat-set! Pilih produk, isi data, lalu bayar praktis via QRIS. Pesanan diproses cepat dan otomatis, jadi kamu bisa langsung lanjut mabar.</p>
