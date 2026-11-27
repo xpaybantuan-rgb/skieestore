@@ -645,6 +645,17 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 }
 </style>
   <link rel="stylesheet" href="assets/header-compact.css?v=1">
+<style>
+.member-history{display:grid;gap:10px}
+.member-history-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:center;padding:15px 16px;border:1px solid #e7e9ee;border-radius:15px;background:#fff}
+.member-history-item b{display:block;font-size:13px;color:#202127}
+.member-history-item small{display:block;margin-top:5px;color:#737987;font-size:10px;line-height:1.6;overflow-wrap:anywhere}
+.member-history-amount{font-size:15px;font-weight:900;text-align:right;color:#17181d}
+.member-history-status{display:inline-flex;align-items:center;gap:6px;margin-top:7px;padding:5px 9px;border-radius:20px;font-size:10px;font-weight:850;background:#ecfdf3;color:#027a48}
+.member-history-status.pending{background:#fffaeb;color:#b54708}
+.member-history-status.failed{background:#fef3f2;color:#b42318}
+@media(max-width:520px){.member-history-item{padding:13px;gap:7px}.member-history-amount{font-size:13px}}
+</style>
 </head><body><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
@@ -695,6 +706,10 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   <section class="profile-section" id="memberNotificationsSection">
     <div class="section-title"><div><span class="profile-eyebrow">PEMBERITAHUAN</span><h2>Notifikasi akun</h2></div></div>
     <div class="member-notifications" id="memberNotifications"><div class="member-alert">Login untuk melihat notifikasi pembayaran dan aktivitas member.</div></div>
+  </section>
+  <section class="profile-section" id="memberHistorySection">
+    <div class="section-title"><div><span class="profile-eyebrow">AKTIVITAS PEMBAYARAN</span><h2>Riwayat transaksi member</h2></div></div>
+    <div class="member-history" id="memberHistory"><div class="member-alert">Login untuk melihat riwayat transaksi member.</div></div>
   </section>
 
   <section class="profile-shortcuts" aria-label="Akses cepat">
@@ -836,6 +851,26 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   box.innerHTML=data&&data.length?data.map(n=>'<article class="member-notification '+(n.read_at?"":"unread")+'"><b>'+String(n.title||"Notifikasi").replace(/[<>]/g,"")+'</b><div>'+String(n.body||"").replace(/[<>]/g,"")+'</div><small>'+new Date(n.created_at).toLocaleString("id-ID")+'</small></article>').join(""):'<div class="member-alert">Belum ada notifikasi.</div>';
   const unread=(data||[]).filter(n=>!n.read_at).map(n=>n.id);if(unread.length)await sb.from("skieestore_user_notifications").update({read_at:new Date().toISOString()}).in("id",unread);
  }
+ async function renderMembershipHistory(){
+  const box=$("memberHistory");if(!box)return;
+  if(!session){box.innerHTML='<div class="member-alert">Login untuk melihat riwayat transaksi member.</div>';return;}
+  const {data,error}=await sb.from("skieestore_membership_transactions")
+   .select("id,tier,amount,status,gateway,gateway_reference,paid_at,starts_at,expires_at,created_at")
+   .eq("user_id",session.user.id).order("created_at",{ascending:false}).limit(30);
+  if(error){box.innerHTML='<div class="member-alert">Riwayat transaksi belum dapat dimuat: '+String(error.message).replace(/[<>]/g,"")+'</div>';return;}
+  if(!data||!data.length){box.innerHTML='<div class="member-alert">Belum ada transaksi langganan.</div>';return;}
+  const esc=v=>String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  const money=v=>"Rp"+Number(v||0).toLocaleString("id-ID");
+  const date=v=>v?new Date(v).toLocaleString("id-ID",{dateStyle:"medium",timeStyle:"short"})+" WIB":"—";
+  const labels={paid:"Berhasil",pending:"Menunggu pembayaran",failed:"Gagal",expired:"Kedaluwarsa",refunded:"Dikembalikan"};
+  box.innerHTML=data.map(t=>{
+   const state=String(t.status||"pending").toLowerCase(),tier=String(t.tier||"").toUpperCase();
+   const ref=t.gateway_reference?'<small>Referensi: '+esc(t.gateway_reference)+'</small>':"";
+   const paid=t.paid_at?'<small>Dibayar: '+esc(date(t.paid_at))+'</small>':'<small>Dibuat: '+esc(date(t.created_at))+'</small>';
+   const expiry=t.expires_at?'<small>Masa paket: '+esc(date(t.starts_at))+' – '+esc(date(t.expires_at))+'</small>':"";
+   return '<article class="member-history-item"><div><b>SKIEE '+esc(tier)+' · '+esc(String(t.gateway||"").toUpperCase())+'</b>'+paid+expiry+ref+'<span class="member-history-status '+esc(state)+'">'+esc(labels[state]||state)+'</span></div><div class="member-history-amount">'+money(t.amount)+'</div></article>';
+  }).join("");
+ }
  async function checkGoogleProvider(){
   // Do not use the custom google_status proxy as a login gate.
   // Supabase's own OAuth flow is the source of truth; the proxy can
@@ -846,7 +881,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  async function loadAccount(){
   const {data}=await sb.auth.getSession();session=data.session;
   $("memberGoogleLogin").hidden=!!session;$("memberLogout").hidden=!session;
-  if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";const googleReady=await checkGoogleProvider();status(googleReady?"Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.":"Login Google belum diaktifkan pada Supabase Auth. Provider Google memerlukan OAuth Client ID dan Client Secret.",!googleReady);await renderNotifications();return;}
+  if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";const googleReady=await checkGoogleProvider();status(googleReady?"Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.":"Login Google belum diaktifkan pada Supabase Auth. Provider Google memerlukan OAuth Client ID dan Client Secret.",!googleReady);await renderNotifications();await renderMembershipHistory();return;}
   const user=session.user;$("memberName").textContent="Halo, "+(user.user_metadata?.full_name||user.user_metadata?.name||user.email||"Member");$("memberEmail").textContent=user.email||"Akun Google terhubung";$("memberAccountBadge").innerHTML="<i></i> Akun terhubung";
   const {data:member,error}=await sb.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at,is_manual").eq("user_id",user.id).maybeSingle();
   if(error){status("Login berhasil, tetapi status paket belum dapat dibaca: "+error.message,true);}
@@ -855,7 +890,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   $("memberTierLabel").textContent=names[tier]||"Reguler";$("memberExpiryLabel").textContent=isLifetimeMax?"Seumur hidup · Akun pemilik":tier==="free"?"Tidak ada masa aktif · Reguler":"Berakhir: "+dateText(expiry);
   $("memberCardNote").textContent=isLifetimeMax?"Akses SKIEE MAX permanen khusus akun pemilik.":"Paket "+tier.toUpperCase()+" aktif dan harga khusus sudah terhubung ke checkout.";
   status("Login berhasil. Harga member akan diterapkan otomatis saat membuat pesanan.");
-  await renderNotifications();
+  await renderNotifications();await renderMembershipHistory();
  }
  $("memberGoogleLogin").addEventListener("click",async()=>{const b=$("memberGoogleLogin");b.disabled=true;status("Membuka login Google…");const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/profil",queryParams:{prompt:"select_account"}}});if(error){status("Login Google gagal: "+error.message,true);b.disabled=false;}});
  $("memberLogout").addEventListener("click",async()=>{await sb.auth.signOut();await loadAccount();});
