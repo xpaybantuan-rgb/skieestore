@@ -229,6 +229,73 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 
 </style>
 <style>
+/* ===== SKIEESTORE BANNER SLIDER REFINEMENT ===== */
+.home-banner{
+  border:none!important;
+  background:#0f172a;
+  box-shadow:5px 5px 0 #0f172a;
+}
+.home-banner-slide{
+  color:#fff!important;
+  background:linear-gradient(110deg,#0b1730 0%,#123b78 58%,#075985 100%)!important;
+}
+.home-banner-slide:after{
+  display:none!important;
+  content:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.home-banner-slide:before{
+  background:linear-gradient(90deg,rgba(5,12,30,.94) 0%,rgba(5,12,30,.82) 55%,rgba(5,12,30,.35) 100%)!important;
+  z-index:1;
+}
+.home-banner-copy{
+  position:relative;
+  z-index:2;
+  max-width:70%;
+  color:#fff;
+  gap:9px;
+}
+.home-banner-copy small{
+  color:#ffdf4d!important;
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.16em;
+}
+.home-banner-copy strong{
+  color:#fff!important;
+  font-weight:900;
+  text-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.home-banner-copy span{
+  color:#f1f5f9!important;
+  font-weight:600;
+  line-height:1.6;
+}
+.home-banner-note{
+  color:#ffdf4d!important;
+  font-weight:700;
+}
+.home-banner-controls button{
+  border:none!important;
+  background:#ffdf4d!important;
+  color:#0f172a!important;
+  box-shadow:none!important;
+}
+.home-banner-dots button{
+  border:none!important;
+  background:rgba(255,255,255,.55);
+}
+.home-banner-dots button.active{
+  background:#ffdf4d!important;
+}
+@media(max-width:760px){
+  .home-banner-copy{max-width:85%}
+  .home-banner-copy small{font-size:9px}
+}
+</style>
+
+<style>
 .xp-footer{background:#fff;color:#202124;border-top:1px solid #eee;padding:42px 0 18px;margin-top:42px}
 .xp-footer .xp-foot-wrap{width:min(1160px,calc(100% - 40px));margin:0 auto}
 .xp-footer .xp-foot-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#171717;font-size:22px;font-weight:850;letter-spacing:-.7px}
@@ -971,7 +1038,7 @@ async function loadHomeBannersAndFlashSales(){
  dots.innerHTML=slides.map((_,i)=>'<button type="button" data-banner-dot="'+i+'" aria-label="Banner '+(i+1)+'" class="'+(i===0?"active":"")+'"></button>').join("");
  function show(n){active=(n+slides.length)%slides.length;track.style.transform="translateX(-"+(active*100)+"%)";dots.querySelectorAll("button").forEach((b,i)=>b.classList.toggle("active",i===active));}
  $("homeBannerPrev").onclick=()=>{show(active-1);restart()};$("homeBannerNext").onclick=()=>{show(active+1);restart()};dots.onclick=e=>{const b=e.target.closest("[data-banner-dot]");if(b){show(Number(b.dataset.bannerDot));restart();}};
- function restart(){if(timer)clearInterval(timer);if(slides.length>1)timer=setInterval(()=>show(active+1),5000);}
+ function restart(){if(timer)clearInterval(timer);if(slides.length>1)timer=setInterval(()=>show(active+1),7000);}
  if(slides.length<2){$("homeBannerPrev").hidden=true;$("homeBannerNext").hidden=true;dots.hidden=true;}else restart();
  try{
   const now=new Date().toISOString(),sales=await api("xpaypoint_flash_sales?select=id,product_id,promo_price,starts_at,ends_at&is_active=eq.true&starts_at=lte."+encodeURIComponent(now)+"&ends_at=gt."+encodeURIComponent(now)+"&order=ends_at.asc");
