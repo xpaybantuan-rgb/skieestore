@@ -792,7 +792,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  function status(msg,error){const el=$("memberAuthStatus");if(el){el.textContent=msg;el.style.borderColor=error?"#dc2626":"#0f172a";el.style.background=error?"#fff1f2":"#fff";}}
  function dateText(v){if(!v)return "Tidak ada masa aktif";return new Date(v).toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"})+" WIB";}
  let memberQrInterval=null,memberPollInterval=null;
- function closeMemberQr(){$("memberQrModal").hidden=true;if(memberQrInterval)clearInterval(memberQrInterval);if(memberPollInterval)clearInterval(memberPollInterval);memberQrInterval=null;memberPollInterval=null;}
+ function closeMemberQr(){$("memberQrModal").hidden=true;if(memberQrInterval)clearInterval(memberQrInterval);if(memberPollInterval)clearInterval(memberPollInterval);memberQrInterval=null;memberPollInterval=null;document.querySelectorAll("[data-member-checkout]").forEach(b=>b.disabled=false);}
  $("memberQrClose")?.addEventListener("click",closeMemberQr);
  $("memberQrModal")?.addEventListener("click",e=>{if(e.target.id==="memberQrModal")closeMemberQr();});
  function showMemberQr(payment,tier){
