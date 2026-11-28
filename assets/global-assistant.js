@@ -1,4 +1,11 @@
 (()=>{"use strict";
+const pathname=(window.location.pathname||"/").replace(/\/+$/,"")||"/";
+const allowedPages=new Set(["/","/cek-pesanan","/topup","/profil"]);
+if(!allowedPages.has(pathname)){
+ document.querySelectorAll("#chatToggle,#chatPanel,.chat-fab,.chat-panel").forEach(node=>node.remove());
+ return;
+}
+
 const buttonMarkup='<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 9.5h32v23H23l-9 7v-7H8z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round"/><path d="M15 18h18M15 24h13" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="m36 4 1.7 4.3L42 10l-4.3 1.7L36 16l-1.7-4.3L30 10l4.3-1.7z" fill="currentColor"/></svg>';
 const panelMarkup=`<div class="chat-head"><div class="chat-brand"><span class="chat-avatar" aria-label="Logo SKIEESTORE">S</span><div class="chat-brand-copy"><strong>SKIEESTORE AI · Asisten Virtual</strong></div></div><button class="chat-close" id="chatClose" type="button" aria-label="Tutup chat">×</button></div>
 <div class="chat-toolbar"><button class="chat-tool-btn primary" id="chatNew" type="button">＋ Chat baru</button><button class="chat-tool-btn" id="chatHistoryOpen" type="button">◷ Riwayat chat</button></div>
