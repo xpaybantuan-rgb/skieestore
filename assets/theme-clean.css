@@ -11,9 +11,9 @@ html[data-theme="light"]{
   --theme-text:#172033;
   --theme-muted:#64748B;
   --theme-line:#E2E8F0;
-  --theme-blue:#1D4ED8;
-  --theme-blue-hover:#1E3A8A;
-  --theme-blue-soft:#EFF6FF;
+  --theme-blue:#087BFF;
+  --theme-blue-hover:#087BFF;
+  --theme-blue-soft:#EFF8FF;
   --theme-blue-border:#BFDBFE;
   --theme-radius-sm:10px;
   --theme-radius-md:12px;
@@ -568,7 +568,7 @@ html body .label-pill {
 }
 html body .back,
 html body .section a,
-html body .intro a { color:#2563EB!important; }
+html body .intro a { color:#087BFF!important; }
 html body .section h2,
 html body .section h3,
 html body .intro h1 { color:#172033!important; }
