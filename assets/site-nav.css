@@ -4,7 +4,7 @@
 .site-nav-menu-toggle{width:42px!important;padding:0!important}.site-nav-menu-toggle svg,.header-search-btn svg{width:19px!important;height:19px!important;display:block!important;flex:none!important}
 .site-nav-menu-toggle:hover,.header-search-btn:hover{background:#F8FAFC!important;border-color:#BFDBFE!important;color:#087BFF!important}.header-search-btn{background:#EFF8FF!important;border-color:#DBEAFE!important;color:#087BFF!important}
 .header-search-btn[hidden],.site-nav-menu-toggle[hidden]{display:none!important}.header .nav{display:none!important}
-.header,.header.header{position:relative!important;z-index:100010!important}
+.header,.header.header{z-index:100010!important}
 .site-menu-backdrop{position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,.20);opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease}
 .site-menu-backdrop.is-open{opacity:1;visibility:visible}
 .site-menu-card{position:fixed;z-index:100020;top:76px;right:max(12px,calc((100vw - 1120px)/2));width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 94px);overflow:auto;padding:14px;background:#fff;border:1px solid #E2E8F0;border-radius:20px;box-shadow:0 16px 44px rgba(15,23,42,.13);opacity:0;visibility:hidden;transform:translateY(-7px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
