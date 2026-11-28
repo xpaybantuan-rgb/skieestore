@@ -45,7 +45,7 @@
   @media(min-width:768px){.skiee-bottom-nav{display:none!important}}
   .header .nav{padding:5px!important;gap:4px!important;font-size:10px!important}
   .header .nav a{padding:8px 11px!important}
-  .header .nav a.active,.header .nav a[aria-current="page"]{background:#EFF8FF!important;background-color:#EFF8FF!important;color:#087BFF!important;border-color:#D6E8FF!important;transform:none!important;box-shadow:none!important}.header .nav a.active svg,.header .nav a[aria-current="page"] svg{stroke:#2563EB!important}
+  .header .nav a.active,.header .nav a[aria-current="page"]{background:#EFF8FF!important;background-color:#EFF8FF!important;color:#087BFF!important;border-color:#D6E8FF!important;transform:none!important;box-shadow:none!important}.header .nav a.active svg,.header .nav a[aria-current="page"] svg{stroke:#087BFF!important}
 
   body:not(.chat-open) main{padding-bottom:0!important;margin-bottom:0!important}
   body:not(.chat-open) footer.xp-footer#footer,
@@ -56,9 +56,9 @@
   body:not(.chat-open) header.top{background-color:#FFFFFF!important;border-bottom:1px solid #E2E8F0!important}
   body.chat-open .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
-  .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#2563EB!important}
+  .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg,
-  .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg *{fill:#087BFF!important;stroke:#2563EB!important}
+  .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg *{fill:#087BFF!important;stroke:#087BFF!important}
  `;
  document.head.appendChild(style);
 
