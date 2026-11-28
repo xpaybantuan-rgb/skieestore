@@ -1,9 +1,11 @@
 (function(){
- const SEARCH_PATHS=new Set(["/","/cek-pesanan","/topup"]),path=location.pathname.length>1&&location.pathname.endsWith("/")?location.pathname.slice(0,-1):location.pathname;
+ const path=location.pathname.length>1&&location.pathname.endsWith("/")?location.pathname.slice(0,-1):location.pathname,showSearch=path!=="/profil";
  const header=document.querySelector("header.header,body>header");if(!header)return;
  const headrow=header.querySelector(".headrow")||header,oldNav=headrow.querySelector(".nav");if(oldNav)oldNav.setAttribute("aria-hidden","true");
  let actions=headrow.querySelector(".header-actions,.actions");if(!actions){actions=document.createElement("div");actions.className="site-nav-actions";headrow.appendChild(actions)}actions.classList.add("site-nav-actions");
- const search=headrow.querySelector("#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn"),showSearch=SEARCH_PATHS.has(path);
+ let search=headrow.querySelector("#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn,.guide-search");
+ if(search&&search.classList.contains("guide-search")){search.classList.remove("guide-search");search.classList.add("header-search-btn");actions.appendChild(search);}
+ if(!search&&showSearch){search=document.createElement("a");search.href="/topup";search.className="header-search-btn";search.setAttribute("aria-label","Cari game");actions.appendChild(search);}
  if(search){search.hidden=!showSearch;search.setAttribute("aria-label","Cari game");search.setAttribute("title","Cari game");search.classList.remove("brutal-btn");search.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';}
  let toggle=headrow.querySelector("#siteMenuToggle");if(!toggle){toggle=document.createElement("button");toggle.type="button";toggle.id="siteMenuToggle";toggle.className="site-nav-menu-toggle";toggle.setAttribute("aria-label","Buka menu");toggle.setAttribute("aria-expanded","false");actions.appendChild(toggle)}
  let backdrop=document.querySelector(".site-menu-backdrop");if(!backdrop){backdrop=document.createElement("div");backdrop.className="site-menu-backdrop";backdrop.setAttribute("aria-hidden","true");document.body.appendChild(backdrop)}
