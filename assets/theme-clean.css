@@ -157,3 +157,43 @@ main input:focus,main select:focus,main textarea:focus{
 #chatPanel .chat-compose,.chat-panel .chat-compose{
   background:#fff!important;border-top:1px solid var(--theme-line)!important;
 }
+
+
+/* Final visual-skin pass: neutralize remaining hard-edged legacy surfaces.
+   Deliberately changes paint only; no display, sizing, spacing, positioning or grid rules. */
+:where(.hero-card,.gamecard,.gameart,.product,.feature,.promobox,.flash-sale-card,
+.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,
+details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,
+.shortcut-card,.payment-option,.home-banner,.nav,.nav a,.bottomnav a,
+.skiee-mobile-nav a,.skiee-bottom-nav .nav-item,.iconbtn,.ghostbtn,
+button,.btn,.primary,.chip,input,select,textarea,.searchbox,
+.header-search-panel,.main-header-search-panel,#searchSuggestions,#topupSearchResults) {
+  box-shadow:none!important;
+  border-color:var(--theme-line)!important;
+}
+:where(.hero-card,.gamecard,.product,.feature,.promobox,.flash-sale-card,
+.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,
+details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,
+.shortcut-card,.payment-option,.home-banner) {
+  background-color:var(--theme-surface-raised)!important;
+  color:var(--theme-text)!important;
+}
+:where(.nav a,.bottomnav a,.skiee-mobile-nav a,.skiee-bottom-nav .nav-item) {
+  color:var(--theme-muted)!important;
+}
+:where(.nav a.active,.nav a[aria-current="page"],.bottomnav a.active,
+.skiee-mobile-nav a.active,.skiee-bottom-nav .nav-item.active) {
+  color:var(--theme-blue)!important;
+  background-color:var(--theme-blue-soft)!important;
+  border-color:var(--theme-blue-border)!important;
+}
+:where(button,.btn,.primary,.chip,input,select,textarea,.searchbox,
+.iconbtn,.ghostbtn,.header-search-toggle,.header-search-btn,#mainHeaderSearchToggle) {
+  border-radius:var(--theme-radius-sm)!important;
+}
+:where(.primary,.btn-primary,.catalog-more,.product button:not(:disabled),
+.chat-send,.chat-compose .chat-compose-btn) {
+  background:var(--theme-blue)!important;
+  border-color:var(--theme-blue)!important;
+  color:#fff!important;
+}
