@@ -47,6 +47,11 @@
   .search-suggestion-copy small,.search-suggestion-empty{color:#64748B!important}
   .search-suggestion img,.search-suggestion-art{background:#F1F5F9!important}
   .topup-search-results>*{color:#172033!important}
+  .xp-footer{display:block!important;width:100%!important;margin-top:32px!important;padding:34px 0 88px!important;background:#FFFFFF!important;border-top:1px solid #E2E8F0!important;color:#172033!important;box-shadow:none!important}
+  .xp-footer .xp-foot-wrap{width:min(1160px,calc(100% - 36px))!important;margin:0 auto!important}
+  .xp-footer .xp-foot-brand{display:inline-flex!important;align-items:center!important;margin-bottom:12px!important}
+  .xp-footer .xp-foot-logo{display:block!important;width:auto!important;max-width:190px!important;height:48px!important;object-fit:contain!important}
+  .xp-footer .xp-foot-desc{max-width:650px!important;margin:0 0 26px!important;color:#64748B!important;font-size:12px!important;line-height:1.75!important}
   .xp-footer .xp-foot-grid,.xp-footer .xp-foot-grid-global{
    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
    align-items:start!important;column-gap:28px!important;row-gap:26px!important
@@ -64,6 +69,12 @@
  `;
  document.head.appendChild(uiStyle);
  function polishGlobalFooter(){
+  let footer=document.querySelector("footer.footer-simple");
+  if(footer){
+   footer.className="xp-footer";
+   footer.id=footer.id||"footer";
+   footer.innerHTML='<div class="xp-foot-wrap"><a class="xp-foot-brand" href="/" aria-label="SKIEESTORE Beranda"><img class="xp-foot-logo" src="/assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a><p class="xp-foot-desc">Top up game dan voucher digital jadi lebih sat-set! Pilih produk, isi data, lalu bayar praktis via QRIS. Pesanan diproses cepat dan otomatis, jadi kamu bisa langsung lanjut mabar.</p><div class="xp-foot-grid"><section><h3>Informasi &amp; Bantuan</h3><div class="xp-foot-links"><a href="/tentang-skieestore">Tentang SKIEESTORE</a><a href="/pusat-bantuan">Pusat Bantuan</a><a href="/cara-top-up">Cara Top Up</a><a href="/kebijakan-privasi">Kebijakan Privasi</a><a href="/syarat-ketentuan">Syarat &amp; Ketentuan</a></div></section><section><h3>Hubungi Kami</h3><div class="xp-foot-contact"><a href="https://wa.me/message/3N6JKGNV65P2D1" target="_blank" rel="noopener noreferrer">WhatsApp Customer Service</a><a href="mailto:adminskiee@gmail.com">adminskiee@gmail.com</a></div><div class="xp-foot-meta"><div class="xp-foot-meta-row"><strong>Jam Operasional CS</strong><span>08.00–22.00 WIB</span></div><div class="xp-foot-meta-row"><strong>Domisili Usaha</strong><a href="https://maps.google.com/?q=Lubuk+Linggau,+Sumatera+Selatan,+Indonesia" target="_blank" rel="noopener noreferrer">Lubuk Linggau, Sumatera Selatan, Indonesia</a></div></div></section><section><h3>Media Sosial</h3><div class="xp-foot-contact"><a href="https://www.instagram.com/skieestore?lqvp=MWhlc3VtdHpkOWs1" target="_blank" rel="noopener noreferrer">Instagram · skieestore</a><a href="https://www.facebook.com/profile.php?id=61595844852789" target="_blank" rel="noopener noreferrer">Facebook · skieestore</a></div></section></div><div class="xp-foot-copy">© '+new Date().getFullYear()+' SKIEESTORE. All Rights Reserved.</div></div>';
+  }
   const grid=document.querySelector(".xp-footer .xp-foot-grid");
   if(!grid)return;
   grid.classList.add("xp-foot-grid-global");
