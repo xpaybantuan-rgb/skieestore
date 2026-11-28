@@ -28,7 +28,7 @@
   .site-nav-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;margin-left:auto!important}
   .site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{
    display:inline-flex!important;align-items:center!important;justify-content:center!important;
-   width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important;
+   width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;
    padding:0!important;border:1px solid #E2E8F0!important;border-radius:12px!important;
    background:#FFFFFF!important;color:#334155!important;box-shadow:none!important;
    vertical-align:middle!important;line-height:1!important
@@ -68,7 +68,7 @@
   .xp-footer .xp-foot-links a{display:block!important;line-height:1.55!important}
   .xp-footer .xp-foot-features .xp-foot-links{gap:10px!important}
   @media(max-width:760px){
-   .site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;border-radius:12px!important}
+   .site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;max-height:40px!important;flex:0 0 40px!important;border-radius:12px!important}
    .xp-footer .xp-foot-grid,.xp-footer .xp-foot-grid-global{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:18px!important;row-gap:24px!important}
    .xp-footer .xp-foot-grid>section h3{font-size:12px!important;line-height:1.4!important}
    .xp-footer .xp-foot-links{gap:9px!important}
