@@ -96,3 +96,23 @@ body.chat-open>header,body.chat-open header.header,body.chat-open .header,body.c
 /* Catch utility-class variants used by page-specific templates without muting copy. */
 body [class*="text-gray-"],body [class*="text-slate-"],body [class*="text-muted"]{color:#090D16!important;opacity:1!important}
 #chatPanel.keyboard-aware,.chat-panel.keyboard-aware{inset:auto 0 auto 0!important;top:var(--chat-vv-top,0px)!important;height:var(--chat-vv-height,100dvh)!important}
+
+/* Final shared search autocomplete skin: white, thin slate border, soft shadow. */
+.search-suggestions,.topup-search-results,.search-results,.autocomplete-dropdown,[role="listbox"].search-results{
+ background:#fff!important;
+ color:#090D16!important;
+ border:1px solid #E2E8F0!important;
+ border-radius:16px!important;
+ box-shadow:0 10px 24px rgba(148,163,184,.24)!important;
+}
+.search-suggestions .search-suggestion,.topup-search-results .topup-search-result{
+ background:transparent!important;
+ color:#090D16!important;
+ border:0!important;
+ border-radius:12px!important;
+ box-shadow:none!important;
+}
+.search-suggestions .search-suggestion:hover,.search-suggestions .search-suggestion:focus-visible,.topup-search-results .topup-search-result:hover,.topup-search-results .topup-search-result:focus-visible{
+ background:#F8FAFC!important;
+}
+.search-suggestions .search-suggestion small,.topup-search-results .topup-search-result small{color:#334155!important;opacity:1!important}
