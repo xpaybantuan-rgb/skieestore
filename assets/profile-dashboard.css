@@ -79,3 +79,5 @@
 @media(max-width:800px){.profile-shell{width:calc(100% - 32px)}.p-plans{gap:10px}.p-plan{padding:14px}}
 @media(max-width:620px){.profile-shell{width:min(100% - 28px,520px);padding:25px 0 35px}.p-card{padding:16px;border-radius:15px}.p-plans{grid-template-columns:1fr}.p-plan{display:grid;grid-template-columns:1fr auto;gap:8px 10px}.p-plan-top{grid-column:1/-1}.p-plan ul{grid-column:1/-1;grid-template-columns:1fr 1fr}.p-plan .p-btn{grid-column:1/-1}.p-plan-price{font-size:20px}.p-user-head{gap:11px}.p-avatar-wrap{flex-basis:58px}.p-avatar{width:58px;height:58px;border-radius:14px}.p-help-row{align-items:flex-start}.p-menu a,.p-menu button{padding:14px}}
 @media(max-width:360px){.p-stats{gap:8px}.p-stat{padding:13px}.p-stat strong{font-size:20px}.p-user-copy h2{font-size:14px}}
+
+.p-password-form{margin-top:16px}
