@@ -99,7 +99,7 @@ main .kicker,main .eyebrow,main .price{color:#1D4ED8!important}
   border:0!important;box-shadow:0 8px 22px rgba(37,99,235,.25)!important;
 }
 @media(max-width:767px){
- body>header{width:calc(100% - 20px)!important;margin:7px auto 10px!important;border-radius:14px!important}
+ body>header{width:calc(100% - 20px)!important;margin:7px auto 10px!important;border-radius:16px!important}
  .xp-footer{padding-bottom:calc(94px + env(safe-area-inset-bottom))!important}
  .skiee-bottom-nav{left:10px!important;right:10px!important;bottom:7px!important}
 }
