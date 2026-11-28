@@ -1,0 +1,38 @@
+
+/* Homepage FAQ: distinct minimal accordion cards with a clear plus affordance. */
+#faq-home .faq-home-list{
+ display:flex!important;flex-direction:column!important;gap:12px!important;
+ width:100%!important;
+}
+#faq-home .faq-home-item{
+ display:block!important;min-width:0!important;overflow:hidden!important;
+ margin:0!important;padding:0!important;background:#fff!important;
+ border:1px solid #E2E8F0!important;border-radius:12px!important;
+ box-shadow:none!important;
+}
+#faq-home .faq-home-item>summary{
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ gap:14px!important;min-width:0!important;min-height:56px!important;
+ padding:15px 16px!important;list-style:none!important;cursor:pointer!important;
+ color:#172033!important;font-size:14px!important;font-weight:700!important;line-height:1.45!important;
+}
+#faq-home .faq-home-item>summary::-webkit-details-marker{display:none!important}
+#faq-home .faq-home-item>summary::marker{content:""!important;display:none!important}
+#faq-home .faq-home-item>summary::after{
+ content:"+"!important;display:grid!important;place-items:center!important;
+ flex:0 0 28px!important;width:28px!important;height:28px!important;
+ border-radius:9px!important;background:#EFF8FF!important;color:#087BFF!important;
+ font-size:21px!important;font-weight:500!important;line-height:1!important;
+}
+#faq-home .faq-home-item[open]>summary::after{content:"−"!important}
+#faq-home .faq-home-item>summary:hover{color:#0756B8!important}
+#faq-home .faq-home-answer{
+ padding:0 16px 16px!important;margin:0!important;color:#64748B!important;
+ font-size:13px!important;line-height:1.7!important;
+}
+#faq-home .faq-home-answer a{color:#087BFF!important;text-decoration:none!important;font-weight:650!important}
+#faq-home .faq-home-item[open]{border-color:#BFDBFE!important}
+@media(max-width:480px){
+ #faq-home .faq-home-item>summary{padding:14px!important;font-size:13px!important}
+ #faq-home .faq-home-answer{padding:0 14px 14px!important;font-size:12px!important}
+}
