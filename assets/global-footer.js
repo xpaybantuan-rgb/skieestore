@@ -106,6 +106,16 @@ button.primary,.primary-action,.checkout-button{
 #chatPanel .chat-send,.chat-panel .chat-send{background:#2563EB!important;color:#fff!important;border-color:#2563EB!important}
 #chatPanel .chat-compose textarea:focus,#chatPanel #chatInput:focus,.chat-panel .chat-compose textarea:focus{border-color:#2563EB!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
 
+/* Profile accents follow the same blue-600 system. */
+.profile-shell .profile-kicker,.profile-shell .p-avatar,.profile-shell .p-menu-icon,
+.profile-shell .p-tier.pro,.profile-shell .p-plan-badge,.profile-shell .p-status,
+.profile-shell .p-plan li:before,.profile-shell .p-help-row a{color:#2563EB!important}
+.profile-shell .p-avatar,.profile-shell .p-menu-icon,.profile-shell .p-plan-badge,
+.profile-shell .p-status{background:#EFF6FF!important;border-color:#BFDBFE!important}
+.profile-shell .p-camera{background:#2563EB!important}
+.profile-shell .p-plan.pro{border-color:#E2E8F0!important;background:#fff!important}
+.profile-shell .p-form input:focus{border-color:#2563EB!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
+
 /* Passive surfaces stay white with a fine slate border; selected controls use blue. */
 :where(.gamecard,.product-group,.product-choice,.payment-option,.p-plan,.p-card,.p-stat,
 .accordion,.accordion-item,.faq-item,.faq-card,.faq-home-item,.category-card,.order-card,
