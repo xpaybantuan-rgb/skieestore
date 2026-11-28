@@ -37,6 +37,19 @@ header.header,body>header.header,header.main-site-header{
  -webkit-backdrop-filter:blur(16px)!important;backdrop-filter:blur(16px)!important;
  border-bottom:1px solid #E2E8F0!important;box-shadow:none!important;
 }
+header.main-site-header:not(:has(.headrow)){
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:12px!important;
+ min-height:64px!important;padding:8px max(16px,calc((100% - 1160px)/2))!important;
+}
+header.main-site-header:not(:has(.headrow)) .brand-image{
+ display:flex!important;align-items:center!important;flex:1 1 auto!important;
+ min-width:0!important;max-width:calc(100% - 100px)!important;
+}
+header.main-site-header:not(:has(.headrow)) .brand-image img{
+ display:block!important;width:auto!important;height:46px!important;max-height:46px!important;
+ max-width:100%!important;object-fit:contain!important;object-position:left center!important;
+}
 header.header .headrow,header.main-site-header .headrow{
  display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
  align-items:center!important;justify-content:space-between!important;gap:12px!important;
