@@ -30,7 +30,7 @@ footer.innerHTML=`
  </div>`;
 let themeLink=document.getElementById("skiee-site-theme-css");
 if(!themeLink){themeLink=document.createElement("link");themeLink.id="skiee-site-theme-css";themeLink.rel="stylesheet";themeLink.href="/assets/site-theme.css?v=1";}
-document.head.appendChild(themeLink);
+document.body.appendChild(themeLink);
 if(!existing)document.body.appendChild(footer);
 const styleId="skiee-shared-footer-style";let style=document.getElementById(styleId);if(!style){style=document.createElement("style");style.id=styleId;document.head.appendChild(style)}
 style.textContent=`
