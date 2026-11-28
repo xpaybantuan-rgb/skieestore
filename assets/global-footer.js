@@ -173,6 +173,16 @@ input:focus,textarea:focus,select:focus,.field input:focus,.search:focus,
 .home-banner-dots button.active{background:#2563EB!important}
 .home-banner-controls button{color:#fff!important}
 
+.product-choice.promo-product:not(.selected){border:1px solid #E2E8F0!important;background:#fff!important}
+#chatPanel,.chat-panel{background:#fff!important;color:#090D16!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages{background:#F8FAFC!important;background-image:none!important}
+#chatPanel .chat-bubble,.chat-panel .chat-bubble{border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:none!important}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot{background:#fff!important;color:#090D16!important}
+#chatPanel .chat-bubble.user{background:#2563EB!important;color:#fff!important;border-color:#2563EB!important}
+#chatPanel .chat-send{background:#2563EB!important;color:#fff!important;border-color:#2563EB!important}
+#chatPanel .chat-compose textarea{background:#fff!important;color:#090D16!important;border:1px solid #E2E8F0!important}
+#chatPanel .chat-compose textarea:focus{border-color:#2563EB!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
+
 /* Recent invoice buttons: separate invoice code, product and date into clear rows. */
 .recent-orders-list{display:grid!important;gap:9px!important}
 .recent-order-item{
