@@ -238,3 +238,68 @@ details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,
   border:1px solid var(--theme-line)!important;border-radius:var(--theme-radius-sm)!important;
   box-shadow:none!important;
 }
+
+
+/* Specificity-safe overrides for legacy page-level !important declarations. */
+.neo-card,.guide-step,.guide-reminder,.intro,.member-plan,.help-card,
+.product-group-icon,.nickname-check-button,.nickname-check-result,
+.chat-history-item,.chat-avatar,.chat-close,.chat-tool-btn,
+.chat-compose-btn,.chat-history-delete,.chat-compose textarea,.chat-send {
+  border:1px solid var(--theme-line)!important;
+  border-radius:var(--theme-radius-md)!important;
+  box-shadow:none!important;
+  color:var(--theme-text)!important;
+}
+.neo-card,.guide-step,.guide-reminder,.intro,.member-plan,.help-card,
+.chat-history-item {
+  background:#fff!important;
+}
+.guide-kicker,.guide-number,.member-plan .price,.member-plan strong {
+  color:var(--theme-blue)!important;
+}
+.guide-search,.nickname-check-button,.chat-tool-btn,.chat-close,
+.chat-history-delete,.chat-compose-btn {
+  background:var(--theme-blue-soft)!important;
+  color:var(--theme-blue)!important;
+}
+#chatPanel,.chat-panel {
+  background:#fff!important;color:var(--theme-text)!important;
+  border:1px solid var(--theme-line)!important;
+  border-radius:var(--theme-radius-lg)!important;
+  box-shadow:var(--theme-shadow)!important;
+}
+#chatPanel .chat-avatar,#chatPanel .chat-close,#chatPanel .chat-compose-btn,
+#chatPanel .chat-tool-btn,#chatPanel .chat-history-delete,
+#chatPanel .chat-history-item {
+  border:1px solid var(--theme-line)!important;
+  border-radius:var(--theme-radius-sm)!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-tool-btn.primary {
+  background:var(--theme-blue-soft)!important;color:var(--theme-blue)!important;
+  border-color:var(--theme-blue-border)!important;
+}
+#chatPanel .chat-bubble {
+  border:1px solid var(--theme-line)!important;border-radius:14px!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-bubble.bot {background:#fff!important;color:var(--theme-text)!important}
+#chatPanel .chat-bubble.user {
+  background:var(--theme-blue)!important;color:#fff!important;
+  border-color:var(--theme-blue)!important;
+}
+#chatPanel .chat-compose textarea {
+  background:#fff!important;color:var(--theme-text)!important;
+  border:1px solid var(--theme-line)!important;border-radius:var(--theme-radius-sm)!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-send {
+  background:var(--theme-blue)!important;color:#fff!important;
+  border:1px solid var(--theme-blue)!important;border-radius:var(--theme-radius-sm)!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-compose-btn:active,#chatPanel .chat-send:active,
+#chatPanel .chat-tool-btn:active,#chatPanel .chat-close:active,
+.chat-fab:active {
+  transform:none!important;box-shadow:none!important;
+}
