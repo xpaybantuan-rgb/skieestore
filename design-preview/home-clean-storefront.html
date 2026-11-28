@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SKIEESTORE — Clean Storefront Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#087BFF;--blue-dark:#0756D8;--ink:#0F172A;--muted:#64748B;--line:#E7EDF5;--bg:#F7F9FC;--white:#fff;--soft:#EAF3FF;--shadow:0 12px 34px rgba(15,35,65,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:500 14px Manrope,system-ui,sans-serif}a{color:inherit;text-decoration:none}button,input{font:inherit}.container{width:min(1180px,calc(100% - 36px));margin:auto}
+/* Header and desktop navigation geometry are intentionally retained. */
+.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.headrow{height:76px;display:flex;align-items:center;gap:26px}.brand-image{display:flex;align-items:center;flex:0 1 220px;min-width:0}.brand-image img{display:block;width:220px;max-height:64px;object-fit:contain;object-position:left center}
+.nav{display:flex;align-items:center;gap:5px;margin:auto;padding:6px;background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 18px rgba(37,48,74,.04);font-size:11px;font-weight:800;color:var(--muted)}
+.nav a{padding:10px 14px;border-radius:10px;display:flex;align-items:center;gap:7px}.nav a.active{color:var(--blue);background:var(--soft)}.nav svg{width:17px;height:17px}
+.actions{display:flex;align-items:center;gap:9px}.header-search-btn{width:40px;height:40px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);display:grid;place-items:center}.header-search-btn svg{width:19px;height:19px}
+main{padding-bottom:100px}.hero{padding:30px 0 18px}.hero-card{min-height:290px;border-radius:24px;overflow:hidden;position:relative;padding:clamp(26px,5vw,56px);display:flex;align-items:center;background:linear-gradient(112deg,#071C3A 0%,#0B4E9A 54%,#087BFF 100%);box-shadow:var(--shadow);color:#fff}.hero-card:after{content:"";position:absolute;width:380px;height:380px;border:1px solid #ffffff30;border-radius:50%;right:8%;top:50%;transform:translateY(-50%);box-shadow:0 0 0 35px #ffffff0c,0 0 0 70px #ffffff08}
+.hero-copy{position:relative;z-index:1;max-width:590px}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#B9D9FF}.hero h1{font:700 clamp(32px,5vw,54px)/1.08 "Space Grotesk";letter-spacing:-1.5px;margin:12px 0}.hero h1 span{color:#A9D2FF}.hero p{max-width:470px;color:#E2EEFF;line-height:1.8;font-size:13px;margin:0 0 22px}.cta{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:11px;background:#fff;color:#0756D8;font-weight:800;font-size:12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 6px}.quick a{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(15,35,65,.025)}.quick-icon{width:38px;height:38px;border-radius:12px;background:var(--soft);color:var(--blue);display:grid;place-items:center;font-size:18px}.quick strong{display:block;font-size:12px}.quick small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.section{padding:28px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:16px}.kicker{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}h2{font:700 clamp(22px,3vw,29px) "Space Grotesk";letter-spacing:-.6px;margin:5px 0}.sub{font-size:11px;color:var(--muted);margin:5px 0 0}.search{width:min(340px,100%);height:44px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:0 14px;outline:none}.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 14px}.filter{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:99px;padding:9px 14px;font-size:10px;font-weight:800;white-space:nowrap}.filter.active{background:var(--soft);border-color:#B7D7FF;color:var(--blue-dark)}
+.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.game{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;align-items:center;gap:12px;min-width:0;box-shadow:0 3px 12px rgba(15,35,65,.025)}.game-art{width:58px;height:58px;flex:none;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#DCEBFF,#A9CEFF);color:#0756D8;font:700 17px "Space Grotesk"}.game:nth-child(2n) .game-art{background:linear-gradient(145deg,#DDF7F0,#9CE5D1);color:#087A60}.game:nth-child(3n) .game-art{background:linear-gradient(145deg,#FCEBD8,#F8C78F);color:#9A4B0A}.game strong{font-size:11px;display:block;line-height:1.35}.game small{display:block;font-size:9px;color:var(--muted);margin-top:5px}.game .arrow{margin-left:auto;color:#94A3B8}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.benefit{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px}.benefit b{display:block;font-size:12px;margin:10px 0 5px}.benefit p{font-size:10px;line-height:1.7;color:var(--muted);margin:0}.benefit-icon{width:36px;height:36px;border-radius:11px;background:var(--soft);color:var(--blue);display:grid;place-items:center;font-size:17px}
+.footer{padding:30px 0;color:var(--muted);font-size:10px;border-top:1px solid var(--line);background:#fff}.footer strong{color:var(--ink)}
+/* Mobile bottom navigation: same four items, floating position and compact footprint. */
+.skiee-bottom-nav{display:none}
+@media(max-width:800px){.games{grid-template-columns:repeat(3,minmax(0,1fr))}.benefits{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.container{width:calc(100% - 28px)}.headrow{height:62px;gap:10px}.brand-image{flex-basis:170px}.brand-image img{width:170px;max-height:52px}.nav{display:none}.header-search-btn{width:39px;height:39px}.hero{padding:18px 0 10px}.hero-card{min-height:260px;padding:24px 21px;border-radius:20px}.hero h1{font-size:36px}.hero p{font-size:11px}.quick{gap:8px}.quick a{padding:11px 9px;display:grid;justify-items:start;gap:7px}.quick-icon{width:34px;height:34px}.quick strong{font-size:10px}.quick small{font-size:9px}.section{padding:22px 0}.section-head{align-items:start;flex-direction:column}.search{width:100%}.games{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.game{display:block;text-align:center;padding:9px;border-radius:14px}.game-art{width:100%;height:auto;aspect-ratio:1;margin-bottom:8px}.game strong{font-size:9px;min-height:24px}.game small{font-size:8px}.game .arrow{display:none}.benefits{gap:8px}.benefit{padding:13px}.footer{padding-bottom:30px}
+.skiee-bottom-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;left:12px;right:12px;bottom:8px;z-index:50;width:auto;max-width:480px;margin:0 auto;padding:5px;gap:5px;background:#fff;border:1px solid #0F172A;border-radius:12px}
+.skiee-bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;height:44px;min-height:44px;padding:3px;gap:2px;border:2px solid #0F172A;border-radius:8px;box-shadow:2px 2px 0 #0F172A;background:#fff;color:#0F172A;font-size:9.5px;line-height:1;font-weight:800;white-space:nowrap}.skiee-bottom-nav a.active{background:#FFD600;color:#0F172A}.skiee-bottom-nav svg{width:15px;height:15px}
+}
+</style>
+</head>
+<body>
+<header class="header"><div class="container headrow">
+<a class="brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="https://skieestore.biz.id/assets/skieestore-logo-transparent.png" alt="SKIEESTORE"></a>
+<nav class="nav" aria-label="Navigasi utama">
+<a href="/" class="active"><span>▦</span><span>Beranda</span></a>
+<a href="/cek-pesanan"><span>⌕</span><span>Cek Pesanan</span></a>
+<a href="/topup"><span>▣</span><span>Top Up</span></a>
+<a href="/profil"><span>♙</span><span>Profil</span></a>
+</nav>
+<div class="actions header-actions"><button class="header-search-btn" type="button" aria-label="Cari game"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></svg></button></div>
+</div></header>
+<main>
+<section class="hero"><div class="container"><div class="hero-card"><div class="hero-copy"><div class="eyebrow">Top up game · cepat · praktis</div><h1>Game favorit,<br><span>top up lebih mudah.</span></h1><p>Pilih game, temukan nominal yang kamu butuhkan, lalu lanjutkan transaksi dengan alur yang jelas dan nyaman.</p><a class="cta" href="/topup">Mulai Top Up <span aria-hidden="true">→</span></a></div></div></div></section>
+<div class="container quick">
+<a href="/cek-pesanan"><span class="quick-icon">⌕</span><span><strong>Cek Pesanan</strong><small>Pantau status transaksi</small></span></a>
+<a href="/topup"><span class="quick-icon">⚡</span><span><strong>Semua Game</strong><small>Cari produk favoritmu</small></span></a>
+<a href="/profil"><span class="quick-icon">♙</span><span><strong>Akun Member</strong><small>Riwayat dan profil</small></span></a>
+</div>
+<section class="section"><div class="container">
+<div class="section-head"><div><div class="kicker">Katalog pilihan</div><h2>Temukan game favoritmu</h2><p class="sub">Pilih kategori atau cari nama game secara langsung.</p></div><input class="search" type="search" placeholder="Cari game atau voucher..."></div>
+<div class="filters"><button class="filter active">Semua</button><button class="filter">Mobile</button><button class="filter">PC</button><button class="filter">Voucher</button><button class="filter">Apps</button><button class="filter">Streaming</button></div>
+<div class="games">
+<div class="game"><div class="game-art">ML</div><div><strong>Mobile Legends</strong><small>Game Mobile</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">FF</div><div><strong>Free Fire</strong><small>Game Mobile</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">PUBG</div><div><strong>PUBG Mobile</strong><small>Game Mobile</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">GI</div><div><strong>Genshin Impact</strong><small>Game Mobile</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">HSR</div><div><strong>Honkai: Star Rail</strong><small>Game Mobile</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">VAL</div><div><strong>Valorant</strong><small>Game PC</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">STEAM</div><div><strong>Steam Wallet</strong><small>Voucher</small></div><span class="arrow">›</span></div>
+<div class="game"><div class="game-art">PS</div><div><strong>PlayStation</strong><small>Voucher</small></div><span class="arrow">›</span></div>
+</div>
+</div></section>
+<section class="section"><div class="container"><div class="section-head"><div><div class="kicker">Kenapa SKIEESTORE</div><h2>Belanja digital tanpa ribet</h2><p class="sub">Informasi jelas dari pemilihan produk sampai transaksi selesai.</p></div></div><div class="benefits">
+<div class="benefit"><span class="benefit-icon">✓</span><b>Alur praktis</b><p>Pilih produk dan nominal dalam langkah yang mudah diikuti.</p></div>
+<div class="benefit"><span class="benefit-icon">⌁</span><b>Harga transparan</b><p>Detail produk dan total transaksi terlihat sebelum pembayaran.</p></div>
+<div class="benefit"><span class="benefit-icon">◷</span><b>Status pesanan</b><p>Pantau perkembangan transaksi melalui halaman cek pesanan.</p></div>
+<div class="benefit"><span class="benefit-icon">♡</span><b>Dukungan pelanggan</b><p>Akses pusat bantuan ketika membutuhkan informasi.</p></div>
+</div></div></section>
+</main>
+<footer class="footer"><div class="container"><strong>SKIEESTORE</strong> · Preview konsep Clean Modern Storefront — bukan halaman produksi.</div></footer>
+<nav class="skiee-bottom-nav" aria-label="Navigasi utama">
+<a class="nav-item active" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Beranda</span></a>
+<a class="nav-item" href="/cek-pesanan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></svg><span>Cek Pesanan</span></a>
+<a class="nav-item" href="/topup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M6 12h5"/></svg><span>Top Up</span></a>
+<a class="nav-item" href="/profil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span>Profil</span></a>
+</nav>
+</body></html>
