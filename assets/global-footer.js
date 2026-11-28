@@ -28,5 +28,4 @@ footer.innerHTML=`
   <div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span></div>
  </div>`;
 if(!existing)document.body.appendChild(footer);
-if(!existing)document.body.appendChild(footer);
 })();
