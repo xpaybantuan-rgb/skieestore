@@ -53,11 +53,11 @@ body > header .logo img {
   margin: 0 !important;
   object-fit: contain !important;
 }
-body > header #headerSearchToggle,
-body > header #mainHeaderSearchToggle,
-body > header .header-search-toggle,
-body > header .header-search-btn,
-body > header .header-actions .iconbtn {
+body > header #headerSearchToggle:not([hidden]),
+body > header #mainHeaderSearchToggle:not([hidden]),
+body > header .header-search-toggle:not([hidden]),
+body > header .header-search-btn:not([hidden]),
+body > header .header-actions .iconbtn:not([hidden]) {
   box-sizing: border-box !important;
   display: grid !important;
   place-items: center !important;
