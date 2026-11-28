@@ -1,6 +1,12 @@
 (function(){
  const path=location.pathname.length>1&&location.pathname.endsWith("/")?location.pathname.slice(0,-1):location.pathname,showSearch=path!=="/profil";
- const header=document.querySelector("header.header,body>header");if(!header)return;
+ let header=document.querySelector("header.header,body>header");
+ if(!header){
+  header=document.createElement("header");
+  header.className="header";
+  header.innerHTML='<div class="container headrow"><a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="/assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a><nav class="nav" aria-label="Navigasi utama"></nav><div class="actions header-actions"></div></div>';
+  document.body.insertBefore(header,document.body.firstChild);
+ }
  const headrow=header.querySelector(".headrow")||header,oldNav=headrow.querySelector(".nav");if(oldNav)oldNav.setAttribute("aria-hidden","true");
  let actions=headrow.querySelector(".header-actions,.actions");if(!actions){actions=document.createElement("div");actions.className="site-nav-actions";headrow.appendChild(actions)}actions.classList.add("site-nav-actions");
  let search=headrow.querySelector("#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn,.guide-search");
