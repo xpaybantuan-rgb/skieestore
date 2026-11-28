@@ -79,3 +79,36 @@
 @media(max-width:800px){.profile-shell{width:calc(100% - 32px)}.p-plans{gap:10px}.p-plan{padding:14px}}
 @media(max-width:620px){.profile-shell{width:min(100% - 28px,520px);padding:25px 0 35px}.p-card{padding:16px;border-radius:15px}.p-plans{grid-template-columns:1fr}.p-plan{display:grid;grid-template-columns:1fr auto;gap:8px 10px}.p-plan-top{grid-column:1/-1}.p-plan ul{grid-column:1/-1;grid-template-columns:1fr 1fr}.p-plan .p-btn{grid-column:1/-1}.p-plan-price{font-size:20px}.p-user-head{gap:11px}.p-avatar-wrap{flex-basis:58px}.p-avatar{width:58px;height:58px;border-radius:14px}.p-help-row{align-items:flex-start}.p-menu a,.p-menu button{padding:14px}}
 @media(max-width:360px){.p-stats{gap:8px}.p-stat{padding:13px}.p-stat strong{font-size:20px}.p-user-copy h2{font-size:14px}}
+
+
+/* UI consistency — single primary blue and shared horizontal header layout. */
+:root{--accent:#087BFF;--accent2:#087BFF;--soft:#EFF6FF}
+.p-btn-primary{background:#087BFF!important;background-image:none!important;color:#fff!important;border-color:#087BFF!important;box-shadow:0 6px 16px rgba(8,123,255,.18)!important}
+.p-btn-primary:hover{background:#087BFF!important;filter:brightness(.96)}
+.p-btn-soft:hover{border-color:#087BFF!important}
+.p-avatar,.p-menu-icon,.p-tier.pro,.p-plan-badge,.p-status{color:#087BFF!important}
+.p-avatar{background:#EFF6FF!important;border-color:#D6E8FF!important}
+.p-camera{background:#087BFF!important}
+.p-menu-icon{background:#EFF6FF!important}
+.p-plan.pro{border-color:#D6E8FF!important;background:#fff!important}
+.p-plan-badge{background:#EFF6FF!important;color:#087BFF!important}
+.p-plan li:before,.p-help-row a{color:#087BFF!important}
+.p-status{background:#EFF6FF!important}
+.p-form input:focus{border-color:#087BFF!important;box-shadow:0 0 0 3px rgba(8,123,255,.12)!important}
+
+/* Keep the brand and hamburger on one horizontal line at every viewport. */
+header.header .headrow{
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:10px!important;
+ min-width:0!important;
+}
+header.header .brand-image{display:flex!important;flex:1 1 auto!important;min-width:0!important;max-width:calc(100% - 54px)!important}
+header.header .brand-image img{width:auto!important;height:46px!important;max-width:100%!important;max-height:46px!important;object-fit:contain!important;object-position:left center!important}
+header.header .header-actions,header.header .site-nav-actions{
+ display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:flex-end!important;
+ margin-left:auto!important;white-space:nowrap!important;
+}
+header.header .site-nav-menu-toggle{flex:0 0 40px!important}
+@media(max-width:380px){
+ header.header .brand-image img{height:40px!important;max-height:40px!important}
+}
