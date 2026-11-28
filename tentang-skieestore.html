@@ -598,5 +598,45 @@ footer.xp-footer#footer section{background:transparent!important;background-colo
 #memberHistorySection .member-payment-panel,
 #memberHistorySection .member-history-item{background:#FFFFFF!important;background-color:#FFFFFF!important;border:2px solid #0F172A!important;border-radius:16px!important;box-shadow:4px 4px 0 #0F172A!important;}
 </style>
+<style id="skiee-background-header-cards-fix-20261128-v3">
+:root{--bg:#FEF3C7!important;}
+html,body{background:#FEF3C7!important;background-color:#FEF3C7!important;background-image:none!important;}
+body{background:#FEF3C7!important;}
+/* Outer header wrappers follow the page canvas; the white header content itself stays intact. */
+header.header,header.header>.container,header.header>.headrow,header.header.main-site-header,
+header.header.top,header:not(.top),.header::before,.header::after,
+header.header>.container::before,header.header>.container::after{
+ background-color:#FEF3C7!important;background-image:none!important;
+}
+header.header .headrow,header.header .container{background:transparent!important;box-shadow:none!important;}
+/* Content canvas and the strip between the last FAQ and the white footer. */
+main,main.main,.wrap,.main,.content,.page-content,.faq-home,.faq-home-list,
+.faq-home-section,.faq-section,.seo-game-directory,#games,#keunggulan,
+#memberHistorySection,.profile-section,.page-section,.content-section{
+ background-color:#FEF3C7!important;background-image:none!important;
+}
+.faq-home{padding-bottom:12px!important;margin-bottom:0!important;}
+.faq-home::before,.faq-home::after{background:transparent!important;box-shadow:none!important;}
+/* Information & Help pages: all content panels use the same white neo-brutalism treatment. */
+main .intro,main .section,main .neo-card,main .guide-step,
+main .faq-home-item,main .faq-item,main .faq-card,main .faq-question,
+main .accordion-item,main .help-faq-item,main details.faq,main details.faq-item,
+main .panel,main .content-card,main .info-card,main .help-card,
+main article.neo-card,main article.guide-step{
+ background:#FFFFFF!important;background-color:#FFFFFF!important;background-image:none!important;
+ border:2.5px solid #0F172A!important;border-radius:12px!important;
+ box-shadow:4px 4px 0 #0F172A!important;
+}
+/* Keep the profile transaction history panel white and strongly outlined. */
+#memberHistorySection .member-activity-shell,
+#memberHistorySection .member-payment-panel,
+#memberHistorySection .member-history-item{
+ background:#FFFFFF!important;background-color:#FFFFFF!important;
+ border:2.5px solid #0F172A!important;border-radius:12px!important;
+ box-shadow:4px 4px 0 #0F172A!important;
+}
+/* Footer remains a clean white block; the space immediately above it stays page-yellow. */
+footer.xp-footer#footer,#footer.xp-footer{background:#FFFFFF!important;background-color:#FFFFFF!important;background-image:none!important;}
+</style>
 
 </body></html>
