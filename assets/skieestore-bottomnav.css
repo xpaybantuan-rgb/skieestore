@@ -1,4 +1,4 @@
-/* Production bottom navigation override — loaded after page styles */
+/* Mobile bottom navigation — preserve existing placement and dimensions; clean storefront colors only. */
 @media (max-width: 767px) {
   body { padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
   .bottomnav {
@@ -14,8 +14,8 @@
     box-sizing: border-box !important;
     padding: 10px 12px calc(12px + env(safe-area-inset-bottom)) !important;
     background: #fff !important;
-    border-top: 2px solid #0f172a !important;
-    backdrop-filter: none !important;
+    border-top: 1px solid #E2E8F0 !important;
+    backdrop-filter: blur(16px) !important;
   }
   .bottomnav > a {
     flex: 1 1 0 !important;
@@ -28,11 +28,11 @@
     gap: 4px !important;
     box-sizing: border-box !important;
     padding: 7px 3px !important;
-    color: #0f172a !important;
+    color: #64748B !important;
     background: #fff !important;
-    border: 2.5px solid #0f172a !important;
+    border: 1px solid #E2E8F0 !important;
     border-radius: 12px !important;
-    box-shadow: 0 4px 0 #0f172a !important;
+    box-shadow: none !important;
     text-decoration: none !important;
     font-size: 10.5px !important;
     font-weight: 700 !important;
@@ -41,18 +41,15 @@
     -webkit-tap-highlight-color: transparent;
   }
   .bottomnav > a.active {
-    color: #0f172a !important;
-    background: #e0f2fe !important;
-    border-color: #0f172a !important;
+    color: #0756B8 !important;
+    background: #EFF8FF !important;
+    border-color: #B9D9FF !important;
   }
   .bottomnav > a > span:first-child {
     font-size: 18px !important;
     line-height: 1 !important;
   }
-  .bottomnav > a:active {
-    transform: translateY(3px) !important;
-    box-shadow: 0 1px 0 #0f172a !important;
-  }
+  .bottomnav > a:active { transform: none !important; box-shadow: none !important; }
   .chat-fab, #chatToggle, .xp-footer .chat-fab {
     position: fixed !important;
     right: 16px !important;
@@ -63,364 +60,4 @@
 @media (min-width: 768px) {
   .bottomnav { display: none !important; }
   .chat-fab, #chatToggle, .xp-footer .chat-fab { bottom: 24px !important; }
-}
-
-
-/* Unified responsive navigation + consistent Neo-Brutalism finish */
-[hidden] { display: none !important; }
-:root { --nb-ink: #0f172a; --nb-line: 2.5px solid #0f172a; --nb-hard-shadow: 0 4px 0 #0f172a; }
-.header .nav { gap: 7px !important; padding: 5px !important; border: 0 !important; box-shadow: none !important; background: transparent !important; }
-.header .nav > a { display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 7px !important; padding: 9px 12px !important; border: 2px solid #0f172a !important; border-radius: 9px !important; background: #fff !important; color: #0f172a !important; box-shadow: 0 3px 0 #0f172a !important; font-weight: 800 !important; }
-.header .nav > a.active { background: #e0f2fe !important; color: #0f172a !important; border-color: #0f172a !important; }
-.header .nav > a > span:first-child { display: none; }
-.header .nav > a:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #0f172a !important; }
-.gamegrid { padding: 12px 0 20px !important; margin-bottom: 12px !important; }
-.gamegrid > .gamecard { border-width: 2.5px !important; box-shadow: 0 4px 0 #0f172a !important; }
-.gamegrid .gameinfo { gap: 7px !important; }
-.features > .feature, .feature-card, .product, .promobox, .info-card, .notice {
-  border: 2px solid #0f172a !important; box-shadow: 0 3px 0 #0f172a !important;
-}
-.product-area { border-top: 2px solid #0f172a !important; }
-.section + .section { border-top: 1.5px solid #0f172a; }
-.chat-fab, #chatToggle, .xp-footer .chat-fab {
-  border: 2.5px solid #0f172a !important; border-radius: 12px !important;
-  background: #087bff !important; color: #fff !important; box-shadow: 0 4px 0 #0f172a !important;
-}
-.chat-head { gap: 16px !important; padding: 18px 20px !important; }
-.chat-brand { gap: 13px !important; min-width: 0; }
-.chat-brand > span:last-child { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
-.chat-brand strong { line-height: 1.35 !important; margin: 0 !important; }
-.chat-brand small { line-height: 1.4 !important; margin: 0 !important; }
-#productArea[hidden] { display: none !important; }
-#productArea:not([hidden]) {
-  position: fixed !important; inset: 0 !important; z-index: 10001 !important;
-  display: block !important; overflow-y: auto !important; overscroll-behavior: contain;
-  margin: 0 !important; padding: max(22px, env(safe-area-inset-top)) 18px 28px !important;
-  border: 0 !important; border-radius: 0 !important; background: #f5fafe !important; box-shadow: none !important;
-}
-#productArea .product-head, #productArea > .searchbox, #productArea .product-grid { width: min(100%, 1080px); margin-left: auto; margin-right: auto; }
-#productArea .product-head { padding: 16px; border: 2px solid #0f172a; border-radius: 12px; background: #fff; box-shadow: 0 3px 0 #0f172a; }
-#productArea > .searchbox { margin-top: 18px; }
-@media (max-width: 767px) {
-  body { padding-bottom: calc(112px + env(safe-area-inset-bottom)) !important; }
-  .header .headrow { min-height: 62px !important; height: 62px !important; flex-wrap: nowrap !important; }
-  .header .nav {
-    position: fixed !important; inset: auto 0 0 0 !important; z-index: 9999 !important;
-    display: grid !important; grid-template-columns: repeat(4,minmax(0,1fr)) !important; gap: 8px !important;
-    width: 100% !important; margin: 0 !important; padding: 10px 12px calc(12px + env(safe-area-inset-bottom)) !important;
-    background: #fff !important; border: 0 !important; border-top: 2.5px solid #0f172a !important;
-    border-radius: 0 !important; box-shadow: none !important; backdrop-filter: none !important;
-  }
-  .header .nav > a {
-    min-width: 0 !important; min-height: 49px !important; padding: 6px 3px !important;
-    display: flex !important; flex-direction: column !important; gap: 4px !important;
-    border: 2.5px solid #0f172a !important; border-radius: 11px !important; background: #fff !important;
-    box-shadow: 0 4px 0 #0f172a !important; font-size: 10px !important; line-height: 1.15 !important; white-space: nowrap !important;
-  }
-  .header .nav > a.active { background: #e0f2fe !important; color: #0f172a !important; }
-  .header .nav > a > span:first-child { display: block !important; font-size: 18px !important; line-height: 1 !important; }
-  .header .nav > a:active { transform: translateY(3px) !important; box-shadow: 0 1px 0 #0f172a !important; }
-  .header-menu-wrap { display: none !important; }
-  .gamegrid { margin-bottom: 20px !important; padding-bottom: 24px !important; }
-  .chat-fab, #chatToggle, .xp-footer .chat-fab {
-    position: fixed !important; right: 16px !important; bottom: calc(104px + env(safe-area-inset-bottom)) !important;
-    z-index: 9000 !important; width: 54px !important; height: 54px !important;
-  }
-}
-@media (min-width: 768px) {
-  .header .nav { position: static !important; display: flex !important; }
-  .header .nav > a > span:first-child { display: none !important; }
-}
-
-/* Explicit two-line assistant identity in the chat header */
-#chatPanel .chat-brand, .chat-panel .chat-brand {
-  display: flex !important;
-  align-items: center !important;
-  gap: 13px !important;
-  min-width: 0 !important;
-}
-#chatPanel .chat-brand-copy, .chat-panel .chat-brand-copy {
-  display: flex !important;
-  flex: 1 1 auto !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  justify-content: center !important;
-  gap: 5px !important;
-  min-width: 0 !important;
-}
-#chatPanel .chat-brand-copy strong, .chat-panel .chat-brand-copy strong {
-  display: block !important;
-  margin: 0 !important;
-  line-height: 1.35 !important;
-}
-#chatPanel .chat-brand-copy small, .chat-panel .chat-brand-copy small {
-  display: block !important;
-  margin: 0 !important;
-  line-height: 1.4 !important;
-}
-
-/* Top-up checkout chat launcher: stay above page content and keep hard shadow */
-.chat-fab, #chatToggle, .xp-footer .chat-fab {
-  z-index: 999 !important;
-  box-shadow: 0 4px 0 #0f172a !important;
-}
-
-
-/* FINAL INTERACTION + COMPACT NAV RULES — XP-SAFE-001 */
-button, input[type="submit"], .btn, .primary, .account, .catalog-more,
-.btn-primary, .btn-outline, .btn-light, .chip, .gamecard,
-.bottomnav > a, .bottomnav .bottom-nav-item,
-nav.skiee-mobile-nav a, .nav a {
-  transition: transform .08s ease, box-shadow .08s ease !important;
-}
-button:hover, input[type="submit"]:hover, .btn:hover, .primary:hover,
-.account:hover, .catalog-more:hover, .btn-primary:hover,
-.btn-outline:hover, .btn-light:hover, .chip:hover, .gamecard:hover,
-.bottomnav > a:hover, .bottomnav .bottom-nav-item:hover,
-nav.skiee-mobile-nav a:hover, .nav a:hover {
-  transform: none !important;
-}
-button:active, input[type="submit"]:active, .btn:active, .primary:active,
-.account:active, .catalog-more:active, .btn-primary:active,
-.btn-outline:active, .btn-light:active, .chip:active, .gamecard:active,
-.bottomnav > a:active, .bottomnav .bottom-nav-item:active,
-nav.skiee-mobile-nav a:active, .nav a:active {
-  transform: translate(3px, 3px) !important;
-  box-shadow: 0 0 0 #0F172A !important;
-}
-/* Selected filters and current navigation stay raised even while touched. */
-.chip.active, .chip.active:hover, .chip.active:active,
-.nav a.active, .nav a.active:hover, .nav a.active:active,
-.nav a[aria-current="page"], .nav a[aria-current="page"]:active,
-.bottomnav > a.active, .bottomnav > a.active:active,
-.bottomnav > a[aria-current="page"], .bottomnav > a[aria-current="page"]:active,
-nav.skiee-mobile-nav a.active, nav.skiee-mobile-nav a.active:active,
-nav.skiee-mobile-nav a[aria-current="page"],
-nav.skiee-mobile-nav a[aria-current="page"]:active {
-  background: #FFD600 !important;
-  background-color: #FFD600 !important;
-  color: #0F172A !important;
-  border-color: #0F172A !important;
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-/* Static surfaces and form controls never inherit press animation. */
-.hero-card, .intro, .panel, .section-card, .checkout-card, .summary-card,
-.feature, .promobox, .notice, .info-card, .order-card, .profile-card,
-.balance-card, .wallet-card, .history-card, .searchbox, .search,
-input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
-select, textarea, .product, .product-card:not(.gamecard) {
-  transition: none !important;
-  transform: none !important;
-}
-/* Only clickable game cards get the press motion. */
-.gamecard { transition: transform .08s ease, box-shadow .08s ease !important; }
-.gamecard:hover { transform: none !important; }
-.gamecard:active { transform: translate(3px, 3px) !important; box-shadow: 0 0 0 #0F172A !important; }
-
-@media (max-width: 767px) {
-  body { padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
-  .bottomnav {
-    gap: 6px !important;
-    padding: 6px 10px calc(6px + env(safe-area-inset-bottom)) !important;
-  }
-  .bottomnav > a, .bottomnav .bottom-nav-item {
-    height: 50px !important;
-    min-height: 50px !important;
-    max-height: 50px !important;
-    padding: 6px 4px !important;
-    gap: 3px !important;
-    border-radius: 10px !important;
-    box-shadow: 3px 3px 0 #0F172A !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-  }
-  .bottomnav > a > span:first-child,
-  .bottomnav .nav-icon,
-  .bottomnav .skiee-svg-box,
-  .bottomnav svg {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 18px !important;
-  }
-  .bottomnav > a > span:last-child,
-  .bottomnav .nav-label {
-    font-size: 10px !important;
-    font-weight: 800 !important;
-  }
-  nav.skiee-mobile-nav {
-    padding: 6px 10px !important;
-    gap: 6px !important;
-  }
-  nav.skiee-mobile-nav a {
-    height: 50px !important;
-    min-height: 50px !important;
-    max-height: 50px !important;
-    padding: 6px 4px !important;
-    border-radius: 10px !important;
-    box-shadow: 3px 3px 0 #0F172A !important;
-    font-size: 10px !important;
-    font-weight: 800 !important;
-  }
-  nav.skiee-mobile-nav a.active,
-  nav.skiee-mobile-nav a[aria-current="page"] {
-    background: #FFD600 !important;
-    background-color: #FFD600 !important;
-    transform: none !important;
-    box-shadow: 3px 3px 0 #0F172A !important;
-  }
-  nav.skiee-mobile-nav .skiee-svg-box,
-  nav.skiee-mobile-nav svg {
-    width: 18px !important;
-    height: 18px !important;
-  }
-}
-
-
-/* Higher-specificity safeguards for homepage inline catalog styles. */
-html body #gameFilters.chips .chip:hover,
-html body #gameFilters.chips .chip:active {
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body #gameFilters.chips .chip.active,
-html body #gameFilters.chips .chip.active:hover,
-html body #gameFilters.chips .chip.active:active {
-  background: #FFD600 !important;
-  background-color: #FFD600 !important;
-  color: #0F172A !important;
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body main .gamegrid > button.gamecard:hover {
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body main .gamegrid > button.gamecard:active {
-  transform: translate(3px, 3px) !important;
-  box-shadow: 0 0 0 #0F172A !important;
-}
-
-
-/* Additional clickable controls and non-button static surfaces. */
-html body #filters.filters .chip:hover,
-html body #filters.filters .chip:active {
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body #filters.filters .chip.active,
-html body #filters.filters .chip.active:hover,
-html body #filters.filters .chip.active:active {
-  background: #FFD600 !important;
-  background-color: #FFD600 !important;
-  color: #0F172A !important;
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body #games .game {
-  transition: transform .08s ease, box-shadow .08s ease !important;
-}
-html body #games .game:hover {
-  transform: none !important;
-}
-html body #games .game:active {
-  transform: translate(3px, 3px) !important;
-  box-shadow: 0 0 0 #0F172A !important;
-}
-html body .product-choice,
-html body .product-choice:hover,
-html body .shortcut-card,
-html body .shortcut-card:hover,
-html body .payment-option,
-html body .payment-option:hover {
-  transition: none !important;
-  transform: none !important;
-}
-/* Header navigation is a static current-page marker, not a press target. */
-html body .nav a,
-html body .nav a:hover,
-html body .nav a:active {
-  transition: none !important;
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-html body .nav a.active,
-html body .nav a.active:hover,
-html body .nav a.active:active,
-html body .nav a[aria-current="page"],
-html body .nav a[aria-current="page"]:active {
-  background: #FFD600 !important;
-  background-color: #FFD600 !important;
-  transform: none !important;
-  box-shadow: 3px 3px 0 #0F172A !important;
-}
-
-
-/* User-requested shared header, floating navigation and Neo-Brutalism press rules. */
-.header-search-btn {
-  width:40px !important;
-  height:40px !important;
-  padding:0 !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  background:#E0F2FE !important;
-  border:2.5px solid #0F172A !important;
-  border-radius:10px !important;
-  box-shadow:3px 3px 0 #0F172A !important;
-}
-.header-search-btn svg { width:20px !important; height:20px !important; }
-.brutal-btn:not(.ai-widget):not(.chat-fab):not([id*="chat"]):not([class*="chat"]):not([id*="ai"]) {
-  transition:transform .08s cubic-bezier(.2,0,0,1),box-shadow .08s cubic-bezier(.2,0,0,1) !important;
-  transform:translate(0,0);
-}
-.brutal-btn:not(.ai-widget):not(.chat-fab):not([id*="chat"]):not([class*="chat"]):not([id*="ai"]):active {
-  transform:translate(3px,3px) !important;
-  box-shadow:0 0 0 #0F172A !important;
-}
-.brutal-btn.chip.active,
-.brutal-btn.chip.active:active,
-.brutal-btn[aria-pressed="true"],
-.brutal-btn[aria-selected="true"] {
-  transform:none !important;
-  box-shadow:3px 3px 0 #0F172A !important;
-  background:#FFD600 !important;
-  color:#0F172A !important;
-}
-.skiee-bottom-nav .nav-item.active,
-.skiee-bottom-nav .nav-item.active:active {
-  transform:none !important;
-  box-shadow:2px 2px 0 #0F172A !important;
-  background:#FFD600 !important;
-  color:#0F172A !important;
-}
-@media (max-width:767px) {
-  .chat-fab, #chatToggle, .xp-footer .chat-fab {
-    bottom:66px !important;
-    right:14px !important;
-  }
-  .skiee-bottom-nav { bottom:8px !important; }
-}
-
-
-/* Global mobile/browser focus cleanup — preserve all existing borders. */
-*, *::before, *::after {
-  -webkit-tap-highlight-color: transparent !important;
-}
-*:focus,
-*:focus-visible,
-*:active,
-summary:focus,
-summary:focus-visible,
-details:focus,
-details:focus-visible,
-button:focus,
-button:focus-visible,
-a:focus,
-a:focus-visible,
-[tabindex]:focus,
-[tabindex]:focus-visible {
-  outline: none !important;
-  outline-width: 0 !important;
-  outline-offset: 0 !important;
 }
