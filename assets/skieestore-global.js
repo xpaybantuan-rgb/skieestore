@@ -267,10 +267,7 @@ chatInput.addEventListener("keydown",e=>{if(e.key==="Escape"&&chatInput.classLis
 syncComposer();
 
 }
-/* Site-wide SVG icon replacement: shared by homepage, profile and navigation pages. */
-const skieeIconStyle=document.createElement("style");
-skieeIconStyle.textContent=".skiee-svg-box{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-box svg{width:24px;height:24px;display:block}.skiee-svg-mini{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-mini svg{width:20px;height:20px;margin-right:6px;display:block}.feature-icon .skiee-svg-box{width:24px;height:24px}.bottomnav .skiee-svg-box svg{width:22px;height:22px}";
-document.head.appendChild(skieeIconStyle);
+
 const skieeSvg={
 grid:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg></span>',
 tag:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#4ADE80" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#0F172A"/></svg></span>',
