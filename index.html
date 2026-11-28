@@ -1137,20 +1137,6 @@ body:has(.home-banner-section) #games:before{content:none!important;display:none
 
 
 
-<style id="skiee-faq-neobrutal-20261128">
-.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item{
- background:#FFFFFF!important;background-color:#FFFFFF!important;border:2px solid #0F172A!important;
- border-radius:16px!important;box-shadow:4px 4px 0 #0F172A!important;
-}
-.faq-home-list{gap:14px!important;}
-</style>
-
-
-
-
-
-
-
 <style id="skieestore-clean-storefront-final">
 
 /* SKIEESTORE visual-only clean storefront finish. Geometry, order and interactions stay untouched. */
@@ -1258,5 +1244,17 @@ main .price,main .product-price,main .nominal-price,main .checkout-total{color:#
 [fill="#FFD600"],[fill="#FACC15"]{fill:#087BFF!important}
 [stroke="#0F172A"],[stroke="#0f172a"],[stroke="#191b22"]{stroke:#334155!important}
 
+</style>
+
+<style id="skieestore-no-brutalism-final">
+/* Final visual cleanup: remove thick outlines and offset brutalist shadows without changing layout or behavior. */
+:root{--line:#E2E8F0;--shadow-soft:0 4px 16px rgba(15,23,42,.055)}
+*,*::before,*::after{box-shadow:none!important}
+:where(.gamecard,.product,.feature,.hero-card,.promobox,.flash-sale-card,.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,.shortcut-card,.payment-option,.home-banner,#searchSuggestions,#topupSearchResults){border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.055)!important}
+:where(button,.btn,.primary,.chip,input,select,textarea,.searchbox,.header-search-toggle,.header-search-btn,#mainHeaderSearchToggle,.header-menu-panel a){border-width:1px!important;border-color:#DCE5EF!important;border-radius:10px!important}
+:where(button,.btn,.primary,.chip,.product-choice,.shortcut-card,.payment-option,.gamecard,.product,.feature){transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease!important}
+:where(.gamecard,.product,.feature,.product-choice,.shortcut-card,.payment-option):hover{border-color:#B9D9FF!important;box-shadow:0 8px 22px rgba(8,123,255,.08)!important}
+:where(.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item){background:#fff!important;border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.055)!important}
+:where(#searchSuggestions,#topupSearchResults){background:#fff!important;border-color:#E2E8F0!important;box-shadow:0 10px 28px rgba(15,23,42,.10)!important}
 </style>
 </body></html>
