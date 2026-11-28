@@ -600,3 +600,76 @@ html body #chatPanel .chat-history-delete {
   border:1px solid #E5E7EB!important;
   border-radius:10px!important;
 }
+
+ 
+/* 2026-11-28: global sky-cyan chat and banner minimalism.
+   Shared visual-only polish; preserves existing content, layout and slider behavior. */
+html body #chatToggle,
+html body .chat-fab,
+html body .xp-footer .chat-fab {
+  background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;
+  background-color:#087BFF!important;
+  color:#FFFFFF!important;
+  border:0!important;
+  border-radius:50%!important;
+  box-shadow:0 6px 18px rgba(8,123,255,.22)!important;
+  filter:none!important;
+  text-shadow:none!important;
+}
+
+/* Homepage banner: retain its artwork while softening the frame and controls. */
+html body .home-banner {
+  border:1px solid rgba(226,232,240,.8)!important;
+  border-radius:18px!important;
+  box-shadow:0 3px 14px rgba(15,23,42,.07)!important;
+}
+html body .home-banner-controls button,
+html body #homeBannerPrev,
+html body #homeBannerNext {
+  background:rgba(255,255,255,.94)!important;
+  color:#334155!important;
+  border:1px solid rgba(255,255,255,.8)!important;
+  border-radius:50%!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+  backdrop-filter:blur(8px);
+}
+html body .home-banner-controls button:hover,
+html body #homeBannerPrev:hover,
+html body #homeBannerNext:hover {
+  background:#FFFFFF!important;
+  color:#087BFF!important;
+}
+html body .home-banner-dots button {
+  background:rgba(255,255,255,.62)!important;
+  border:0!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+}
+html body .home-banner-dots button.active {
+  background:#38BDF8!important;
+  border:0!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+}
+
+/* Top Up hero/banner: clean light surface instead of dark Neo accents. */
+html body.topup-page .catalog-page>.intro {
+  background:linear-gradient(115deg,#FFFFFF 0%,#F8FAFC 58%,#EFF8FF 100%)!important;
+  color:#172033!important;
+  border:1px solid #E2E8F0!important;
+  border-radius:18px!important;
+  box-shadow:0 2px 12px rgba(15,23,42,.045)!important;
+}
+html body.topup-page .catalog-page>.intro:after {
+  background:radial-gradient(ellipse at 88% 10%,rgba(56,189,248,.12),transparent 48%)!important;
+}
+html body.topup-page .catalog-page>.intro .eyebrow {
+  color:#0284C7!important;
+}
+html body.topup-page .catalog-page>.intro h1 {
+  color:#172033!important;
+}
+html body.topup-page .catalog-page>.intro p {
+  color:#64748B!important;
+}
