@@ -1,0 +1,143 @@
+
+.home-banner-note{display:block;margin-top:7px;color:#8792a5;font-size:10px;font-style:normal;font-weight:600;letter-spacing:0}
+.skeleton-card{pointer-events:none;cursor:default}.skeleton-art{position:relative;background:#edf0f4!important;box-shadow:none!important}
+.skeleton-art:after,.skeleton-line:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:catalog-shimmer 1.35s ease-in-out infinite}
+.skeleton-line{position:relative;display:block;height:10px;overflow:hidden;border-radius:99px;background:#edf0f4;margin:5px 0}.skeleton-title{width:78%;height:11px}.skeleton-meta{width:48%;height:8px}
+@keyframes catalog-shimmer{100%{transform:translateX(100%)}}
+.payment-methods{padding-top:12px}.payment-method-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.payment-method{min-height:76px;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 10px;border:1px solid var(--line);border-radius:15px;background:var(--surface);box-shadow:0 6px 18px #25304a08}
+.payment-method strong{font-size:11px;font-weight:800;white-space:nowrap}.payment-mark{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:11px;background:#f1f5f9;color:#334155;font:800 14px "Space Grotesk",sans-serif}
+.payment-qris .payment-mark{background:#eaf2ff;color:#0756d8;letter-spacing:-1px}.payment-dana .payment-mark{background:#eaf4ff;color:#087bff}.payment-ovo .payment-mark{background:#f2eaff;color:#5b2da8}.payment-gopay .payment-mark{background:#e9f7ff;color:#087bff}.payment-shopee .payment-mark{background:#fff0e9;color:#ee4d2d}.payment-bank .payment-mark{background:#eef2f7;color:#344054}
+@media(max-width:800px){.payment-method-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.home-banner-note{font-size:9px}.payment-method-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.payment-method{min-height:64px;justify-content:flex-start;padding:10px 12px;border-radius:13px;gap:9px}.payment-method strong{font-size:10px}.payment-mark{width:31px;height:31px;border-radius:10px}.skeleton-card{display:block;padding:9px;border-radius:14px;text-align:center}.skeleton-art{width:100%;height:auto;aspect-ratio:1/1;margin-bottom:8px;border-radius:12px}.skeleton-title,.skeleton-meta{margin-left:auto;margin-right:auto}}
+
+
+
+.home-banner-section{padding-bottom:0!important;margin-bottom:0!important}
+.home-banner{border-bottom:0!important;box-shadow:none!important;margin-bottom:0!important}
+.home-banner-track,.home-banner-slide{border-bottom:0!important;box-shadow:none!important}
+.home-banner-slide:nth-child(1){background:#0F172A!important}
+.home-banner-slide:nth-child(2){background:#1E1B4B!important}
+.home-banner-slide:nth-child(3){background:#7C2D12!important}
+.home-banner-slide:after{display:none!important;content:none!important}
+.home-banner-copy small,.home-banner-note{color:#FFDF4D!important}
+.home-banner-copy strong{color:#fff!important}
+.home-banner-copy span{color:#f8fafc!important}
+
+
+
+/* Global floating assistant: smaller and clear of the mobile bottom navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{position:fixed!important;right:16px!important;bottom:24px!important;width:48px!important;height:48px!important;min-width:48px!important;flex:none!important;z-index:9998!important;border-radius:50%!important}
+.chat-fab svg,#chatToggle svg{width:26px!important;height:26px!important}
+@media(max-width:620px){.chat-fab,#chatToggle,.xp-footer .chat-fab{right:14px!important;bottom:calc(88px + env(safe-area-inset-bottom))!important;width:46px!important;height:46px!important;min-width:46px!important}.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}}
+/* Compact catalog count badges; prevent ellipsis clipping. */
+.game-count-badge,.game-badge,.catalog-count,.product-count,.gameinfo small,.badge-count{max-width:100%;white-space:nowrap;overflow:visible;text-overflow:clip}
+
+
+
+/* Floating AI assistant: thumb-friendly 52px target, safely above mobile navigation. */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{
+ position:fixed!important;right:18px!important;bottom:28px!important;
+ width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+ max-width:52px!important;max-height:52px!important;flex:0 0 52px!important;
+ display:grid!important;place-items:center!important;border-radius:50%!important;
+ padding:0!important;z-index:99998!important;box-sizing:border-box!important;
+}
+#chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{
+ width:29px!important;height:29px!important;min-width:29px!important;min-height:29px!important;
+ display:block!important;
+}
+@media(max-width:760px){
+ #chatToggle,.chat-fab,.xp-footer .chat-fab{
+  right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+  width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;
+  max-width:52px!important;max-height:52px!important;flex-basis:52px!important;
+ }
+ #chatToggle svg,.chat-fab svg,.xp-footer .chat-fab svg{width:29px!important;height:29px!important}
+}
+
+
+
+.home-banner-section,.home-banner-section>.container,#homeBanner,.home-banner-track,.home-banner-slide{
+ border:0!important;border-bottom:0!important;outline:0!important;box-shadow:none!important;
+}
+.home-banner-section{padding-bottom:0!important;margin-bottom:0!important}
+.home-banner-section + .section{border-top:0!important;box-shadow:none!important}
+.home-banner-slide:after,.home-banner-slide:before{border:0!important;box-shadow:none!important}
+
+
+
+/* SKIEESTORE clean modern storefront skin — visual only; preserve structure and geometry. */
+:root{
+  --store-bg:#F8FAFC;--store-surface:#FFFFFF;--store-text:#172033;
+  --store-muted:#64748B;--store-line:#E2E8F0;--store-blue:#087BFF;
+  --store-cyan:#22C7E8;--store-soft:#EFF8FF;
+}
+html,body{background:#F8FAFC!important;color:var(--store-text)!important}
+main{background:transparent!important;color:var(--store-text)!important}
+main .hero-card,main .home-banner,main .home-banner-slide,
+main .gamecard,main .product,main .feature,main .promobox,
+main .faq-home-item,main .faq-item,main .faq-card,main .faq-question,
+main .accordion-item,main details.faq,main details.faq-item,
+main .state,main .flash-sale-card,main .home-banner-section .home-banner{
+  border:1px solid var(--store-line)!important;
+  border-radius:16px!important;
+  box-shadow:0 4px 18px rgba(15,23,42,.045)!important;
+}
+main .home-banner,main .home-banner-slide{
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+main .gamecard:hover,main .product:hover,main .feature:hover,
+main .faq-home-item:hover,main .faq-item:hover{
+  border-color:#B9D9FF!important;
+  box-shadow:0 8px 24px rgba(8,123,255,.09)!important;
+}
+main button,main .btn,main .primary,main .catalog-more,
+main .product button,main .chip{
+  border-radius:10px!important;
+  box-shadow:none!important;
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease!important;
+}
+main .primary,main .btn-primary,main .product button:not(:disabled),
+main .catalog-more{
+  background:var(--store-blue)!important;color:#fff!important;border:1px solid var(--store-blue)!important;
+}
+main .primary:hover,main .btn-primary:hover,main .product button:not(:disabled):hover,
+main .catalog-more:hover{background:#0669DC!important;border-color:#0669DC!important;box-shadow:0 5px 14px rgba(8,123,255,.18)!important}
+main .chip{border:1px solid var(--store-line)!important;background:#fff!important;color:var(--store-muted)!important}
+main .chip.active{background:var(--store-soft)!important;border-color:#9CCBFF!important;color:#0756B8!important}
+main input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+main select,main textarea,main .searchbox{
+  border:1px solid var(--store-line)!important;border-radius:10px!important;
+  background:#fff!important;color:var(--store-text)!important;box-shadow:none!important;
+}
+main input:focus,main select:focus,main textarea:focus{
+  border-color:var(--store-blue)!important;outline:3px solid rgba(8,123,255,.12)!important;outline-offset:1px!important;
+}
+main h1,main h2,main h3,main h4{color:var(--store-text)!important}
+main p,main small{color:inherit}
+main .price,main .product-price,main .nominal-price,main .checkout-total{color:#0867D1!important}
+main .faq-home-item,main .faq-item,main .faq-card,main .faq-question,
+main .accordion-item,main details.faq,main details.faq-item{
+  border-color:var(--store-line)!important;box-shadow:0 3px 14px rgba(15,23,42,.035)!important;
+}
+footer.xp-footer#footer,footer.xp-footer,#footer.xp-footer{
+  background:#fff!important;border-top:1px solid var(--store-line)!important;
+  box-shadow:none!important;border-radius:0!important;
+}
+#chatPanel,.chat-panel{background:#fff!important;border:0!important;box-shadow:none!important}
+#chatPanel .chat-head,.chat-panel .chat-head,#chatPanel .chat-history-head,.chat-history-head{
+  background:#fff!important;color:var(--store-text)!important;border-bottom:1px solid var(--store-line)!important;
+}
+#chatPanel .chat-toolbar,.chat-panel .chat-toolbar{background:#fff!important;border-bottom:1px solid var(--store-line)!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages{background:#F8FAFC!important;background-image:none!important}
+#chatPanel .chat-bubble,.chat-panel .chat-bubble{border:1px solid var(--store-line)!important;border-radius:14px!important;box-shadow:none!important}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot{background:#fff!important;color:var(--store-text)!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user{background:var(--store-blue)!important;color:#fff!important;border-color:var(--store-blue)!important}
+#chatPanel .chat-compose,.chat-panel .chat-compose{background:#fff!important;border-top:1px solid var(--store-line)!important}
+#chatPanel .chat-compose textarea,.chat-panel .chat-compose textarea{border:1px solid var(--store-line)!important;border-radius:12px!important;box-shadow:none!important}
+#chatPanel .chat-tool-btn,.chat-panel .chat-tool-btn,#chatPanel .chat-close,.chat-panel .chat-close{
+  border:1px solid var(--store-line)!important;border-radius:10px!important;box-shadow:none!important;background:#fff!important;color:var(--store-text)!important;
+}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary{background:var(--store-soft)!important;color:#0756B8!important;border-color:#C8E2FF!important}
