@@ -3,7 +3,7 @@
  const header=document.querySelector("header.header,body>header");if(!header)return;
  const headrow=header.querySelector(".headrow")||header,oldNav=headrow.querySelector(".nav");if(oldNav)oldNav.setAttribute("aria-hidden","true");
  let actions=headrow.querySelector(".header-actions,.actions");if(!actions){actions=document.createElement("div");actions.className="site-nav-actions";headrow.appendChild(actions)}actions.classList.add("site-nav-actions");
- const search=headrow.querySelector("#headerSearchToggle"),showSearch=SEARCH_PATHS.has(path);
+ const search=headrow.querySelector("#headerSearchToggle"),showSearch=SEARCH_PATHS.has(path)||path.startsWith("/game/");
  if(search){search.hidden=!showSearch;if(showSearch){search.classList.remove("brutal-btn");search.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Cari</span>';search.setAttribute("aria-label","Cari game")}}
  let toggle=headrow.querySelector("#siteMenuToggle");if(!toggle){toggle=document.createElement("button");toggle.type="button";toggle.id="siteMenuToggle";toggle.className="site-nav-menu-toggle";toggle.setAttribute("aria-label","Buka menu");toggle.setAttribute("aria-expanded","false");actions.appendChild(toggle)}
  let backdrop=document.querySelector(".site-menu-backdrop");if(!backdrop){backdrop=document.createElement("div");backdrop.className="site-menu-backdrop";backdrop.setAttribute("aria-hidden","true");document.body.appendChild(backdrop)}
