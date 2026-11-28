@@ -670,7 +670,7 @@ body > header.top #mainHeaderSearchToggle svg {
 /* SKIEESTORE visual-only clean storefront finish. Geometry, order and interactions stay untouched. */
 :root{
  --bg:#F8FAFC;--surface:#FFFFFF;--surface2:#F8FAFC;--text:#172033;--muted:#64748B;
- --line:#E2E8F0;--accent:#087BFF;--accent2:#0756D8;--soft:#EFF8FF;
+ --line:#E2E8F0;--accent:#087BFF;--accent2:#087BFF;--soft:#EFF8FF;
  --shadow:0 8px 24px rgba(15,23,42,.055);
 }
 html[data-theme="light"],html,body{color-scheme:light;background:#F8FAFC;color:#172033}
@@ -688,7 +688,7 @@ body,main{color:#172033}
 .nav a.active,.nav a[aria-current="page"],.header .nav a.active,
 nav.skiee-mobile-nav a.active,nav.skiee-mobile-nav a[aria-current="page"],
 .bottomnav a.active,.bottomnav a[aria-current="page"],.skiee-bottom-nav .nav-item.active{
- background:#EFF8FF!important;background-color:#EFF8FF!important;color:#0756B8!important;
+ background:#EFF8FF!important;background-color:#EFF8FF!important;color:#087BFF!important;
  border-color:#C7E2FF!important;box-shadow:none!important;
 }
 .header-search-btn,.header-search-toggle,#mainHeaderSearchToggle{
@@ -724,7 +724,7 @@ main .catalog-more:hover,.chat-send:hover{
 }
 main .chip{background:#fff!important;color:#64748B!important;border:1px solid #E2E8F0!important}
 main .chip.active,main .chip.active:hover{
- background:#EFF8FF!important;color:#0756B8!important;border-color:#9CCBFF!important;box-shadow:none!important;
+ background:#EFF8FF!important;color:#087BFF!important;border-color:#9CCBFF!important;box-shadow:none!important;
 }
 main input:not([type=checkbox]):not([type=radio]):not([type=submit]),
 main select,main textarea,main .searchbox,.header-search-panel .searchbox,
