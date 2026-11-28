@@ -3,7 +3,7 @@
 # Keep public content public: no authentication redirects for these paths.
 /settings /settings.html 200
 /skieepay-admin /skieepay-admin.html 200
-/kalkulator /kalkulator/index.html 200
+/kalkulator /kalkulator.html 200
 /masuk /masuk.html 200
 /daftar /daftar.html 200
 /reset-password /reset-password.html 200
