@@ -70,14 +70,6 @@
   overflow-wrap:anywhere!important;box-shadow:none!important;
 }
 #gameDetailPage .nb-game-trust .nb-trust-support svg{flex:0 0 17px!important;width:17px!important;height:17px!important;stroke:#64748B!important}
-#gameDetailPage .btn-back-catalog{
-  display:inline-flex!important;align-items:center!important;gap:7px!important;
-  width:max-content!important;max-width:100%!important;margin:0 0 12px!important;
-  padding:9px 12px!important;border:1px solid #E2E8F0!important;border-radius:10px!important;
-  background:#fff!important;color:#475569!important;font-size:12px!important;
-  font-weight:700!important;text-decoration:none!important;box-shadow:none!important;
-}
-#gameDetailPage .btn-back-catalog:hover{background:#F8FAFC!important;color:#087BFF!important;border-color:#BFDBFE!important}
 @media(max-width:380px){
  #gameDetailPage .game-hero.nb-game-identity{padding:14px!important;gap:14px!important}
  #gameDetailPage .nb-game-service{gap:10px!important}
