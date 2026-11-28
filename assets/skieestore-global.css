@@ -780,3 +780,12 @@ main .price,main .product-price,main .nominal-price,main .checkout-total{color:#
   #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:82px!important;margin-bottom:0!important;scroll-margin-bottom:0!important}
 }
 @media(min-width:768px){.skiee-bottom-nav{display:none!important}}
+
+
+/* Shared SVG icon sizing, centralized in the global stylesheet. */
+.skiee-svg-box{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.skiee-svg-box svg{width:24px;height:24px;display:block}
+.skiee-svg-mini{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
+.skiee-svg-mini svg{width:20px;height:20px;margin-right:6px;display:block}
+.feature-icon .skiee-svg-box{width:24px;height:24px}
+.bottomnav .skiee-svg-box svg{width:22px;height:22px}
