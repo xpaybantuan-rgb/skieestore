@@ -4,10 +4,10 @@
 (function(){
  const pathname=(window.location.pathname||"/").toLowerCase();
  const items=[
-  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
-  {href:"/cek-pesanan",label:"Cek Pesanan",active:pathname.startsWith("/cek"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'},
-  {href:"/topup",label:"Top Up",active:pathname.startsWith("/topup"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'},
-  {href:"/profil",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
+  {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
+  {href:"/cek-pesanan",label:"Cek Pesanan",active:pathname.startsWith("/cek"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'},
+  {href:"/topup",label:"Top Up",active:pathname.startsWith("/topup"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'},
+  {href:"/profil",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
  ];
  const links=items.map(({href,label,icon,active})=>
   '<a href="'+href+'" class="nav-item'+(active?' active" aria-current="page"':'"')+'><span class="skiee-svg-box" aria-hidden="true">'+icon+'</span><span>'+label+'</span></a>'
@@ -32,9 +32,9 @@
  style.textContent=`
   @media(max-width:767px){
    .header .nav,.header nav.nav,nav.nav,.bottomnav{display:none!important;visibility:hidden!important}
-   .skiee-bottom-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;z-index:2147483000!important;width:auto!important;max-width:480px!important;margin:0 auto!important;padding:5px!important;gap:5px!important;background:#fff!important;border:1px solid #0F172A!important;border-radius:12px!important;box-shadow:none!important;box-sizing:border-box!important}
-   .skiee-bottom-nav .nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:3px!important;gap:2px!important;border:2px solid #0F172A!important;border-radius:8px!important;box-shadow:2px 2px 0 #0F172A!important;background:#fff!important;color:#0F172A!important;font-size:9.5px!important;line-height:1!important;font-weight:800!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important;transition:transform .08s ease,box-shadow .08s ease,background-color .15s ease!important;-webkit-tap-highlight-color:transparent}
-   .skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{background:#FFD600!important;color:#0F172A!important;box-shadow:2px 2px 0 #0F172A!important;transform:none!important}
+   .skiee-bottom-nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;z-index:2147483000!important;width:auto!important;max-width:480px!important;margin:0 auto!important;padding:5px!important;gap:5px!important;background:#fff!important;border:1px solid #E2E8F0!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(15,23,42,.08)!important;box-sizing:border-box!important}
+   .skiee-bottom-nav .nav-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;width:100%!important;height:44px!important;min-height:44px!important;max-height:44px!important;padding:3px!important;gap:2px!important;border:1px solid #E2E8F0!important;border-radius:12px!important;box-shadow:none!important;background:#fff!important;color:#334155!important;font-size:9.5px!important;line-height:1!important;font-weight:800!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important;transition:transform .08s ease,box-shadow .08s ease,background-color .15s ease!important;-webkit-tap-highlight-color:transparent}
+   .skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{background:#EFF6FF!important;color:#1D4ED8!important;border-color:#BFDBFE!important;box-shadow:none!important;transform:none!important}
    .skiee-bottom-nav .nav-item:active:not(.active):not([aria-current="page"]){transform:translate(2px,2px)!important;box-shadow:0 0 0 #0F172A!important}
    .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:15px!important;height:15px!important;flex:0 0 15px!important}
    .skiee-bottom-nav .nav-item>span:last-child{font-size:9.5px!important;white-space:nowrap!important;line-height:1!important}
@@ -52,7 +52,7 @@
   body:not(.chat-open) footer.xp-footer{padding-bottom:82px!important;margin-bottom:0!important}
   body:not(.chat-open)>header,
   body:not(.chat-open) header.header,
-  body:not(.chat-open) header.top{background-color:#FFFFFF!important;border-bottom:2.5px solid #0F172A!important}
+  body:not(.chat-open) header.top{background-color:#FFFFFF!important;border-bottom:1px solid #E2E8F0!important}
   body.chat-open .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#087BFF!important}
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] *{color:#087BFF!important}
@@ -60,20 +60,7 @@
   .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"] svg *{fill:#087BFF!important;stroke:#087BFF!important}
  `;
  document.head.appendChild(style);
- // Mark all interactive store controls for the shared Neo-Brutalism press treatment.
- const markBrutalButtons = root => {
-  const selector='button, input[type="submit"], .btn, .primary, .account, .catalog-more, .chip, .gamecard, .product-choice, .payment-option, .method-card, .shortcut, [role="button"]';
-  const nodes=[];
-  if(root && root.nodeType===1 && root.matches?.(selector)) nodes.push(root);
-  if(root?.querySelectorAll) nodes.push(...root.querySelectorAll(selector));
-  nodes.forEach(el=>{
-   if(el.closest('#chatPanel,.chat-panel,.chat-history-panel,.ai-widget,[class*="chat"],[id*="chat"],[id*="ai"]')) return;
-   el.classList.add('brutal-btn');
-  });
- };
- markBrutalButtons(document);
- const brutalObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)markBrutalButtons(node)})));
- brutalObserver.observe(document.documentElement,{childList:true,subtree:true});
+
 })();
 const $=id=>document.getElementById(id);
 const SUPABASE_URL="https://rjgeitbkpcyymgemcztx.supabase.co";
@@ -317,25 +304,25 @@ const skieeIconStyle=document.createElement("style");
 skieeIconStyle.textContent=".skiee-svg-box{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-box svg{width:24px;height:24px;display:block}.skiee-svg-mini{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}.skiee-svg-mini svg{width:20px;height:20px;margin-right:6px;display:block}.feature-icon .skiee-svg-box{width:24px;height:24px}.bottomnav .skiee-svg-box svg{width:22px;height:22px}";
 document.head.appendChild(skieeIconStyle);
 const skieeSvg={
-grid:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg></span>',
-tag:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#4ADE80" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#0F172A"/></svg></span>',
-search:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg></span>',
-support:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6" fill="none"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>',
-wallet:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 11h6v4h-6a2 2 0 0 1 0-4z" fill="#FFF"/></svg></span>',
-reward:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FB923C" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>',
-history:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#A78BFA" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8" fill="#FFF"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>',
-game:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4" fill="none"/><circle cx="15" cy="11" r="1" fill="#0F172A"/><circle cx="17.5" cy="13" r="1" fill="#0F172A"/></svg></span>',
-user:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>',
-wa:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#25D366" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>',
-mail:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6" fill="none"/></svg></span>'
+grid:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="3" y="14" width="7" height="7" rx="1.5" fill="#FFF"/><rect x="14" y="14" width="7" height="7" rx="1.5" fill="#00E5FF"/></svg></span>',
+tag:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#4ADE80" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#0F172A"/></svg></span>',
+search:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#64748B" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.2" y2="16.2"/></svg></span>',
+support:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6" fill="none"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>',
+wallet:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FFD600" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 11h6v4h-6a2 2 0 0 1 0-4z" fill="#FFF"/></svg></span>',
+reward:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#FB923C" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>',
+history:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#A78BFA" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8" fill="#FFF"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg></span>',
+game:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#00E5FF" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4" fill="none"/><circle cx="15" cy="11" r="1" fill="#0F172A"/><circle cx="17.5" cy="13" r="1" fill="#0F172A"/></svg></span>',
+user:'<span class="skiee-svg-box"><svg viewBox="0 0 24 24" fill="#38BDF8" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>',
+wa:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#25D366" stroke="#64748B" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>',
+mail:'<span class="skiee-svg-mini"><svg viewBox="0 0 24 24" fill="#FACC15" stroke="#64748B" stroke-width="2" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6" fill="none"/></svg></span>'
 };
 /* Profile + footer icon correction using nearby labels (user-provided SVG design). */
 const skieeProfileIcons={
- guest:'<svg viewBox="0 0 24 24" width="28" height="28" fill="#38BDF8" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>',
- history:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#A78BFA" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8" fill="#FFF"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
- topup:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#00E5FF" stroke="#0F172A" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="11" r="1" fill="#0F172A"></circle><circle cx="17.5" cy="13" r="1" fill="#0F172A"></circle></svg>',
- wa:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#25D366" stroke="#0F172A" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
- mail:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#FACC15" stroke="#0F172A" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6" fill="none"></polyline></svg>'
+ guest:'<svg viewBox="0 0 24 24" width="28" height="28" fill="#38BDF8" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>',
+ history:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#A78BFA" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8" fill="#FFF"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line></svg>',
+ topup:'<svg viewBox="0 0 24 24" width="24" height="24" fill="#00E5FF" stroke="#64748B" stroke-width="2.2" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="4"></rect><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><circle cx="15" cy="11" r="1" fill="#0F172A"></circle><circle cx="17.5" cy="13" r="1" fill="#0F172A"></circle></svg>',
+ wa:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#25D366" stroke="#64748B" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>',
+ mail:'<svg viewBox="0 0 24 24" width="20" height="20" style="vertical-align:middle;margin-right:6px" fill="#FACC15" stroke="#64748B" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="22,6 12,13 2,6" fill="none"></polyline></svg>'
 };
 function fixSkieeProfileAndFooter(){
  const memberCard=document.querySelector(".member-card");
@@ -412,8 +399,8 @@ document.querySelectorAll(".xp-foot-year").forEach(e=>e.textContent=new Date().g
  const suggestions=document.querySelector("#searchSuggestions,#topupSearchResults");
  const invoiceInput=document.getElementById("code");
 
- const searchSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="#E0F2FE" stroke="#0F172A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
- const closeSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#0F172A" stroke-width="2.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+ const searchSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="#E0F2FE" stroke="#64748B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';
+ const closeSvg='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#64748B" stroke-width="2.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
  function setButton(open){
   if(!button)return;
   button.innerHTML=open?closeSvg:searchSvg;
