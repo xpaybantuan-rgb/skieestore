@@ -891,7 +891,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
   status("Login berhasil. Harga member akan diterapkan otomatis saat membuat pesanan.");
   await renderNotifications();await renderMembershipHistory();
  }
- $("memberGoogleLogin").addEventListener("click",async()=>{const b=$("memberGoogleLogin");b.disabled=true;status("Membuka login Google…");const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+"/profil",queryParams:{prompt:"select_account"}}});if(error){status("Login Google gagal: "+error.message,true);b.disabled=false;}});
+ $("memberGoogleLogin").addEventListener("click",async()=>{const b=$("memberGoogleLogin");b.disabled=true;status("Membuka login Google…");const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:"https://skieestore.biz.id/profil",queryParams:{prompt:"select_account"}}});if(error){status("Login Google gagal: "+error.message,true);b.disabled=false;}});
  $("memberLogout").addEventListener("click",async()=>{await sb.auth.signOut();await loadAccount();});
  document.querySelectorAll("[data-member-checkout]").forEach(b=>b.addEventListener("click",async()=>{
   if(!session){status("Masuk dengan Google terlebih dahulu sebelum membeli paket.",true);$("memberGoogleLogin").scrollIntoView({behavior:"smooth",block:"center"});return;}
