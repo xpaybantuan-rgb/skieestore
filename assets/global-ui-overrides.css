@@ -81,3 +81,14 @@ body.chat-open>header,body.chat-open header.header,body.chat-open .header,body.c
 .auth-back,.auth-foot{color:var(--skiee-ink)!important;opacity:1!important}
 .auth-field input::placeholder{color:#475569!important;opacity:1!important}
 .auth-submit{color:#fff!important}
+
+/* Guest access card on the profile page; membership plans remain visible beneath it. */
+.profile-access-card{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:18px!important;margin:0 0 18px!important;padding:18px!important;border:1px solid #E2E8F0!important;border-radius:18px!important;background:#fff!important;box-shadow:0 8px 24px rgba(148,163,184,.10)!important}
+.profile-access-card[hidden]{display:none!important}
+.profile-access-card>div:first-child strong{display:block!important;color:#090D16!important;font-size:14px!important;font-weight:800!important}
+.profile-access-card>div:first-child p{margin:6px 0 0!important;color:#090D16!important;font-size:11px!important;line-height:1.65!important}
+.profile-access-actions{display:grid!important;grid-template-columns:repeat(2,minmax(104px,1fr))!important;gap:8px!important}
+.profile-access-actions a{display:flex!important;min-height:42px!important;align-items:center!important;justify-content:center!important;padding:0 13px!important;border:1px solid #E2E8F0!important;border-radius:12px!important;font-size:11px!important;font-weight:850!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important}
+.profile-access-actions .profile-access-login{background:#087BFF!important;border-color:#087BFF!important;color:#fff!important}
+.profile-access-actions .profile-access-register{background:#F8FAFC!important;color:#090D16!important}
+@media(max-width:620px){.profile-access-card{grid-template-columns:1fr!important;gap:14px!important;padding:16px!important}.profile-access-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
