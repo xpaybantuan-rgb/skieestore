@@ -116,3 +116,13 @@ body [class*="text-gray-"],body [class*="text-slate-"],body [class*="text-muted"
  background:#F8FAFC!important;
 }
 .search-suggestions .search-suggestion small,.topup-search-results .topup-search-result small{color:#334155!important;opacity:1!important}
+
+/* Homepage catalog expansion control: compact and minimal. */
+#catalogMoreWrap .catalog-more{
+ background:#fff!important;color:#090D16!important;border:1px solid #E2E8F0!important;
+ border-radius:12px!important;box-shadow:0 4px 12px rgba(148,163,184,.16)!important;
+ padding:10px 16px!important;font-size:12px!important;font-weight:750!important;
+}
+#catalogMoreWrap .catalog-more:hover,#catalogMoreWrap .catalog-more:focus-visible{
+ background:#F8FAFC!important;border-color:#CBD5E1!important;box-shadow:none!important;
+}
