@@ -212,3 +212,113 @@ main input:focus,main select:focus,main textarea:focus{
 #chatPanel .chat-compose,.chat-panel .chat-compose{
   background:#fff!important;border-top:1px solid var(--theme-line)!important;
 }
+
+
+/* Phase 1–2 home-page finish: single-source royal-blue tokens and clean mobile dock. */
+:root,html[data-theme="light"]{
+  --theme-bg:#FFFFFF;
+  --theme-surface:#F8FAFC;
+  --theme-surface-raised:#FFFFFF;
+  --theme-text:#172033;
+  --theme-muted:#64748B;
+  --theme-line:#E2E8F0;
+  --theme-blue:#1D4ED8;
+  --theme-blue-hover:#1E3A8A;
+  --theme-blue-soft:#EFF6FF;
+  --theme-blue-border:#BFDBFE;
+  --theme-radius-sm:12px;
+  --theme-radius-md:14px;
+  --theme-radius-lg:16px;
+  --theme-shadow:0 2px 10px rgba(15,23,42,.035);
+  --theme-shadow-hover:0 6px 18px rgba(29,78,216,.075);
+  --bg:var(--theme-bg);--surface:var(--theme-surface-raised);
+  --surface2:var(--theme-surface);--text:var(--theme-text);
+  --muted:var(--theme-muted);--line:var(--theme-line);
+  --accent:var(--theme-blue);--accent2:var(--theme-blue-hover);
+  --soft:var(--theme-blue-soft);--shadow:var(--theme-shadow);
+  --ui-bg:var(--theme-bg);--ui-surface:var(--theme-surface-raised);
+  --ui-text:var(--theme-text);--ui-muted:var(--theme-muted);
+  --ui-line:var(--theme-line);--ui-blue:var(--theme-blue);
+  --ui-blue-2:var(--theme-blue-hover);--ui-soft:var(--theme-blue-soft);
+  --ui-shadow:var(--theme-shadow);
+}
+html,body{background:#FFFFFF!important;color:#172033!important}
+.topline{background:#1D4ED8!important}
+main .gamecard,main .product,main .feature,main .faq-home-item,
+main .flash-sale-card,main .promobox,main .state{
+  border:1px solid #E2E8F0!important;border-radius:14px!important;
+  box-shadow:0 2px 10px rgba(15,23,42,.035)!important;
+}
+main .primary,main .btn-primary,main .catalog-more,
+main .product button:not(:disabled),.chat-send{
+  background:#1D4ED8!important;border-color:#1D4ED8!important;
+}
+main .primary:hover,main .btn-primary:hover,main .catalog-more:hover,
+main .product button:not(:disabled):hover,.chat-send:hover{
+  background:#1E3A8A!important;border-color:#1E3A8A!important;
+}
+
+/* Catalog stays native: preserve #gameGrid, data-game and existing rendering. */
+#gameGrid,.gamegrid{
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+@media(max-width:767px){
+  #gameGrid,.gamegrid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+  #gameGrid .gamecard,.gamegrid .gamecard{
+    display:block!important;min-width:0!important;padding:8px!important;
+    text-align:center!important;border:1px solid #E2E8F0!important;
+    border-radius:14px!important;background:#fff!important;box-shadow:none!important;
+  }
+  #gameGrid .gameart,.gamegrid .gameart{
+    width:100%!important;height:auto!important;aspect-ratio:1/1!important;
+    margin:0 0 8px!important;border-radius:12px!important;overflow:hidden!important;
+  }
+  #gameGrid .gameart img,.gamegrid .gameart img{
+    width:100%!important;height:100%!important;object-fit:cover!important;
+  }
+  #gameGrid .gameinfo strong,.gamegrid .gameinfo strong{
+    display:block!important;font-size:10px!important;line-height:1.35!important;
+    overflow-wrap:anywhere!important;
+  }
+  #gameGrid .gameinfo small,.gamegrid .gameinfo small{font-size:8px!important}
+  #gameGrid .gamearrow,.gamegrid .gamearrow{display:none!important}
+
+  /* The shared script's four-item dock is hidden on this page only.
+     This static five-item dock requires no JavaScript and uses native links. */
+  body .skiee-bottom-nav{display:none!important;visibility:hidden!important}
+  .home-mobile-nav{
+    display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    position:fixed!important;left:10px!important;right:10px!important;bottom:7px!important;
+    z-index:2147483001!important;max-width:520px!important;margin:0 auto!important;
+    padding:6px!important;gap:4px!important;box-sizing:border-box!important;
+    background:rgba(255,255,255,.98)!important;border:1px solid #E2E8F0!important;
+    border-radius:16px!important;box-shadow:0 5px 18px rgba(15,23,42,.07)!important;
+    backdrop-filter:blur(16px)!important;
+  }
+  .home-mobile-nav a{
+    display:flex!important;min-width:0!important;height:48px!important;
+    flex-direction:column!important;align-items:center!important;justify-content:center!important;
+    gap:3px!important;padding:3px 1px!important;border:1px solid transparent!important;
+    border-radius:11px!important;background:transparent!important;color:#64748B!important;
+    font-size:9px!important;font-weight:700!important;line-height:1!important;
+    text-decoration:none!important;white-space:nowrap!important;
+  }
+  .home-mobile-nav a[aria-current="page"]{
+    color:#1D4ED8!important;background:#EFF6FF!important;border-color:#DBEAFE!important;
+  }
+  .home-mobile-nav svg{
+    display:block!important;width:19px!important;height:19px!important;
+    fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;
+    stroke-linecap:round!important;stroke-linejoin:round!important;
+  }
+  .xp-footer#footer,footer.xp-footer,#footer.xp-footer{
+    padding-bottom:calc(82px + env(safe-area-inset-bottom))!important;
+  }
+}
+@media(max-width:360px){
+  #gameGrid,.gamegrid{gap:6px!important}
+  #gameGrid .gamecard,.gamegrid .gamecard{padding:6px!important}
+  #gameGrid .gameinfo strong,.gamegrid .gameinfo strong{font-size:9px!important}
+}
+@media(min-width:768px){.home-mobile-nav{display:none!important}}
