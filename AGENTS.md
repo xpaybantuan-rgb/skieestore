@@ -12,7 +12,7 @@ Dokumen ini adalah sumber aturan utama untuk setiap pekerjaan audit, perbaikan, 
 6. **BATASI PERUBAHAN** hanya pada perintah yang diminta. Jangan menyentuh, mengubah, atau merombak fitur/kode lain yang tidak diminta.
 7. **JANGAN MERUSAK FITUR NORMAL.** Jangan mengubah logika Asisten AI (`SKIEESTORE AI`), sistem transaksi, atau fungsi backend kecuali diminta secara eksplisit.
 8. **WAJIB RESPONSIF MOBILE & TANPA AUTO-ZOOM.** Semua halaman harus memakai standar `<meta name="viewport">` yang sama dengan Beranda dan tidak boleh memiliki elemen yang melebar melebihi `100vw`.
-9. **JANGAN MENYISAKAN TEKS MENTAH ATAU TOMBOL SAMPAH.** Pastikan tidak ada karakter literal `\\n` yang bocor ke tampilan dan jangan menambahkan tombol navigasi balik mubazir seperti "Kembali ke Beranda/Katalog".
+9. **JANGAN MENYISAKAN TEKS MENTAH ATAU TOMBOL SAMPAH.** Pastikan tidak ada karakter literal `\n` yang bocor ke tampilan dan jangan menambahkan tombol navigasi balik mubazir seperti "Kembali ke Beranda/Katalog".
 10. **WAJIB LAPORKAN PERUBAHAN FILE.** Setelah selesai, sebutkan dengan jelas dan jujur setiap file yang diedit, dibuat, atau dihapus.
 11. Aturan ini harus terus dijadikan pedoman pada setiap sesi pengerjaan SKIEESTORE. Jangan mengandalkan ingatan percakapan saja: baca kembali dokumen ini sebelum mulai bekerja.
 
