@@ -3,8 +3,8 @@
  const header=document.querySelector("header.header,body>header");if(!header)return;
  const headrow=header.querySelector(".headrow")||header,oldNav=headrow.querySelector(".nav");if(oldNav)oldNav.setAttribute("aria-hidden","true");
  let actions=headrow.querySelector(".header-actions,.actions");if(!actions){actions=document.createElement("div");actions.className="site-nav-actions";headrow.appendChild(actions)}actions.classList.add("site-nav-actions");
- const search=headrow.querySelector("#headerSearchToggle"),showSearch=SEARCH_PATHS.has(path)||path.startsWith("/game/");
- if(search){search.hidden=!showSearch;if(showSearch){search.classList.remove("brutal-btn");search.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Cari</span>';search.setAttribute("aria-label","Cari game")}}
+ const search=headrow.querySelector("#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn"),showSearch=SEARCH_PATHS.has(path);
+ if(search){search.hidden=!showSearch;search.setAttribute("aria-label","Cari game");search.setAttribute("title","Cari game");search.classList.remove("brutal-btn");search.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>';}
  let toggle=headrow.querySelector("#siteMenuToggle");if(!toggle){toggle=document.createElement("button");toggle.type="button";toggle.id="siteMenuToggle";toggle.className="site-nav-menu-toggle";toggle.setAttribute("aria-label","Buka menu");toggle.setAttribute("aria-expanded","false");actions.appendChild(toggle)}
  let backdrop=document.querySelector(".site-menu-backdrop");if(!backdrop){backdrop=document.createElement("div");backdrop.className="site-menu-backdrop";backdrop.setAttribute("aria-hidden","true");document.body.appendChild(backdrop)}
  let card=document.querySelector(".site-menu-card");if(!card){card=document.createElement("aside");card.className="site-menu-card";card.id="siteMenuCard";card.setAttribute("aria-label","Menu utama");card.innerHTML=
@@ -21,4 +21,63 @@
  function renderUser(user){if(!authBox)return;if(user){const name=(user.user_metadata&&(user.user_metadata.full_name||user.user_metadata.name))||user.email?.split("@")[0]||"Member";authBox.innerHTML='<div class="site-menu-user"><div class="site-menu-user-info"><strong></strong><small></small></div><button type="button" class="site-menu-logout" id="siteMenuLogout">Keluar</button></div>';authBox.querySelector("strong").textContent=name;authBox.querySelector("small").textContent=user.email||"Akun aktif";authBox.querySelector("#siteMenuLogout").addEventListener("click",async()=>{try{await client.auth.signOut();renderUser(null)}catch(e){alert("Gagal keluar. Coba lagi.")}})}else authBox.innerHTML='<div class="site-menu-guest"><a class="site-menu-login" href="/masuk">MASUK →</a><a class="site-menu-register" href="/daftar">DAFTAR +</a></div>'}
  function initAuth(){if(!window.supabase||!window.supabase.createClient)return;try{client=window.supabase.createClient("https://rjgeitbkpcyymgemcztx.supabase.co","sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});client.auth.getSession().then(({data})=>renderUser(data.session?.user||null)).catch(()=>{});client.auth.onAuthStateChange((_event,session)=>renderUser(session?.user||null))}catch(e){}}
  if(window.supabase)initAuth();else{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=initAuth;document.head.appendChild(s)}
+ /* Global UI polish: identical header controls, restrained search results, and a two-column footer. */
+ const uiStyle=document.createElement("style");
+ uiStyle.id="skiee-global-ui-polish";
+ uiStyle.textContent=`
+  .site-nav-actions{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;margin-left:auto!important}
+  .site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{
+   display:inline-flex!important;align-items:center!important;justify-content:center!important;
+   width:42px!important;min-width:42px!important;height:42px!important;min-height:42px!important;
+   padding:0!important;border:1px solid #E2E8F0!important;border-radius:12px!important;
+   background:#FFFFFF!important;color:#334155!important;box-shadow:none!important;
+   vertical-align:middle!important;line-height:1!important
+  }
+  .site-nav-menu-toggle[hidden],#headerSearchToggle[hidden],#mainHeaderSearchToggle[hidden],.header-search-btn[hidden]{display:none!important}
+  .site-nav-menu-toggle svg,#headerSearchToggle svg,#mainHeaderSearchToggle svg,.header-search-btn svg{display:block!important;width:19px!important;height:19px!important;flex:none!important}
+  .main-site-header{border-bottom:1px solid #E2E8F0!important;box-shadow:none!important}
+  .main-site-header .header-search-btn{width:42px!important;height:42px!important;padding:0!important;border:1px solid #E2E8F0!important;border-radius:12px!important;background:#fff!important;box-shadow:none!important}
+  .main-header-search-panel{border:0!important;border-bottom:1px solid #E2E8F0!important;background:#fff!important;box-shadow:0 8px 20px rgba(148,163,184,.12)!important}
+  .search-suggestions,.topup-search-results{
+   background:#FFFFFF!important;color:#172033!important;border:1px solid #E2E8F0!important;
+   border-radius:16px!important;box-shadow:0 10px 28px rgba(148,163,184,.22)!important
+  }
+  .search-suggestion{color:#172033!important;border-radius:12px!important}
+  .search-suggestion:hover,.search-suggestion:focus-visible{background:#F8FAFC!important}
+  .search-suggestion-copy small,.search-suggestion-empty{color:#64748B!important}
+  .search-suggestion img,.search-suggestion-art{background:#F1F5F9!important}
+  .topup-search-results>*{color:#172033!important}
+  .xp-footer .xp-foot-grid,.xp-footer .xp-foot-grid-global{
+   display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+   align-items:start!important;column-gap:28px!important;row-gap:26px!important
+  }
+  .xp-footer .xp-foot-grid>section{min-width:0!important}
+  .xp-footer .xp-foot-links{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:10px!important}
+  .xp-footer .xp-foot-links a{display:block!important;line-height:1.55!important}
+  .xp-footer .xp-foot-features .xp-foot-links{gap:10px!important}
+  @media(max-width:760px){
+   .site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{width:40px!important;min-width:40px!important;height:40px!important;min-height:40px!important;border-radius:12px!important}
+   .xp-footer .xp-foot-grid,.xp-footer .xp-foot-grid-global{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:18px!important;row-gap:24px!important}
+   .xp-footer .xp-foot-grid>section h3{font-size:12px!important;line-height:1.4!important}
+   .xp-footer .xp-foot-links{gap:9px!important}
+  }
+ `;
+ document.head.appendChild(uiStyle);
+ function polishGlobalFooter(){
+  const grid=document.querySelector(".xp-footer .xp-foot-grid");
+  if(!grid)return;
+  grid.classList.add("xp-foot-grid-global");
+  const info=[...grid.children].find(section=>section.tagName==="SECTION"&&/Informasi\s*&\s*Bantuan/i.test(section.querySelector("h3")?.textContent||""));
+  if(!info)return;
+  const links=info.querySelector(".xp-foot-links");
+  if(links)links.querySelectorAll('a[href="/cek-pesanan"],a[href="/cek-pesanan/"]').forEach(link=>link.remove());
+  if(!grid.querySelector(".xp-foot-features")){
+   const section=document.createElement("section");
+   section.className="xp-foot-features";
+   section.innerHTML='<h3>Fitur &amp; Panduan</h3><div class="xp-foot-links"><a href="/profil">SKIEE Membership</a><a href="/artikel">Artikel / Blog</a><a href="/kalkulator/win-rate">Kalkulator Win Rate</a><a href="/kalkulator/magic-wheel">Kalkulator Magic Wheel</a><a href="/kalkulator/zodiac">Kalkulator Zodiac</a></div>';
+   info.insertAdjacentElement("afterend",section);
+  }
+ }
+ polishGlobalFooter();
+ if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",polishGlobalFooter,{once:true});
 })();
