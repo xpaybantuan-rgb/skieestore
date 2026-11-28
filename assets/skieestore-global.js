@@ -7,7 +7,7 @@
   {href:"/",label:"Beranda",active:pathname==="/",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>'},
   {href:"/cek-pesanan",label:"Cek Pesanan",active:pathname.startsWith("/cek"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>'},
   {href:"/topup",label:"Top Up",active:pathname.startsWith("/topup"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4"/></svg>'},
-  {href:"/profil",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
+  {href:"/masuk",label:"Profil",active:pathname.startsWith("/profil"),icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>'}
  ];
  const links=items.map(({href,label,icon,active})=>
   '<a href="'+href+'" class="nav-item'+(active?' active" aria-current="page"':'"')+'><span class="skiee-svg-box" aria-hidden="true">'+icon+'</span><span>'+label+'</span></a>'
@@ -20,6 +20,8 @@
   document.body.appendChild(dock);
  }
  dock.innerHTML=links;
+ const profileNav=dock.querySelector(".nav-item[href=\"/masuk\"]");
+ if(profileNav)profileNav.addEventListener("click",async e=>{e.preventDefault();try{if(!window.supabase?.createClient){await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)})}const auth=window.supabase.createClient("https://rjgeitbkpcyymgemcztx.supabase.co","sb_publishable_1b6C4q5vgbX0XfP_EV5yjQ_Qk9Cq4lR",{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});const {data}=await auth.auth.getSession();location.href=data.session?"/profil":"/masuk"}catch(_){location.href="/masuk"}});
  dock.querySelectorAll(".nav-item").forEach(a=>{
   const href=a.getAttribute("href");
   const active=items.find(item=>item.href===href)?.active===true;
