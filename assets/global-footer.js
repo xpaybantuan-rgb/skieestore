@@ -1,6 +1,5 @@
 (()=>{"use strict";
 if(document.querySelector(".profile-shell"))document.body.classList.add("skiee-profile-page");
-if(document.querySelector("body>header.header,body>header.site-header,body>header.top,body>header.main-site-header"))document.body.classList.add("skiee-fixed-header");
 const existing=document.querySelector("footer.xp-footer,footer.footer-simple,footer.auth-foot,footer.site-footer,footer.footer");
 const footer=existing||document.createElement("footer");
 footer.className="xp-footer";footer.id="footer";
@@ -28,9 +27,6 @@ footer.innerHTML=`
   </div>
   <div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span></div>
  </div>`;
-let themeLink=document.getElementById("skiee-site-theme-css");
-if(!themeLink){themeLink=document.createElement("link");themeLink.id="skiee-site-theme-css";themeLink.rel="stylesheet";themeLink.setAttribute("itemprop","stylesheet");themeLink.href="/assets/site-theme.css?v=1";}
-document.body.appendChild(themeLink);
 if(!existing)document.body.appendChild(footer);
 const styleId="skiee-shared-footer-style";let style=document.getElementById(styleId);if(!style){style=document.createElement("style");style.id=styleId;document.head.appendChild(style)}
 style.textContent=`
