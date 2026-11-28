@@ -601,7 +601,8 @@ header.top > .container.headrow {
 /* FINAL COMPACT FLOATING HEADER — all customer HTML pages */
 body > header.header,
 body > header.site-header,
-body > header.top {
+body > header.top,
+body > header.auth-header {
   position: sticky !important;
   top: 8px !important;
   margin: 8px auto 10px auto !important;
