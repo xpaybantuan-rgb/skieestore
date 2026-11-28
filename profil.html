@@ -660,6 +660,11 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
     <a class="profile-help" href="/pusat-bantuan"><span>?</span> Bantuan</a>
   </div>
 
+  <section class="profile-access-card" id="profileGuestAccess" hidden aria-label="Akses akun">
+    <div><strong>Sudah punya akun atau baru bergabung?</strong><p>Masuk untuk mengelola akun, atau daftar untuk menikmati fitur SKIEE Membership.</p></div>
+    <div class="profile-access-actions"><a class="profile-access-login" href="/masuk">MASUK →</a><a class="profile-access-register" href="/daftar">DAFTAR +</a></div>
+  </section>
+
   <section class="member-card">
     <div class="member-card-top">
       <div class="member-identity">
@@ -879,7 +884,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
  }
  async function loadAccount(){
   const {data}=await sb.auth.getSession();session=data.session;
-  $("memberGoogleLogin").hidden=!!session;$("memberLogout").hidden=!session;
+  $("memberGoogleLogin").hidden=!!session;$("memberLogout").hidden=!session;$("profileGuestAccess").hidden=!!session;
   if(!session){$("memberName").textContent="Selamat datang, Guest!";$("memberEmail").textContent="Anda sedang menjelajah sebagai tamu.";$("memberAccountBadge").innerHTML="<i></i> Mode tamu";$("memberTierLabel").textContent="Reguler";$("memberExpiryLabel").textContent="Tidak ada masa aktif";$("memberCardNote").textContent="Masuk dengan Google untuk menyimpan status member dan riwayat transaksi.";const googleReady=await checkGoogleProvider();status(googleReady?"Masuk dengan Google untuk mengaktifkan paket SKIEE dan melihat notifikasi pembayaran.":"Login Google belum diaktifkan pada Supabase Auth. Provider Google memerlukan OAuth Client ID dan Client Secret.",!googleReady);await renderNotifications();await renderMembershipHistory();return;}
   const user=session.user;$("memberName").textContent="Halo, "+(user.user_metadata?.full_name||user.user_metadata?.name||user.email||"Member");$("memberEmail").textContent=user.email||"Akun Google terhubung";$("memberAccountBadge").innerHTML="<i></i> Akun terhubung";
   const {data:member,error}=await sb.from("xpaypoint_memberships").select("tier,member_expired_at,expires_at,is_manual").eq("user_id",user.id).maybeSingle();
