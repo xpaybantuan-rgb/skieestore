@@ -4,7 +4,7 @@
 .profile-kicker{display:block;color:var(--accent,var(--accent));font-size:10px;letter-spacing:.17em;font-weight:800;text-transform:uppercase}
 .profile-intro h1{font:700 clamp(27px,4vw,35px)/1.12 "Space Grotesk",Manrope,sans-serif;letter-spacing:-.8px;margin:7px 0;color:var(--text,var(--text))}
 .profile-intro p{font-size:12px;color:var(--muted,var(--muted));line-height:1.8;margin:0}
-.p-card{background:var(--surface,var(--surface));border:1px solid var(--line,var(--line));border-radius:17px;padding:20px;box-shadow:0 5px 18px #25304a08;margin:0 0 14px}
+.p-card{background:var(--surface,var(--surface));border:1px solid var(--line,var(--line));border-radius:17px;padding:20px;box-shadow:0 5px 18px color-mix(in srgb,var(--text) 3%,transparent);margin:0 0 14px}
 .p-card h2{font:700 17px "Space Grotesk",Manrope,sans-serif;margin:0;color:var(--text,var(--text))}
 .p-card-sub{font-size:11px;line-height:1.7;color:var(--muted,var(--muted));margin:6px 0 0}
 .p-access-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:17px}
@@ -27,7 +27,7 @@
 .p-tier.pro{background:var(--soft,var(--soft));color:var(--accent2,var(--accent));border:1px solid var(--theme-blue-border)}
 .p-tier small{font-size:9px;margin-left:6px;font-weight:700}
 .p-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:0 0 20px}
-.p-stat{background:var(--surface,var(--surface));border:1px solid var(--line,var(--line));border-radius:16px;padding:17px;box-shadow:0 5px 18px #25304a08}
+.p-stat{background:var(--surface,var(--surface));border:1px solid var(--line,var(--line));border-radius:16px;padding:17px;box-shadow:0 5px 18px color-mix(in srgb,var(--text) 3%,transparent)}
 .p-stat span{display:block;color:var(--muted,var(--muted));font-size:10px;font-weight:750}
 .p-stat strong{display:block;font:700 23px "Space Grotesk",Manrope,sans-serif;margin-top:7px;letter-spacing:-.4px;color:var(--text,var(--text))}
 .p-stat small{display:block;color:var(--muted,var(--muted));font-size:9px;margin-top:4px}
@@ -42,7 +42,7 @@
 .p-menu-copy small{font-size:9px;color:var(--muted,var(--muted))}
 .p-menu-arrow{color:var(--muted);font-size:20px}
 .p-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.p-plan{display:flex;flex-direction:column;gap:9px;min-width:0;padding:18px;border:1px solid var(--line,var(--line));border-radius:17px;background:var(--surface,var(--surface));box-shadow:0 5px 18px #25304a08}
+.p-plan{display:flex;flex-direction:column;gap:9px;min-width:0;padding:18px;border:1px solid var(--line,var(--line));border-radius:17px;background:var(--surface,var(--surface));box-shadow:0 5px 18px color-mix(in srgb,var(--text) 3%,transparent)}
 .p-plan.pro{border-color:var(--theme-blue-border);background:linear-gradient(145deg,var(--soft),var(--surface) 72%)}
 .p-plan-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .p-plan h3{font:800 14px "Space Grotesk",sans-serif;margin:0;color:var(--text,var(--text))}
