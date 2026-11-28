@@ -1,9 +1,12 @@
-# Cloudflare Pages: use internal rewrites (200), never external 301/302 loops.
-# Existing extensionless article/calculator pages are served by Pages Clean URLs.
-# Keep public content public: no authentication redirects for these paths.
+# Cloudflare Pages internal rewrites only (200); do not add 301/302 for these routes.
+# Public pages remain accessible without authentication.
 /settings /settings.html 200
 /skieepay-admin /skieepay-admin.html 200
+/artikel /artikel.html 200
 /kalkulator /kalkulator.html 200
+/kalkulator/win-rate /kalkulator/win-rate.html 200
+/kalkulator/magic-wheel /kalkulator/magic-wheel.html 200
+/kalkulator/zodiac /kalkulator/zodiac.html 200
 /masuk /masuk.html 200
 /daftar /daftar.html 200
 /reset-password /reset-password.html 200
