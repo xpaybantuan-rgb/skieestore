@@ -2,3 +2,5 @@
 # Public pages remain accessible without authentication.
 /settings /settings.html 200
 /skieepay-admin /skieepay-admin.html 200
+
+/masuk /login 301
