@@ -1,4 +1,5 @@
 (()=>{"use strict";
+if(document.querySelector(".profile-shell"))document.body.classList.add("skiee-profile-page");
 const existing=document.querySelector("footer.xp-footer,footer.footer-simple,footer.auth-foot,footer.site-footer,footer.footer");
 const footer=existing||document.createElement("footer");
 footer.className="xp-footer";footer.id="footer";
@@ -14,7 +15,7 @@ footer.innerHTML=`
     <a href="/profil">SKIEE Membership</a><a href="/artikel">Artikel / Blog</a><a href="/kalkulator/win-rate">Kalkulator Win Rate</a><a href="/kalkulator/magic-wheel">Kalkulator Magic Wheel</a><a href="/kalkulator/zodiac">Kalkulator Zodiac</a>
    </div></section>
    <section class="xp-foot-contact-section"><h3>Hubungi Kami</h3><div class="xp-foot-contact">
-    <a href="https://wa.me/message/3N6JKGNV65P2D1" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Customer Service SKIEESTORE"><span class="xp-foot-icon" aria-hidden="true">↗</span><span>WhatsApp Customer Service</span></a>
+    <a href="https://wa.me/message/3N6JKGNV65P2D1" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Customer Service SKIEESTORE"><span>WhatsApp Customer Service</span></a>
     <a class="xp-foot-email" href="mailto:adminskiee@gmail.com">adminskiee@gmail.com</a>
    </div></section>
    <section class="xp-foot-social-section"><h3>Media Sosial</h3><div class="xp-foot-contact">
@@ -22,7 +23,7 @@ footer.innerHTML=`
     <a href="https://www.facebook.com/profile.php?id=61595844852789" target="_blank" rel="noopener noreferrer">Facebook · skieestore</a>
    </div></section>
    <section class="xp-foot-meta-section"><h3>Jam Operasional CS</h3><p class="xp-foot-meta-value">08.00–22.00 WIB</p></section>
-   <section class="xp-foot-meta-section"><h3>Domisili Usaha</h3><p class="xp-foot-meta-value">Lubuklinggau • Indonesia</p></section>
+   <section class="xp-foot-meta-section"><h3>Domisili Usaha</h3><a class="xp-foot-meta-value xp-foot-location" href="https://www.google.com/maps/search/?api=1&amp;query=Lubuklinggau%2C%20Indonesia" target="_blank" rel="noopener noreferrer">Lubuklinggau • Indonesia</a></section>
   </div>
   <div class="xp-foot-copy"><span>© 2026 SKIEESTORE. All Rights Reserved.</span></div>
  </div>`;
@@ -234,9 +235,12 @@ footer.xp-footer#footer .xp-foot-contact .xp-foot-email{
  overflow-wrap:normal!important;word-break:normal!important;font-size:12px!important;
 }
 footer.xp-footer#footer .xp-foot-meta-value{
- margin:0!important;padding:0!important;color:#090D16!important;font-size:12px!important;
+ display:block!important;margin:0!important;padding:0!important;color:#090D16!important;font-size:12px!important;
  font-weight:600!important;line-height:1.55!important;
 }
+footer.xp-footer#footer a.xp-foot-location{color:#2563EB!important;font-weight:700!important;text-decoration:none!important}
+footer.xp-footer#footer a.xp-foot-location:visited,footer.xp-footer#footer a.xp-foot-location:hover{color:#2563EB!important}
+footer.xp-footer#footer .xp-foot-contact .xp-foot-icon{display:none!important}
 footer.xp-footer#footer .xp-foot-copy{
  display:flex!important;align-items:center!important;justify-content:flex-start!important;
  gap:12px!important;margin-top:25px!important;padding-top:14px!important;
@@ -245,7 +249,7 @@ footer.xp-footer#footer .xp-foot-copy{
 }
 footer.xp-footer#footer .xp-foot-copy span{color:#090D16!important}
 @media(max-width:760px){
- footer.xp-footer#footer{padding:28px 0 calc(88px + env(safe-area-inset-bottom))!important;margin-top:24px!important}
+ footer.xp-footer#footer{padding:28px 0 calc(136px + env(safe-area-inset-bottom))!important;margin-top:24px!important}
  footer.xp-footer#footer .xp-foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px 14px!important}
  footer.xp-footer#footer .xp-foot-wrap{width:calc(100% - 32px)!important}
  footer.xp-footer#footer .xp-foot-desc{font-size:12px!important;margin-bottom:22px!important}
@@ -260,6 +264,74 @@ footer.xp-footer#footer .xp-foot-copy span{color:#090D16!important}
  footer.xp-footer#footer .xp-foot-links a,footer.xp-footer#footer .xp-foot-contact a{font-size:10px!important}
  footer.xp-footer#footer .xp-foot-contact .xp-foot-email{font-size:10px!important}
 }
+
+/* Final shared overrides: force one coherent header, banner and blue palette. */
+:root{--accent:#2563EB!important;--accent2:#2563EB!important;--skiee-blue:#2563EB!important}
+header.header,body>header.header,header.main-site-header,body>header.main-site-header{
+ position:sticky!important;position:-webkit-sticky!important;top:0!important;z-index:1000!important;
+ width:100%!important;box-sizing:border-box!important;background:rgba(255,255,255,.97)!important;
+ -webkit-backdrop-filter:blur(16px)!important;backdrop-filter:blur(16px)!important;
+ border:0!important;border-bottom:1px solid #E2E8F0!important;border-radius:0 0 16px 16px!important;
+ box-shadow:0 4px 16px rgba(15,23,42,.06)!important;
+}
+header.header .headrow,header.main-site-header .headrow{
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:10px!important;
+ min-height:64px!important;padding-top:8px!important;padding-bottom:8px!important;
+}
+header.header .site-nav-actions,header.header .header-actions,header.main-site-header .site-nav-actions,header.main-site-header .header-actions{
+ display:flex!important;flex:0 0 auto!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;margin-left:auto!important;
+}
+header.header .site-nav-menu-toggle,header.header #headerSearchToggle,header.header #mainHeaderSearchToggle,
+header.main-site-header .site-nav-menu-toggle,header.main-site-header #headerSearchToggle,header.main-site-header #mainHeaderSearchToggle,
+.site-nav-menu-toggle,#headerSearchToggle,#mainHeaderSearchToggle,.header-search-btn{
+ display:inline-flex!important;flex:0 0 40px!important;width:40px!important;min-width:40px!important;
+ height:40px!important;min-height:40px!important;max-height:40px!important;padding:0!important;
+ align-items:center!important;justify-content:center!important;box-sizing:border-box!important;
+ border:1px solid #E2E8F0!important;border-radius:12px!important;background:#fff!important;color:#334155!important;
+ box-shadow:none!important;line-height:1!important;
+}
+.site-nav-menu-toggle svg,#headerSearchToggle svg,#mainHeaderSearchToggle svg,.header-search-btn svg{
+ display:block!important;width:19px!important;height:19px!important;flex:0 0 19px!important;
+}
+body.skiee-profile-page header.header{min-height:64px!important;padding:0!important;margin:0!important}
+body.skiee-profile-page header.header .headrow{width:min(1160px,calc(100% - 32px))!important;min-height:64px!important;margin:0 auto!important;padding:8px 0!important}
+body.skiee-profile-page header.header .brand-image{max-width:calc(100% - 50px)!important}
+body.skiee-profile-page header.header .header-search-btn,body.skiee-profile-page header.header #headerSearchToggle{display:none!important}
+body.skiee-profile-page header.header .site-nav-actions{gap:0!important}
+#homeBanner .home-banner-copy,#homeBanner .home-banner-copy *,.home-banner .home-banner-copy,.home-banner .home-banner-copy *{
+ color:#FFFFFF!important;opacity:1!important;text-shadow:0 1px 3px rgba(0,0,0,.5)!important;
+}
+#homeBanner .home-banner-copy small,#homeBanner .home-banner-copy em,.home-banner .home-banner-copy small,.home-banner .home-banner-copy em{
+ color:#93C5FD!important;font-weight:900!important;
+}
+#homeBanner .home-banner-copy strong,.home-banner .home-banner-copy strong{color:#FFFFFF!important;font-weight:900!important}
+#homeBanner .home-banner-copy span,.home-banner .home-banner-copy span{color:#FFFFFF!important}
+#homeBanner .home-banner-copy .home-banner-note,.home-banner .home-banner-note{color:#93C5FD!important}
+.skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"],
+.skiee-bottom-nav .nav-item.active:visited,.skiee-bottom-nav .nav-item[aria-current="page"]:visited{
+ background:#EFF6FF!important;color:#2563EB!important;border:0!important;box-shadow:none!important;
+}
+.skiee-bottom-nav .nav-item.active svg,.skiee-bottom-nav .nav-item[aria-current="page"] svg,
+.skiee-bottom-nav .nav-item.active svg *, .skiee-bottom-nav .nav-item[aria-current="page"] svg *{
+ color:#2563EB!important;stroke:#2563EB!important;fill:none!important;
+}
+body.skiee-profile-page .profile-shell .profile-kicker,
+body.skiee-profile-page .profile-shell .p-avatar,body.skiee-profile-page .profile-shell .p-menu-icon,
+body.skiee-profile-page .profile-shell .p-tier.pro,body.skiee-profile-page .profile-shell .p-plan-badge,
+body.skiee-profile-page .profile-shell .p-status,body.skiee-profile-page .profile-shell .p-plan li:before,
+body.skiee-profile-page .profile-shell .p-help-row a{color:#2563EB!important}
+body.skiee-profile-page .profile-shell .p-avatar,body.skiee-profile-page .profile-shell .p-menu-icon,
+body.skiee-profile-page .profile-shell .p-plan-badge,body.skiee-profile-page .profile-shell .p-status{
+ background:#EFF6FF!important;border-color:#BFDBFE!important;
+}
+body.skiee-profile-page .profile-shell .p-camera,body.skiee-profile-page .profile-shell .p-btn-primary,
+body.skiee-profile-page .profile-shell .auth-submit{background:#2563EB!important;border-color:#2563EB!important;color:#fff!important}
+body.skiee-profile-page .profile-shell .p-form input:focus{border-color:#2563EB!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
+footer.xp-footer#footer .xp-foot-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+footer.xp-footer#footer .xp-foot-meta-section .xp-foot-location{color:#2563EB!important}
+@media(max-width:760px){footer.xp-footer#footer{padding-bottom:calc(136px + env(safe-area-inset-bottom))!important}}
+
 `;
 if(!existing)document.body.appendChild(footer);
 })();
