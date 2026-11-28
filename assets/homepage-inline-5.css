@@ -1,0 +1,197 @@
+
+#homeBanner.home-banner,.home-banner-section .home-banner{
+ border:0!important;box-shadow:none!important;outline:0!important;
+}
+.home-banner-section{padding-bottom:0!important;margin-bottom:0!important}
+.home-banner-track,.home-banner-slide{border:0!important;box-shadow:none!important}
+.home-banner-slide:nth-child(1){background:#0F172A!important}
+.home-banner-slide:nth-child(2){background:#1E1B4B!important}
+.home-banner-slide:nth-child(3){background:#7C2D12!important}
+.home-banner-slide:after{display:none!important;content:none!important}
+.home-banner-slide:before{background:linear-gradient(90deg,rgba(2,6,23,.72),rgba(2,6,23,.18))!important}
+.home-banner-copy small,.home-banner-note{color:#FFDF4D!important}
+.home-banner-copy strong{color:#fff!important}
+.home-banner-copy span{color:#f8fafc!important}
+
+
+
+/* Production hotfix: force the floating assistant above the mobile navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{
+ position:fixed!important;right:14px!important;bottom:24px!important;
+ width:46px!important;height:46px!important;min-width:46px!important;
+ max-width:46px!important;flex:none!important;z-index:99999!important;
+ border-radius:50%!important;box-sizing:border-box!important;
+}
+.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}
+@media(max-width:760px){
+ .chat-fab,#chatToggle,.xp-footer .chat-fab{
+  right:14px!important;bottom:calc(104px + env(safe-area-inset-bottom))!important;
+  width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;
+ }
+ .chat-fab svg,#chatToggle svg{width:23px!important;height:23px!important}
+}
+.gamegrid .gamecard .gameinfo small,#gameGrid .gamecard .gameinfo small{
+ max-width:none!important;overflow:visible!important;text-overflow:clip!important;
+ white-space:nowrap!important;font-size:10px!important;letter-spacing:0!important;
+}
+
+
+
+/* AI launcher: fixed square footprint; no inherited pill styling or distorted flex sizing. */
+button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{
+ position:fixed!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+ width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;
+ max-width:48px!important;max-height:48px!important;aspect-ratio:1/1!important;flex:0 0 48px!important;
+ padding:0!important;margin:0!important;border:0!important;border-radius:50%!important;
+ box-shadow:0 4px 12px rgba(15,23,42,.18)!important;outline:0!important;
+ transform:none!important;z-index:99999!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+button#chatToggle svg,button.chat-fab svg,.xp-footer button.chat-fab svg{
+ display:block!important;width:28px!important;height:28px!important;min-width:28px!important;
+ max-width:28px!important;min-height:28px!important;max-height:28px!important;flex:none!important;
+}
+@media(min-width:761px){
+ button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{bottom:28px!important}
+}
+
+
+
+/* Remove every possible separator/shadow around the banner-to-catalog transition. */
+body:has(.home-banner-section) .home-banner-section,
+body:has(.home-banner-section) .home-banner-section>.container,
+body:has(.home-banner-section) #homeBanner,
+body:has(.home-banner-section) #homeBannerTrack,
+body:has(.home-banner-section) #homeBannerTrack>.home-banner-slide,
+body:has(.home-banner-section) #games,
+body:has(.home-banner-section) #games>.container{
+ border:0!important;border-top:0!important;border-bottom:0!important;
+ outline:0!important;box-shadow:none!important;
+}
+body:has(.home-banner-section) .home-banner-section{padding-bottom:0!important;margin-bottom:0!important;background:var(--bg)!important}
+body:has(.home-banner-section) #homeBanner{background:#0F172A!important}
+body:has(.home-banner-section) #games{margin-top:0!important;background:var(--bg)!important}
+body:has(.home-banner-section) .home-banner-section:after,
+body:has(.home-banner-section) .home-banner-section:before,
+body:has(.home-banner-section) #games:before{content:none!important;display:none!important}
+
+
+
+
+/* SKIEESTORE visual-only clean storefront finish. Geometry, order and interactions stay untouched. */
+:root{
+ --bg:#F8FAFC;--surface:#FFFFFF;--surface2:#F8FAFC;--text:#172033;--muted:#64748B;
+ --line:#E2E8F0;--accent:#087BFF;--accent2:#0756D8;--soft:#EFF8FF;
+ --shadow:0 8px 24px rgba(15,23,42,.055);
+}
+html[data-theme="light"],html,body{color-scheme:light;background:#F8FAFC;color:#172033}
+body,main{color:#172033}
+.topline{background:#087BFF!important;color:#fff!important}
+.header,body>header,.header-search-panel,.main-header-search-panel{
+ background:#fff!important;border-color:#E2E8F0!important;box-shadow:0 2px 12px rgba(15,23,42,.035)!important;
+}
+.nav,.header .nav,.nav.skiee-global-nav{
+ background:#fff!important;border:1px solid #E2E8F0!important;border-radius:12px!important;box-shadow:none!important;
+}
+.nav a,.header .nav a,.nav.skiee-global-nav a{
+ background:#fff!important;color:#475569!important;border:1px solid transparent!important;border-radius:9px!important;box-shadow:none!important;
+}
+.nav a.active,.nav a[aria-current="page"],.header .nav a.active,
+nav.skiee-mobile-nav a.active,nav.skiee-mobile-nav a[aria-current="page"],
+.bottomnav a.active,.bottomnav a[aria-current="page"],.skiee-bottom-nav .nav-item.active{
+ background:#EFF8FF!important;background-color:#EFF8FF!important;color:#0756B8!important;
+ border-color:#C7E2FF!important;box-shadow:none!important;
+}
+.header-search-btn,.header-search-toggle,#mainHeaderSearchToggle{
+ background:#EFF8FF!important;color:#087BFF!important;border:1px solid #D7E9FA!important;border-radius:10px!important;box-shadow:none!important;
+}
+.skiee-icon-box,.feature .ficon{
+ background:#EFF8FF!important;border:1px solid #DCEAF7!important;border-radius:12px!important;box-shadow:none!important;
+}
+main .hero-card,main .gamecard,main .product,main .feature,main .promobox,
+main .flash-sale-card,main .faq-home-item,main .faq-item,main .faq-card,
+main .faq-question,main .accordion-item,main details.faq,main details.faq-item,
+main .state,main .notice,main .info-card,.product-choice,.shortcut-card,.payment-option{
+ background:#fff!important;border:1px solid #E2E8F0!important;border-radius:14px!important;
+ box-shadow:0 4px 16px rgba(15,23,42,.045)!important;color:#172033!important;
+}
+main .gamecard:hover,main .product:hover,main .feature:hover,
+main .faq-home-item:hover,main .faq-item:hover,.product-choice:hover,
+.shortcut-card:hover,.payment-option:hover{
+ border-color:#B9D9FF!important;box-shadow:0 8px 22px rgba(8,123,255,.08)!important;
+}
+main button,main .btn,main .primary,main .catalog-more,main .product button,
+main .chip,.header-menu-panel a{
+ border-radius:10px!important;box-shadow:none!important;
+ transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease!important;
+}
+main .primary,main .btn-primary,main .product button:not(:disabled),main .catalog-more,
+.chat-send,.chat-compose .chat-compose-btn{
+ background:#087BFF!important;color:#fff!important;border:1px solid #087BFF!important;
+}
+main .primary:hover,main .btn-primary:hover,main .product button:not(:disabled):hover,
+main .catalog-more:hover,.chat-send:hover{
+ background:#0669DC!important;border-color:#0669DC!important;box-shadow:0 5px 14px rgba(8,123,255,.16)!important;
+}
+main .chip{background:#fff!important;color:#64748B!important;border:1px solid #E2E8F0!important}
+main .chip.active,main .chip.active:hover{
+ background:#EFF8FF!important;color:#0756B8!important;border-color:#9CCBFF!important;box-shadow:none!important;
+}
+main input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+main select,main textarea,main .searchbox,.header-search-panel .searchbox,
+.main-header-search-panel .searchbox{
+ background:#fff!important;color:#172033!important;border:1px solid #DCE5EF!important;
+ border-radius:10px!important;box-shadow:none!important;
+}
+main input:focus,main select:focus,main textarea:focus{
+ border-color:#087BFF!important;outline:3px solid rgba(8,123,255,.12)!important;outline-offset:1px!important;
+}
+main h1,main h2,main h3,main h4,.xp-footer h3,.xp-footer h4{color:#172033!important}
+main .price,main .product-price,main .nominal-price,main .checkout-total{color:#0756B8!important}
+.home-banner{border:1px solid #E2E8F0!important;border-radius:16px!important;box-shadow:0 6px 20px rgba(15,23,42,.07)!important}
+.home-banner-copy small,.home-banner-note{color:#7DEBFF!important}
+.home-banner-controls button{border:1px solid #ffffff80!important;box-shadow:none!important}
+.flash-sale-card{border:1px solid #E2E8F0!important;box-shadow:0 4px 16px rgba(15,23,42,.045)!important}
+.flash-sale-prices b{color:#0756B8!important}
+.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item{
+ background:#fff!important;border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.045)!important;
+}
+.xp-footer#footer,footer.xp-footer,#footer.xp-footer{
+ background:#fff!important;border-top:1px solid #E2E8F0!important;border-radius:0!important;box-shadow:none!important;
+}
+.xp-footer h3,.xp-footer .xp-foot-meta-row strong{color:#172033!important}
+.xp-footer .xp-foot-desc,.xp-footer .xp-foot-meta-row>span:last-child{color:#64748B!important}
+.xp-footer .xp-foot-links a,.xp-footer .xp-foot-contact a,.xp-footer .xp-foot-meta-row a{color:#087BFF!important}
+#chatToggle,.chat-fab,.xp-footer .chat-fab{
+ background:linear-gradient(135deg,#087BFF,#22C7E8)!important;color:#fff!important;
+ border:0!important;border-radius:50%!important;box-shadow:0 6px 18px rgba(8,123,255,.24)!important;
+}
+#chatPanel,.chat-panel{background:#fff!important;color:#172033!important;border:0!important;box-shadow:none!important}
+#chatPanel .chat-head,#chatPanel .chat-history-head,.chat-panel .chat-head,.chat-panel .chat-history-head{
+ background:#fff!important;color:#172033!important;border-bottom:1px solid #E2E8F0!important;
+}
+#chatPanel .chat-toolbar,.chat-panel .chat-toolbar{background:#fff!important;border-bottom:1px solid #E2E8F0!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages,.chat-messages{background:#F8FAFC!important;background-image:none!important}
+#chatPanel .chat-bubble,.chat-panel .chat-bubble,.chat-bubble{border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:none!important}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot{background:#fff!important;color:#172033!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user{background:#087BFF!important;color:#fff!important;border-color:#087BFF!important}
+#chatPanel .chat-compose,.chat-panel .chat-compose{background:#fff!important;border-top:1px solid #E2E8F0!important}
+#chatPanel .chat-tool-btn,#chatPanel .chat-close,.chat-panel .chat-tool-btn,.chat-panel .chat-close{
+ background:#fff!important;color:#172033!important;border:1px solid #E2E8F0!important;border-radius:10px!important;box-shadow:none!important;
+}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary{background:#EFF8FF!important;color:#0756B8!important;border-color:#C7E2FF!important}
+[fill="#FFD600"],[fill="#FACC15"]{fill:#087BFF!important}
+[stroke="#0F172A"],[stroke="#0f172a"],[stroke="#191b22"]{stroke:#334155!important}
+
+
+
+
+/* Final visual cleanup: remove thick outlines and offset brutalist shadows without changing layout or behavior. */
+:root{--line:#E2E8F0;--shadow-soft:0 4px 16px rgba(15,23,42,.055)}
+
+:where(.gamecard,.product,.feature,.hero-card,.promobox,.flash-sale-card,.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,.shortcut-card,.payment-option,.home-banner,#searchSuggestions,#topupSearchResults){border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.055)!important}
+:where(button,.btn,.primary,.chip,input,select,textarea,.searchbox,.header-search-toggle,.header-search-btn,#mainHeaderSearchToggle,.header-menu-panel a){border-width:1px!important;border-color:#DCE5EF!important;border-radius:10px!important}
+:where(button,.btn,.primary,.chip,.product-choice,.shortcut-card,.payment-option,.gamecard,.product,.feature){transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease!important}
+:where(.gamecard,.product,.feature,.product-choice,.shortcut-card,.payment-option):hover{border-color:#B9D9FF!important;box-shadow:0 8px 22px rgba(8,123,255,.08)!important}
+:where(.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item){background:#fff!important;border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.055)!important}
+:where(#searchSuggestions,#topupSearchResults){background:#fff!important;border-color:#E2E8F0!important;box-shadow:0 10px 28px rgba(15,23,42,.10)!important}
