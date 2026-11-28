@@ -932,6 +932,95 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 }
 </style>
 <style id="skiee-topup-catalog-more-style-v3">#topupCatalogMoreWrap{display:flex;justify-content:center;margin:18px 0 4px}#topupCatalogMoreWrap[hidden]{display:none}#topupCatalogMoreBtn{min-width:210px;padding:12px 20px;border-radius:999px;font-weight:800}</style><link rel="stylesheet" href="/assets/modern-ui.css?v=1">
+
+<style id="skiee-game-header-responsive-minimal">
+/* Game detail header: three predictable vertical groups, responsive without narrow text columns. */
+#gameDetailPage .game-hero.nb-game-identity{
+  display:flex!important;flex-direction:column!important;align-items:stretch!important;
+  gap:16px!important;min-width:0!important;padding:18px!important;
+  background:#fff!important;border:1px solid #E2E8F0!important;
+  border-radius:16px!important;box-shadow:0 2px 12px rgba(15,23,42,.04)!important;
+}
+#gameDetailPage .nb-game-brand{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  gap:12px!important;width:100%!important;min-width:0!important;
+}
+#gameDetailPage .nb-game-brand .store-logo-box{
+  width:56px!important;height:56px!important;flex:0 0 56px!important;
+  padding:6px!important;border:1px solid #E2E8F0!important;border-radius:12px!important;
+  background:#F8FAFC!important;box-shadow:none!important;
+}
+#gameDetailPage .nb-game-brand>div{
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+  gap:3px!important;min-width:0!important;overflow:visible!important;
+}
+#gameDetailPage .nb-game-brand>div strong{
+  color:#172033!important;font-size:14px!important;font-weight:800!important;
+  letter-spacing:.02em!important;line-height:1.3!important;overflow-wrap:normal!important;
+}
+#gameDetailPage .nb-game-brand>div small{
+  color:#64748B!important;font-size:11px!important;font-weight:500!important;
+  line-height:1.4!important;overflow-wrap:normal!important;
+}
+#gameDetailPage .nb-game-service{
+  display:flex!important;flex-direction:row!important;align-items:center!important;
+  gap:14px!important;width:100%!important;min-width:0!important;
+}
+#gameDetailPage .nb-game-service .nb-game-art{
+  display:grid!important;place-items:center!important;flex:0 0 76px!important;
+  width:76px!important;height:76px!important;min-width:76px!important;
+  overflow:hidden!important;border:1px solid #E2E8F0!important;
+  border-radius:14px!important;background:#F1F5F9!important;box-shadow:none!important;
+}
+#gameDetailPage .nb-game-art img{width:100%!important;height:100%!important;object-fit:cover!important}
+#gameDetailPage .nb-game-title{
+  display:flex!important;flex:1 1 auto!important;flex-direction:column!important;
+  align-items:flex-start!important;min-width:0!important;gap:3px!important;
+}
+#gameDetailPage .nb-game-title #heroCategory{
+  display:inline-flex!important;width:max-content!important;max-width:100%!important;
+  padding:4px 8px!important;border:1px solid #E2E8F0!important;border-radius:999px!important;
+  background:#F1F5F9!important;color:#475569!important;font-size:10px!important;
+  font-weight:700!important;white-space:normal!important;
+}
+#gameDetailPage .nb-game-title #heroName{
+  display:block!important;width:100%!important;margin:0!important;color:#172033!important;
+  font-size:clamp(19px,4vw,25px)!important;line-height:1.2!important;
+  overflow-wrap:anywhere!important;
+}
+#gameDetailPage .nb-game-title #heroMeta{
+  display:block!important;width:100%!important;margin:0!important;color:#64748B!important;
+  font-size:12px!important;line-height:1.45!important;overflow-wrap:anywhere!important;
+}
+#gameDetailPage .nb-game-trust{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;width:100%!important;min-width:0!important;
+}
+#gameDetailPage .nb-game-trust>span{
+  display:flex!important;align-items:center!important;gap:7px!important;
+  min-width:0!important;min-height:42px!important;padding:9px 10px!important;
+  border:1px solid #E2E8F0!important;border-radius:12px!important;
+  background:#F8FAFC!important;color:#475569!important;
+  font-size:11px!important;font-weight:650!important;line-height:1.35!important;
+  overflow-wrap:anywhere!important;box-shadow:none!important;
+}
+#gameDetailPage .nb-game-trust .nb-trust-support svg{flex:0 0 17px!important;width:17px!important;height:17px!important;stroke:#64748B!important}
+#gameDetailPage .btn-back-catalog{
+  display:inline-flex!important;align-items:center!important;gap:7px!important;
+  width:max-content!important;max-width:100%!important;margin:0 0 12px!important;
+  padding:9px 12px!important;border:1px solid #E2E8F0!important;border-radius:10px!important;
+  background:#fff!important;color:#475569!important;font-size:12px!important;
+  font-weight:700!important;text-decoration:none!important;box-shadow:none!important;
+}
+#gameDetailPage .btn-back-catalog:hover{background:#F8FAFC!important;color:#087BFF!important;border-color:#BFDBFE!important}
+@media(max-width:380px){
+ #gameDetailPage .game-hero.nb-game-identity{padding:14px!important;gap:14px!important}
+ #gameDetailPage .nb-game-service{gap:10px!important}
+ #gameDetailPage .nb-game-service .nb-game-art{flex-basis:62px!important;width:62px!important;height:62px!important;min-width:62px!important}
+ #gameDetailPage .nb-game-trust{gap:8px!important}
+ #gameDetailPage .nb-game-trust>span{padding:8px!important;font-size:10px!important}
+}
+</style>
 </head><body class="topup-page"><header class="header"><div class="container headrow">
 <a class="brand brand-image" href="/" aria-label="SKIEESTORE Beranda"><img src="assets/skieestore-logo-transparent.png?v=1" alt="SKIEESTORE"></a>
 <nav class="nav" aria-label="Navigasi utama">
@@ -1043,7 +1132,7 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 </section>
 
 </section>
-<section class="game-detail-page" id="gameDetailPage">
+<section class="game-detail-page" id="gameDetailPage">\n<a class="btn-back-catalog" href="/topup" aria-label="Kembali ke katalog game">← Kembali ke katalog game</a>
 
 <section class="game-hero nb-game-identity" aria-label="Informasi layanan">
   <div class="nb-game-brand">
