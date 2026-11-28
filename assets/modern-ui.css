@@ -1,0 +1,105 @@
+/* SKIEESTORE modern premium UI — visual layer only; no layout logic or data flow changes. */
+:root{
+  --ui-bg:#F7F9FC;--ui-surface:#FFFFFF;--ui-text:#172033;--ui-muted:#64748B;
+  --ui-line:#E5EAF1;--ui-blue:#1D4ED8;--ui-blue-2:#2563EB;--ui-soft:#EFF6FF;
+  --ui-shadow:0 8px 26px rgba(15,23,42,.055);
+}
+html,body{background:var(--ui-bg)!important;color:var(--ui-text)!important}
+body{font-family:Manrope,system-ui,sans-serif!important}
+a{ -webkit-tap-highlight-color:transparent }
+.topline{background:#1D4ED8!important;color:#fff!important;border:0!important}
+body>header,.header,header.header{
+  background:rgba(255,255,255,.96)!important;border:1px solid var(--ui-line)!important;
+  border-radius:16px!important;box-shadow:0 4px 18px rgba(15,23,42,.045)!important;
+}
+body>header{width:calc(100% - 24px)!important;margin:8px auto 12px!important}
+.nav,.header .nav{
+  background:#fff!important;border:1px solid var(--ui-line)!important;border-radius:13px!important;
+  box-shadow:none!important;
+}
+.nav a,.header .nav a{
+  color:#64748B!important;border:1px solid transparent!important;border-radius:10px!important;
+  background:transparent!important;box-shadow:none!important;
+}
+.nav a.active,.nav a[aria-current="page"],.header .nav a.active,
+.header .nav a[aria-current="page"]{
+  color:#1D4ED8!important;background:#EFF6FF!important;border-color:#DBEAFE!important;
+  box-shadow:none!important;
+}
+main{color:var(--ui-text)!important}
+main .panel,main .card,main .intro,main .notice,main .info-card,
+main .feature,main .gamecard,main .game,main .product,main .product-choice,
+main .payment-option,main .shortcut-card,main .faq-home-item,main .faq-item,
+main .faq-card,main .faq-question,main .accordion-item,main details,
+main .state,main .promobox,main .flash-sale-card{
+  background:#fff!important;color:var(--ui-text)!important;
+  border:1px solid var(--ui-line)!important;border-radius:16px!important;
+  box-shadow:var(--ui-shadow)!important;
+}
+main .intro{background:linear-gradient(135deg,#fff 0%,#F1F7FF 100%)!important}
+main .gamecard:hover,main .game:hover,main .product:hover,main .feature:hover,
+main .payment-option:hover,main .product-choice:hover{
+  border-color:#BFDBFE!important;box-shadow:0 10px 28px rgba(37,99,235,.09)!important;
+}
+main button,main .btn,main .primary,main .account,main .profile,
+main .pay-now,main .catalog-more,main .links a{
+  border-radius:11px!important;box-shadow:none!important;font-weight:800!important;
+}
+main .primary,main .account,main .profile,main .pay-now,
+main .btn-primary,main .catalog-more,main .links a:not(.secondary){
+  background:#1D4ED8!important;border:1px solid #1D4ED8!important;color:#fff!important;
+}
+main .primary:hover,main .account:hover,main .profile:hover,main .pay-now:hover,
+main .btn-primary:hover,main .catalog-more:hover{
+  background:#1E40AF!important;border-color:#1E40AF!important;
+}
+main .secondary,main .ghostbtn,main .close,main .btn-outline{
+  background:#fff!important;color:#334155!important;border:1px solid var(--ui-line)!important;
+}
+main input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+main select,main textarea,main .search,main .searchbox{
+  background:#fff!important;color:var(--ui-text)!important;
+  border:1px solid #DCE3EC!important;border-radius:11px!important;box-shadow:none!important;
+}
+main input:focus,main select:focus,main textarea:focus{
+  border-color:#60A5FA!important;outline:0!important;box-shadow:0 0 0 3px rgba(37,99,235,.11)!important;
+}
+main .chip,main .filters .chip{
+  background:#fff!important;color:#64748B!important;border:1px solid var(--ui-line)!important;
+  border-radius:999px!important;box-shadow:none!important;
+}
+main .chip.active,main .filters .chip.active{
+  background:#EFF6FF!important;color:#1D4ED8!important;border-color:#BFDBFE!important;
+}
+main .kicker,main .eyebrow,main .price{color:#1D4ED8!important}
+.xp-footer,footer.xp-footer{
+  background:#fff!important;color:#334155!important;border-top:1px solid var(--ui-line)!important;
+  border-radius:20px 20px 0 0!important;box-shadow:none!important;
+}
+.xp-footer h3,.xp-footer .xp-foot-brand{color:#172033!important}
+.xp-footer .xp-foot-desc,.xp-footer .xp-foot-security,.xp-footer .xp-foot-copy{color:#64748B!important}
+.xp-footer .xp-foot-links a,.xp-footer .xp-foot-contact a,.xp-footer .xp-foot-meta-row a{
+  color:#1D4ED8!important;text-decoration:none!important;
+}
+.skiee-bottom-nav{
+  background:rgba(255,255,255,.97)!important;border:1px solid var(--ui-line)!important;
+  border-radius:16px!important;box-shadow:0 8px 28px rgba(15,23,42,.10)!important;
+  padding:6px!important;backdrop-filter:blur(16px)!important;
+}
+.skiee-bottom-nav .nav-item{
+  background:transparent!important;color:#64748B!important;border:1px solid transparent!important;
+  border-radius:11px!important;box-shadow:none!important;font-weight:700!important;
+}
+.skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{
+  background:#EFF6FF!important;color:#1D4ED8!important;border-color:#DBEAFE!important;
+  box-shadow:none!important;
+}
+#chatToggle,.chat-fab,.xp-footer .chat-fab{
+  background:linear-gradient(135deg,#2563EB,#1D4ED8)!important;
+  border:0!important;box-shadow:0 8px 22px rgba(37,99,235,.25)!important;
+}
+@media(max-width:767px){
+ body>header{width:calc(100% - 20px)!important;margin:7px auto 10px!important;border-radius:14px!important}
+ .xp-footer{padding-bottom:calc(94px + env(safe-area-inset-bottom))!important}
+ .skiee-bottom-nav{left:10px!important;right:10px!important;bottom:7px!important}
+}
