@@ -438,161 +438,6 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
   text-shadow:none!important;filter:none!important;
 }
 </style>
-
-<link rel="stylesheet" href="/assets/neo-brutalism.css?v=10">
-
-<style id="game-catalog-card-refresh">
-/* Katalog game: kartu horizontal Neo-Brutalism, dua kolom di HP */
-.gamegrid {
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  gap: 12px !important;
-  padding: 12px 0 !important;
-}
-.gamegrid > .gamecard {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 10px !important;
-  min-width: 0 !important;
-  min-height: 76px !important;
-  padding: 10px !important;
-  overflow: hidden !important;
-  text-align: left !important;
-  color: #0f172a !important;
-  background: #fff !important;
-  border: 2px solid #0f172a !important;
-  border-radius: 14px !important;
-  box-shadow: 0 3px 0 #0f172a !important;
-  cursor: pointer;
-  transition: transform .1s ease, box-shadow .1s ease !important;
-}
-.gamegrid > .gamecard:hover {
-  transform: translateY(-1px) !important;
-  border-color: #0f172a !important;
-  box-shadow: 0 4px 0 #0f172a !important;
-}
-.gamegrid > .gamecard:active {
-  transform: translateY(2px) !important;
-  box-shadow: 0 1px 0 #0f172a !important;
-}
-.gamegrid .gameart {
-  width: 52px !important;
-  height: 52px !important;
-  min-width: 52px !important;
-  max-width: 52px !important;
-  aspect-ratio: 1 / 1 !important;
-  flex: 0 0 52px !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  border: 1.5px solid #0f172a !important;
-  border-radius: 10px !important;
-  box-shadow: none !important;
-  background: #f1f5f9 !important;
-}
-.gamegrid .gameart img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: inherit !important;
-}
-.gamegrid .gameinfo {
-  display: flex !important;
-  flex: 1 1 auto !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  justify-content: center !important;
-  gap: 9px !important;
-  min-width: 0 !important;
-  overflow: hidden !important;
-}
-.gamegrid .gameinfo strong {
-  display: -webkit-box !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  overflow: hidden !important;
-  color: #0f172a !important;
-  font-size: 13px !important;
-  font-weight: 800 !important;
-  line-height: 1.25 !important;
-  overflow-wrap: anywhere !important;
-  -webkit-line-clamp: 2 !important;
-  -webkit-box-orient: vertical !important;
-}
-.gamegrid .gameinfo small {
-  display: inline-block !important;
-  max-width: 100% !important;
-  margin: 2px 0 0 !important;
-  padding: 3px 7px !important;
-  overflow: hidden !important;
-  color: #0369a1 !important;
-  background: #e0f2fe !important;
-  border: 1px solid #0f172a !important;
-  border-radius: 6px !important;
-  font-size: 10.5px !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-.gamegrid .gamearrow { display: none !important; }
-@media (min-width: 621px) {
-  .gamegrid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-}
-@media (max-width: 360px) {
-  .gamegrid { gap: 8px !important; }
-  .gamegrid > .gamecard { gap: 7px !important; padding: 8px !important; }
-  .gamegrid .gameart {
-    width: 44px !important; height: 44px !important;
-    min-width: 44px !important; max-width: 44px !important;
-    flex-basis: 44px !important;
-  }
-  .gamegrid .gameinfo strong { font-size: 11px !important; }
-  .gamegrid .gameinfo small { font-size: 9px !important; padding: 2px 5px !important; }
-}
-
-/* XP-SAFE-001: keep the home catalog filters readable and stable */
-#gameFilters.chips {
-  display: flex !important;
-  flex-flow: row nowrap !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  white-space: nowrap !important;
-  -webkit-overflow-scrolling: touch !important;
-  scrollbar-width: none !important;
-}
-#gameFilters.chips::-webkit-scrollbar { display: none !important; }
-#gameFilters .chip {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex: 0 0 auto !important;
-  min-width: max-content !important;
-  min-height: 42px !important;
-  padding: 8px 14px !important;
-  white-space: nowrap !important;
-  overflow-wrap: normal !important;
-  text-align: center !important;
-  line-height: 1.25 !important;
-  font-size: 12px !important;
-}
-#gameFilters .chip:hover,
-#gameFilters .chip:active,
-.gamegrid > .gamecard:hover,
-.gamegrid > .gamecard:active {
-  transform: none !important;
-  box-shadow: 0 3px 0 #0f172a !important;
-}
-
-</style>
-
 <style id="ui-consistency-home-fix">
 .xp-footer#footer, footer.xp-footer {
   border-top: 2px solid #0f172a !important;
@@ -600,42 +445,7 @@ input::placeholder,textarea::placeholder{opacity:1!important;color:#333333!impor
 }
 </style>
 
-<style id="skieestore-ai-neo-final">
-/* Neo-Brutalism khusus panel Asisten AI. Header diseragamkan; footer situs dan footer chat tetap utuh. */
-#chatPanel .chat-brand strong{display:block!important;color:#191b22!important;font-family:"Plus Jakarta Sans",sans-serif!important;font-size:13px!important;font-weight:900!important;letter-spacing:.01em!important;line-height:1.25!important}
-#chatPanel .chat-brand small{display:block!important;color:#191b22!important;font-family:"Plus Jakarta Sans",sans-serif!important;font-size:10px!important;font-weight:700!important;margin-top:3px!important;line-height:1.3!important}
-#chatPanel{background:#F5FAFE!important;color:#191b22!important;border:3px solid #191b22!important;border-radius:0!important;box-shadow:6px 6px 0 #191b22!important}
-#chatPanel .chat-head,#chatPanel .chat-history-head{background:#00CFFF!important;color:#191b22!important;border:0!important;border-bottom:3px solid #191b22!important;box-shadow:none!important}
-#chatPanel .chat-avatar{background:#087BFF!important;color:#fff!important;border:2px solid #191b22!important;border-radius:8px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-close,#chatPanel .chat-compose-btn,#chatPanel .chat-tool-btn,#chatPanel .chat-history-delete{background:#fff!important;color:#191b22!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-toolbar{background:#F5FAFE!important;border:0!important;border-bottom:2px solid #191b22!important}
-#chatPanel .chat-tool-btn.primary{background:#FFE66D!important;color:#191b22!important;border-color:#191b22!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-messages{background-color:#F5FAFE!important;background-image:radial-gradient(#191b22 .7px,transparent .7px)!important;background-size:18px 18px!important}
-#chatPanel .chat-bubble{border:2px solid #191b22!important;border-radius:8px!important;box-shadow:3px 3px 0 #191b22!important;font-family:'Plus Jakarta Sans',sans-serif!important;font-size:13px!important;line-height:1.6!important}
-#chatPanel .chat-bubble.bot{background:#fff!important;color:#191b22!important;border-bottom-left-radius:2px!important}
-#chatPanel .chat-bubble.user{background:#087BFF!important;color:#fff!important;border-bottom-right-radius:2px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-typing{background:#F5FAFE!important;color:#191b22!important;font-weight:800!important}
-#chatPanel .chat-compose{background:#fff!important;border-top:3px solid #191b22!important}
-#chatPanel .chat-compose textarea{background:#fff!important;color:#191b22!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:3px 3px 0 #191b22!important;font-family:'Plus Jakarta Sans',sans-serif!important}
-#chatPanel .chat-compose textarea:focus{outline:2px solid #087BFF!important;outline-offset:2px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-send{background:#087BFF!important;color:#fff!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-compose-btn:active,#chatPanel .chat-send:active,#chatPanel .chat-tool-btn:active,#chatPanel .chat-close:active{transform:translate(2px,2px)!important;box-shadow:1px 1px 0 #191b22!important}
-#chatPanel .chat-history-panel{background:#F5FAFE!important}
-#chatPanel .chat-history-item{background:#fff!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:3px 3px 0 #191b22!important}
-#chatPanel .chat-history-open,#chatPanel .chat-history-empty{color:#191b22!important;font-family:'Plus Jakarta Sans',sans-serif!important}
-@media(max-width:620px){#chatPanel{border:0!important;box-shadow:none!important}}
 
-/* Homepage FAQ: readable, crawlable answers without JavaScript dependency */
-.faq-home{padding:34px 0 12px}
-.faq-home-list{display:grid;gap:10px;max-width:900px;margin:18px auto 0}
-.faq-home-item{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:0 17px}
-.faq-home-item summary{cursor:pointer;list-style:none;padding:16px 30px 16px 0;position:relative;font-size:12px;font-weight:800;color:var(--text)}
-.faq-home-item summary::-webkit-details-marker{display:none}
-.faq-home-item summary:after{content:"+";position:absolute;right:2px;top:12px;color:var(--accent);font:700 21px "Space Grotesk",sans-serif}
-.faq-home-item[open] summary:after{content:"−"}
-.faq-home-answer{padding:0 0 16px;color:var(--muted);font-size:11px;line-height:1.8}
-.faq-home-answer a{color:var(--accent2);font-weight:800;text-decoration:underline;text-underline-offset:3px}
-</style>
 
 
 <style>
@@ -840,6 +650,82 @@ footer.xp-footer#footer .xp-foot-meta-row a:hover {
 .home-banner-section{padding-bottom:0!important;margin-bottom:0!important}
 .home-banner-section + .section{border-top:0!important;box-shadow:none!important}
 .home-banner-slide:after,.home-banner-slide:before{border:0!important;box-shadow:none!important}
+</style>
+<style id="skieestore-clean-storefront">
+/* SKIEESTORE clean modern storefront skin — visual only; preserve structure and geometry. */
+:root{
+  --store-bg:#F8FAFC;--store-surface:#FFFFFF;--store-text:#172033;
+  --store-muted:#64748B;--store-line:#E2E8F0;--store-blue:#087BFF;
+  --store-cyan:#22C7E8;--store-soft:#EFF8FF;
+}
+html,body{background:#F8FAFC!important;color:var(--store-text)!important}
+main{background:transparent!important;color:var(--store-text)!important}
+main .hero-card,main .home-banner,main .home-banner-slide,
+main .gamecard,main .product,main .feature,main .promobox,
+main .faq-home-item,main .faq-item,main .faq-card,main .faq-question,
+main .accordion-item,main details.faq,main details.faq-item,
+main .state,main .flash-sale-card,main .home-banner-section .home-banner{
+  border:1px solid var(--store-line)!important;
+  border-radius:16px!important;
+  box-shadow:0 4px 18px rgba(15,23,42,.045)!important;
+}
+main .home-banner,main .home-banner-slide{
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
+main .gamecard:hover,main .product:hover,main .feature:hover,
+main .faq-home-item:hover,main .faq-item:hover{
+  border-color:#B9D9FF!important;
+  box-shadow:0 8px 24px rgba(8,123,255,.09)!important;
+}
+main button,main .btn,main .primary,main .catalog-more,
+main .product button,main .chip{
+  border-radius:10px!important;
+  box-shadow:none!important;
+  transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease!important;
+}
+main .primary,main .btn-primary,main .product button:not(:disabled),
+main .catalog-more{
+  background:var(--store-blue)!important;color:#fff!important;border:1px solid var(--store-blue)!important;
+}
+main .primary:hover,main .btn-primary:hover,main .product button:not(:disabled):hover,
+main .catalog-more:hover{background:#0669DC!important;border-color:#0669DC!important;box-shadow:0 5px 14px rgba(8,123,255,.18)!important}
+main .chip{border:1px solid var(--store-line)!important;background:#fff!important;color:var(--store-muted)!important}
+main .chip.active{background:var(--store-soft)!important;border-color:#9CCBFF!important;color:#0756B8!important}
+main input:not([type=checkbox]):not([type=radio]):not([type=submit]),
+main select,main textarea,main .searchbox{
+  border:1px solid var(--store-line)!important;border-radius:10px!important;
+  background:#fff!important;color:var(--store-text)!important;box-shadow:none!important;
+}
+main input:focus,main select:focus,main textarea:focus{
+  border-color:var(--store-blue)!important;outline:3px solid rgba(8,123,255,.12)!important;outline-offset:1px!important;
+}
+main h1,main h2,main h3,main h4{color:var(--store-text)!important}
+main p,main small{color:inherit}
+main .price,main .product-price,main .nominal-price,main .checkout-total{color:#0867D1!important}
+main .faq-home-item,main .faq-item,main .faq-card,main .faq-question,
+main .accordion-item,main details.faq,main details.faq-item{
+  border-color:var(--store-line)!important;box-shadow:0 3px 14px rgba(15,23,42,.035)!important;
+}
+footer.xp-footer#footer,footer.xp-footer,#footer.xp-footer{
+  background:#fff!important;border-top:1px solid var(--store-line)!important;
+  box-shadow:none!important;border-radius:0!important;
+}
+#chatPanel,.chat-panel{background:#fff!important;border:0!important;box-shadow:none!important}
+#chatPanel .chat-head,.chat-panel .chat-head,#chatPanel .chat-history-head,.chat-history-head{
+  background:#fff!important;color:var(--store-text)!important;border-bottom:1px solid var(--store-line)!important;
+}
+#chatPanel .chat-toolbar,.chat-panel .chat-toolbar{background:#fff!important;border-bottom:1px solid var(--store-line)!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages{background:#F8FAFC!important;background-image:none!important}
+#chatPanel .chat-bubble,.chat-panel .chat-bubble{border:1px solid var(--store-line)!important;border-radius:14px!important;box-shadow:none!important}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot{background:#fff!important;color:var(--store-text)!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user{background:var(--store-blue)!important;color:#fff!important;border-color:var(--store-blue)!important}
+#chatPanel .chat-compose,.chat-panel .chat-compose{background:#fff!important;border-top:1px solid var(--store-line)!important}
+#chatPanel .chat-compose textarea,.chat-panel .chat-compose textarea{border:1px solid var(--store-line)!important;border-radius:12px!important;box-shadow:none!important}
+#chatPanel .chat-tool-btn,.chat-panel .chat-tool-btn,#chatPanel .chat-close,.chat-panel .chat-close{
+  border:1px solid var(--store-line)!important;border-radius:10px!important;box-shadow:none!important;background:#fff!important;color:var(--store-text)!important;
+}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary{background:var(--store-soft)!important;color:#0756B8!important;border-color:#C8E2FF!important}
 </style>
 </head>
 <body>
@@ -1264,32 +1150,5 @@ body:has(.home-banner-section) #games:before{content:none!important;display:none
 
 
 
-<style id="skiee-neo-street-theme-20261128">
-/* SKIEESTORE Neo-Brutalism Street Style — visual-only */
-:root{--nb-paper:#FFF9D6;--nb-yellow:#FFE600;--nb-blue:#0055FF;--nb-red:#FF4D4D;--nb-ink:#0F172A;--nb-white:#fff;--nb-border:3px solid #0F172A;--nb-card-shadow:4px 4px 0 #0F172A;--nb-control-shadow:3px 3px 0 #0F172A;--nb-font:'Space Grotesk','Manrope',system-ui,sans-serif}
-html,body{background-color:var(--nb-paper)!important;background-image:radial-gradient(rgba(15,23,42,.08) 1px,transparent 1px)!important;background-size:20px 20px!important;color:var(--nb-ink)!important;font-family:var(--nb-font)!important}body{background-color:var(--nb-paper)!important}::selection{background:var(--nb-yellow);color:var(--nb-ink)}
-/* Keep existing header structure and geometry; style its existing capsule only. */
-body>header.header,body>header.site-header,body>header.top,body>header.main-site-header{background:#fff!important;background-color:#fff!important;background-image:none!important;border:3px solid var(--nb-ink)!important;box-shadow:4px 4px 0 var(--nb-ink)!important}
-body>header .header-search-btn,body>header #mainHeaderSearchToggle,body>header #headerSearchToggle,body>header .iconbtn{background:#fff!important;color:var(--nb-ink)!important;border:3px solid var(--nb-ink)!important;box-shadow:3px 3px 0 var(--nb-ink)!important}
-/* Transparent wrappers preserve a continuous dotted page canvas. */
-main,main.main,.wrap,.main,.content,.page-content,.catalog-page,#catalogPage,.home-banner-section,.seo-game-directory,.faq-home,.faq-home-list,.faq-home-section,.faq-section,#games,#keunggulan,.profile-section,.page-section,.content-section,main>section,main section:not(.xp-footer section){background-color:transparent!important;background-image:none!important}
-/* Existing cards, banners, payment accordions and information panels. */
-.hero-card,.banner-card,.home-banner,.promo-banner,.intro,.panel,.section-card,.checkout-card,.summary-card,.gamecard,.game,.product,.product-card,.order-card,.info-card,.notice,.feature,.promobox,.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item,.content-card,.help-card,.guide-step,.neo-card,.payment-accordion,.payment-method,.payment-option,.product-choice,.nominal-option,.nominal-card,.member-activity-shell,.member-payment-panel,.member-history-item,#memberHistorySection .member-activity-shell,#memberHistorySection .member-payment-panel,#memberHistorySection .member-history-item{background:#fff!important;background-color:#fff!important;background-image:none!important;color:var(--nb-ink)!important;border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-card-shadow)!important;border-radius:10px!important}
-button:not(.bottomnav button),.btn,.primary,.account,.catalog-more,.chip,.btn-primary,.btn-outline,.btn-light,button[type=submit],input[type=submit],.header-search-btn,#mainHeaderSearchToggle,#headerSearchToggle{border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-control-shadow)!important;color:var(--nb-ink)!important;font-weight:800!important}
-button:not(.bottomnav button):active,.btn:active,.primary:active,.account:active,.catalog-more:active,.chip:active,button[type=submit]:active,input[type=submit]:active{transform:translate(2px,2px)!important;box-shadow:1px 1px 0 var(--nb-ink)!important}
-.primary,.btn-primary,.account,.catalog-more,button.primary,button[type=submit]{background:var(--nb-yellow)!important;color:var(--nb-ink)!important}
-.chip.active,.tab.active,.nav-tab.active,.category-tab.active,.filter-btn.active,[role=tab][aria-selected=true]{background:var(--nb-yellow)!important;color:var(--nb-ink)!important;border-color:var(--nb-ink)!important}
-.badge-price,.price-badge,.game-price-badge,.check-id,.check-id-btn,.id-check,.secondary-badge{background:var(--nb-blue)!important;color:#fff!important;border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-control-shadow)!important}
-.promo,.discount,.promo-badge,.discount-badge,.alert,.notice.alert{background:var(--nb-red)!important;color:#fff!important;border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-control-shadow)!important}
-input:not([type=checkbox]):not([type=radio]):not([type=submit]),select,textarea,.searchbox,.search,.form-control{background:#fff!important;color:var(--nb-ink)!important;border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-control-shadow)!important;border-radius:8px!important}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--nb-blue)!important;outline-offset:2px!important}
-.selected,.is-selected,[aria-pressed=true],[aria-selected=true],.product-choice.active,.product-choice.selected,.payment-option.active,.payment-option.selected,.nominal-option.active,.nominal-option.selected,.nominal-card.active,.nominal-card.selected{background:var(--nb-yellow)!important;background-color:var(--nb-yellow)!important;color:var(--nb-ink)!important;border:3px solid var(--nb-ink)!important;box-shadow:var(--nb-card-shadow)!important}
-h1,h2,h3,h4,.section-title,.section h2,.section-title h2,.game-title,.gameinfo strong,.product-group-copy strong,.product-choice strong{color:var(--nb-ink)!important;font-family:var(--nb-font)!important;font-weight:900!important;text-transform:uppercase!important}
-.price,.harga,.amount,.invoice,.invoice-number,.order-code,.promo-code,.product-price,.nominal-price,.checkout-total,.payment-price,.currency,.total-price,.price-value{font-family:'JetBrains Mono','SFMono-Regular',Consolas,monospace!important;font-weight:800!important}
-/* One clean white footer surface, without tinted inner strips. */
-footer.xp-footer#footer,#footer.xp-footer,footer.xp-footer{background:#fff!important;background-color:#fff!important;background-image:none!important;border-top:3px solid var(--nb-ink)!important;box-shadow:none!important}
-footer.xp-footer .xp-foot-wrap,footer.xp-footer .xp-foot-grid,footer.xp-footer .xp-foot-grid>section,footer.xp-footer .xp-foot-links,footer.xp-footer .xp-foot-contact,footer.xp-footer .xp-foot-meta,footer.xp-footer .xp-foot-meta-row,footer.xp-footer .xp-foot-copy,footer.xp-footer section{background:transparent!important;background-color:transparent!important;background-image:none!important}
-/* Bottom navigation geometry, placement and four items are deliberately untouched. */
 
-</style>
 </body></html>
