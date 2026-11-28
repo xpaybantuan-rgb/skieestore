@@ -381,12 +381,6 @@ body:not(.chat-open) footer.xp-footer {
   padding-bottom: 82px !important;
   margin-bottom: 0 !important;
 }
-body:not(.chat-open) > header,
-body:not(.chat-open) header.header,
-body:not(.chat-open) header.top {
-  background-color: #FFFFFF !important;
-  border-bottom: 2.5px solid #0F172A !important;
-}
 
 
 /* XP-SAFE-001: single clean header search bar and page-specific visibility. */
