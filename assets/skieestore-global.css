@@ -556,15 +556,15 @@ body > header.top .brand-image img {
   max-width: min(48vw, 190px) !important;
   object-fit: contain !important;
 }
-body > header.header .header-search-toggle,
-body > header.header .header-search-btn,
-body > header.header #mainHeaderSearchToggle,
-body > header.site-header .header-search-toggle,
-body > header.site-header .header-search-btn,
-body > header.site-header #mainHeaderSearchToggle,
-body > header.top .header-search-toggle,
-body > header.top .header-search-btn,
-body > header.top #mainHeaderSearchToggle {
+body > header.header .header-search-toggle:not([hidden]),
+body > header.header .header-search-btn:not([hidden]),
+body > header.header #mainHeaderSearchToggle:not([hidden]),
+body > header.site-header .header-search-toggle:not([hidden]),
+body > header.site-header .header-search-btn:not([hidden]),
+body > header.site-header #mainHeaderSearchToggle:not([hidden]),
+body > header.top .header-search-toggle:not([hidden]),
+body > header.top .header-search-btn:not([hidden]),
+body > header.top #mainHeaderSearchToggle:not([hidden]) {
   display: grid !important;
   place-items: center !important;
   box-sizing: border-box !important;
