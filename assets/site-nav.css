@@ -10,7 +10,7 @@
 .site-menu-card{position:fixed;z-index:10020;top:76px;right:max(12px,calc((100vw - 1120px)/2));width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 94px);overflow:auto;padding:14px;background:#fff;border:1px solid #E2E8F0;border-radius:20px;box-shadow:0 16px 44px rgba(15,23,42,.13);opacity:0;visibility:hidden;transform:translateY(-7px);transition:opacity .18s ease,transform .18s ease,visibility .18s ease}
 .site-menu-card.is-open{opacity:1;visibility:visible;transform:translateY(0)}
 .site-menu-link{display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:13px;color:#172033;text-decoration:none!important}.site-menu-link:hover{background:#F8FAFC}
-.site-menu-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:13px;background:#EFF8FF;color:#087BFF;font-size:18px}
+.site-menu-icon{display:grid;place-items:center;flex:0 0 40px;width:40px;height:40px;border-radius:50%;background:#EFF8FF;color:#087BFF;font-size:18px}
 .site-menu-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}.site-menu-copy strong{font-size:12px;font-weight:800;letter-spacing:.025em;color:#1E293B}.site-menu-copy small{font-size:11px;line-height:1.4;color:#64748B;font-weight:500}.site-menu-chevron{color:#94A3B8;font-size:17px}
 .site-menu-calc-toggle{width:100%;border:0;background:transparent;text-align:left;cursor:pointer;font:inherit}
 .site-menu-subitems{display:none;margin:0 0 6px 62px;padding:2px 0 2px 12px;border-left:1px solid #DBEAFE}.site-menu-subitems.is-open{display:flex;flex-direction:column;gap:3px}
