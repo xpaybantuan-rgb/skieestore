@@ -417,3 +417,102 @@ details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,
   border-radius:14px!important;
   box-shadow:0 2px 10px rgba(15,23,42,.035)!important;
 }
+
+
+/* 2026-11-28: hard override for the remaining catalog/profile/help Neo styles.
+   Loaded last on affected pages; paint-only, preserves all layout and behavior. */
+html body #gameGrid .gamecard,
+html body .gamegrid .gamecard,
+html body #games .gamecard,
+html body #games.games > .gamecard,
+html body #gameGrid .gamecard:hover,
+html body .gamegrid .gamecard:hover,
+html body #games .gamecard:hover,
+html body #games.games > .gamecard:active {
+  background:#FFFFFF!important;
+  background-color:#FFFFFF!important;
+  color:#172033!important;
+  border:1px solid #E5E7EB!important;
+  border-radius:14px!important;
+  box-shadow:0 2px 10px rgba(15,23,42,.04)!important;
+  outline:0!important;
+  transform:none!important;
+}
+html body #gameGrid .gamecard .gameart,
+html body .gamegrid .gamecard .gameart,
+html body #games .gamecard .gameart {
+  border:0!important;
+  border-radius:11px!important;
+  box-shadow:none!important;
+}
+html body #gameGrid .gamecard .gameinfo small,
+html body .gamegrid .gamecard .gameinfo small,
+html body #games .gamecard .gameinfo small,
+html body .game-count-badge,
+html body .game-badge,
+html body .catalog-count,
+html body .product-count,
+html body .badge-count {
+  color:#64748B!important;
+  background:#F1F5F9!important;
+  border:0!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+  outline:0!important;
+  font-weight:600!important;
+}
+html body .catalog-skeleton,
+html body .catalog-skeleton .skeleton-art {
+  border:1px solid #E5E7EB!important;
+  border-radius:12px!important;
+  background:#F8FAFC!important;
+  box-shadow:none!important;
+}
+html body #qrisPanel [role="status"],
+html body #qrisPanel [role="status"][style] {
+  background:#F8FAFC!important;
+  background-color:#F8FAFC!important;
+  color:#475569!important;
+  border:1px solid #E5E7EB!important;
+  border-radius:12px!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+html body .member-alert,
+html body .member-notification,
+html body .member-notification.unread,
+html body .profile-bottom,
+html body .profile-bottom>a,
+html body .help-card,
+html body .faq-home-item,
+html body .faq-item,
+html body .faq-card,
+html body .faq-question,
+html body .accordion-item,
+html body .help-faq-item,
+html body details.faq,
+html body details.faq-item {
+  color:#172033!important;
+  background:#FFFFFF!important;
+  background-color:#FFFFFF!important;
+  border:1px solid #E5E7EB!important;
+  border-radius:14px!important;
+  box-shadow:0 2px 10px rgba(15,23,42,.035)!important;
+  outline:0!important;
+}
+html body .member-notification.unread {
+  background:#F8FAFC!important;
+  background-color:#F8FAFC!important;
+}
+html body .profile-bottom>a {
+  color:#1D4ED8!important;
+  background:#EFF6FF!important;
+  border-color:#DBEAFE!important;
+  box-shadow:none!important;
+}
+html body .member-avatar,
+html body .member-auth-actions button,
+html body .member-plan button {
+  border:1px solid #E5E7EB!important;
+  box-shadow:none!important;
+}
