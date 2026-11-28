@@ -2,11 +2,3 @@
 # Public pages remain accessible without authentication.
 /settings /settings.html 200
 /skieepay-admin /skieepay-admin.html 200
-/artikel /artikel.html 200
-/kalkulator /kalkulator.html 200
-/kalkulator/win-rate /kalkulator/win-rate.html 200
-/kalkulator/magic-wheel /kalkulator/magic-wheel.html 200
-/kalkulator/zodiac /kalkulator/zodiac.html 200
-/masuk /masuk.html 200
-/daftar /daftar.html 200
-/reset-password /reset-password.html 200
