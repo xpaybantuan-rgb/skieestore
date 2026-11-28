@@ -1,0 +1,228 @@
+.brand-image img{width:190px!important;height:54px!important;max-width:52vw!important;object-fit:contain!important;display:block!important}.xp-foot-logo{width:220px!important;height:auto!important;max-height:76px!important;object-fit:contain!important;display:block!important}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start}.brand-image{display:flex;align-items:center}@media(max-width:620px){.brand-image img{width:160px!important;height:48px!important}.xp-foot-logo{width:190px!important;max-height:68px!important}}
+
+.brand-image{display:flex;align-items:center;flex:0 1 220px;min-width:0}.brand-image img{display:block;width:auto;height:52px;max-width:100%;max-height:52px;object-fit:contain;object-position:left center}.xp-foot-brand{display:inline-flex;align-items:center;justify-content:flex-start;max-width:100%;line-height:0}.xp-foot-logo{display:block;width:auto;height:58px;max-width:100%;max-height:58px;object-fit:contain;object-position:left center}@media(max-width:620px){.brand-image{flex-basis:170px}.brand-image img{height:46px;max-height:46px;max-width:48vw}.xp-foot-logo{height:52px;max-height:52px}}@media(max-width:380px){.brand-image{flex-basis:145px}.brand-image img{height:42px;max-height:42px;max-width:45vw}}
+
+.brand-image{display:flex!important;align-items:center!important;flex:0 1 220px!important;min-width:0!important}.brand-image img{display:block!important;width:auto!important;height:48px!important;max-width:100%!important;max-height:48px!important;object-fit:contain!important;object-position:left center!important}.xp-foot-brand{display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;max-width:100%!important;line-height:0!important}.xp-foot-logo{display:block!important;width:auto!important;height:54px!important;max-width:100%!important;max-height:54px!important;object-fit:contain!important;object-position:left center!important}@media(max-width:620px){.brand-image{flex-basis:170px!important}.brand-image img{height:44px!important;max-height:44px!important;max-width:48vw!important}.xp-foot-logo{height:50px!important;max-height:50px!important}}@media(max-width:380px){.brand-image{flex-basis:145px!important}.brand-image img{height:40px!important;max-height:40px!important;max-width:45vw!important}}
+
+
+/* FINAL CHATBOT BRAND: official skieestore.biz.id — blue/cyan only */
+#chatToggle,.chat-fab,.xp-footer .chat-fab{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 7px 22px rgba(8,123,255,.28)!important;filter:none!important;text-shadow:none!important}
+#chatPanel,.chat-panel{background:#fff!important;color:#202536!important;box-shadow:none!important;filter:none!important}
+#chatPanel .chat-head,#chatPanel .chat-history-head,.chat-panel .chat-head,.chat-panel .chat-history-head{background:linear-gradient(115deg,#fff 0%,#EAFBFF 100%)!important;border-color:#CDEEFF!important;box-shadow:none!important}
+#chatPanel .chat-avatar,.chat-panel .chat-avatar,.chat-avatar{background:linear-gradient(135deg,#00CFFF 0%,#0756D8 100%)!important;color:#fff!important;box-shadow:0 6px 18px rgba(8,123,255,.22)!important;filter:none!important}
+#chatPanel .chat-send,#chatPanel button.chat-send,.chat-panel .chat-send,.chat-send,button.chat-send{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;border:0!important;box-shadow:0 6px 18px rgba(8,123,255,.25)!important;filter:none!important}
+#chatPanel .chat-send:hover,#chatPanel .chat-send:focus-visible,.chat-panel .chat-send:hover,.chat-panel .chat-send:focus-visible{background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;box-shadow:0 7px 20px rgba(8,123,255,.3)!important}
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user{background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;color:#fff!important;box-shadow:0 5px 16px rgba(8,123,255,.18)!important}
+#chatPanel .chat-messages,.chat-panel .chat-messages,.chat-messages{background:radial-gradient(ellipse at 12% 0%,rgba(0,207,255,.10) 0%,transparent 36%),#fff!important;box-shadow:none!important}
+#chatPanel .chat-compose,#chatPanel .chat-compose textarea,.chat-panel .chat-compose,.chat-panel .chat-compose textarea{background:#fff!important}
+#chatPanel .chat-compose textarea:focus,#chatPanel .chat-compose textarea.expanded,.chat-panel .chat-compose textarea:focus,.chat-panel .chat-compose textarea.expanded{border-color:#00CFFF!important;box-shadow:0 0 0 3px rgba(8,123,255,.12)!important;outline-color:#00CFFF!important}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary,.chat-tool-btn.primary{background:#EAFBFF!important;border-color:#BFEFFF!important;color:#0756D8!important;box-shadow:none!important}
+#chatPanel .chat-fab::before,#chatPanel .chat-fab::after,.chat-fab::before,.chat-fab::after,#chatPanel .chat-send::before,#chatPanel .chat-send::after{box-shadow:none!important;background-color:transparent!important}
+.search-suggestion:hover,.search-suggestion:focus-visible{background:#EAFBFF!important}
+
+
+
+/* Chatbot palette lock: remove every red/pink/purple accent and glow */
+#chatToggle,.chat-fab,.xp-footer .chat-fab,
+#chatPanel .chat-avatar,.chat-panel .chat-avatar,.chat-avatar,
+#chatPanel .chat-send,.chat-panel .chat-send,.chat-send,
+#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user{
+  background:linear-gradient(135deg,#087BFF 0%,#00CFFF 100%)!important;
+  color:#fff!important;border-color:#087BFF!important;
+  box-shadow:0 5px 16px rgba(8,123,255,.16)!important;
+  filter:none!important;text-shadow:none!important;
+}
+#chatPanel,.chat-panel,#chatPanel .chat-head,.chat-panel .chat-head,
+#chatPanel .chat-history-head,.chat-panel .chat-history-head,
+#chatPanel .chat-toolbar,.chat-panel .chat-toolbar,
+#chatPanel .chat-messages,.chat-panel .chat-messages,
+#chatPanel .chat-compose,.chat-panel .chat-compose,
+#chatPanel .chat-footer,.chat-panel .chat-footer,
+#chatPanel .chat-history-panel,.chat-panel .chat-history-panel{
+  background:#fff!important;color:#202536!important;
+  border-color:#E5EAF0!important;box-shadow:none!important;filter:none!important;
+}
+#chatPanel .chat-head,.chat-panel .chat-head,
+#chatPanel .chat-history-head,.chat-panel .chat-history-head{
+  background:linear-gradient(110deg,#fff 0%,#EAFBFF 100%)!important;
+  border-bottom-color:#CDEEFF!important;
+}
+#chatPanel .chat-messages,.chat-panel .chat-messages{
+  background:linear-gradient(180deg,#F4FCFF 0%,#fff 42%)!important;
+}
+#chatPanel .chat-bubble.bot,.chat-panel .chat-bubble.bot,.chat-bubble.bot{
+  background:#fff!important;color:#303849!important;
+  border:1px solid #E5EAF0!important;box-shadow:0 2px 8px rgba(15,40,70,.05)!important;
+}
+#chatPanel .chat-bubble a,.chat-panel .chat-bubble a,.chat-bubble a{color:#0756D8!important}
+#chatPanel .chat-bubble.user a,.chat-panel .chat-bubble.user a{color:#fff!important}
+#chatPanel .chat-tool-btn,.chat-panel .chat-tool-btn{
+  background:#F8FCFF!important;color:#0756D8!important;
+  border:1px solid #D7F2FF!important;box-shadow:none!important;
+}
+#chatPanel .chat-tool-btn.primary,.chat-panel .chat-tool-btn.primary{
+  background:#EAFBFF!important;color:#0756D8!important;border-color:#BFEFFF!important;
+}
+#chatPanel .chat-close,.chat-panel .chat-close,
+#chatPanel .chat-compose-btn,.chat-panel .chat-compose-btn{
+  background:#fff!important;color:#0756D8!important;border:1px solid #D7EAF5!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-compose textarea,.chat-panel .chat-compose textarea{
+  background:#F8FCFF!important;color:#202536!important;border-color:#DCEAF2!important;
+  box-shadow:none!important;
+}
+#chatPanel .chat-compose textarea:focus,
+#chatPanel .chat-compose textarea.expanded,
+.chat-panel .chat-compose textarea:focus,
+.chat-panel .chat-compose textarea.expanded{
+  background:#fff!important;border-color:#00CFFF!important;
+  outline:0!important;box-shadow:0 0 0 3px rgba(0,207,255,.13)!important;
+}
+#chatPanel .chat-send:hover,#chatPanel .chat-send:focus-visible,
+.chat-panel .chat-send:hover,.chat-panel .chat-send:focus-visible{
+  background:linear-gradient(135deg,#0756D8 0%,#00B8E6 100%)!important;
+  box-shadow:0 5px 16px rgba(8,123,255,.2)!important;
+}
+#chatPanel .chat-history-item,.chat-panel .chat-history-item{
+  background:#F8FCFF!important;border-color:#DCEAF2!important;box-shadow:none!important;
+}
+#chatPanel .chat-history-delete,.chat-panel .chat-history-delete{
+  background:#EAFBFF!important;color:#0756D8!important;border-color:#BFEFFF!important;
+}
+#chatPanel button:focus-visible,#chatPanel a:focus-visible,
+.chat-panel button:focus-visible,.chat-panel a:focus-visible{
+  outline:2px solid #00CFFF!important;outline-offset:2px!important;
+  box-shadow:0 0 0 3px rgba(0,207,255,.12)!important;
+}
+#chatPanel *,.chat-panel *{text-shadow:none!important;filter:none!important}
+#chatPanel .chat-typing,.chat-panel .chat-typing{background:#fff!important;color:#667085!important}
+#chatToggle::before,#chatToggle::after,.chat-fab::before,.chat-fab::after,
+#chatPanel *::before,#chatPanel *::after,.chat-panel *::before,.chat-panel *::after{
+  text-shadow:none!important;filter:none!important;
+}
+
+
+
+.xp-footer#footer, footer.xp-footer {
+  border-top: 2px solid #0f172a !important;
+  background-color: #ffffff !important;
+}
+
+
+
+/* Keep internal game links crawlable without showing a duplicate directory to shoppers. */
+.seo-game-directory{
+ position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+ overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;
+ white-space:nowrap!important;border:0!important;
+}
+
+
+
+/* Remove browser focus rectangles and tap flashes from links and buttons. */
+a:focus,a:focus-visible,button:focus,button:focus-visible{
+ outline:none!important;outline-offset:0!important;box-shadow:none!important;
+}
+a,button{-webkit-tap-highlight-color:transparent!important;}
+
+
+
+/* Final footer link colors: all footer columns use the same brand blue without underlines. */
+.xp-footer .xp-foot-links a,
+.xp-footer .xp-foot-contact a,
+.xp-footer .xp-foot-links a:visited,
+.xp-footer .xp-foot-contact a:visited,
+.xp-footer .xp-foot-links a:hover,
+.xp-footer .xp-foot-contact a:hover,
+.xp-footer .xp-foot-links a:focus,
+.xp-footer .xp-foot-contact a:focus,
+.xp-footer .xp-foot-links a:active,
+.xp-footer .xp-foot-contact a:active{color:#087BFF!important;text-decoration:none!important;text-decoration-line:none!important;text-decoration-color:transparent!important}
+
+
+
+footer.xp-footer#footer {
+  border-top: 3px solid #0f172a;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  background-color: #ffffff;
+  overflow: hidden;
+  padding-top: 22px;
+}
+footer.xp-footer#footer .xp-foot-brand,
+footer.xp-footer#footer .xp-foot-brand img {
+  margin-top: 0 !important;
+}
+footer.xp-footer#footer h3,
+footer.xp-footer#footer .xp-foot-meta-row strong {
+  color: #090d16 !important;
+}
+footer.xp-footer#footer .xp-foot-desc,
+footer.xp-footer#footer .xp-foot-meta-row > span:last-child,
+footer.xp-footer#footer .xp-foot-meta-row > span:last-child span {
+  color: #1e293b !important;
+}
+footer.xp-footer#footer .xp-foot-links a,
+footer.xp-footer#footer .xp-foot-contact a,
+footer.xp-footer#footer .xp-foot-meta-row a,
+footer.xp-footer#footer .xp-foot-links a:visited,
+footer.xp-footer#footer .xp-foot-contact a:visited,
+footer.xp-footer#footer .xp-foot-meta-row a:visited {
+  color: #2563eb !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+footer.xp-footer#footer .xp-foot-links a:hover,
+footer.xp-footer#footer .xp-foot-contact a:hover,
+footer.xp-footer#footer .xp-foot-meta-row a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: none !important;
+}
+
+
+
+/* Home baseline: floating header shared across all repository pages with a header. */
+body > header {
+  border: 2px solid #0f172a !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  margin: 10px auto 14px auto !important;
+  width: calc(100% - 24px) !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+}
+
+/* Exact final footer link/title colors from index.html. */
+footer.xp-footer#footer h3 {
+  color: #090d16 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: .02em !important;
+  margin: 4px 0 14px !important;
+}
+footer.xp-footer#footer .xp-foot-links a,
+footer.xp-footer#footer .xp-foot-contact a,
+footer.xp-footer#footer .xp-foot-meta-row a,
+footer.xp-footer#footer .xp-foot-links a:visited,
+footer.xp-footer#footer .xp-foot-contact a:visited,
+footer.xp-footer#footer .xp-foot-meta-row a:visited {
+  color: #2563eb !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+footer.xp-footer#footer .xp-foot-links a:hover,
+footer.xp-footer#footer .xp-foot-contact a:hover,
+footer.xp-footer#footer .xp-foot-meta-row a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: none !important;
+}
+/* Exact floating Asisten AI button palette from index.html. */
+#chatToggle, .chat-fab, .xp-footer .chat-fab {
+  background: linear-gradient(135deg, #087BFF 0%, #00CFFF 100%) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 7px 22px rgba(8,123,255,.28) !important;
+  filter: none !important;
+  text-shadow: none !important;
+}
