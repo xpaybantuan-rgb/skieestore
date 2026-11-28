@@ -281,29 +281,6 @@ button,input,select,textarea{max-width:100%;min-width:0}
 .header .nav .skiee-svg-box svg{display:block!important;width:24px!important;height:24px!important;visibility:visible!important;opacity:1!important}
 
 
-/* RESTORE: visible Neo-Brutalism primary navigation on every customer page. */
-.nav.skiee-global-nav,.header .nav{border:2px solid #191b22!important;border-radius:10px!important;box-shadow:4px 4px 0 #191b22!important;background:#fff!important}
-.nav.skiee-global-nav a,.header .nav a{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;border:2px solid #191b22!important;border-radius:7px!important;box-shadow:2px 2px 0 #191b22!important;background:#fff!important;color:#191b22!important;font-weight:900!important}
-.nav.skiee-global-nav a.active,.header .nav a.active{background:#FFE66D!important;color:#191b22!important}
-@media(max-width:620px){
- .nav.skiee-global-nav,.header .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:9990!important;width:auto!important;max-width:none!important;margin:0!important;padding:7px!important;gap:7px!important;border:2px solid #191b22!important;border-radius:10px!important;background:#fff!important;box-shadow:4px 4px 0 #191b22!important}
- .nav.skiee-global-nav a,.header .nav a{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:54px!important;padding:5px 2px!important;gap:3px!important;font-size:9px!important;line-height:1.1!important;text-align:center!important}
- .nav.skiee-global-nav .skiee-svg-box,.header .nav .skiee-svg-box{width:24px!important;height:24px!important;min-width:24px!important;flex:0 0 24px!important}
- .nav.skiee-global-nav .skiee-svg-box svg,.header .nav .skiee-svg-box svg{width:22px!important;height:22px!important}
- body{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
-}
-.xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{color:#128C4A!important}
-
-/* Apply the same navigation restoration regardless of each page's header wrapper class. */
-.nav{border:2px solid #191b22!important;border-radius:10px!important;box-shadow:4px 4px 0 #191b22!important;background:#fff!important}
-.nav a{border:2px solid #191b22!important;border-radius:7px!important;box-shadow:2px 2px 0 #191b22!important;background:#fff!important;color:#191b22!important;font-weight:900!important}
-.nav a.active{background:#FFE66D!important;color:#191b22!important}
-@media(max-width:620px){
- .nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;position:fixed!important;left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:9990!important;width:auto!important;max-width:none!important;margin:0!important;padding:7px!important;gap:7px!important}
- .nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:54px!important;padding:5px 2px!important;gap:3px!important;font-size:9px!important;line-height:1.1!important;text-align:center!important}
-}
-
-
 /* FINAL MOBILE NAV + FOOTER FIX — cache-busted production rules */
 @media(max-width:767px){
   .header .nav, .header nav.nav, nav.nav, .bottomnav {display:none!important;visibility:hidden!important;pointer-events:none!important}
@@ -373,19 +350,6 @@ button,input,select,textarea{max-width:100%;min-width:0}
 }
 
 
-/* FINAL: yellow active navigation state across desktop and mobile */
-.nav a.active,
-.nav a[aria-current="page"],
-.header .nav a.active,
-nav.skiee-mobile-nav a.active,
-nav.skiee-mobile-nav a[aria-current="page"],
-.bottomnav a.active,
-.bottomnav a[aria-current="page"]{
-  background:#FFE66D!important;
-  background-color:#FFE66D!important;
-  color:#191b22!important;
-  border-color:#191b22!important;
-}
 /* WhatsApp: only label is blue; SVG keeps its original inline green artwork */
 .xp-footer .xp-foot-contact a[aria-label="WhatsApp Customer Service SKIEESTORE"]{
   color:#087BFF!important;
@@ -784,3 +748,35 @@ main .price,main .product-price,main .nominal-price,main .checkout-total{color:#
 :where(.gamecard,.product,.feature,.product-choice,.shortcut-card,.payment-option):hover{border-color:#B9D9FF!important;box-shadow:0 8px 22px rgba(8,123,255,.08)!important}
 :where(.faq-home-item,.faq-item,.faq-card,.faq-question,.accordion-item,.help-faq-item,details.faq,details.faq-item){background:#fff!important;border:1px solid #E2E8F0!important;border-radius:14px!important;box-shadow:0 4px 16px rgba(15,23,42,.055)!important}
 :where(#searchSuggestions,#topupSearchResults){background:#fff!important;border-color:#E2E8F0!important;box-shadow:0 10px 28px rgba(15,23,42,.10)!important}
+
+
+/* Canonical shared mobile navigation: rendered once by skieestore-global.js. */
+@media(max-width:767px){
+  .header .nav, .header nav.nav, nav.nav, .bottomnav{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  .skiee-bottom-nav{
+    display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    position:fixed!important;left:12px!important;right:12px!important;bottom:8px!important;
+    z-index:2147483000!important;width:auto!important;max-width:480px!important;
+    margin:0 auto!important;padding:6px!important;gap:0!important;
+    background:#fff!important;border:1px solid #E2E8F0!important;border-radius:20px!important;
+    box-shadow:0 8px 24px rgba(15,23,42,.10)!important;box-sizing:border-box!important;
+  }
+  .skiee-bottom-nav .nav-item{
+    display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+    min-width:0!important;width:100%!important;height:48px!important;min-height:48px!important;max-height:48px!important;
+    padding:3px!important;gap:3px!important;border:0!important;border-radius:14px!important;box-shadow:none!important;
+    background:transparent!important;color:#64748B!important;font-size:9.5px!important;line-height:1!important;
+    font-weight:800!important;text-align:center!important;text-decoration:none!important;white-space:nowrap!important;
+    transition:background-color .15s ease,color .15s ease!important;-webkit-tap-highlight-color:transparent;
+  }
+  .skiee-bottom-nav .nav-item.active,.skiee-bottom-nav .nav-item[aria-current="page"]{
+    background:#EFF8FF!important;color:#087BFF!important;border:0!important;box-shadow:none!important;transform:none!important;
+  }
+  .skiee-bottom-nav .nav-item:active:not(.active):not([aria-current="page"]){background:#F8FAFC!important}
+  .skiee-bottom-nav .skiee-svg-box,.skiee-bottom-nav svg{display:block!important;width:19px!important;height:19px!important;flex:0 0 19px!important}
+  .skiee-bottom-nav .nav-item.active svg,.skiee-bottom-nav .nav-item[aria-current="page"] svg{stroke:#087BFF!important}
+  .skiee-bottom-nav .nav-item>span:last-child{font-size:9.5px!important;white-space:nowrap!important;line-height:1!important}
+  body.chat-open .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  #footer.xp-footer,.xp-footer#footer,footer.xp-footer{padding-bottom:82px!important;margin-bottom:0!important;scroll-margin-bottom:0!important}
+}
+@media(min-width:768px){.skiee-bottom-nav{display:none!important}}
