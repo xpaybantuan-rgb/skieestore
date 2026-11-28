@@ -1,7 +1,7 @@
 /* SKIEESTORE modern premium UI — visual layer only; no layout logic or data flow changes. */
 :root{
   --ui-bg:#F7F9FC;--ui-surface:#FFFFFF;--ui-text:#172033;--ui-muted:#64748B;
-  --ui-line:#E5EAF1;--ui-blue:#1D4ED8;--ui-blue-2:#2563EB;--ui-soft:#EFF6FF;
+  --ui-line:#E5EAF1;--ui-blue:#087BFF;--ui-blue-2:#087BFF;--ui-soft:#EFF8FF;
   --ui-shadow:0 8px 26px rgba(15,23,42,.055);
 }
 html,body{background:var(--ui-bg)!important;color:var(--ui-text)!important}
@@ -95,7 +95,7 @@ main .kicker,main .eyebrow,main .price{color:#1D4ED8!important}
   box-shadow:none!important;
 }
 #chatToggle,.chat-fab,.xp-footer .chat-fab{
-  background:linear-gradient(135deg,#2563EB,#1D4ED8)!important;
+  background:linear-gradient(135deg,#087BFF,#087BFF)!important;
   border:0!important;box-shadow:0 8px 22px rgba(37,99,235,.25)!important;
 }
 @media(max-width:767px){
