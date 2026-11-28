@@ -197,3 +197,44 @@ details.faq,details.faq-item,.state,.notice,.info-card,.product-choice,
   border-color:var(--theme-blue)!important;
   color:#fff!important;
 }
+
+
+/* Page-specific minimalism skin. Paint-only overrides for legacy Neo classes. */
+:where(.neo-card,.guide-step,.guide-reminder,.intro,.member-plan,.help-card,
+.product-group-icon,.nickname-check-button,.nickname-check-result,
+.chat-history-item,.chat-avatar,.chat-close,.chat-tool-btn,.chat-compose-btn,
+.chat-history-delete,.chat-compose textarea,.chat-send) {
+  color:var(--theme-text)!important;
+  border-color:var(--theme-line)!important;
+  box-shadow:none!important;
+}
+:where(.neo-card,.guide-step,.guide-reminder,.intro,.member-plan,.help-card,
+.chat-history-item) {
+  background:var(--theme-surface-raised)!important;
+  border-radius:var(--theme-radius-lg)!important;
+}
+:where(.guide-kicker,.guide-number,.member-plan .price,.member-plan strong) {
+  color:var(--theme-blue)!important;
+}
+:where(.guide-search,.nickname-check-button,.chat-tool-btn,.chat-close,
+.chat-history-delete,.chat-compose-btn) {
+  background:var(--theme-blue-soft)!important;
+  color:var(--theme-blue)!important;
+  border-radius:var(--theme-radius-sm)!important;
+}
+:where(.chat-panel,#chatPanel) {
+  background:#fff!important;color:var(--theme-text)!important;
+  border:1px solid var(--theme-line)!important;border-radius:var(--theme-radius-lg)!important;
+  box-shadow:var(--theme-shadow)!important;
+}
+:where(#chatPanel .chat-bubble,.chat-panel .chat-bubble,.chat-bubble) {
+  border:1px solid var(--theme-line)!important;border-radius:14px!important;box-shadow:none!important;
+}
+:where(#chatPanel .chat-bubble.user,.chat-panel .chat-bubble.user,.chat-bubble.user) {
+  color:#fff!important;background:var(--theme-blue)!important;border-color:var(--theme-blue)!important;
+}
+:where(#chatPanel .chat-compose textarea,.chat-panel .chat-compose textarea) {
+  background:#fff!important;color:var(--theme-text)!important;
+  border:1px solid var(--theme-line)!important;border-radius:var(--theme-radius-sm)!important;
+  box-shadow:none!important;
+}
