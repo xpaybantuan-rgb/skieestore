@@ -322,3 +322,32 @@ main .product button:not(:disabled):hover,.chat-send:hover{
   #gameGrid .gameinfo strong,.gamegrid .gameinfo strong{font-size:9px!important}
 }
 @media(min-width:768px){.home-mobile-nav{display:none!important}}
+
+
+/* Phase 1–2 homepage dock: five functional tabs, without changing legacy JS. */
+.ui-home-bottom-nav{display:none}
+@media(max-width:767px){
+  body:has(.ui-home-bottom-nav):not(.chat-open){padding-bottom:calc(82px + env(safe-area-inset-bottom))!important}
+  body:has(.ui-home-bottom-nav) .skiee-bottom-nav{display:none!important;visibility:hidden!important;pointer-events:none!important}
+  .ui-home-bottom-nav{
+    display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));
+    position:fixed;left:10px;right:10px;bottom:calc(7px + env(safe-area-inset-bottom));
+    z-index:40;width:auto;max-width:520px;margin:0 auto;padding:6px;gap:4px;
+    background:rgba(255,255,255,.97);border:1px solid var(--theme-line);
+    border-radius:16px;box-shadow:0 6px 22px rgba(15,23,42,.08);
+    backdrop-filter:blur(16px);box-sizing:border-box;
+  }
+  .ui-home-bottom-nav .ui-home-nav-item{
+    min-width:0;min-height:46px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:3px;padding:4px 1px;
+    color:var(--theme-muted);background:transparent;border:1px solid transparent;
+    border-radius:11px;text-decoration:none;font-size:9px;font-weight:700;line-height:1.1;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .ui-home-bottom-nav .ui-home-nav-item svg{display:block;width:18px;height:18px;flex:none}
+  .ui-home-bottom-nav .ui-home-nav-item.is-active{
+    color:var(--theme-blue);background:var(--theme-blue-soft);border-color:var(--theme-blue-border);
+  }
+  body.chat-open .ui-home-bottom-nav{display:none!important}
+}
+@media(min-width:768px){.ui-home-bottom-nav{display:none!important}}
