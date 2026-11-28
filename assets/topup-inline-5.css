@@ -1,0 +1,42 @@
+
+/* Production hotfix: force the floating assistant above the mobile navigation. */
+.chat-fab,#chatToggle,.xp-footer .chat-fab{
+ position:fixed!important;right:14px!important;bottom:24px!important;
+ width:46px!important;height:46px!important;min-width:46px!important;
+ max-width:46px!important;flex:none!important;z-index:99999!important;
+ border-radius:50%!important;box-sizing:border-box!important;
+}
+.chat-fab svg,#chatToggle svg{width:24px!important;height:24px!important}
+@media(max-width:760px){
+ .chat-fab,#chatToggle,.xp-footer .chat-fab{
+  right:14px!important;bottom:calc(104px + env(safe-area-inset-bottom))!important;
+  width:44px!important;height:44px!important;min-width:44px!important;max-width:44px!important;
+ }
+ .chat-fab svg,#chatToggle svg{width:23px!important;height:23px!important}
+}
+.gamegrid .gamecard .gameinfo small,#gameGrid .gamecard .gameinfo small{
+ max-width:none!important;overflow:visible!important;text-overflow:clip!important;
+ white-space:nowrap!important;font-size:10px!important;letter-spacing:0!important;
+}
+
+
+
+button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{
+ position:fixed!important;display:flex!important;align-items:center!important;justify-content:center!important;
+ right:16px!important;bottom:calc(108px + env(safe-area-inset-bottom))!important;
+ width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;
+ max-width:48px!important;max-height:48px!important;aspect-ratio:1/1!important;flex:0 0 48px!important;
+ padding:0!important;margin:0!important;border:0!important;border-radius:50%!important;
+ box-shadow:0 4px 12px rgba(15,23,42,.18)!important;outline:0!important;transform:none!important;
+ z-index:99999!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+button#chatToggle svg,button.chat-fab svg,.xp-footer button.chat-fab svg{
+ display:block!important;width:28px!important;height:28px!important;min-width:28px!important;
+ max-width:28px!important;min-height:28px!important;max-height:28px!important;flex:none!important;
+}
+@media(min-width:761px){button#chatToggle,button.chat-fab,.xp-footer button.chat-fab{bottom:28px!important}}
+
+
+
+#catalogPage>.panel{background:transparent!important;background-color:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
+#catalogPage>.panel>.panelhead{background:transparent!important;border:0!important;box-shadow:none!important;}
