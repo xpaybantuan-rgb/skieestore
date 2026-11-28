@@ -3,7 +3,7 @@
  if(sharedHeader){
   document.body.classList.add("skiee-fixed-header");
   let sharedTheme=document.getElementById("skiee-site-theme-css");
-  if(!sharedTheme){sharedTheme=document.createElement("link");sharedTheme.id="skiee-site-theme-css";sharedTheme.rel="stylesheet";sharedTheme.href="/assets/site-theme.css?v=1";}
+  if(!sharedTheme){sharedTheme=document.createElement("link");sharedTheme.id="skiee-site-theme-css";sharedTheme.rel="stylesheet";sharedTheme.setAttribute("itemprop","stylesheet");sharedTheme.href="/assets/site-theme.css?v=1";}
   document.body.appendChild(sharedTheme);
  }
  const SEARCH_PATHS=new Set(["/","/cek-pesanan","/topup"]),path=location.pathname.length>1&&location.pathname.endsWith("/")?location.pathname.slice(0,-1):location.pathname;
