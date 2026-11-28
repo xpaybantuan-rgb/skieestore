@@ -884,7 +884,7 @@ footer.xp-footer#footer,footer.xp-footer,#footer.xp-footer{
   </nav>
 </section>
 
-<div class="catalog-more-wrap" id="catalogMoreWrap" hidden><button class="btn secondary catalog-more" id="catalogMoreBtn" type="button">Muat lebih banyak lagi</button></div>
+<div class="catalog-more-wrap" id="catalogMoreWrap" hidden><button class="btn secondary catalog-more" id="catalogMoreBtn" type="button">Tampilkan lebih banyak</button></div>
 <div class="product-area" id="productArea" role="dialog" aria-modal="true" aria-labelledby="productTitle" hidden><div class="product-head"><div><div class="kicker">Katalog produk</div><h2 id="productTitle">Pilih game</h2><p class="sub" id="productSub">Harga diambil dari katalog SKIEESTORE.</p></div><button class="ghostbtn" id="clearGame">Tutup ×</button></div><label class="searchbox" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="productSearch" type="search" placeholder="Cari nominal atau produk..."></label><div class="product-grid" id="productGrid"></div></div>
 </div></section>
 
@@ -1008,7 +1008,7 @@ function gameArtwork(g){
 }
 function notify(msg){const t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2600)}
 async function api(path){const headers={apikey:SUPABASE_KEY};if(!SUPABASE_KEY.startsWith("sb_publishable_"))headers.Authorization="Bearer "+SUPABASE_KEY;let all=[],offset=0;while(true){const sep=path.includes("?")?"&":"?";const r=await fetch(SUPABASE_URL+"/rest/v1/"+path+sep+"limit=1000&offset="+offset,{headers,cache:"no-store",signal:AbortSignal.timeout(15000)});if(!r.ok){const detail=await r.text().catch(()=> "");throw new Error("Katalog tidak dapat dimuat ("+r.status+")"+(detail?" — "+detail.slice(0,220):""))}const batch=await r.json();if(!Array.isArray(batch))throw new Error("Format data katalog tidak valid");all.push(...batch);if(batch.length<1000)break;offset+=1000;if(offset>=10000)break}return all}
-let gameVisibleCount=10;
+let gameVisibleCount=12;
 function renderCatalogSkeleton(count=6){$("gameGrid").innerHTML=Array.from({length:count},()=>'<div class="gamecard skeleton-card loading" aria-hidden="true"><span class="gameart skeleton-art"></span><span class="gameinfo"><i class="skeleton-line skeleton-title"></i><i class="skeleton-line skeleton-meta"></i></span></div>').join("");}
 function renderGames(){
  const q=$("gameSearch").value.trim().toLowerCase();
@@ -1017,7 +1017,7 @@ function renderGames(){
  $("gameGrid").innerHTML=shown.length?shown.map(g=>'<button class="gamecard" data-game="'+g.id+'"><span class="gameart">'+(g.image_url?'<img loading="lazy" src="'+safe(g.image_url)+'" alt="">':'<span class="image-missing">GAMBAR GAME</span>')+'</span><span class="gameinfo"><strong>'+safe(g.name)+'</strong><small>'+Number(g.active_products||0)+' Produk</small></span><span class="gamearrow">›</span></button>').join(""):'<div class="state">Game tidak ditemukan.</div>';
  $("gameGrid").querySelectorAll(".gameart img").forEach(img=>{img.onerror=()=>{const card=img.closest("[data-game]");const game=games.find(x=>x.id===card?.dataset.game);if(game){img.parentElement.classList.add("image-missing");img.remove();img.parentElement.textContent="Gambar sedang diperbaiki"}}});
  const wrap=$("catalogMoreWrap"),btn=$("catalogMoreBtn");
- if(list.length>10){wrap.hidden=false;if(gameVisibleCount>=list.length){btn.textContent="Muat lebih sedikit";btn.dataset.action="less"}else{btn.textContent="Muat lebih banyak lagi";btn.dataset.action="more"}}else{wrap.hidden=true}
+ if(list.length>12){wrap.hidden=false;if(gameVisibleCount>=list.length){btn.textContent="Tampilkan lebih sedikit";btn.dataset.action="less"}else{btn.textContent="Tampilkan lebih banyak";btn.dataset.action="more"}}else{wrap.hidden=true}
  document.querySelectorAll("[data-game]").forEach(b=>b.addEventListener("click",()=>selectGame(b.dataset.game)))
 }
 function safe(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -1063,7 +1063,7 @@ document.addEventListener("click",e=>{if(!e.target.closest("#headerSearchPanel")
 $("headerSearchToggle").addEventListener("click",()=>{const panel=$("headerSearchPanel"),open=panel.hidden;panel.hidden=!open;$("headerSearchToggle").setAttribute("aria-expanded",String(open));if(open)setTimeout(()=>$("gameSearch").focus(),0)});
 
 
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("headerSearchPanel").hidden=true;$("headerSearchToggle").setAttribute("aria-expanded","false")}});$("catalogMoreBtn").addEventListener("click",()=>{const collapse=$("catalogMoreBtn").dataset.action==="less";const q=$("gameSearch").value.trim().toLowerCase();const total=games.filter(g=>(activeFilter==="all"||g.category===activeFilter)&&g.name.toLowerCase().includes(q)).length;gameVisibleCount=collapse?10:total;renderGames();if(collapse)requestAnimationFrame(()=>{$("games").scrollIntoView({behavior:"smooth",block:"start"});});});$("productSearch").addEventListener("input",renderProducts);$("clearGame").addEventListener("click",()=>{$("productArea").hidden=true;activeGame=null});$("gameFilters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;gameVisibleCount=9;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderGames()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("headerSearchPanel").hidden=true;$("headerSearchToggle").setAttribute("aria-expanded","false")}});$("catalogMoreBtn").addEventListener("click",()=>{const collapse=$("catalogMoreBtn").dataset.action==="less";const q=$("gameSearch").value.trim().toLowerCase();const total=games.filter(g=>(activeFilter==="all"||g.category===activeFilter)&&g.name.toLowerCase().includes(q)).length;gameVisibleCount=collapse?12:total;renderGames();if(collapse)requestAnimationFrame(()=>{$("games").scrollIntoView({behavior:"smooth",block:"start"});});});$("productSearch").addEventListener("input",renderProducts);$("clearGame").addEventListener("click",()=>{$("productArea").hidden=true;activeGame=null});$("gameFilters").addEventListener("click",e=>{const b=e.target.closest("[data-filter]");if(!b)return;activeFilter=b.dataset.filter;gameVisibleCount=12;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===b));renderGames()});
 document.documentElement.dataset.theme="light";localStorage.removeItem("xp-theme");
 
 
